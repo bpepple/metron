@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 django = "*"
 "psycopg2-binary" = "*"
+pillow = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
