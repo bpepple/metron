@@ -4,9 +4,9 @@ from django.db import models
 class Publisher(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
-    founded = models.DateField(blank=True)
+    founded = models.DateField(null=True)
     modified = models.DateField(auto_now=True)
-    short_desc = models.CharField(max_length=350)
+    short_desc = models.CharField(max_length=350, blank=True)
     desc = models.TextField(blank=True)
     image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True)
 
@@ -36,12 +36,12 @@ class Series(models.Model):
     name = models.CharField(max_length=255)
     sort_name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
-    volume = models.PositiveSmallIntegerField(blank=True)
-    year_began = models.PositiveSmallIntegerField(blank=True)
-    year_end = models.PositiveSmallIntegerField(blank=True)
+    volume = models.PositiveSmallIntegerField(null=True)
+    year_began = models.PositiveSmallIntegerField(null=True)
+    year_end = models.PositiveSmallIntegerField(null=True)
     type = models.ForeignKey(SeriesType, on_delete=models.CASCADE)
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
-    short_desc = models.CharField(max_length=350)
+    short_desc = models.CharField(max_length=350, blank=True)
     desc = models.TextField(blank=True)
 
     def __str__(self):
