@@ -28,5 +28,12 @@
         {% block content %}{% endblock %}
       </div>
     </section>
+    {% if is_paginated %}
+    <section class="section">
+      <div class="container">
+        {% block pagination %}{% endblock %}
+      </div>
+    </section>
+    {% endif %}
   </body>
 </html>
