@@ -10,6 +10,7 @@ pillow = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.6"
