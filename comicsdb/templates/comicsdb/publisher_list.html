@@ -1,0 +1,15 @@
+{% extends 'comicsdb/base.html' %}
+
+{% block page-title %}Publisher List{% endblock page-title %}
+
+{% block content %}
+	{% if publisher_list %}
+		<ol>
+			{% for publisher in publisher_list %}
+				<li>{{ publisher.name }}</li>
+			{% endfor %}
+		</ol>
+	{% else %}
+		<p>No Publishers currently available.</p>
+	{% endif %}
+{% endblock %}

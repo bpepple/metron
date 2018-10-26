@@ -16,10 +16,12 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
+from comicsdb.urls import publisher as publisher_urls
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('publisher/', include(publisher_urls))
 ]
 
 if settings.DEBUG:

@@ -1,3 +1,15 @@
-from django.shortcuts import render
+from django.views.generic import ListView, DetailView
 
-# Create your views here.
+from comicsdb.models import Publisher
+
+
+PAGINATE = 30
+
+
+class PublisherList(ListView):
+    model = Publisher
+    paginate_by = PAGINATE
+
+
+class PublisherDetail(DetailView):
+    model = Publisher
