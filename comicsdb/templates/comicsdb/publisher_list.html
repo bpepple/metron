@@ -5,7 +5,7 @@
 
 {% block content %}
   {% if publisher_list %}
-    <div class="columns">
+    <div class="columns is-multiline">
       {% for publisher in publisher_list %}
       <div class="column is-one-quarter has-text-centered">
         <a href="{% url 'publisher:detail' publisher.slug %}">
