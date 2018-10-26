@@ -1,15 +1,25 @@
 {% extends 'comicsdb/base.html' %}
+{% load static %}
 
 {% block page-title %}Publisher List{% endblock page-title %}
 
 {% block content %}
-	{% if publisher_list %}
-		<ol>
-			{% for publisher in publisher_list %}
-				<li>{{ publisher.name }}</li>
-			{% endfor %}
-		</ol>
-	{% else %}
-		<p>No Publishers currently available.</p>
-	{% endif %}
+  {% if publisher_list %}
+    <div class="columns">
+      {% for publisher in publisher_list %}
+      <div class="column is-one-quarter has-text-centered">
+        <a href="{% url 'publisher:detail' publisher.slug %}">
+          {% if publisher.image %}
+            <img src="{{ publisher.image.url }}" alt = "{{ publisher.name }}" >
+          {% else %}
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="{{ publisher.name }}" >
+          {% endif %}
+        </a>
+        <a href="{% url 'publisher:detail' publisher.slug %}">{{ publisher.name }}</a>
+      </div>
+      {% endfor %}
+	</div>
+  {% else %}
+	<p>No Publishers currently available.</p>
+  {% endif %}
 {% endblock %}
