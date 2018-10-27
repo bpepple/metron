@@ -5,34 +5,34 @@
 
 {% block content %}
 
-  <nav class="level">
-    <div class="level-left">
-      <div class="level-item">
-        <p class="subtitle is-5">
-          {% with total=publisher_list.count %}
-            <strong>{{ total }}</strong> Publisher{{ total|pluralize }}
-          {% endwith %}
-        </p>
-      </div>
-      <div class="level-item">
-        <div class="field has-addons">
-          <p class="control">
-            <input class="input" type="text" placeholder="Find a publisher">
-          </p>
-          <p class="control">
-            <button class="button">
-              Search
-            </button>
+  {% if publisher_list %}
+    <nav class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <p class="subtitle is-5">
+            {% with total=publisher_list.count %}
+              <strong>{{ total }}</strong> Publisher{{ total|pluralize }}
+            {% endwith %}
           </p>
         </div>
-    </div>
-    </div>
-    <div class="level-right">
-      <p class="level-item"><a class="button is-success">New</a></p>
-    </div>
-  </nav>
+        <div class="level-item">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input" type="text" placeholder="Find a publisher">
+            </p>
+            <p class="control">
+              <button class="button">
+                Search
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="level-right">
+        <p class="level-item"><a class="button is-success">New</a></p>
+      </div>
+    </nav>
 
-  {% if publisher_list %}
     <div class="columns is-multiline">
       {% for publisher in publisher_list %}
       <div class="column is-one-quarter has-text-centered">
