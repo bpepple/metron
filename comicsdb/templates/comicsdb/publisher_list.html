@@ -9,11 +9,13 @@
       {% for publisher in publisher_list %}
       <div class="column is-one-quarter has-text-centered">
         <a href="{% url 'publisher:detail' publisher.slug %}">
+          <figure class="image is-2by3">
           {% if publisher.image %}
             <img src="{{ publisher.image.url }}" alt = "{{ publisher.name }}" >
           {% else %}
             <img src="{% static 'site/img/image-not-found.png' %}" alt="{{ publisher.name }}" >
           {% endif %}
+          </figure>
         </a>
         <a href="{% url 'publisher:detail' publisher.slug %}">{{ publisher.name }}</a>
       </div>
