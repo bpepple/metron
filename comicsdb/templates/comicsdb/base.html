@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -10,7 +12,9 @@
   <body class="has-navbar-fixed-top">
     <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <a class="navbar-item ">Metron</a>
+        <a class="navbar-item ">
+          <img src="{% static 'site/img/atomic-symbol.png' %}" width="24" height="24">
+        </a>
       </div>
       <div class="navbar-menu">
         <div class="navbar-start">
