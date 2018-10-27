@@ -7,22 +7,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
-  <body>
-    <section class="section">
-      <div class="container">
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-          <div class="navbar-brand">
-            <a class="navbar-item ">Metron</a>
-          </div>
-          <div class="navbar-menu">
-            <div class="navbar-start">
-              <a class="navbar-item" href="{% url 'publisher:list' page=1 %}">Publishers</a>
-              <a class="navbar-item">Series</a>
-            </div>
-          </div>
-        </nav>
-    </div>
-    </section>
+  <body class="has-navbar-fixed-top">
+    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item ">Metron</a>
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="{% url 'publisher:list' page=1 %}">Publishers</a>
+          <a class="navbar-item">Series</a>
+        </div>
+      </div>
+    </nav>
     <section class="section">
       <div class="container">
         {% block content %}{% endblock %}
