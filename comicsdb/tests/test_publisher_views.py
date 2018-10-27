@@ -3,11 +3,13 @@ from django.urls import reverse
 
 from comicsdb.models import Publisher
 
+
 HTML_OK_CODE = 200
 
 PAGINATE_TEST_VAL = 35
 PAGINATE_DEFAULT_VAL = 30
 PAGINATE_DIFF_VAL = (PAGINATE_TEST_VAL - PAGINATE_DEFAULT_VAL)
+
 
 class PublisherSearchViewsTest(TestCase):
 
@@ -47,11 +49,12 @@ class PublisherSearchViewsTest(TestCase):
         self.assertTrue(
             len(resp.context['publisher_list']) == PAGINATE_DIFF_VAL)
 
+
 class PublisherListViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-  
+
         for pub_num in range(PAGINATE_TEST_VAL):
             Publisher.objects.create(
                 name='Publisher %s' % pub_num,
