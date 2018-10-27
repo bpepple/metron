@@ -16,16 +16,18 @@
           </p>
         </div>
         <div class="level-item">
-          <div class="field has-addons">
-            <p class="control">
-              <input class="input" type="text" placeholder="Find a publisher">
-            </p>
-            <p class="control">
-              <button class="button">
-                Search
-              </button>
-            </p>
-          </div>
+          <form action="{% url 'publisher:search' page=1 %}" method="get" accept-charset="utf-8">
+            <div class="field has-addons">
+              <p class="control">
+                <input class="input" name="q" type="search" placeholder="Find a publisher">
+              </p>
+              <p class="control">
+                <button class="button">
+                  Search
+                </button>
+              </p>
+            </div>
+          </form>
         </div>
       </div>
       <div class="level-right">
