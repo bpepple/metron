@@ -9,8 +9,8 @@
     <div class="level-left">
       <div class="level-item">
         <p class="subtitle is-5">
-          {% with pub_count=publisher_list.count %}
-            <strong>{{ pub_count }}</strong> Publisher{{ pub_count|pluralize }}
+          {% with total=publisher_list.count %}
+            <strong>{{ total }}</strong> Publisher{{ total|pluralize }}
           {% endwith %}
         </p>
       </div>
