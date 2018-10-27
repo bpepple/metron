@@ -4,8 +4,8 @@ from django.db import models
 class Publisher(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
-    founded = models.DateField(null=True)
-    modified = models.DateField(auto_now=True)
+    founded = models.DateField(null=True, blank=True)
+    modified = models.DateTimeField(auto_now=True)
     short_desc = models.CharField(max_length=350, blank=True)
     desc = models.TextField(blank=True)
     image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True)
