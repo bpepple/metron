@@ -13,7 +13,7 @@
           {% if publisher.image %}
             <img src="{{ publisher.image.url }}" alt = "{{ publisher.name }}" >
           {% else %}
-            <img src="{% static 'site/img/image-not-found.png' %}" alt="{{ publisher.name }}" >
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ publisher.name }}" >
           {% endif %}
           </figure>
         </a>
