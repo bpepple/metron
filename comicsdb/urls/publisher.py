@@ -1,7 +1,7 @@
 from django.urls import path, re_path
 
-from comicsdb.views import (PublisherList, PublisherDetail,
-                            SearchPublisherList)
+from comicsdb.views.publisher import (PublisherList, PublisherDetail,
+                                      SearchPublisherList)
 
 
 app_name = 'publisher'
