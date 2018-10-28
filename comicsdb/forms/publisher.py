@@ -1,7 +1,7 @@
 import datetime
 
 from django.forms import (ModelForm, TextInput, Textarea,
-                          SelectDateWidget, FileInput)
+                          SelectDateWidget, ClearableFileInput)
 
 from comicsdb.models import Publisher
 
@@ -21,5 +21,5 @@ class PublisherForm(ModelForm):
             'desc': Textarea(attrs={'class': 'textarea'}),
             'founded': SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day"),
                                         years=YEARS),
-            'image': FileInput(),
+            'image': ClearableFileInput(),
         }
