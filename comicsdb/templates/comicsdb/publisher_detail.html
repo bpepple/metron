@@ -4,6 +4,17 @@
 {% block page-title %}Publisher Detail{% endblock page-title %}
 
 {% block content %}
+  <nav class="level">
+    <div class="level-left">
+      <p class="level-item">
+        <a class="button is-primary" href="{% url 'publisher:update' publisher.slug %}" title="Edit publisher">Edit</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-danger" href="{% url 'publisher:delete' publisher.slug %}" title="Delete publisher">Delete</a>
+      </p>
+    </div>
+  </nav>
+
   <section class="hero is-info is-small">
     <div class="hero-body">
       <div class="container">
@@ -14,6 +25,7 @@
       </div>
     </div>
   </section>
+
   {% if publisher.desc %}
     <section>
       <div class="container">

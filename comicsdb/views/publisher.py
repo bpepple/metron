@@ -2,8 +2,9 @@ from functools import reduce
 import operator
 
 from django.db.models import Q
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from comicsdb.forms.publisher import PublisherForm
 from comicsdb.models import Publisher
@@ -38,3 +39,13 @@ class SearchPublisherList(PublisherList):
 class PublisherCreate(CreateView):
     model = Publisher
     form_class = PublisherForm
+
+
+class PublisherUpdate(UpdateView):
+    model = Publisher
+    form_class = PublisherForm
+
+
+class PublisherDelete(DeleteView):
+    model = Publisher
+    success_url = reverse_lazy('publisher:list', kwargs={'page': 1})
