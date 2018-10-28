@@ -18,12 +18,16 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from comicsdb.urls import publisher as publisher_urls
+from comicsdb.urls import (
+    create as create_urls,
+    publisher as publisher_urls,
+)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('publisher/', include(publisher_urls))
+    path('publisher/', include(publisher_urls)),
+    path('create/', include(create_urls))
 ]
 
 if settings.DEBUG:
