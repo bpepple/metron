@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Publisher(models.Model):
@@ -9,6 +10,9 @@ class Publisher(models.Model):
     short_desc = models.CharField(max_length=350, blank=True)
     desc = models.TextField(blank=True)
     image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True)
+
+    def get_absolute_url(self):
+        return reverse('publisher:detail', args=[self.slug])
 
     @property
     def series_count(self):

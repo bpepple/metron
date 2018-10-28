@@ -12,7 +12,7 @@ class PublisherForm(ModelForm):
 
     class Meta:
         model = Publisher
-        exclude = ['modified']
+        fields = '__all__'
         widgets = {
             'name': TextInput(attrs={'class': 'input'}),
             'slug': TextInput(attrs={'class': 'input'}),
