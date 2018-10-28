@@ -1,0 +1,17 @@
+{% extends 'comicsdb/base.html' %}
+{% load static %}
+
+{% block page-title %}Publisher Detail{% endblock page-title %}
+
+{% block content %}
+<section class="hero is-info is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">{{ publisher.name }}</h1>
+      {% if publisher.founded %}
+        <h2 class="subtitle">Founded in {{ publisher.founded|date:"Y" }}</h2>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}
