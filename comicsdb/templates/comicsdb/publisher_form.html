@@ -3,7 +3,7 @@
 {% block page-title %}Publisher Form{% endblock page-title %}
 
 {% block content %}
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
     <div class="field">
       <label class="label">Publisher Name</label>
@@ -24,6 +24,10 @@
     <div class="field">
       <label class="label">Long Description</label>
       <div class="control">{{ form.desc }}</div>
+    </div>
+    <div class="field">
+      <label class="label">Publisher Logo</label>
+      <div class="control">{{ form.image }}</div>
     </div>
     <div class="field">
       <div class="control">
