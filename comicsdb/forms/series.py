@@ -15,8 +15,8 @@ class SeriesForm(ModelForm):
             'volume': TextInput(attrs={'class': 'input'}),
             'year_began': TextInput(attrs={'class': 'input'}),
             'year_end': TextInput(attrs={'class': 'input'}),
-            'series_type': Select(attrs={'class': 'input'}),
-            'publisher': Select(attrs={'class': 'select'}),
+            'series_type': Select(),
+            'publisher': Select(),
             'short_desc': TextInput(attrs={'class': 'input'}),
             'desc': Textarea(attrs={'class': 'textarea'}),
         }
