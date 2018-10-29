@@ -20,12 +20,14 @@ from django.urls import path, include
 
 from comicsdb.urls import (
     publisher as publisher_urls,
+    series as series_urls
 )
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('publisher/', include(publisher_urls)),
+    path('series/', include(series_urls))
 ]
 
 if settings.DEBUG:
