@@ -6,6 +6,9 @@ from django.utils.text import slugify
 from comicsdb.models import Publisher, Series, SeriesType
 
 
+HTTP_200_OK = 200
+
+
 class PublisherTest(TestCase):
 
     @classmethod
@@ -34,6 +37,10 @@ class PublisherTest(TestCase):
     def test_verbose_name_plural(self):
         self.assertEqual(str(self.publisher._meta.verbose_name_plural),
                          "publishers")
+
+    def test_absolute_url(self):
+        resp = self.client.get(self.publisher.get_absolute_url())
+        self.assertEqual(resp.status_code, HTTP_200_OK)
 
 
 class SeriesTest(TestCase):
