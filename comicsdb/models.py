@@ -41,7 +41,7 @@ class Series(models.Model):
     sort_name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
     volume = models.PositiveSmallIntegerField(null=True, blank=True)
-    year_began = models.PositiveSmallIntegerField(null=True, blank=True)
+    year_began = models.PositiveSmallIntegerField()
     year_end = models.PositiveSmallIntegerField(null=True, blank=True)
     series_type = models.ForeignKey(SeriesType, on_delete=models.CASCADE)
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
