@@ -54,7 +54,7 @@ class SeriesTest(TestCase):
 
     def test_series_creation(self):
         self.assertTrue(isinstance(self.superman, Series))
-        self.assertEqual(str(self.superman), self.name)
+        self.assertEqual(str(self.superman), 'Superman (1939)')
 
     def test_verbose_name_plural(self):
         self.assertEqual(
