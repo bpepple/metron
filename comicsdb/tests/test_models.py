@@ -60,6 +60,10 @@ class SeriesTest(TestCase):
         self.assertEqual(
             str(self.superman._meta.verbose_name_plural), 'Series')
 
+    def test_absolute_url(self):
+        resp = self.client.get(self.superman.get_absolute_url())
+        self.assertEqual(resp.status_code, HTTP_200_OK)
+
 
 class SeriesTypeTest(TestCase):
 
