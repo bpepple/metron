@@ -1,5 +1,3 @@
-import datetime
-
 from django.test import TestCase
 from django.utils.text import slugify
 
@@ -13,18 +11,17 @@ class PublisherTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        found_date = datetime.date(1934, 1, 1)
         cls.name = 'DC Comics'
         cls.slug = slugify(cls.name)
         cls.short_desc = 'Home of Superman'
 
         cls.publisher = Publisher.objects.create(name=cls.name, slug=cls.slug,
-                                                 short_desc=cls.short_desc, founded=found_date)
+                                                 short_desc=cls.short_desc, founded=1934)
 
         on_going_series = SeriesType.objects.create(name='Ongoing Series')
 
         Series.objects.create(name='Superman', slug='superman', sort_name='Superman',
-                              type=on_going_series, publisher=cls.publisher, volume=1,
+                              series_type=on_going_series, publisher=cls.publisher, volume=1,
                               year_began=1939, short_desc='The one that started it all.')
 
     def test_series_count(self):
@@ -52,7 +49,7 @@ class SeriesTest(TestCase):
         series_type = SeriesType.objects.create(name='Ongoing Series')
         cls.name = 'Superman'
         cls.superman = Series.objects.create(name=cls.name, slug=slugify(cls.name),
-                                             sort_name=cls.name, type=series_type,
+                                             sort_name=cls.name, series_type=series_type,
                                              publisher=publisher, year_began=1939)
 
     def test_series_creation(self):
