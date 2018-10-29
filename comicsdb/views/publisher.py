@@ -48,4 +48,5 @@ class PublisherUpdate(UpdateView):
 
 class PublisherDelete(DeleteView):
     model = Publisher
+    template_name = 'comicsdb/confirm_delete.html'
     success_url = reverse_lazy('publisher:list', kwargs={'page': 1})

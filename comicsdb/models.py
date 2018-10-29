@@ -48,6 +48,9 @@ class Series(models.Model):
     short_desc = models.CharField(max_length=350, blank=True)
     desc = models.TextField(blank=True)
 
+    def get_absolute_url(self):
+        return reverse('series:detail', args=[self.slug])
+
     def __str__(self):
         return f'{self.name} ({self.year_began})'
 

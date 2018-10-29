@@ -7,10 +7,10 @@
   <nav class="level">
     <div class="level-left">
       <p class="level-item">
-        <a class="button is-primary"title="Edit series">Edit</a>
+        <a class="button is-primary" href="{% url 'series:update' series.slug %}" title="Edit series">Edit</a>
       </p>
       <p class="level-item">
-        <a class="button is-danger" title="Delete series">Delete</a>
+        <a class="button is-danger" href="{% url 'series:delete' series.slug %}" title="Delete series">Delete</a>
       </p>
     </div>
   </nav>

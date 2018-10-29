@@ -2,8 +2,11 @@ from functools import reduce
 import operator
 
 from django.db.models import Q
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
+from comicsdb.forms.series import SeriesForm
 from comicsdb.models import Series
 
 
@@ -31,3 +34,19 @@ class SearchSeriesList(SeriesList):
                        (Q(name__icontains=q) for q in query_list)))
 
         return result
+
+
+class SeriesCreate(CreateView):
+    model = Series
+    form_class = SeriesForm
+
+
+class SeriesUpdate(UpdateView):
+    model = Series
+    form_class = SeriesForm
+
+
+class SeriesDelete(DeleteView):
+    model = Series
+    template_name = 'comicsdb/confirm_delete.html'
+    success_url = reverse_lazy('series:list', kwargs={'page': 1})
