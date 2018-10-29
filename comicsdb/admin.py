@@ -19,7 +19,7 @@ class SeriesAdmin(admin.ModelAdmin):
     list_filter = ('publisher',)
     prepopulated_fields = {'slug': ('name',)}
     fields = ('name', 'slug', 'sort_name', 'publisher', 'volume',
-              'year_began', 'year_end', 'type', 'short_desc', 'desc')
+              'year_began', 'year_end', 'series_type', 'short_desc', 'desc')
 
 
 @admin.register(SeriesType)
