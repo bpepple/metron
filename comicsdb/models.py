@@ -49,7 +49,7 @@ class Series(models.Model):
     desc = models.TextField(blank=True)
 
     def __str__(self):
-        return self.name
+        return f'{self.name} ({self.year_began})'
 
     class Meta:
         verbose_name_plural = 'Series'

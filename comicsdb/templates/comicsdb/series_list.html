@@ -44,14 +44,14 @@
           <figure class="image is-2by3">
             {% if series.issue_set.first.image %}
               {% comment %}
-              <img src="{{ series.issue_set.first.image.url }}" alt = "{{ series.name }}" >
+              <img src="{{ series.issue_set.first.image.url }}" alt = "{{ series }}" >
               {% endcomment %}
             {% else %}
-              <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ series.name }}" >
+              <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ series }}" >
             {% endif %}
           </figure>
         </a>
-        <a href="{% url 'series:detail' series.slug %}">{{ series.name }}</a>
+        <a href="{% url 'series:detail' series.slug %}">{{ series }}</a>
       </div>
       {% endfor %}
   </div>
