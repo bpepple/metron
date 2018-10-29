@@ -40,7 +40,7 @@
     <div class="columns is-multiline">
       {% for series in series_list %}
       <div class="column is-one-quarter has-text-centered">
-        <a href="">
+        <a href="{% url 'series:detail' series.slug %}">
           <figure class="image is-2by3">
             {% if series.issue_set.first.image %}
               {% comment %}
@@ -51,7 +51,7 @@
             {% endif %}
           </figure>
         </a>
-        <a href="">{{ series.name }}</a>
+        <a href="{% url 'series:detail' series.slug %}">{{ series.name }}</a>
       </div>
       {% endfor %}
   </div>

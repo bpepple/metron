@@ -1,0 +1,37 @@
+{% extends 'comicsdb/base.html' %}
+{% load static %}
+
+{% block page-title %}Series Detail{% endblock page-title %}
+
+{% block content %}
+  <nav class="level">
+    <div class="level-left">
+      <p class="level-item">
+        <a class="button is-primary"title="Edit series">Edit</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-danger" title="Delete series">Delete</a>
+      </p>
+    </div>
+  </nav>
+
+  <section class="hero is-info is-small">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">{{ series.name }}</h1>
+        {% if series.year_began %}
+          <h2 class="subtitle">Series Began in {{ series.year_began }}</h2>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  {% if series.desc %}
+    <section>
+      <div class="container">
+        <h2 class="title">Description</h2>
+        <h3 class="subtitle">{{ series.desc|linebreaksbr }}</h3>
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}
