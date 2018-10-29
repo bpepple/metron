@@ -7,15 +7,15 @@
   {% csrf_token %}
     <div class="field">
       <label class="label">Series Name</label>
-      <div class="control">{{ form.name }}</div>
+      <div class="control has-text-danger">{{ form.name.errors }}{{ form.name }}</div>
     </div>
     <div class="field">
       <label class="label">Slug</label>
-      <div class="control">{{ form.slug }}</div>
+      <div class="control has-text-danger">{{ form.slug.errors }}{{ form.slug }}</div>
     </div>
     <div class="field">
       <label class="label">Sort Name</label>
-      <div class="control">{{ form.sort_name }}</div>
+      <div class="control has-text-danger">{{ form.sort_name.errors }}{{ form.sort_name }}</div>
     </div>
     <div class="field">
       <label class="label">Publisher</label>
@@ -31,23 +31,23 @@
     </div>
     <div class="field">
       <label class="label">Volume</label>
-      <div class="control">{{ form.volume }}</div>
+      <div class="control has-text-danger">{{ form.volume.errors }}{{ form.volume }}</div>
     </div>
     <div class="field">
       <label class="label">Year Began</label>
-      <div class="control">{{ form.year_began }}</div>
+      <div class="control has-text-danger">{{ form.year_began.errors }}{{ form.year_began }}</div>
     </div>
     <div class="field">
       <label class="label">Year Ended</label>
-      <div class="control">{{ form.year_end }}</div>
+      <div class="control has-text-danger">{{ form.year_end.errors }}{{ form.year_end }}</div>
     </div>
     <div class="field">
       <label class="label">Short Description</label>
-      <div class="control">{{ form.short_desc }}</div>
+      <div class="control has-text-danger">{{ form.short_desc.errors }}{{ form.short_desc }}</div>
     </div>
     <div class="field">
       <label class="label">Long Description</label>
-      <div class="control">{{ form.desc }}</div>
+      <div class="control has-text-danger">{{ form.desc.errors }}{{ form.desc }}</div>
     </div>
     <div class="field">
       <div class="control">
