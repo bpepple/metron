@@ -18,9 +18,9 @@
   <section class="hero is-info is-small">
     <div class="hero-body">
       <div class="container">
-        <h1 class="title">{{ series.name }}</h1>
-        {% if series.year_began %}
-          <h2 class="subtitle">Series Began in {{ series.year_began }}</h2>
+        <h1 class="title">{{ series.name }} {% if series.year_began %}({{ series.year_began }}){% endif %}</h1>
+        {% if series.series_type %}
+          <h2 class="subtitle">{{ series.series_type }}</h2>
         {% endif %}
       </div>
     </div>
