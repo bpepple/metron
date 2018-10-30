@@ -46,8 +46,12 @@
     <!-- publisher summary -->
     <div class="column">
       <div class="box">
-        <h1 class="title is-4">Summary</h1>
-        <h2 class="subtitle is-5">{{ publisher.desc|linebreaksbr }}</h2>
+        {% if publisher.desc %}
+          <h1 class="title is-4">Summary</h1>
+          <h2 class="subtitle is-5">{{ publisher.desc|linebreaksbr }}</h2>
+        {% else %}
+           <h1 class="title is-4">No information available.</h1>
+        {% endif %}
       </div>
     </div>
     <!-- end of publisher summary -->
