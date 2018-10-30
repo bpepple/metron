@@ -98,7 +98,9 @@ class Issue(models.Model):
     desc = models.TextField('Description', blank=True)
     image = models.ImageField('Cover', upload_to='images/%Y/%m/%d/',
                               blank=True)
-    creators = models.ManyToManyField(Creator, through='Credits', blank=True)
+
+    def get_absolute_url(self):
+        return reverse('issue:detail', args=[self.slug])
 
     def __str__(self):
         return f'{self.series.name} #{self.number}'
