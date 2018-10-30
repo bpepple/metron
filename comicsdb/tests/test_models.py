@@ -1,10 +1,45 @@
 from django.test import TestCase
+from django.utils import timezone
 from django.utils.text import slugify
 
-from comicsdb.models import Publisher, Series, SeriesType
+from comicsdb.models import (Publisher, Series, SeriesType,
+                             Creator, Role, Issue)
 
 
 HTTP_200_OK = 200
+
+
+class CreatorTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.name = 'Walter Simonson'
+        cls.slug = slugify(cls.name)
+        cls.creator = Creator.objects.create(name=cls.name, slug=cls.slug)
+
+    def test_creator_creation(self):
+        self.assertTrue(isinstance(self.creator, Creator))
+        self.assertEqual(str(self.creator), self.name)
+
+    def test_verbose_name_plural(self):
+        self.assertEqual(str(self.creator._meta.verbose_name_plural),
+                         'creators')
+
+
+class RoleTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.name = 'writer'
+        notes = 'Writer of the issues story'
+        cls.role = Role.objects.create(name=cls.name, notes=notes)
+
+    def test_role_creation(self):
+        self.assertTrue(isinstance(self.role, Role))
+        self.assertEqual(str(self.role), self.name)
+
+    def test_verbose_name_plural(self):
+        self.assertEqual(str(self.role._meta.verbose_name_plural), 'roles')
 
 
 class PublisherTest(TestCase):
@@ -63,6 +98,39 @@ class SeriesTest(TestCase):
     def test_absolute_url(self):
         resp = self.client.get(self.superman.get_absolute_url())
         self.assertEqual(resp.status_code, HTTP_200_OK)
+
+
+class IssueTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        issue_date = timezone.now().date()
+        publisher = Publisher.objects.create(
+            name='DC Comics', slug='dc-comics')
+        series_type = SeriesType.objects.create(name='Ongoing Series')
+        cls.series_name = 'Superman'
+        cls.superman = Series.objects.create(name=cls.series_name, slug=slugify(cls.series_name),
+                                             sort_name=cls.series_name, series_type=series_type,
+                                             publisher=publisher, year_began=1939)
+
+        cls.issue = Issue.objects.create(series=cls.superman, number='1', slug='superman-1939-1',
+                                         cover_date=issue_date)
+
+    def test_issue_creation(self):
+        self.assertTrue(isinstance(self.issue, Issue))
+        self.assertEqual(str(self.issue), 'Superman #1')
+
+    def test_verbose_name_plural(self):
+        self.assertEqual(str(self.issue._meta.verbose_name_plural), 'issues')
+
+    def test_absolute_url(self):
+        resp = self.client.get(self.issue.get_absolute_url())
+        self.assertEqual(resp.status_code, HTTP_200_OK)
+
+    # This test should be in the SeriesTest but for now let's leave this here.
+    def test_issue_count(self):
+        issue_count = self.superman.issue_count
+        self.assertEqual(issue_count, 1)
 
 
 class SeriesTypeTest(TestCase):
