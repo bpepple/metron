@@ -43,9 +43,7 @@
         <a href="{% url 'series:detail' series.slug %}">
           <figure class="image is-2by3">
             {% if series.issue_set.first.image %}
-              {% comment %}
               <img src="{{ series.issue_set.first.image.url }}" alt = "{{ series }}" >
-              {% endcomment %}
             {% else %}
               <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ series }}" >
             {% endif %}
