@@ -1,0 +1,33 @@
+{% extends 'comicsdb/base.html' %}
+
+{% block page-title %}Issue Detail{% endblock page-title %}
+
+{% block content %}
+  <nav class="level">
+    <div class="level-left">
+      <p class="level-item">
+        <a class="button is-primary" title="Edit issue">Edit</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-danger" title="Delete issue">Delete</a>
+      </p>
+    </div>
+  </nav>
+
+  <section class="hero is-info is-small">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">{{ issue }}</h1>
+      </div>
+    </div>
+  </section>
+
+  {% if issue.desc %}
+    <section>
+      <div class="container">
+        <h2 class="title">Description</h2>
+        <h3 class="subtitle">{{ issue.desc|linebreaksbr }}</h3>
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}
