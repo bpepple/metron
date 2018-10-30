@@ -1,6 +1,24 @@
 from django.contrib import admin
 
-from comicsdb.models import Publisher, Series, SeriesType
+from comicsdb.models import Issue, Publisher, Series, SeriesType
+
+
+@admin.register(Issue)
+class IssueAdmin(admin.ModelAdmin):
+    search_fields = ('series__name',)
+    list_display = ('__str__',)
+    list_filter = ('cover_date',)
+    list_select_related = ('series',)
+    date_hierarchy = 'cover_date'
+    fields = ('series', 'number', 'name', 'slug',
+              'cover_date', 'store_date', 'desc', 'image')
+
+    def get_queryset(self, request):
+        queryset = (
+            Issue.objects
+            .select_related('series')
+        )
+        return queryset
 
 
 @admin.register(Publisher)
