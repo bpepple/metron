@@ -4,8 +4,19 @@
 {% block page-title %}Publisher Detail{% endblock page-title %}
 
 {% block content %}
+  <!-- page header -->
   <nav class="level">
     <div class="level-left">
+      <div class="level-item">
+        <div>
+          <p class="title">{{ publisher }}</p>
+          {% if publisher.founded %}
+            <p class="heading">founded in {{ publisher.founded }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="level-right">
       <p class="level-item">
         <a class="button is-primary" href="{% url 'publisher:update' publisher.slug %}" title="Edit publisher">Edit</a>
       </p>
@@ -14,24 +25,32 @@
       </p>
     </div>
   </nav>
+  <!-- end of page header -->
 
-  <section class="hero is-info is-small">
-    <div class="hero-body">
-      <div class="container">
-        <h1 class="title">{{ publisher.name }}</h1>
-        {% if publisher.founded %}
-          <h2 class="subtitle">Founded in {{ publisher.founded }}</h2>
-        {% endif %}
+  <!-- main page content -->
+  <div class="columns">
+    <!-- publisher logo -->
+    <div class="column is-one-fifth">
+      <div class="box">
+        <figure class="image is-2by3">
+          {% if publisher.image %}
+            <img src="{{ publisher.image.url }}" alt = "{{ publisher.name }}" >
+          {% else %}
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ publisher.name }}" >
+          {% endif %}
+        </figure>
       </div>
     </div>
-  </section>
+    <!-- end of publisher logo -->
 
-  {% if publisher.desc %}
-    <section>
-      <div class="container">
-        <h2 class="title">Description</h2>
-        <h3 class="subtitle">{{ publisher.desc|linebreaksbr }}</h3>
+    <!-- publisher summary -->
+    <div class="column">
+      <div class="box">
+        <h1 class="title is-4">Summary</h1>
+        <h2 class="subtitle is-5">{{ publisher.desc|linebreaksbr }}</h2>
       </div>
-    </section>
-  {% endif %}
+    </div>
+    <!-- end of publisher summary -->
+  </div>
+  <!-- end of main page content -->
 {% endblock %}
