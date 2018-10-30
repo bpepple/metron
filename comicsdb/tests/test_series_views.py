@@ -38,23 +38,23 @@ class SeriesSearchViewsTest(TestCase):
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTemplateUsed(resp, 'comicsdb/series_list.html')
 
-#     def test_pagination_is_thirty(self):
-#         print(self.publisher.series_count)
-#         resp = self.client.get('/series/search/page1/?q=pub')
-#         self.assertEqual(resp.status_code, HTML_OK_CODE)
-#         self.assertTrue('is_paginated' in resp.context)
-#         self.assertTrue(resp.context['is_paginated'] == True)
-#         self.assertTrue(
-#             len(resp.context['series_list']) == PAGINATE_DEFAULT_VAL)
-#
-#     def test_lists_all_series(self):
-#         # Get second page and confirm it has (exactly) remaining 5 items
-#         resp = self.client.get('/series/search/page2/?q=pub')
-#         self.assertEqual(resp.status_code, HTML_OK_CODE)
-#         self.assertTrue('is_paginated' in resp.context)
-#         self.assertTrue(resp.context['is_paginated'] == True)
-#         self.assertTrue(
-#             len(resp.context['series_list']) == PAGINATE_DIFF_VAL)
+    def test_pagination_is_thirty(self):
+        print(self.publisher.series_count)
+        resp = self.client.get('/series/search/page1/?q=seri')
+        self.assertEqual(resp.status_code, HTML_OK_CODE)
+        self.assertTrue('is_paginated' in resp.context)
+        self.assertTrue(resp.context['is_paginated'] == True)
+        self.assertTrue(
+            len(resp.context['series_list']) == PAGINATE_DEFAULT_VAL)
+
+    def test_lists_all_series(self):
+        # Get second page and confirm it has (exactly) remaining 5 items
+        resp = self.client.get('/series/search/page2/?q=ser')
+        self.assertEqual(resp.status_code, HTML_OK_CODE)
+        self.assertTrue('is_paginated' in resp.context)
+        self.assertTrue(resp.context['is_paginated'] == True)
+        self.assertTrue(
+            len(resp.context['series_list']) == PAGINATE_DIFF_VAL)
 
 
 class SeriesListViewTest(TestCase):
