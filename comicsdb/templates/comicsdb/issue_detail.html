@@ -6,10 +6,10 @@
   <nav class="level">
     <div class="level-left">
       <p class="level-item">
-        <a class="button is-primary" title="Edit issue">Edit</a>
+        <a class="button is-primary" href="{% url 'issue:update' issue.slug %}" title="Edit issue">Edit</a>
       </p>
       <p class="level-item">
-        <a class="button is-danger" title="Delete issue">Delete</a>
+        <a class="button is-danger" href="{% url 'issue:delete' issue.slug %}" title="Delete issue">Delete</a>
       </p>
     </div>
   </nav>

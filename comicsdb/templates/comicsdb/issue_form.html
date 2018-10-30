@@ -1,0 +1,48 @@
+{% extends 'comicsdb/base.html' %}
+
+{% block page-title %}Issue Form{% endblock page-title %}
+
+{% block content %}
+  <form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+    <div class="field">
+      <label class="label">Series</label>
+      <div class="control">
+        <div class="select">{{ form.series.errors }}{{ form.series }}</div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Story Title</label>
+      <div class="control">{{ form.name.errors }}{{ form.name }}</div>
+    </div>
+    <div class="field">
+      <label class="label">Slug</label>
+      <div class="control">{{ form.slug.errors }}{{ form.slug }}</div>
+    </div>
+    <div class="field">
+      <label class="label">Number</label>
+      <div class="control">{{ form.number.errors }}{{ form.number }}</div>
+    </div>
+    <div class="field">
+      <label class="label">Cover Date</label>
+      <div class="control">{{ form.cover_date.errors }}{{ form.cover_date }}</div>
+    </div>
+    <div class="field">
+      <label class="label">In Store Date</label>
+      <div class="control">{{ form.store_date.errors }}{{ form.store_date }}</div>
+    </div>
+    <div class="field">
+      <label class="label">Description</label>
+      <div class="control">{{ form.desc.errors }}{{ form.desc }}</div>
+    </div>
+    <div class="field">
+      <label class="label">Cover</label>
+      <div class="control">{{ form.image.errors }}{{ form.image }}</div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <button class="button is-info" type="submit">Submit</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}
