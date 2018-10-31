@@ -26,7 +26,8 @@ class SeriesDetail(DetailView):
     model = Series
     queryset = (
         Series.objects
-        .select_related('series_type')
+        .select_related('publisher')
+        .prefetch_related('issue_set')
     )
 
 
