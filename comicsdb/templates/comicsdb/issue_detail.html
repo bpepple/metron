@@ -1,33 +1,72 @@
 {% extends 'comicsdb/base.html' %}
+{% load static %}
 
 {% block page-title %}Issue Detail{% endblock page-title %}
 
 {% block content %}
+  <!-- page header -->
   <nav class="level">
     <div class="level-left">
+      <div class="level-item">
+        <div>
+          <p class="title">{{ issue }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="level-right">
       <p class="level-item">
-        <a class="button is-primary" href="{% url 'issue:update' issue.slug %}" title="Edit issue">Edit</a>
+        <a class="button is-primary" href="{% url 'issue:update' issue.slug %}" title="Edit Issue">Edit</a>
       </p>
       <p class="level-item">
-        <a class="button is-danger" href="{% url 'issue:delete' issue.slug %}" title="Delete issue">Delete</a>
+        <a class="button is-danger" href="{% url 'issue:delete' issue.slug %}" title="Delete Issue">Delete</a>
       </p>
     </div>
   </nav>
+  <!-- end of page header -->
 
-  <section class="hero is-info is-small">
-    <div class="hero-body">
-      <div class="container">
-        <h1 class="title">{{ issue }}</h1>
+  <!-- main page content -->
+  <div class="columns">
+    <!-- issue image -->
+    <div class="column is-one-fifth">
+      <div class="box">
+        <figure class="image is-2by3">
+          {% if issue.image %}
+            <img src="{{ issue.image.url }}" alt = "{{ issue }}" >
+          {% else %}
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ issue }}" >
+          {% endif %}
+        </figure>
       </div>
     </div>
-  </section>
+    <!-- end of issue image -->
 
-  {% if issue.desc %}
-    <section>
-      <div class="container">
-        <h2 class="title">Description</h2>
-        <h3 class="subtitle">{{ issue.desc|linebreaksbr }}</h3>
+    <!-- issue summary -->
+    <div class="column">
+      <div class="box">
+        {% if issue.name %}
+          <h1 class="title is-5">{{ issue.name }}</h1>
+        {% endif %}
+        {% if issue.desc %}
+          <p>{{ issue.desc|linebreaksbr }}</p>
+        {% else %}
+           <p class="title is-5">No information available.</p>
+        {% endif %}
       </div>
-    </section>
-  {% endif %}
+    </div>
+    <!-- end of issue summary -->
+
+    <!-- misc info -->
+    <div class="column is-one-fifth">
+      <div class="box">
+        <p><b>Series:</b> {{ issue.series }}</p>
+        <p><b>Number:</b> {{ issue.number }}</p>
+        <p><b>Cover Date:</b> {{ issue.cover_date|date:"SHORT_DATE_FORMAT" }}</p>
+        {% if issue.store_date %}
+          <p><b>In Store Date:</b> {{ issue.store_date|date:"SHORT_DATE_FORMAT" }}</p>
+        {% endif %}
+      </div>
+    </div>
+    <!-- end misc info -->
+  </div>
+  <!-- end of main page content -->
 {% endblock %}
