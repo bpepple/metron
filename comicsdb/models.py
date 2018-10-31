@@ -97,7 +97,7 @@ class Issue(models.Model):
     name = models.CharField(max_length=255, blank=True)
     slug = models.SlugField(max_length=255, unique=True)
     number = models.CharField(max_length=25)
-    cover_date = models.DateField('Cover Date', null=True, blank=True)
+    cover_date = models.DateField('Cover Date')
     store_date = models.DateField('In Store Date', null=True, blank=True)
     desc = models.TextField('Description', blank=True)
     image = models.ImageField('Cover', upload_to='images/%Y/%m/%d/',
