@@ -33,7 +33,7 @@
           {% if series.issue_set.first.image %}
             <img src="{{ series.issue_set.first.image.url }}" alt = "{{ series }}" >
           {% else %}
-            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ publisher.name }}" >
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ series }}" >
           {% endif %}
         </figure>
       </div>
