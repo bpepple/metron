@@ -8,6 +8,7 @@ class Creator(models.Model):
     desc = models.TextField('Description', blank=True)
     birth = models.DateField(null=True, blank=True)
     image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -20,10 +21,10 @@ class Publisher(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
     founded = models.PositiveSmallIntegerField(null=True, blank=True)
-    modified = models.DateTimeField(auto_now=True)
     short_desc = models.CharField(max_length=350, blank=True)
     desc = models.TextField(blank=True)
     image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
         return reverse('publisher:detail', args=[self.slug])
@@ -42,6 +43,7 @@ class Publisher(models.Model):
 class Role(models.Model):
     name = models.CharField(max_length=25)
     notes = models.TextField(blank=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -53,6 +55,7 @@ class Role(models.Model):
 class SeriesType(models.Model):
     name = models.CharField(max_length=255)
     notes = models.TextField(blank=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -72,6 +75,7 @@ class Series(models.Model):
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
     short_desc = models.CharField(max_length=350, blank=True)
     desc = models.TextField(blank=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
         return reverse('series:detail', args=[self.slug])
@@ -98,6 +102,7 @@ class Issue(models.Model):
     desc = models.TextField('Description', blank=True)
     image = models.ImageField('Cover', upload_to='images/%Y/%m/%d/',
                               blank=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
         return reverse('issue:detail', args=[self.slug])
@@ -113,6 +118,7 @@ class Credits(models.Model):
     creator = models.ForeignKey(Creator, on_delete=models.CASCADE)
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
     role = models.ManyToManyField(Role)
+    modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name_plural = "Credits"
