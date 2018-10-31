@@ -1,36 +1,76 @@
 {% extends 'comicsdb/base.html' %}
+{% load static %}
 
 {% block page-title %}Series Detail{% endblock page-title %}
 
 {% block content %}
+  <!-- page header -->
   <nav class="level">
     <div class="level-left">
+      <div class="level-item">
+        <div>
+          <p class="title">{{ series }}</p>
+          <p class="heading">{{ series.series_type }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="level-right">
       <p class="level-item">
-        <a class="button is-primary" href="{% url 'series:update' series.slug %}" title="Edit series">Edit</a>
+        <a class="button is-primary" href="{% url 'series:update' series.slug %}" title="Edit Series">Edit</a>
       </p>
       <p class="level-item">
-        <a class="button is-danger" href="{% url 'series:delete' series.slug %}" title="Delete series">Delete</a>
+        <a class="button is-danger" href="{% url 'series:delete' series.slug %}" title="Delete Series">Delete</a>
       </p>
     </div>
   </nav>
+  <!-- end of page header -->
 
-  <section class="hero is-info is-small">
-    <div class="hero-body">
-      <div class="container">
-        <h1 class="title">{{ series }}</h1>
-        {% if series.series_type %}
-          <h2 class="subtitle">{{ series.series_type }}</h2>
+  <!-- main page content -->
+  <div class="columns">
+    <!-- series image -->
+    <div class="column is-one-fifth">
+      <div class="box">
+        <figure class="image is-2by3">
+          {% if series.issue_set.first.image %}
+            <img src="{{ series.issue_set.first.image.url }}" alt = "{{ series }}" >
+          {% else %}
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ publisher.name }}" >
+          {% endif %}
+        </figure>
+      </div>
+    </div>
+    <!-- end of series image -->
+
+    <!-- series summary -->
+    <div class="column">
+      <div class="box">
+        {% if series.desc %}
+          <h1 class="title is-5">Summary</h1>
+          <p>{{ series.desc|linebreaksbr }}</p>
+        {% else %}
+           <p class="title is-5">No information available.</p>
         {% endif %}
       </div>
     </div>
-  </section>
+    <!-- end of series summary -->
 
-  {% if series.desc %}
-    <section>
-      <div class="container">
-        <h2 class="title">Description</h2>
-        <h3 class="subtitle">{{ series.desc|linebreaksbr }}</h3>
+    <!-- misc info -->
+    <div class="column is-one-fifth">
+      <div class="box">
+        <p><b>Publisher:</b> {{ series.publisher }}</p>
+        {% if series.volume %}
+          <p><b>Volume:</b> {{ series.volume }}</p>
+        {% endif %}
+        <p><b>Started:</b> {{ series.year_began }}</p>
+        {% if series.year_end %}
+          <p><b>Ended:</b> {{ series.year_end }}</p>
+        {% endif %}
+        {% if series.issue_count > 0 %}
+          <p><b>Number of Issues:</b> {{ series.issue_count }}</p>
+        {% endif %}
       </div>
-    </section>
-  {% endif %}
+    </div>
+    <!-- end misc info -->
+  </div>
+  <!-- end of main page content -->
 {% endblock %}
