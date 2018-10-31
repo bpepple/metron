@@ -9,7 +9,7 @@
     <div class="level-left">
       <div class="level-item">
         {% if navigation.previous_issue %}
-          <a class="button is-primary" href="{% url 'issue:detail' navigation.previous_issue.slug %}">
+          <a class="button is-link" href="{% url 'issue:detail' navigation.previous_issue.slug %}">
             &laquo; Previous Issue
           </a>
         {% else %}
@@ -18,7 +18,7 @@
       </div>
       <div class="level-item">
         {% if navigation.next_issue %}
-          <a class="button is-primary" href="{% url 'issue:detail' navigation.next_issue.slug %}">
+          <a class="button is-link" href="{% url 'issue:detail' navigation.next_issue.slug %}">
             Next Issue &raquo;
           </a>
         {% else %}
