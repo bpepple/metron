@@ -39,7 +39,6 @@ class SeriesSearchViewsTest(TestCase):
         self.assertTemplateUsed(resp, 'comicsdb/series_list.html')
 
     def test_pagination_is_thirty(self):
-        print(self.publisher.series_count)
         resp = self.client.get('/series/search/page1/?q=seri')
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue('is_paginated' in resp.context)
