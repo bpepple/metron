@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from comicsdb.urls import (
+    creator as creator_urls,
     issue as issue_urls,
     publisher as publisher_urls,
     series as series_urls
@@ -27,6 +28,7 @@ from comicsdb.urls import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('creator/', include(creator_urls)),
     path('issue/', include(issue_urls)),
     path('publisher/', include(publisher_urls)),
     path('series/', include(series_urls))

@@ -1,0 +1,70 @@
+{% extends 'comicsdb/base.html' %}
+{% load static %}
+
+{% block page-title %}Creator Detail{% endblock page-title %}
+
+{% block content %}
+  <!-- page header -->
+  <nav class="level">
+    <div class="level-left">
+      <div class="level-item">
+        <div>
+          <p class="title">{{ creator }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="level-right">
+      <p class="level-item">
+        <a class="button is-primary" href="{% url 'creator:update' creator.slug %}" title="Edit creator">Edit</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-danger" href="{% url 'creator:delete' creator.slug %}" title="Delete creator">Delete</a>
+      </p>
+    </div>
+  </nav>
+  <!-- end of page header -->
+
+  <!-- main page content -->
+  <div class="columns">
+    <!-- creator image -->
+    <div class="column is-one-quarter">
+      <div class="box">
+        <figure class="image is-square">
+          {% if creator.image %}
+            <img src="{{ creator.image.url }}" alt = "{{ creator }}" >
+          {% else %}
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ creator }}" >
+          {% endif %}
+        </figure>
+      </div>
+    </div>
+    <!-- end of creator image -->
+
+    <!-- creator summary -->
+    <div class="column">
+      <div class="box">
+        {% if creator.desc %}
+          <h1 class="title is-5">Summary</h1>
+          <p>{{ creator.desc|linebreaksbr }}</p>
+        {% else %}
+           <h1 class="title is-5">No information available.</h1>
+        {% endif %}
+      </div>
+    </div>
+    <!-- end of creator summary -->
+
+    <!-- misc info -->
+    <div class="column is-one-fifth">
+      <div class="box">
+        <h1 class="title is-6">Issue Details</h1>
+        {% if creator.birth %}
+          <p><b>Birth:</b> {{ creator.birth|date:"SHORT_DATE_FORMAT" }}</p>
+        {% else %}
+          <p><b>Birth:</b> Unknown</p>
+        {% endif %}
+      </div>
+    </div>
+    <!-- end misc info -->
+  </div>
+  <!-- end of main page content -->
+{% endblock %}

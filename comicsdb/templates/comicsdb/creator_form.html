@@ -1,0 +1,34 @@
+{% extends 'comicsdb/base.html' %}
+
+{% block page-title %}Creator Form{% endblock page-title %}
+
+{% block content %}
+  <form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+    <div class="field">
+      <label class="label">Creator Name</label>
+      <div class="control">{{ form.name }}</div>
+    </div>
+    <div class="field">
+      <label class="label">Slug</label>
+      <div class="control">{{ form.slug }}</div>
+    </div>
+    <div class="field">
+      <label class="label">Description</label>
+      <div class="control">{{ form.desc }}</div>
+    </div>
+    <div class="field">
+      <label class="label">Birth Date</label>
+      <div class="control">{{ form.birth.errors }}{{ form.birth }}</div>
+    </div>
+    <div class="field">
+      <label class="label">Creator Image</label>
+      <div class="control">{{ form.image }}</div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <button class="button is-info" type="submit">Submit</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

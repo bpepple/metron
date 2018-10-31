@@ -10,6 +10,9 @@ class Creator(models.Model):
     image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
 
+    def get_absolute_url(self):
+        return reverse('creator:detail', args=[self.slug])
+
     def __str__(self):
         return self.name
 
