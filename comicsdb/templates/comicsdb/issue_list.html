@@ -54,7 +54,8 @@
       {% endfor %}
   </div>
   {% else %}
-  <p>No Issues currently available.</p>
+  <p>No Issues currently available. Do you want to add one?</p>
+  <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">New</a>
   {% endif %}
 {% endblock %}
 

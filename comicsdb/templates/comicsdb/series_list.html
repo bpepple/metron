@@ -54,7 +54,8 @@
       {% endfor %}
   </div>
   {% else %}
-  <p>No Series currently available.</p>
+  <p>No Series currently available. Do you want to add one?</p>
+  <a class="button is-primary" href="{% url 'series:create' %}" title="Add a new series">New</a>
   {% endif %}
 {% endblock %}
 

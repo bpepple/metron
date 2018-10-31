@@ -54,7 +54,8 @@
       {% endfor %}
 	</div>
   {% else %}
-	<p>No Publishers currently available.</p>
+	<p>No Publishers currently available. Do you want to create one?</p>
+    <a class="button is-primary" href="{% url 'publisher:create' %}" title="Add a new publisher">New</a>
   {% endif %}
 {% endblock %}
 
