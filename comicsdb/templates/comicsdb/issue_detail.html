@@ -4,6 +4,31 @@
 {% block page-title %}Issue Detail{% endblock page-title %}
 
 {% block content %}
+  <!-- series issue nav -->
+  <nav class="level">
+    <div class="level-left">
+      <div class="level-item">
+        {% if navigation.previous_issue %}
+          <a class="button is-primary" href="{% url 'issue:detail' navigation.previous_issue.slug %}">
+            &laquo; Previous Issue
+          </a>
+        {% else %}
+            <a class="button" disabled>&laquo; Previous Issue</a>
+        {% endif %}
+      </div>
+      <div class="level-item">
+        {% if navigation.next_issue %}
+          <a class="button is-primary" href="{% url 'issue:detail' navigation.next_issue.slug %}">
+            Next Issue &raquo;
+          </a>
+        {% else %}
+          <a class="button" disabled>Next Issue &raquo;</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  <!--  end series issue nav -->
+
   <!-- page header -->
   <nav class="level">
     <div class="level-left">
@@ -58,6 +83,7 @@
     <!-- misc info -->
     <div class="column is-one-fifth">
       <div class="box">
+        <h1 class="title is-6">Issue Details</h1>
         <p><b>Series:</b> {{ issue.series }}</p>
         <p><b>Number:</b> {{ issue.number }}</p>
         <p><b>Cover Date:</b> {{ issue.cover_date|date:"SHORT_DATE_FORMAT" }}</p>
