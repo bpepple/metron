@@ -10,7 +10,6 @@
       <div class="level-item">
         <div>
           <p class="title">{{ series }}</p>
-          <p class="heading">{{ series.series_type }}</p>
         </div>
       </div>
     </div>
@@ -58,6 +57,7 @@
     <div class="column is-one-fifth">
       <div class="box">
         <p><b>Publisher:</b> {{ series.publisher }}</p>
+        <p><b>Type:</b> {{ series.series_type }}</p>
         {% if series.volume %}
           <p><b>Volume:</b> {{ series.volume }}</p>
         {% endif %}
