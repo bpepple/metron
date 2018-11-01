@@ -10,7 +10,7 @@ class IssueForm(ModelForm):
 
     class Meta:
         model = Issue
-        fields = '__all__'
+        exclude=('creators',)
         widgets = {
             'series': Select(),
             'name': TextInput(attrs={'class': 'input'}),
