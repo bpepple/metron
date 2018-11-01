@@ -9,7 +9,7 @@
     <div class="level-left">
       <div class="level-item">
         <div>
-          <p class="title">{{ creator }}</p>
+          <p class="title">{{ creator.get_full_name }}</p>
         </div>
       </div>
     </div>
@@ -31,9 +31,9 @@
       <div class="box">
         <figure class="image is-square">
           {% if creator.image %}
-            <img src="{{ creator.image.url }}" alt = "{{ creator }}" >
+            <img src="{{ creator.image.url }}" alt = "{{ creator.get_full_name }}" >
           {% else %}
-            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ creator }}" >
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ creator.get_full_name }}" >
           {% endif %}
         </figure>
       </div>
@@ -61,6 +61,9 @@
           <p><b>Birth:</b> {{ creator.birth|date:"SHORT_DATE_FORMAT" }}</p>
         {% else %}
           <p><b>Birth:</b> Unknown</p>
+        {% endif %}
+        {% if creator.death %}
+          <p><b>Death:</b> {{ creator.death|date:"SHORT_DATE_FORMAT" }}</p>
         {% endif %}
       </div>
     </div>

@@ -15,10 +15,13 @@ class CreatorForm(ModelForm):
         model = Creator
         fields = '__all__'
         widgets = {
-            'name': TextInput(attrs={'class': 'input'}),
+            'first_name': TextInput(attrs={'class': 'input'}),
+            'last_name': TextInput(attrs={'class': 'input'}),
             'slug': TextInput(attrs={'class': 'input'}),
             'desc': Textarea(attrs={'class': 'textarea'}),
             'birth': SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day"),
+                                      years=YEARS),
+            'death': SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day"),
                                       years=YEARS),
             'image': ClearableFileInput(),
         }

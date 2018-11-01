@@ -6,8 +6,12 @@
   <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
     <div class="field">
-      <label class="label">Creator Name</label>
-      <div class="control">{{ form.name }}</div>
+      <label class="label">Creator First Name</label>
+      <div class="control">{{ form.first_name }}</div>
+    </div>
+    <div class="field">
+      <label class="label">Creator Last Name</label>
+      <div class="control">{{ form.last_name }}</div>
     </div>
     <div class="field">
       <label class="label">Slug</label>
@@ -18,8 +22,12 @@
       <div class="control">{{ form.desc }}</div>
     </div>
     <div class="field">
-      <label class="label">Birth Date</label>
+      <label class="label">Date of Birth</label>
       <div class="control">{{ form.birth.errors }}{{ form.birth }}</div>
+    </div>
+    <div class="field">
+      <label class="label">Date of Death</label>
+      <div class="control">{{ form.death.errors }}{{ form.death }}</div>
     </div>
     <div class="field">
       <label class="label">Creator Image</label>
