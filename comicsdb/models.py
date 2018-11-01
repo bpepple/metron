@@ -3,21 +3,26 @@ from django.urls import reverse
 
 
 class Creator(models.Model):
-    name = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=150)
     slug = models.SlugField(max_length=255, unique=True)
     desc = models.TextField('Description', blank=True)
     birth = models.DateField(null=True, blank=True)
+    death = models.DateField(null=True, blank=True)
     image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
+
+    def get_full_name(self):
+        return f'{self.first_name} {self.last_name}'
 
     def get_absolute_url(self):
         return reverse('creator:detail', args=[self.slug])
 
     def __str__(self):
-        return self.name
+        return self.get_full_name()
 
     class Meta:
-        ordering = ['name']
+        ordering = ['last_name', 'first_name']
 
 
 class Publisher(models.Model):
