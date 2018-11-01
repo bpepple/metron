@@ -1,4 +1,5 @@
 {% extends 'comicsdb/base.html' %}
+{% load thumbnail %}
 {% load static %}
 
 {% block page-title %}Creator List{% endblock page-title %}
@@ -43,9 +44,11 @@
         <a href="{% url 'creator:detail' creator.slug %}">
           <figure class="image is-square">
           {% if creator.image %}
-            <img src="{{ creator.image.url }}" alt = "{{ creator.get_full_name }}" >
+            {% thumbnail creator.image "256x256" crop="center" as im %}
+              <img src="{{ im.url }}" alt = "{{ creator.get_full_name }}">
+            {% endthumbnail %}
           {% else %}
-            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ creator.get_full_name }}" >
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ creator.get_full_name }}">
           {% endif %}
           </figure>
         </a>

@@ -1,11 +1,12 @@
 from django.contrib import admin
+from sorl.thumbnail.admin import AdminImageMixin
 
 from comicsdb.models import (Creator, Issue, Publisher,
                              Role, Series, SeriesType)
 
 
 @admin.register(Creator)
-class CreatorAdmin(admin.ModelAdmin):
+class CreatorAdmin(AdminImageMixin, admin.ModelAdmin):
     search_fields = ('first_name', 'last_name')
     prepopulated_fields = {'slug': ('first_name', 'last_name')}
     readonly_fields = ('modified',)
@@ -14,7 +15,7 @@ class CreatorAdmin(admin.ModelAdmin):
 
 
 @admin.register(Issue)
-class IssueAdmin(admin.ModelAdmin):
+class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
     search_fields = ('series__name',)
     list_display = ('__str__',)
     list_filter = ('cover_date',)
@@ -32,7 +33,7 @@ class IssueAdmin(admin.ModelAdmin):
 
 
 @admin.register(Publisher)
-class PublisherAdmin(admin.ModelAdmin):
+class PublisherAdmin(AdminImageMixin, admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     list_display = ('name', 'series_count',)
     readonly_fields = ('modified',)

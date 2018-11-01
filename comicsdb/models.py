@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from sorl.thumbnail import ImageField
 
 
 class Creator(models.Model):
@@ -9,7 +10,7 @@ class Creator(models.Model):
     desc = models.TextField('Description', blank=True)
     birth = models.DateField(null=True, blank=True)
     death = models.DateField(null=True, blank=True)
-    image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True)
+    image = ImageField(upload_to='images/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
 
     def get_full_name(self):
@@ -31,7 +32,7 @@ class Publisher(models.Model):
     founded = models.PositiveSmallIntegerField(null=True, blank=True)
     short_desc = models.CharField(max_length=350, blank=True)
     desc = models.TextField(blank=True)
-    image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True)
+    image = ImageField(upload_to='images/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
@@ -108,8 +109,7 @@ class Issue(models.Model):
     cover_date = models.DateField('Cover Date')
     store_date = models.DateField('In Store Date', null=True, blank=True)
     desc = models.TextField('Description', blank=True)
-    image = models.ImageField('Cover', upload_to='images/%Y/%m/%d/',
-                              blank=True)
+    image = ImageField('Cover', upload_to='images/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):

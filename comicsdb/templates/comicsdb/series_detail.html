@@ -1,4 +1,5 @@
 {% extends 'comicsdb/base.html' %}
+{% load thumbnail %}
 {% load static %}
 
 {% block page-title %}Series Detail{% endblock page-title %}
@@ -31,9 +32,11 @@
       <div class="box">
         <figure class="image is-2by3">
           {% if series.issue_set.first.image %}
-            <img src="{{ series.issue_set.first.image.url }}" alt = "{{ series }}" >
+            {% thumbnail series.issue_set.first.image "320x480" crop="center" as im %}
+              <img src="{{ im.url }}" alt = "{{ series }}">
+            {% endthumbnail %}
           {% else %}
-            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ series }}" >
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ series }}">
           {% endif %}
         </figure>
       </div>

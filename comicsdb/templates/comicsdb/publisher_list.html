@@ -1,4 +1,5 @@
 {% extends 'comicsdb/base.html' %}
+{% load thumbnail %}
 {% load static %}
 
 {% block page-title %}Publisher List{% endblock page-title %}
@@ -43,9 +44,11 @@
         <a href="{% url 'publisher:detail' publisher.slug %}">
           <figure class="image is-2by3">
           {% if publisher.image %}
-            <img src="{{ publisher.image.url }}" alt = "{{ publisher.name }}" >
+            {% thumbnail publisher.image "320x480" crop="center" as im %}
+              <img src="{{ im.url }}" alt = "{{ publisher.name }}">
+            {% endthumbnail %}
           {% else %}
-            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ publisher.name }}" >
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ publisher.name }}">
           {% endif %}
           </figure>
         </a>
