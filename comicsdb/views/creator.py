@@ -31,7 +31,7 @@ class SearchCreatorList(CreatorList):
             query_list = query.split()
             result = result.filter(
                 reduce(operator.and_,
-                       (Q(name__icontains=q) for q in query_list)))
+                       (Q(last_name__icontains=q) for q in query_list)))
 
         return result
 
