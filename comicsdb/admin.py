@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from comicsdb.models import Creator, Issue, Publisher, Series, SeriesType
+from comicsdb.models import (Creator, Issue, Publisher,
+                             Role, Series, SeriesType)
 
 
 @admin.register(Creator)
@@ -37,6 +38,13 @@ class PublisherAdmin(admin.ModelAdmin):
     readonly_fields = ('modified',)
     fields = ('name', 'slug', 'modified', 'founded', 'short_desc',
               'desc', 'image')
+
+
+@admin.register(Role)
+class RoleAdmin(admin.ModelAdmin):
+    search_fields = ('name',)
+    readonly_fields = ('modified',)
+    fields = ('name', 'notes', 'modified')
 
 
 @admin.register(Series)
