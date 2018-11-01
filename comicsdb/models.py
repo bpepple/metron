@@ -110,6 +110,7 @@ class Issue(models.Model):
     store_date = models.DateField('In Store Date', null=True, blank=True)
     desc = models.TextField('Description', blank=True)
     image = ImageField('Cover', upload_to='images/%Y/%m/%d/', blank=True)
+    creators = models.ManyToManyField(Creator, through='Credits', blank=True)
     modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
