@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a3e120d09aa59cb80f8e96054418e1b14e4dbfb66745429a4e74fe1ff86d47d2"
+            "sha256": "5499212679487fcb483369ce7a8c47d57c628f4ac3374ec8ffa5d531dd9d785c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -118,10 +118,26 @@
         },
         "pytz": {
             "hashes": [
-                "sha256:642253af8eae734d1509fc6ac9c1aee5e5b69d76392660889979b9870610a46b",
-                "sha256:91e3ccf2c344ffaa6defba1ce7f38f97026943f675b7703f44789768e4cb0ece"
+                "sha256:31cb35c89bd7d333cd32c5f278fca91b523b0834369e757f4c5641ea252236ca",
+                "sha256:8e0f8568c118d3077b46be7d654cc8167fa916092e28320cde048e54bfc9f1e6"
             ],
-            "version": "==2018.6"
+            "version": "==2018.7"
+        },
+        "redis": {
+            "hashes": [
+                "sha256:8a1900a9f2a0a44ecf6e8b5eb3e967a9909dfed219ad66df094f27f7d6f330fb",
+                "sha256:a22ca993cea2962dbb588f9f30d0015ac4afcc45bee27d3978c0dbe9e97c6c0f"
+            ],
+            "index": "pypi",
+            "version": "==2.10.6"
+        },
+        "sorl-thumbnail": {
+            "hashes": [
+                "sha256:8dfe5fda91a5047d1d35a0b9effe7b000764a01d648e15ca076f44e9c34b6dbd",
+                "sha256:d9e3f018d19293824803e4ffead96b19dfcd44fa7987cea392f50436817bef34"
+            ],
+            "index": "pypi",
+            "version": "==12.5.0"
         }
     },
     "develop": {
@@ -190,10 +206,10 @@
         },
         "pytz": {
             "hashes": [
-                "sha256:642253af8eae734d1509fc6ac9c1aee5e5b69d76392660889979b9870610a46b",
-                "sha256:91e3ccf2c344ffaa6defba1ce7f38f97026943f675b7703f44789768e4cb0ece"
+                "sha256:31cb35c89bd7d333cd32c5f278fca91b523b0834369e757f4c5641ea252236ca",
+                "sha256:8e0f8568c118d3077b46be7d654cc8167fa916092e28320cde048e54bfc9f1e6"
             ],
-            "version": "==2018.6"
+            "version": "==2018.7"
         },
         "sqlparse": {
             "hashes": [
