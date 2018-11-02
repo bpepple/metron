@@ -1,8 +1,23 @@
 from django.contrib import admin
 from sorl.thumbnail.admin import AdminImageMixin
 
-from comicsdb.models import (Creator, Issue, Publisher,
+from comicsdb.models import (Credits, Creator, Issue, Publisher,
                              Role, Series, SeriesType)
+
+
+@admin.register(Credits)
+class RolesAdmin(admin.ModelAdmin):
+    search_fields = ('issue__series__name', 'issue__number')
+    list_filter = ('role',)
+    list_display = ('issue', 'creator')
+    ordering = ('issue', 'creator')
+    filter_horizontal = ['role']
+    autocomplete_fields = ['issue', 'creator']
+    # form view
+    fieldsets = (
+        (None, {'fields': ('issue', 'creator')}),
+        ('Related', {'fields': ('role',)}),
+    )
 
 
 @admin.register(Creator)
