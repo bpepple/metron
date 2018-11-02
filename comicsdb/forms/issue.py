@@ -3,7 +3,7 @@ from django.forms import (ModelForm, TextInput, Textarea, Select,
 import datetime
 from comicsdb.models import Issue
 
-YEARS = [(r) for r in range(1925, datetime.date.today().year + 1)]
+YEARS = [(r) for r in range(1925, datetime.date.today().year + 2)]
 
 
 class IssueForm(ModelForm):
