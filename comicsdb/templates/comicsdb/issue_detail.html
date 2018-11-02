@@ -73,8 +73,9 @@
 
       <!-- issue summary -->
       <div class="box">
+        <h1 class="title is-5">Summary</h1>
         {% if issue.name %}
-          <h1 class="title is-5"><em>{{ issue.name }}</em></h1>
+          <p><strong><em>"{{ issue.name }}"</em></strong></p><br>
         {% endif %}
         {% if issue.desc %}
           <p>{{ issue.desc|linebreaksbr }}</p>
