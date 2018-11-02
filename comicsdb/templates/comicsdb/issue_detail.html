@@ -68,13 +68,13 @@
     </div>
     <!-- end of issue image -->
 
-    <!-- issue summary -->
+    <!-- middle sections -->
     <div class="column">
+
+      <!-- issue summary -->
       <div class="box">
         {% if issue.name %}
-          <div class="notification">
-            <h1 class="title is-5"><em>{{ issue.name }}</em></h1>
-          </div>
+          <h1 class="title is-5"><em>{{ issue.name }}</em></h1>
         {% endif %}
         {% if issue.desc %}
           <p>{{ issue.desc|linebreaksbr }}</p>
@@ -82,53 +82,60 @@
            <p class="title is-5">No information available.</p>
         {% endif %}
       </div>
+      <!-- end of issue summary -->
+
       <!-- issue credits -->
       {% with credits=issue.credits_set.all %}
         {% if credits %}
           <div class="box">
-            <div class="notification">
-              <h1 class="title is-5">Credits</h1>
+            <div class="columns">
+              <div class="column">
+                <h1 class="title is-5">Credits</h1>
+                <div class="columns is-multiline">
+                  <!-- creators -->
+                  {% for credit in credits %}
+                    <div class="column is-4">
+                      <article class="media">
+                        <div class="media-left">
+                          <figure class="image is-64x64">
+                            {% thumbnail credit.creator.image "64x64" crop="center" as im %}
+                              <img src="{{ im.url }}" alt="{{ credit.creator }}">
+                            {% endthumbnail %}
+                          </figure>
+                        </div>
+                        <div class="media-content">
+                          <div class="content">
+                            <p>{{ credit.creator }}
+                            <br>
+                            <!-- creator roles -->
+                            {% with roles=credit.role.all %}
+                              {% if roles %}
+                                {% for role in roles %}<small><em>{% if not forloop.first %}, {% endif %}{{ role.name }}</em></small>{% endfor %}
+                              {% endif %}
+                            {% endwith %}
+                            <!-- end creator roles -->
+                            </p>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                  {% endfor %}
+                  <!-- end creators -->
+                </div>
+              </div>
             </div>
-            <!-- creators -->
-            {% for credit in credits %}
-              <article class="media">
-                <div class="media-left">
-                  <figure class="image is-64x64">
-                  {% thumbnail credit.creator.image "64x64" crop="center" as im %}
-                    <img src="{{ im.url }}" alt="{{ credit.creator }}">
-                  {% endthumbnail %}
-                  </figure>
-                </div>
-                <div class="media-content">
-                  <div class="content">
-                    <p>{{ credit.creator }}
-                    <br>
-                      <!-- creator roles -->
-                      {% with roles=credit.role.all %}
-                        {% if roles %}
-                          {% for role in roles %}<small><em>{% if not forloop.first %}, {% endif %}{{ role.name }}</em></small>{% endfor %}
-                        {% endif %}
-                      {% endwith %}
-                      <!-- end creator roles -->
-                    </p>
-                  </div>
-                </div>
-              </article>
-            {% endfor %}
-            <!-- end creators -->
           </div>
         {% endif %}
       {% endwith %}
       <!-- end issue credits -->
+
     </div>
-    <!-- end of issue summary -->
+    <!-- end middle sections -->
 
     <!-- misc info -->
     <div class="column is-one-fifth">
       <div class="box">
-        <div class="notification">
-          <h1 class="title is-6">Issue Details</h1>
-        </div>
+        <h1 class="title is-6">Issue Details</h1>
         <p><b>Series:</b> {{ issue.series }}</p>
         <p><b>Number:</b> {{ issue.number }}</p>
         <p><b>Cover Date:</b> {{ issue.cover_date|date:"SHORT_DATE_FORMAT" }}</p>
