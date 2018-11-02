@@ -72,7 +72,9 @@
     <div class="column">
       <div class="box">
         {% if issue.name %}
-          <h1 class="title is-5">{{ issue.name }}</h1>
+          <div class="notification">
+            <h1 class="title is-5"><em>{{ issue.name }}</em></h1>
+          </div>
         {% endif %}
         {% if issue.desc %}
           <p>{{ issue.desc|linebreaksbr }}</p>
@@ -84,7 +86,9 @@
       {% with credits=issue.credits_set.all %}
         {% if credits %}
           <div class="box">
-            <h1 class="title is-5">Credits</h1>
+            <div class="notification">
+              <h1 class="title is-5">Credits</h1>
+            </div>
             <!-- creators -->
             {% for credit in credits %}
               <article class="media">
@@ -122,7 +126,9 @@
     <!-- misc info -->
     <div class="column is-one-fifth">
       <div class="box">
-        <h1 class="title is-6">Issue Details</h1>
+        <div class="notification">
+          <h1 class="title is-6">Issue Details</h1>
+        </div>
         <p><b>Series:</b> {{ issue.series }}</p>
         <p><b>Number:</b> {{ issue.number }}</p>
         <p><b>Cover Date:</b> {{ issue.cover_date|date:"SHORT_DATE_FORMAT" }}</p>
