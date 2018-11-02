@@ -28,6 +28,7 @@ class IssueDetail(DetailView):
     queryset = (
         Issue.objects
         .select_related('series')
+        .prefetch_related('credits_set', 'credits_set__role', 'credits_set__creator')
     )
 
     def get_context_data(self, **kwargs):
