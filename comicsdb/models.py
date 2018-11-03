@@ -51,6 +51,7 @@ class Publisher(models.Model):
 
 class Role(models.Model):
     name = models.CharField(max_length=25)
+    order = models.PositiveSmallIntegerField(unique=True)
     notes = models.TextField(blank=True)
     modified = models.DateTimeField(auto_now=True)
 
@@ -58,7 +59,7 @@ class Role(models.Model):
         return self.name
 
     class Meta:
-        ordering = ['name']
+        ordering = ['order']
 
 
 class SeriesType(models.Model):
@@ -132,4 +133,4 @@ class Credits(models.Model):
     class Meta:
         verbose_name_plural = "Credits"
         unique_together = ['creator', 'issue']
-        ordering = ['creator__name']
+        ordering = ['role__order']
