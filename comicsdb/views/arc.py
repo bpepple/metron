@@ -20,6 +20,10 @@ class ArcList(ListView):
 
 class ArcDetail(DetailView):
     model = Arc
+    queryset = (
+        Arc.objects
+        .prefetch_related('issue_set', 'issue_set__series')
+    )
 
 
 class SearchArcList(ArcList):

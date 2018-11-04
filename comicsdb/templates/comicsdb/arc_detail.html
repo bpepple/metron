@@ -53,6 +53,19 @@
            <h1 class="title is-5">No information available.</h1>
         {% endif %}
       </div>
+      {% with issues=arc.issue_set.all %}
+        {% if issues %}
+          <div class="box">
+            <h1 class="title is-5">List of Issues</h1>
+            <div class="content"></div>
+              <dl>
+              {% for issue in issues %}
+                <li><a href="{% url 'issue:detail' issue.slug %}">{{ issue }}</a></li>
+              {% endfor %}
+              </dl>
+          </div>
+        {% endif %}
+      {% endwith %}
     </div>
     <!-- end of arc summary -->
   </div>
