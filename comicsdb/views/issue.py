@@ -2,13 +2,13 @@ from functools import reduce
 import operator
 
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from comicsdb.forms.issue import IssueForm
-from comicsdb.models import Issue
+from comicsdb.models import Issue, Credits
 
 
 PAGINATE = 30
@@ -28,7 +28,9 @@ class IssueDetail(DetailView):
     queryset = (
         Issue.objects
         .select_related('series')
-        .prefetch_related('credits_set', 'credits_set__role', 'credits_set__creator')
+        .prefetch_related(Prefetch('credits_set',
+                                   queryset=Credits.objects.distinct('creator__last_name', 'creator__first_name')),
+                          'credits_set__creator', 'credits_set__role')
     )
 
     def get_context_data(self, **kwargs):
