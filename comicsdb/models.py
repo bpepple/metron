@@ -29,6 +29,10 @@ class Creator(models.Model):
     image = ImageField(upload_to='images/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
 
+    @property
+    def issue_count(self):
+        return self.credits_set.all().count()
+
     def get_full_name(self):
         return f'{self.first_name} {self.last_name}'
 

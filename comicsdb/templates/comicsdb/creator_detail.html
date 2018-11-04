@@ -68,6 +68,7 @@
         {% if creator.death %}
           <p><b>Death:</b> {{ creator.death|date:"SHORT_DATE_FORMAT" }}</p>
         {% endif %}
+        <p><b>Number of Issue:</b> {{ creator.issue_count }}</p>
       </div>
     </div>
     <!-- end misc info -->

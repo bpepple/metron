@@ -20,6 +20,10 @@ class CreatorList(ListView):
 
 class CreatorDetail(DetailView):
     model = Creator
+    queryset = (
+        Creator.objects
+        .prefetch_related('credits_set')
+    )
 
 
 class SearchCreatorList(CreatorList):
