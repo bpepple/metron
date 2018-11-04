@@ -1,13 +1,13 @@
 from functools import reduce
 import operator
 
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from comicsdb.forms.arc import ArcForm
-from comicsdb.models import Arc
+from comicsdb.models import Arc, Issue
 
 
 PAGINATE = 30
@@ -22,7 +22,9 @@ class ArcDetail(DetailView):
     model = Arc
     queryset = (
         Arc.objects
-        .prefetch_related('issue_set', 'issue_set__series')
+        .prefetch_related(Prefetch('issue_set',
+                                   queryset=Issue.objects.order_by('cover_date', 'series', 'number')),
+                          'issue_set__series')
     )
 
 
