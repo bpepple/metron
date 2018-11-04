@@ -1,0 +1,33 @@
+{% extends 'comicsdb/base.html' %}
+
+{% block page-title %}Credits Form{% endblock page-title %}
+
+{% block content %}
+  <form method="POST">
+    {{ form.errors }}
+    {% csrf_token %}
+    <div class="field">
+      <label class="label">Issue</label>
+      <div class="control">
+        {{ form.issue.errors }}{{ form.issue }}
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Creator</label>
+      <div class="control">
+        <div class="select">{{ form.creator.errors }}{{ form.creator }}</div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Roles</label>
+      <div class="control">
+        <div class="select is-multiple">{{ form.creator.role }}{{ form.role }}</div>
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <button class="button is-info" type="submit">Submit</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}
