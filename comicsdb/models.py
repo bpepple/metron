@@ -3,6 +3,22 @@ from django.urls import reverse
 from sorl.thumbnail import ImageField
 
 
+class Arc(models.Model):
+    name = models.CharField('Arc Name', max_length=200)
+    slug = models.SlugField(max_length=255, unique=True)
+    desc = models.TextField('Description', max_length=500, blank=True)
+    image = ImageField(upload_to='images/%Y/%m/%d/', blank=True)
+
+    def get_absolute_url(self):
+        return reverse('arc:detail', args=[self.slug])
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
+
+
 class Creator(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=150)
@@ -112,6 +128,7 @@ class Issue(models.Model):
     desc = models.TextField('Description', blank=True)
     image = ImageField('Cover', upload_to='images/%Y/%m/%d/', blank=True)
     creators = models.ManyToManyField(Creator, through='Credits', blank=True)
+    arcs = models.ManyToManyField(Arc, blank=True)
     modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
