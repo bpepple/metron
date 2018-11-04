@@ -146,6 +146,19 @@
         {% if issue.store_date %}
           <p><b>In Store Date:</b> {{ issue.store_date|date:"SHORT_DATE_FORMAT" }}</p>
         {% endif %}
+        {% with arcs=issue.arcs.all %}
+          {% if arcs %}
+            <br>
+            <p><b>Story Arcs</b></p>
+            <div class="content">
+              <dl>
+              {% for arc in arcs %}
+              <li>{{ arc.name }}</li>
+              {% endfor %}
+              </dl>
+            </div>
+          {% endif %}
+        {% endwith %}
       </div>
     </div>
     <!-- end misc info -->
