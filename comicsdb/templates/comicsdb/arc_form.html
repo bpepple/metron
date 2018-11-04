@@ -1,0 +1,30 @@
+{% extends 'comicsdb/base.html' %}
+
+{% block page-title %}Arc Form{% endblock page-title %}
+
+{% block content %}
+  <form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+    <div class="field">
+      <label class="label">Story Arc Name</label>
+      <div class="control">{{ form.name }}</div>
+    </div>
+    <div class="field">
+      <label class="label">Slug</label>
+      <div class="control">{{ form.slug }}</div>
+    </div>
+    <div class="field">
+      <label class="label">Long Description</label>
+      <div class="control">{{ form.desc }}</div>
+    </div>
+    <div class="field">
+      <label class="label">Story Arc Image</label>
+      <div class="control">{{ form.image }}</div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <button class="button is-info" type="submit">Submit</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

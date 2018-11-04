@@ -1,0 +1,60 @@
+{% extends 'comicsdb/base.html' %}
+{% load thumbnail %}
+{% load static %}
+
+{% block page-title %}Arc Detail{% endblock page-title %}
+
+{% block content %}
+  <!-- page header -->
+  <nav class="level">
+    <div class="level-left">
+      <div class="level-item">
+        <div>
+          <p class="title">{{ arc }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="level-right">
+      <p class="level-item">
+        <a class="button is-primary" href="{% url 'arc:update' arc.slug %}" title="Edit arc">Edit</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-danger" href="{% url 'arc:delete' arc.slug %}" title="Delete arc">Delete</a>
+      </p>
+    </div>
+  </nav>
+  <!-- end of page header -->
+
+  <!-- main page content -->
+  <div class="columns">
+    <!-- arc logo -->
+    <div class="column is-one-fifth">
+      <div class="box">
+        <figure class="image is-2by3">
+          {% if arc.image %}
+            {% thumbnail arc.image "320x480" crop="center" as im %}
+              <img src="{{ im.url }}" alt = "{{ arc.name }}">
+            {% endthumbnail %}
+          {% else %}
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ arc.name }}">
+          {% endif %}
+        </figure>
+      </div>
+    </div>
+    <!-- end of arc logo -->
+
+    <!-- arc summary -->
+    <div class="column">
+      <div class="box">
+        {% if arc.desc %}
+          <h1 class="title is-5">Summary</h1>
+          <p>{{ arc.desc|linebreaksbr }}</p>
+        {% else %}
+           <h1 class="title is-5">No information available.</h1>
+        {% endif %}
+      </div>
+    </div>
+    <!-- end of arc summary -->
+  </div>
+  <!-- end of main page content -->
+{% endblock %}
