@@ -43,7 +43,7 @@ class RoleTest(TestCase):
     def setUpTestData(cls):
         cls.name = 'writer'
         notes = 'Writer of the issues story'
-        cls.role = Role.objects.create(name=cls.name, notes=notes)
+        cls.role = Role.objects.create(name=cls.name, notes=notes, order=20)
 
     def test_role_creation(self):
         self.assertTrue(isinstance(self.role, Role))
