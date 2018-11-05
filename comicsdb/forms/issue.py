@@ -24,5 +24,5 @@ class IssueForm(ModelForm):
                                            empty_label=("Choose Year", "Choose Month", "Choose Day"),
                                            years=YEARS),
             'desc': Textarea(attrs={'class': 'textarea'}),
-            'image': ClearableFileInput(attrs={'class': 'file'}),
+            'image': ClearableFileInput(),
         }
