@@ -51,8 +51,8 @@ class Publisher(models.Model):
     slug = models.SlugField(max_length=255, unique=True)
     founded = models.PositiveSmallIntegerField(
         'Year Founded', null=True, blank=True)
-    short_desc = models.CharField(max_length=350, blank=True)
-    desc = models.TextField(blank=True)
+    short_desc = models.CharField('Short Description', max_length=350, blank=True)
+    desc = models.TextField('Description', blank=True)
     image = ImageField('Logo', upload_to='images/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
 
