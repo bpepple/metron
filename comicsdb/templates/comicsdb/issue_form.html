@@ -6,43 +6,43 @@
   <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
     <div class="field">
-      <label class="label">Series</label>
+      <label class="label">{{ form.series.label }}</label>
       <div class="control">
         <div class="select">{{ form.series.errors }}{{ form.series }}</div>
       </div>
     </div>
     <div class="field">
-      <label class="label">Story Title</label>
+      <label class="label">{{ form.name.label }}</label>
       <div class="control">{{ form.name.errors }}{{ form.name }}</div>
     </div>
     <div class="field">
-      <label class="label">Slug</label>
+      <label class="label">{{ form.slug.label }}</label>
       <div class="control">{{ form.slug.errors }}{{ form.slug }}</div>
     </div>
     <div class="field">
-      <label class="label">Number</label>
+      <label class="label">{{ form.number.label }}</label>
       <div class="control">{{ form.number.errors }}{{ form.number }}</div>
     </div>
     <div class="field">
-      <label class="label">Story Arcs</label>
+      <label class="label">{{ form.arcs.label }}</label>
       <div class="control">
         <div class="select is-multiple">{{ form.arcs }}</div>
       </div>
     </div>
     <div class="field">
-      <label class="label">Cover Date</label>
+      <label class="label">{{ form.cover_date.label }}</label>
       <div class="control">{{ form.cover_date.errors }}{{ form.cover_date }}</div>
     </div>
     <div class="field">
-      <label class="label">In Store Date</label>
+      <label class="label">{{ form.store_date.label }}</label>
       <div class="control">{{ form.store_date.errors }}{{ form.store_date }}</div>
     </div>
     <div class="field">
-      <label class="label">Description</label>
+      <label class="label">{{ form.desc.label }}</label>
       <div class="control">{{ form.desc.errors }}{{ form.desc }}</div>
     </div>
     <div class="field">
-      <label class="label">Cover</label>
+      <label class="label">{{ form.image.label }}</label>
       <div class="control">{{ form.image.errors }}{{ form.image }}</div>
     </div>
     <div class="field">
