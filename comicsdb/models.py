@@ -4,7 +4,7 @@ from sorl.thumbnail import ImageField
 
 
 class Arc(models.Model):
-    name = models.CharField('Arc Name', max_length=200)
+    name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=255, unique=True)
     desc = models.TextField('Description', max_length=500, blank=True)
     image = ImageField(upload_to='images/%Y/%m/%d/', blank=True)
@@ -20,12 +20,12 @@ class Arc(models.Model):
 
 
 class Creator(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=150)
+    first_name = models.CharField('First Name', max_length=30)
+    last_name = models.CharField('Last Name', max_length=150)
     slug = models.SlugField(max_length=255, unique=True)
     desc = models.TextField('Description', blank=True)
-    birth = models.DateField(null=True, blank=True)
-    death = models.DateField(null=True, blank=True)
+    birth = models.DateField('Date of Birth', null=True, blank=True)
+    death = models.DateField('Date of Death', null=True, blank=True)
     image = ImageField(upload_to='images/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
 
@@ -49,10 +49,11 @@ class Creator(models.Model):
 class Publisher(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
-    founded = models.PositiveSmallIntegerField(null=True, blank=True)
+    founded = models.PositiveSmallIntegerField(
+        'Year Founded', null=True, blank=True)
     short_desc = models.CharField(max_length=350, blank=True)
     desc = models.TextField(blank=True)
-    image = ImageField(upload_to='images/%Y/%m/%d/', blank=True)
+    image = ImageField('Logo', upload_to='images/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
@@ -99,12 +100,13 @@ class Series(models.Model):
     sort_name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
     volume = models.PositiveSmallIntegerField(null=True, blank=True)
-    year_began = models.PositiveSmallIntegerField()
-    year_end = models.PositiveSmallIntegerField(null=True, blank=True)
+    year_began = models.PositiveSmallIntegerField('Year Began')
+    year_end = models.PositiveSmallIntegerField(
+        'Year Ended', null=True, blank=True)
     series_type = models.ForeignKey(SeriesType, on_delete=models.CASCADE)
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
     short_desc = models.CharField(max_length=350, blank=True)
-    desc = models.TextField(blank=True)
+    desc = models.TextField('Description', blank=True)
     modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
@@ -124,7 +126,7 @@ class Series(models.Model):
 
 class Issue(models.Model):
     series = models.ForeignKey(Series, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, blank=True)
+    name = models.CharField('Story Title', max_length=255, blank=True)
     slug = models.SlugField(max_length=255, unique=True)
     number = models.CharField(max_length=25)
     cover_date = models.DateField('Cover Date')
