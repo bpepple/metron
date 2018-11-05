@@ -19,9 +19,11 @@ class CreatorForm(ModelForm):
             'last_name': TextInput(attrs={'class': 'input'}),
             'slug': TextInput(attrs={'class': 'input'}),
             'desc': Textarea(attrs={'class': 'textarea'}),
-            'birth': SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day"),
+            'birth': SelectDateWidget(attrs={'class': 'input', 'style': 'width: 10%; display: inline-block;'},
+                                      empty_label=("Choose Year", "Choose Month", "Choose Day"),
                                       years=YEARS),
-            'death': SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day"),
+            'death': SelectDateWidget(attrs={'class': 'input', 'style': 'width: 10%; display: inline-block;'},
+                                      empty_label=("Choose Year", "Choose Month", "Choose Day"),
                                       years=YEARS),
             'image': ClearableFileInput(),
         }
