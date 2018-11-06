@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'sorl.thumbnail',
-    'comicsdb'
+    'comicsdb',
+    'accounts'
 ]
 
 MIDDLEWARE = [

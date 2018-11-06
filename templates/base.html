@@ -26,13 +26,18 @@
           <a class="navbar-item" href="{% url 'arc:list' page=1 %}">Story Arcs</a>
         </div>
         <div class="navbar-end">
-          <div class="navbar-item">
-            {% if user.is_authenticated %}
+          {% if user.is_authenticated %}
+            <div class="navbar-item">
               <a class="button is-light" href="{% url 'logout' %}">Log out</a>
-            {% else %}
+            </div>
+          {% else %}
+            <div class="navbar-item">
+              <a class="button is-light" href="{% url 'signup' %}">Sign Up</a>
+            </div>
+            <div class="navbar-item">
               <a class="button is-light" href="{% url 'login' %}">Log in</a>
-            {% endif %}
-          </div>
+            </div>
+          {% endif %}
         </div>
       </div>
     </nav>

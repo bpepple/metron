@@ -30,6 +30,7 @@ from comicsdb.urls import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('accounts.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('arc/', include(arc_urls)),
     path('creator/', include(creator_urls)),
