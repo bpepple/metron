@@ -1,54 +1,45 @@
 {% extends "comicsdb/comics_base.html" %}
+{% load bulma_tags %}
 
 {% block page-title %}Series Form{% endblock page-title %}
 
 {% block comic_content %}
+  <h1 class="title">Series Form</h1>
   <form method="post">
   {% csrf_token %}
-    <div class="field">
-      <label class="label">Series Name</label>
-      <div class="control has-text-danger">{{ form.name.errors }}{{ form.name }}</div>
-    </div>
-    <div class="field">
-      <label class="label">Slug</label>
-      <div class="control has-text-danger">{{ form.slug.errors }}{{ form.slug }}</div>
-    </div>
-    <div class="field">
-      <label class="label">Sort Name</label>
-      <div class="control has-text-danger">{{ form.sort_name.errors }}{{ form.sort_name }}</div>
-    </div>
-    <div class="field">
-      <label class="label">Publisher</label>
-      <div class="control">
-        <div class="select">{{ form.publisher }}</div>
+    {% if form.errors %}
+      {% for field in form %}
+        {% for error in field.errors %}
+          <div class="notification is-danger">
+            <strong>{{ error|escape }}</strong>
+          </div>
+        {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <div class="notification is-danger">
+          <strong>{{ error|escape }}</strong>
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% for field in form %}
+      <div class="field">
+        <label class="label">{{ field.label }}</label>
+        {% if field|is_select %}
+          <div class="control">
+            <div class="select">
+              {{ field }}
+            </div>
+          </div>
+        {% else %}
+          <div class="control">{{ field }}</div>
+        {% endif %}
+        {% if field.help_text %}
+          <ul>
+            <li class="help">{{ field.help_text|safe }}</li>
+          </ul>
+        {% endif %}
       </div>
-    </div>
-    <div class="field">
-      <label class="label">Series Type</label>
-      <div class="control">
-        <div class="select">{{ form.series_type }}</div>
-      </div>
-    </div>
-    <div class="field">
-      <label class="label">Volume</label>
-      <div class="control has-text-danger">{{ form.volume.errors }}{{ form.volume }}</div>
-    </div>
-    <div class="field">
-      <label class="label">Year Began</label>
-      <div class="control has-text-danger">{{ form.year_began.errors }}{{ form.year_began }}</div>
-    </div>
-    <div class="field">
-      <label class="label">Year Ended</label>
-      <div class="control has-text-danger">{{ form.year_end.errors }}{{ form.year_end }}</div>
-    </div>
-    <div class="field">
-      <label class="label">Short Description</label>
-      <div class="control has-text-danger">{{ form.short_desc.errors }}{{ form.short_desc }}</div>
-    </div>
-    <div class="field">
-      <label class="label">Long Description</label>
-      <div class="control has-text-danger">{{ form.desc.errors }}{{ form.desc }}</div>
-    </div>
+    {% endfor %}
     <div class="field">
       <div class="control">
         <button class="button is-info" type="submit">Submit</button>
