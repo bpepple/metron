@@ -9,10 +9,29 @@
       <h1 class="title">Login</h1>
       <form method="post">
         {% csrf_token %}
+        {% if form.errors %}
+          {% for field in form %}
+            {% for error in field.errors %}
+              <div class="notification is-danger">
+                <strong>{{ error|escape }}</strong>
+              </div>
+            {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+            <div class="notification is-danger">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endfor %}
+        {% endif %}
         {% for field in form %}
           <div class="field">
             <label class="label">{{ field.label }}</label>
             <div class="control">{% render_field field class+="input" %}</div>
+            {% if field.help_text %}
+              <ul>
+                <li class="help">{{ field.help_text|safe }}</li>
+              </ul>
+            {% endif %}
           </div>
         {% endfor %}
         <div class="field">
