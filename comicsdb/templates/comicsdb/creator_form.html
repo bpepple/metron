@@ -1,8 +1,8 @@
-{% extends parent_template|default:"base.html" %}
+{% extends "comicsdb/comics_base.html" %}
 
 {% block page-title %}Creator Form{% endblock page-title %}
 
-{% block content %}
+{% block comic_content %}
   <h1 class="title">Creator Form</h1>
   <form method="post" enctype="multipart/form-data">
     {%csrf_token%}

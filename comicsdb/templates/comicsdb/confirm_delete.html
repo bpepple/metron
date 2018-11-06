@@ -1,6 +1,6 @@
-{% extends parent_template|default:"base.html" %}
+{% extends "comicsdb/comics_base.html" %}
 
-{% block content %}
+{% block comic_content %}
 <form method="post">
   {% csrf_token %}
   <div class="field">

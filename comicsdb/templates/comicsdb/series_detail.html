@@ -1,10 +1,10 @@
-{% extends parent_template|default:"base.html" %}
+{% extends "comicsdb/comics_base.html" %}
 {% load thumbnail %}
 {% load static %}
 
 {% block page-title %}Series Detail{% endblock page-title %}
 
-{% block content %}
+{% block comic_content %}
   <!-- page header -->
   <nav class="level">
     <div class="level-left">

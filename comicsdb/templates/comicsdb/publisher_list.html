@@ -1,10 +1,10 @@
-{% extends parent_template|default:"base.html" %}
+{% extends "comicsdb/comics_base.html" %}
 {% load thumbnail %}
 {% load static %}
 
 {% block page-title %}Publisher List{% endblock page-title %}
 
-{% block content %}
+{% block comic_content %}
 
   {% if publisher_list %}
     <nav class="level">
@@ -60,6 +60,7 @@
 	<p>No Publishers currently available. Do you want to create one?</p>
     <a class="button is-primary" href="{% url 'publisher:create' %}" title="Add a new publisher">New</a>
   {% endif %}
+
 {% endblock %}
 
 {% block pagination %}
