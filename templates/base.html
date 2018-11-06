@@ -27,7 +27,11 @@
         </div>
         <div class="navbar-end">
           <div class="navbar-item">
-            <a class="button is-light">Log in</a>
+            {% if user.is_authenticated %}
+              <a class="button is-light" href="{% url 'logout' %}">Log out</a>
+            {% else %}
+              <a class="button is-light" href="{% url 'login' %}">Log in</a>
+            {% endif %}
           </div>
         </div>
       </div>
