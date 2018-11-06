@@ -1,4 +1,5 @@
-{% extends parent_template|default:"base.html" %}
+{% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block page-title %}Login Form{% endblock page-title %}
 
@@ -9,12 +10,12 @@
     {% for field in form %}
       <div class="field">
         <label class="label">{{ field.label }}</label>
-        <div class="control">{{ field }}</div>
+        <div class="control">{% render_field field class+="input" %}</div>
       </div>
     {% endfor %}
     <div class="field">
       <div class="control">
-        <button type="submit">Login</button>
+        <button class="button is-link" type="submit">Login</button>
       </div>
     </div>
   </form>
