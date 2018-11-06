@@ -1,50 +1,45 @@
 {% extends "comicsdb/comics_base.html" %}
+{% load bulma_tags %}
 
 {% block page-title %}Issue Form{% endblock page-title %}
 
 {% block comic_content %}
+  <h1 class="title">Issue Form</h1>
   <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
-    <div class="field">
-      <label class="label">{{ form.series.label }}</label>
-      <div class="control">
-        <div class="select">{{ form.series.errors }}{{ form.series }}</div>
+    {% if form.errors %}
+      {% for field in form %}
+        {% for error in field.errors %}
+          <div class="notification is-danger">
+            <strong>{{ error|escape }}</strong>
+          </div>
+        {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <div class="notification is-danger">
+          <strong>{{ error|escape }}</strong>
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% for field in form %}
+      <div class="field">
+        <label class="label">{{ field.label }}</label>
+        {% if field|is_select %}
+          <div class="control">
+            <div class="select {% if field|is_multiple_select %}is-multiple{% endif %}">
+              {{ field }}
+            </div>
+          </div>
+        {% else %}
+          <div class="control">{{ field }}</div>
+        {% endif %}
+        {% if field.help_text %}
+          <ul>
+            <li class="help">{{ field.help_text|safe }}</li>
+          </ul>
+        {% endif %}
       </div>
-    </div>
-    <div class="field">
-      <label class="label">{{ form.name.label }}</label>
-      <div class="control">{{ form.name.errors }}{{ form.name }}</div>
-    </div>
-    <div class="field">
-      <label class="label">{{ form.slug.label }}</label>
-      <div class="control">{{ form.slug.errors }}{{ form.slug }}</div>
-    </div>
-    <div class="field">
-      <label class="label">{{ form.number.label }}</label>
-      <div class="control">{{ form.number.errors }}{{ form.number }}</div>
-    </div>
-    <div class="field">
-      <label class="label">{{ form.arcs.label }}</label>
-      <div class="control">
-        <div class="select is-multiple">{{ form.arcs }}</div>
-      </div>
-    </div>
-    <div class="field">
-      <label class="label">{{ form.cover_date.label }}</label>
-      <div class="control">{{ form.cover_date.errors }}{{ form.cover_date }}</div>
-    </div>
-    <div class="field">
-      <label class="label">{{ form.store_date.label }}</label>
-      <div class="control">{{ form.store_date.errors }}{{ form.store_date }}</div>
-    </div>
-    <div class="field">
-      <label class="label">{{ form.desc.label }}</label>
-      <div class="control">{{ form.desc.errors }}{{ form.desc }}</div>
-    </div>
-    <div class="field">
-      <label class="label">{{ form.image.label }}</label>
-      <div class="control">{{ form.image.errors }}{{ form.image }}</div>
-    </div>
+    {% endfor %}
     <div class="field">
       <div class="control">
         <button class="button is-info" type="submit">Submit</button>
