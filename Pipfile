@@ -9,6 +9,7 @@ django = "*"
 pillow = "*"
 redis = "*"
 sorl-thumbnail = "*"
+django-widget-tweaks = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
