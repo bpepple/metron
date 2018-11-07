@@ -33,7 +33,11 @@
       </div>
       <div class="level-right">
         <p class="level-item">
+        {% if user.is_authenticated %}
           <a class="button is-primary" href="{% url 'arc:create' %}" title="Add a new story arc">New</a>
+        {% else %}
+          <a class="button is-primary" title="Add a new story arc" disabled>New</a>
+        {% endif %}
         </p>
       </div>
     </nav>
