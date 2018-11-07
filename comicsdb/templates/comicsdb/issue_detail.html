@@ -109,7 +109,7 @@
                         </div>
                         <div class="media-content">
                           <div class="content">
-                            <p>{{ credit.creator }}
+                            <p><a href="{% url 'creator:detail' credit.creator.slug %}">{{ credit.creator }}</a>
                             <br>
                             <!-- creator roles -->
                             {% with roles=credit.role.all %}
