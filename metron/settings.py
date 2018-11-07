@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'sorl.thumbnail',
     'comicsdb',
-    'accounts'
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -90,6 +90,8 @@ DATABASES = {
     }
 }
 
+# Custom User Model
+AUTH_USER_MODEL = 'users.CustomUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

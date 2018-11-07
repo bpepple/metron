@@ -30,13 +30,13 @@ from comicsdb.urls import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
     path('arc/', include(arc_urls)),
     path('creator/', include(creator_urls)),
     path('issue/', include(issue_urls)),
     path('publisher/', include(publisher_urls)),
     path('series/', include(series_urls)),
+    path('users/', include('users.urls')),
+    path('users/', include('django.contrib.auth.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home')
 ]
 
