@@ -110,6 +110,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# E-mail settings
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
 # sorl-thumbnail settings
 THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
 THUMBNAIL_REDIS_HOST = 'localhost'  # default
