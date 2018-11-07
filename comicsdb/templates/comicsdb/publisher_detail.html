@@ -18,12 +18,21 @@
       </div>
     </div>
     <div class="level-right">
+      {% if user.is_authenticated %}
       <p class="level-item">
         <a class="button is-primary" href="{% url 'publisher:update' publisher.slug %}" title="Edit publisher">Edit</a>
       </p>
       <p class="level-item">
         <a class="button is-danger" href="{% url 'publisher:delete' publisher.slug %}" title="Delete publisher">Delete</a>
       </p>
+      {% else %}
+      <p class="level-item">
+        <a class="button is-primary" title="Edit publisher" disabled>Edit</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-danger" title="Delete publisher"disabled>Delete</a>
+      </p>
+      {% endif %}
     </div>
   </nav>
   <!-- end of page header -->
