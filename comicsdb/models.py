@@ -51,7 +51,8 @@ class Publisher(models.Model):
     slug = models.SlugField(max_length=255, unique=True)
     founded = models.PositiveSmallIntegerField(
         'Year Founded', null=True, blank=True)
-    short_desc = models.CharField('Short Description', max_length=350, blank=True)
+    short_desc = models.CharField(
+        'Short Description', max_length=350, blank=True)
     desc = models.TextField('Description', blank=True)
     image = ImageField('Logo', upload_to='images/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
@@ -129,12 +130,12 @@ class Issue(models.Model):
     name = models.CharField('Story Title', max_length=255, blank=True)
     slug = models.SlugField(max_length=255, unique=True)
     number = models.CharField(max_length=25)
+    arcs = models.ManyToManyField(Arc, blank=True)
     cover_date = models.DateField('Cover Date')
     store_date = models.DateField('In Store Date', null=True, blank=True)
     desc = models.TextField('Description', blank=True)
     image = ImageField('Cover', upload_to='images/%Y/%m/%d/', blank=True)
     creators = models.ManyToManyField(Creator, through='Credits', blank=True)
-    arcs = models.ManyToManyField(Arc, blank=True)
     modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
@@ -148,8 +149,8 @@ class Issue(models.Model):
 
 
 class Credits(models.Model):
-    creator = models.ForeignKey(Creator, on_delete=models.CASCADE)
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
+    creator = models.ForeignKey(Creator, on_delete=models.CASCADE)
     role = models.ManyToManyField(Role)
     modified = models.DateTimeField(auto_now=True)
 
