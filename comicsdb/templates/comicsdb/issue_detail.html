@@ -40,6 +40,7 @@
       </div>
     </div>
     <div class="level-right">
+      {% if user.is_authenticated %}
       <p class="level-item">
         <a class="button is-info" href="{% url 'issue:credit' issue.slug %}" title="Add issue credit">Add Credit</a>
       </p>
@@ -49,6 +50,17 @@
       <p class="level-item">
         <a class="button is-danger" href="{% url 'issue:delete' issue.slug %}" title="Delete Issue">Delete Issue</a>
       </p>
+      {% else %}
+      <p class="level-item">
+        <a class="button is-info" title="Add issue credit" disabled>Add Credit</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-primary" title="Edit Issue" disabled>Edit Issue</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-danger" title="Delete Issue" disabled>Delete Issue</a>
+      </p>
+      {% endif %}
     </div>
   </nav>
   <!-- end of page header -->
