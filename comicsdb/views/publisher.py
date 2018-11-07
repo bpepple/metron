@@ -1,6 +1,7 @@
 from functools import reduce
 import operator
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
@@ -36,17 +37,17 @@ class SearchPublisherList(PublisherList):
         return result
 
 
-class PublisherCreate(CreateView):
+class PublisherCreate(LoginRequiredMixin,CreateView):
     model = Publisher
     form_class = PublisherForm
 
 
-class PublisherUpdate(UpdateView):
+class PublisherUpdate(LoginRequiredMixin,UpdateView):
     model = Publisher
     form_class = PublisherForm
 
 
-class PublisherDelete(DeleteView):
+class PublisherDelete(LoginRequiredMixin,DeleteView):
     model = Publisher
     template_name = 'comicsdb/confirm_delete.html'
     success_url = reverse_lazy('publisher:list', kwargs={'page': 1})

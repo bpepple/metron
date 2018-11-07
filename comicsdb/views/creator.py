@@ -1,6 +1,7 @@
 from functools import reduce
 import operator
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
@@ -40,17 +41,17 @@ class SearchCreatorList(CreatorList):
         return result
 
 
-class CreatorCreate(CreateView):
+class CreatorCreate(LoginRequiredMixin,CreateView):
     model = Creator
     form_class = CreatorForm
 
 
-class CreatorUpdate(UpdateView):
+class CreatorUpdate(LoginRequiredMixin,UpdateView):
     model = Creator
     form_class = CreatorForm
 
 
-class CreatorDelete(DeleteView):
+class CreatorDelete(LoginRequiredMixin,DeleteView):
     model = Creator
     template_name = 'comicsdb/confirm_delete.html'
     success_url = reverse_lazy('creator:list', kwargs={'page': 1})

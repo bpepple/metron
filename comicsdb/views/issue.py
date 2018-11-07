@@ -1,6 +1,7 @@
 from functools import reduce
 import operator
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, Prefetch
 from django.urls import reverse_lazy
@@ -70,17 +71,17 @@ class SearchIssueList(IssueList):
         return result
 
 
-class IssueCreate(CreateView):
+class IssueCreate(LoginRequiredMixin,CreateView):
     model = Issue
     form_class = IssueForm
 
 
-class IssueUpdate(UpdateView):
+class IssueUpdate(LoginRequiredMixin,UpdateView):
     model = Issue
     form_class = IssueForm
 
 
-class IssueDelete(DeleteView):
+class IssueDelete(LoginRequiredMixin,DeleteView):
     model = Issue
     template_name = 'comicsdb/confirm_delete.html'
     success_url = reverse_lazy('issue:list', kwargs={'page': 1})

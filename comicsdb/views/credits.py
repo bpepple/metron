@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -6,7 +7,7 @@ from comicsdb.forms.credits import CreditsForm
 from comicsdb.models import Credits, Issue
 
 
-class CreditsCreate(CreateView):
+class CreditsCreate(LoginRequiredMixin,CreateView):
     model = Credits
     form_class = CreditsForm
     template_name = 'comicsdb/credits_form.html'

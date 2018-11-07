@@ -1,6 +1,7 @@
 from functools import reduce
 import operator
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
@@ -45,17 +46,17 @@ class SearchSeriesList(SeriesList):
         return result
 
 
-class SeriesCreate(CreateView):
+class SeriesCreate(LoginRequiredMixin,CreateView):
     model = Series
     form_class = SeriesForm
 
 
-class SeriesUpdate(UpdateView):
+class SeriesUpdate(LoginRequiredMixin,UpdateView):
     model = Series
     form_class = SeriesForm
 
 
-class SeriesDelete(DeleteView):
+class SeriesDelete(LoginRequiredMixin,DeleteView):
     model = Series
     template_name = 'comicsdb/confirm_delete.html'
     success_url = reverse_lazy('series:list', kwargs={'page': 1})

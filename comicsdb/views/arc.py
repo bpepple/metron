@@ -1,6 +1,7 @@
 from functools import reduce
 import operator
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Prefetch
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
@@ -42,17 +43,17 @@ class SearchArcList(ArcList):
         return result
 
 
-class ArcCreate(CreateView):
+class ArcCreate(LoginRequiredMixin,CreateView):
     model = Arc
     form_class = ArcForm
 
 
-class ArcUpdate(UpdateView):
+class ArcUpdate(LoginRequiredMixin,UpdateView):
     model = Arc
     form_class = ArcForm
 
 
-class ArcDelete(DeleteView):
+class ArcDelete(LoginRequiredMixin,DeleteView):
     model = Arc
     template_name = 'comicsdb/confirm_delete.html'
     success_url = reverse_lazy('arc:list', kwargs={'page': 1})
