@@ -111,7 +111,7 @@
         {% with creators=character.creators.all %}
           {% if creators %}
             <br>
-            <p><b>Creator</b></p>
+            <p><b>Creator{{ creators|pluralize }}</b></p>
             <div class="content">
               <dl>
               {% for creator in creators %}
