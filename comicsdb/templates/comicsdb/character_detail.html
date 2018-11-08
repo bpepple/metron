@@ -5,6 +5,31 @@
 {% block page-title %}Character Detail{% endblock page-title %}
 
 {% block comic_content %}
+  <!-- character nav -->
+  <nav class="level">
+    <div class="level-left">
+      <div class="level-item">
+        {% if navigation.previous_character %}
+          <a class="button is-link" href="{% url 'character:detail' navigation.previous_character.slug %}">
+            &laquo; Previous Character
+          </a>
+        {% else %}
+            <a class="button" disabled>&laquo; Previous Character</a>
+        {% endif %}
+      </div>
+      <div class="level-item">
+        {% if navigation.next_character %}
+          <a class="button is-link" href="{% url 'character:detail' navigation.next_character.slug %}">
+            Next Character &raquo;
+          </a>
+        {% else %}
+          <a class="button" disabled>Next Character &raquo;</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  <!--  end character nav -->
+
   <!-- page header -->
   <nav class="level">
     <div class="level-left">

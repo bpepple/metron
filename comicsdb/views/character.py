@@ -26,6 +26,33 @@ class CharacterDetail(DetailView):
         .prefetch_related('issue_set')
     )
 
+    def get_context_data(self, **kwargs):
+        context = super(CharacterDetail, self).get_context_data(**kwargs)
+        character = self.get_object()
+        try:
+            next_character = (
+                Character.objects
+                .filter(name__gt=character.name)
+                .order_by('name').first()
+            )
+        except:
+            next_character = None
+
+        try:
+            previous_character = (
+                Character.objects
+                .filter(name__lt=character.name)
+                .order_by('name').last()
+            )
+        except:
+            previous_character = None
+
+        context['navigation'] = {
+            'next_character': next_character,
+            'previous_character': previous_character,
+        }
+        return context
+
 
 class SearchCharacterList(CharacterList):
 
