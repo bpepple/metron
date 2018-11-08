@@ -8,6 +8,7 @@ class Arc(models.Model):
     slug = models.SlugField(max_length=255, unique=True)
     desc = models.TextField('Description', max_length=500, blank=True)
     image = ImageField(upload_to='arc/%Y/%m/%d/', blank=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
         return reverse('arc:detail', args=[self.slug])
@@ -24,6 +25,7 @@ class Creator(models.Model):
     last_name = models.CharField('Last Name', max_length=150)
     slug = models.SlugField(max_length=255, unique=True)
     desc = models.TextField('Description', blank=True)
+    wikipedia = models.CharField('Wikipedia Slug', max_length=255, blank=True)
     birth = models.DateField('Date of Birth', null=True, blank=True)
     death = models.DateField('Date of Death', null=True, blank=True)
     image = ImageField(upload_to='creator/%Y/%m/%d/', blank=True)
@@ -50,8 +52,10 @@ class Character(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=255, unique=True)
     desc = models.TextField('Description', blank=True)
+    wikipedia = models.CharField('Wikipedia Slug', max_length=255, blank=True)
     image = ImageField(upload_to='character/%Y/%m/%d/', blank=True)
     creators = models.ManyToManyField(Creator, blank=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
         return reverse('character:detail', args=[self.slug])
@@ -73,6 +77,7 @@ class Publisher(models.Model):
     founded = models.PositiveSmallIntegerField(
         'Year Founded', null=True, blank=True)
     desc = models.TextField('Description', blank=True)
+    wikipedia = models.CharField('Wikipedia Slug', max_length=255, blank=True)
     image = ImageField('Logo', upload_to='publisher/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
 
