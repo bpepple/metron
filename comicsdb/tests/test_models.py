@@ -59,16 +59,15 @@ class PublisherTest(TestCase):
     def setUpTestData(cls):
         cls.name = 'DC Comics'
         cls.slug = slugify(cls.name)
-        cls.short_desc = 'Home of Superman'
 
         cls.publisher = Publisher.objects.create(name=cls.name, slug=cls.slug,
-                                                 short_desc=cls.short_desc, founded=1934)
+                                                 founded=1934)
 
         on_going_series = SeriesType.objects.create(name='Ongoing Series')
 
         Series.objects.create(name='Superman', slug='superman', sort_name='Superman',
                               series_type=on_going_series, publisher=cls.publisher, volume=1,
-                              year_began=1939, short_desc='The one that started it all.')
+                              year_began=1939)
 
     def test_series_count(self):
         self.assertEqual(self.publisher.series_count, 1)

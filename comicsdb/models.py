@@ -7,7 +7,7 @@ class Arc(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=255, unique=True)
     desc = models.TextField('Description', max_length=500, blank=True)
-    image = ImageField(upload_to='images/%Y/%m/%d/', blank=True)
+    image = ImageField(upload_to='arc/%Y/%m/%d/', blank=True)
 
     def get_absolute_url(self):
         return reverse('arc:detail', args=[self.slug])
@@ -26,7 +26,7 @@ class Creator(models.Model):
     desc = models.TextField('Description', blank=True)
     birth = models.DateField('Date of Birth', null=True, blank=True)
     death = models.DateField('Date of Death', null=True, blank=True)
-    image = ImageField(upload_to='images/%Y/%m/%d/', blank=True)
+    image = ImageField(upload_to='creator/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
 
     @property
@@ -46,15 +46,34 @@ class Creator(models.Model):
         ordering = ['last_name', 'first_name']
 
 
+class Character(models.Model):
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=255, unique=True)
+    desc = models.TextField('Description', blank=True)
+    image = ImageField(upload_to='character/%Y/%m/%d/', blank=True)
+    creators = models.ManyToManyField(Creator, blank=True)
+
+    def get_absolute_url(self):
+        return reverse('character:detail', args=[self.slug])
+
+    @property
+    def issue_count(self):
+        return self.issue_set.all().count()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
+
+
 class Publisher(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
     founded = models.PositiveSmallIntegerField(
         'Year Founded', null=True, blank=True)
-    short_desc = models.CharField(
-        'Short Description', max_length=350, blank=True)
     desc = models.TextField('Description', blank=True)
-    image = ImageField('Logo', upload_to='images/%Y/%m/%d/', blank=True)
+    image = ImageField('Logo', upload_to='publisher/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
@@ -106,7 +125,6 @@ class Series(models.Model):
         'Year Ended', null=True, blank=True)
     series_type = models.ForeignKey(SeriesType, on_delete=models.CASCADE)
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
-    short_desc = models.CharField(max_length=350, blank=True)
     desc = models.TextField('Description', blank=True)
     modified = models.DateTimeField(auto_now=True)
 
@@ -134,8 +152,9 @@ class Issue(models.Model):
     cover_date = models.DateField('Cover Date')
     store_date = models.DateField('In Store Date', null=True, blank=True)
     desc = models.TextField('Description', blank=True)
-    image = ImageField('Cover', upload_to='images/%Y/%m/%d/', blank=True)
+    image = ImageField('Cover', upload_to='issue/%Y/%m/%d/', blank=True)
     creators = models.ManyToManyField(Creator, through='Credits', blank=True)
+    characters = models.ManyToManyField(Character, blank=True)
     modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
