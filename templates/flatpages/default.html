@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Metron</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body class="has-navbar-fixed-top">
+
+    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="{% url 'home' %}">
+          <img src="{% static 'site/img/atomic-symbol.png' %}" width="24" height="24">
+        </a>
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="{% url 'publisher:list' page=1 %}">Publishers</a>
+          <a class="navbar-item" href="{% url 'series:list' page=1 %}">Series</a>
+          <a class="navbar-item" href="{% url 'issue:list' page=1 %}">Issues</a>
+          <a class="navbar-item" href="{% url 'creator:list' page=1 %}">Creators</a>
+          <a class="navbar-item" href="{% url 'character:list' page=1 %}">Characters</a>
+          <a class="navbar-item" href="{% url 'arc:list' page=1 %}">Story Arcs</a>
+        </div>
+        <div class="navbar-end">
+          {% if user.is_authenticated %}
+            <div class="navbar-item">
+              <a class="button is-light" href="{% url 'logout' %}">Log out</a>
+            </div>
+          {% else %}
+            <div class="navbar-item">
+              <a class="button is-light" href="{% url 'signup' %}">Sign Up</a>
+            </div>
+            <div class="navbar-item">
+              <a class="button is-light" href="{% url 'login' %}">Log in</a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+    <section>
+      <div class="container">
+        <div class="content">
+          {{ flatpage.content }}
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

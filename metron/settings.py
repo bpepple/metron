@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
     'widget_tweaks',
     'sorl.thumbnail',
     'comicsdb',
@@ -74,6 +76,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'metron.wsgi.application'
+
+# Site app id
+SITE_ID = 1
 
 
 # Database

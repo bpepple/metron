@@ -35,6 +35,7 @@ urlpatterns = [
     path('character/', include(character_urls)),
     path('creator/', include(creator_urls)),
     path('issue/', include(issue_urls)),
+    path('pages/', include('django.contrib.flatpages.urls')),
     path('publisher/', include(publisher_urls)),
     path('series/', include(series_urls)),
     path('users/', include('users.urls')),
