@@ -58,6 +58,19 @@
         {% if character.desc %}
           <h1 class="title is-5">Summary</h1>
           <p>{{ character.desc|linebreaksbr }}</p>
+          {% if character.wikipedia %}
+              <br/>
+              <div class="content is-small">
+                This article uses material from the Wikipedia article
+                <a href="https://en.wikipedia.org/wiki/{{ character.wikipedia}}">
+                  "{{ character.wikipedia }}"
+                </a>
+                , which is released under the
+                <a href="https://creativecommons.org/licenses/by-sa/3.0/">
+                  Creative Commons Attribution-Share-Alike License 3.0
+                </a>.
+              </div>
+          {% endif %}
         {% else %}
            <h1 class="title is-5">No information available.</h1>
         {% endif %}
