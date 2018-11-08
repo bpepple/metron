@@ -1,0 +1,92 @@
+{% extends "comicsdb/comics_base.html" %}
+{% load thumbnail %}
+{% load static %}
+
+{% block page-title %}Character Detail{% endblock page-title %}
+
+{% block comic_content %}
+  <!-- page header -->
+  <nav class="level">
+    <div class="level-left">
+      <div class="level-item">
+        <div>
+          <p class="title">{{ character }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="level-right">
+    {% if user.is_authenticated %}
+      <p class="level-item">
+        <a class="button is-primary" href="{% url 'character:update' character.slug %}" title="Edit character">Edit</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-danger" href="{% url 'character:delete' character.slug %}" title="Delete character">Delete</a>
+      </p>
+    {% else %}
+      <p class="level-item">
+        <a class="button is-primary" title="Edit character" disabled>Edit</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-danger" title="Delete character" disabled>Delete</a>
+      </p>
+    {% endif %}
+    </div>
+  </nav>
+  <!-- end of page header -->
+
+  <!-- main page content -->
+  <div class="columns">
+    <!-- character image -->
+    <div class="column is-one-fifth">
+      <div class="box">
+        <figure class="image is-2by3">
+          {% if character.image %}
+            {% thumbnail character.image "320x480" crop="center" as im %}
+              <img src="{{ im.url }}" alt = "{{ character.name }}">
+            {% endthumbnail %}
+          {% else %}
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ character.name }}">
+          {% endif %}
+        </figure>
+      </div>
+    </div>
+    <!-- end of character image -->
+
+    <!-- character summary -->
+    <div class="column">
+      <div class="box">
+        {% if character.desc %}
+          <h1 class="title is-5">Summary</h1>
+          <p>{{ character.desc|linebreaksbr }}</p>
+        {% else %}
+           <h1 class="title is-5">No information available.</h1>
+        {% endif %}
+      </div>
+    </div>
+    <!-- end of character summary -->
+    
+        <!-- misc info -->
+    <div class="column is-one-fifth">
+      <div class="box">
+        <h1 class="title is-6">Character Details</h1>
+        <p><b>Number of Issue:</b> {{ character.issue_count }}</p>
+        {% with creators=character.creators.all %}
+          {% if creators %}
+            <br>
+            <p><b>Creator</b></p>
+            <div class="content">
+              <dl>
+              {% for creator in creators %}
+              <li><a href="{% url 'creator:detail' creator.slug %}">{{ creator }}</a></li>
+              {% endfor %}
+              </dl>
+            </div>
+          {% endif %}
+        {% endwith %}
+      </div>
+    </div>
+    <!-- end misc info -->
+    
+  </div>
+  <!-- end of main page content -->
+{% endblock %}

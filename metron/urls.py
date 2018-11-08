@@ -21,6 +21,7 @@ from django.views.generic.base import TemplateView
 
 from comicsdb.urls import (
     arc as arc_urls,
+    character as character_urls,
     creator as creator_urls,
     issue as issue_urls,
     publisher as publisher_urls,
@@ -31,6 +32,7 @@ from comicsdb.urls import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('arc/', include(arc_urls)),
+    path('character/', include(character_urls)),
     path('creator/', include(creator_urls)),
     path('issue/', include(issue_urls)),
     path('publisher/', include(publisher_urls)),

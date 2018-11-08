@@ -145,6 +145,40 @@
       {% endwith %}
       <!-- end issue credits -->
 
+      <!-- characters -->
+      {% with characters=issue.characters.all %}
+        {% if characters %}
+        <div class="box">
+          <div class="columns">
+            <div class="column">
+              <h1 class="title is-5">Characters</h1>
+              <div class="columns is-multiline">
+              {% for character in characters %}
+                <div class="column is-4">
+                  <article class="media">
+                    <div class="media-left">
+                      <figure class="image is-64x64">
+                      {% thumbnail character.image "64x64" crop="center" as im %}
+                        <img src="{{ im.url }}" alt="{{ character }}">
+                      {% endthumbnail %}
+                      </figure>
+                    </div>
+                    <div class="media-content">
+                      <div class="content">
+                        <p><a href="{% url 'character:detail' character.slug %}">{{ character }}</a></p>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      {% endwith %}
+      <!-- end characters -->
+
     </div>
     <!-- end middle sections -->
 
