@@ -1,8 +1,27 @@
 from django.contrib import admin
 from sorl.thumbnail.admin import AdminImageMixin
 
-from comicsdb.models import (Credits, Creator, Issue, Publisher,
-                             Role, Series, SeriesType)
+from comicsdb.models import (Arc, Character, Credits, Creator, Issue,
+                             Publisher, Role, Series, SeriesType)
+
+
+@admin.register(Arc)
+class ArcAdmin(AdminImageMixin, admin.ModelAdmin):
+    search_fields = ('name',)
+    prepopulated_fields = {'slug': ('name',)}
+    field = ('name', 'slug', 'desc', 'image')
+
+
+@admin.register(Character)
+class CharacterAdmin(AdminImageMixin, admin.ModelAdmin):
+    search_fields = ('name',)
+    prepopulated_fields = {'slug': ('name',)}
+    # form view
+    fieldsets = (
+        (None, {'fields': ('name', 'slug', 'desc', 'wikipedia', 'image')}),
+        ('Related', {'fields': ('creators',)}),
+    )
+    filter_horizontal = ('creators',)
 
 
 @admin.register(Credits)
@@ -26,7 +45,7 @@ class CreatorAdmin(AdminImageMixin, admin.ModelAdmin):
     prepopulated_fields = {'slug': ('first_name', 'last_name')}
     readonly_fields = ('modified',)
     field = ('first_name', 'last_name', 'slug', 'modified',
-             'birth', 'death', 'desc', 'image')
+             'birth', 'death', 'desc', 'wikipedia', 'image')
 
 
 @admin.register(Issue)
@@ -36,8 +55,13 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
     list_filter = ('cover_date',)
     list_select_related = ('series',)
     date_hierarchy = 'cover_date'
-    fields = ('series', 'number', 'name', 'slug',
-              'cover_date', 'store_date', 'desc', 'image')
+    # form view
+    fieldsets = (
+        (None, {'fields': ('series', 'number', 'name', 'slug',
+                           'cover_date', 'store_date', 'desc', 'image')}),
+        ('Related', {'fields': ('arcs', 'characters',)}),
+    )
+    filter_horizontal = ('arcs', 'characters',)
 
     def get_queryset(self, request):
         queryset = (
@@ -52,8 +76,8 @@ class PublisherAdmin(AdminImageMixin, admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     list_display = ('name', 'series_count',)
     readonly_fields = ('modified',)
-    fields = ('name', 'slug', 'modified', 'founded', 'short_desc',
-              'desc', 'image')
+    fields = ('name', 'slug', 'modified', 'founded',
+              'desc', 'wikipedia', 'image')
 
 
 @admin.register(Role)
