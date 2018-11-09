@@ -37,17 +37,19 @@ class SearchPublisherList(PublisherList):
         return result
 
 
-class PublisherCreate(LoginRequiredMixin,CreateView):
+class PublisherCreate(LoginRequiredMixin, CreateView):
     model = Publisher
     form_class = PublisherForm
+    template_name = 'comicsdb/model_with_image_form.html'
 
 
-class PublisherUpdate(LoginRequiredMixin,UpdateView):
+class PublisherUpdate(LoginRequiredMixin, UpdateView):
     model = Publisher
     form_class = PublisherForm
+    template_name = 'comicsdb/model_with_image_form.html'
 
 
-class PublisherDelete(LoginRequiredMixin,DeleteView):
+class PublisherDelete(LoginRequiredMixin, DeleteView):
     model = Publisher
     template_name = 'comicsdb/confirm_delete.html'
     success_url = reverse_lazy('publisher:list', kwargs={'page': 1})

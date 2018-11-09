@@ -1,10 +1,10 @@
 {% extends "comicsdb/comics_base.html" %}
 {% load bulma_tags %}
 
-{% block page-title %}Character Form{% endblock page-title %}
+{% block page-title %}{{ form.instance }} Form{% endblock page-title %}
 
 {% block comic_content %}
-  <h1 class="title">Character Form</h1>
+  <h1 class="title">{{ form|get_class }}</h1>
   <form method="post" enctype="multipart/form-data">
     {%csrf_token%}
     {% if form.errors %}
@@ -22,17 +22,12 @@
       {% endfor %}
     {% endif %}
     {% for field in form %}
+      <div class="field is-danger is-small">
+        {{field.errors}}
+      </div>
       <div class="field">
         <label class="label">{{ field.label }}</label>
-        {% if field|is_select %}
-          <div class="control">
-            <div class="select {% if field|is_multiple_select %}is-multiple{% endif %}">
-              {{ field }}
-            </div>
-          </div>
-        {% else %}
-          <div class="control">{{ field }}</div>
-        {% endif %}
+        <div class="control">{{ field }}</div>
         {% if field.help_text %}
           <ul>
             <li class="help">{{ field.help_text|safe }}</li>

@@ -7,7 +7,7 @@ from comicsdb.forms.credits import CreditsForm
 from comicsdb.models import Credits, Issue
 
 
-class CreditsCreate(LoginRequiredMixin,CreateView):
+class CreditsCreate(LoginRequiredMixin, CreateView):
     model = Credits
     form_class = CreditsForm
     template_name = 'comicsdb/credits_form.html'

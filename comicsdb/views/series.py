@@ -46,17 +46,17 @@ class SearchSeriesList(SeriesList):
         return result
 
 
-class SeriesCreate(LoginRequiredMixin,CreateView):
+class SeriesCreate(LoginRequiredMixin, CreateView):
     model = Series
     form_class = SeriesForm
 
 
-class SeriesUpdate(LoginRequiredMixin,UpdateView):
+class SeriesUpdate(LoginRequiredMixin, UpdateView):
     model = Series
     form_class = SeriesForm
 
 
-class SeriesDelete(LoginRequiredMixin,DeleteView):
+class SeriesDelete(LoginRequiredMixin, DeleteView):
     model = Series
     template_name = 'comicsdb/confirm_delete.html'
     success_url = reverse_lazy('series:list', kwargs={'page': 1})

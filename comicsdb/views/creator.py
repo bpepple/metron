@@ -41,17 +41,19 @@ class SearchCreatorList(CreatorList):
         return result
 
 
-class CreatorCreate(LoginRequiredMixin,CreateView):
+class CreatorCreate(LoginRequiredMixin, CreateView):
     model = Creator
     form_class = CreatorForm
+    template_name = 'comicsdb/model_with_image_form.html'
 
 
-class CreatorUpdate(LoginRequiredMixin,UpdateView):
+class CreatorUpdate(LoginRequiredMixin, UpdateView):
     model = Creator
     form_class = CreatorForm
+    template_name = 'comicsdb/model_with_image_form.html'
 
 
-class CreatorDelete(LoginRequiredMixin,DeleteView):
+class CreatorDelete(LoginRequiredMixin, DeleteView):
     model = Creator
     template_name = 'comicsdb/confirm_delete.html'
     success_url = reverse_lazy('creator:list', kwargs={'page': 1})

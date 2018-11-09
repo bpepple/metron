@@ -43,17 +43,19 @@ class SearchArcList(ArcList):
         return result
 
 
-class ArcCreate(LoginRequiredMixin,CreateView):
+class ArcCreate(LoginRequiredMixin, CreateView):
     model = Arc
     form_class = ArcForm
+    template_name = 'comicsdb/model_with_image_form.html'
 
 
-class ArcUpdate(LoginRequiredMixin,UpdateView):
+class ArcUpdate(LoginRequiredMixin, UpdateView):
     model = Arc
     form_class = ArcForm
+    template_name = 'comicsdb/model_with_image_form.html'
 
 
-class ArcDelete(LoginRequiredMixin,DeleteView):
+class ArcDelete(LoginRequiredMixin, DeleteView):
     model = Arc
     template_name = 'comicsdb/confirm_delete.html'
     success_url = reverse_lazy('arc:list', kwargs={'page': 1})

@@ -71,17 +71,19 @@ class SearchIssueList(IssueList):
         return result
 
 
-class IssueCreate(LoginRequiredMixin,CreateView):
+class IssueCreate(LoginRequiredMixin, CreateView):
     model = Issue
     form_class = IssueForm
+    template_name = 'comicsdb/model_with_image_form.html'
 
 
-class IssueUpdate(LoginRequiredMixin,UpdateView):
+class IssueUpdate(LoginRequiredMixin, UpdateView):
     model = Issue
     form_class = IssueForm
+    template_name = 'comicsdb/model_with_image_form.html'
 
 
-class IssueDelete(LoginRequiredMixin,DeleteView):
+class IssueDelete(LoginRequiredMixin, DeleteView):
     model = Issue
     template_name = 'comicsdb/confirm_delete.html'
     success_url = reverse_lazy('issue:list', kwargs={'page': 1})

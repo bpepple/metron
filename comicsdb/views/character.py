@@ -71,11 +71,13 @@ class SearchCharacterList(CharacterList):
 class CharacterCreate(LoginRequiredMixin, CreateView):
     model = Character
     form_class = CharacterForm
+    template_name = 'comicsdb/model_with_image_form.html'
 
 
 class CharacterUpdate(LoginRequiredMixin, UpdateView):
     model = Character
     form_class = CharacterForm
+    template_name = 'comicsdb/model_with_image_form.html'
 
 
 class CharacterDelete(LoginRequiredMixin, DeleteView):
