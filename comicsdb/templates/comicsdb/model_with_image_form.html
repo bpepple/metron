@@ -27,7 +27,15 @@
       </div>
       <div class="field">
         <label class="label">{{ field.label }}</label>
-        <div class="control">{{ field }}</div>
+        {% if field|is_select %}
+          <div class="control">
+            <div class="select {% if field|is_multiple_select %}is-multiple{% endif %}">
+              {{ field }}
+            </div>
+          </div>
+        {% else %}
+          <div class="control">{{ field }}</div>
+        {% endif %}
         {% if field.help_text %}
           <ul>
             <li class="help">{{ field.help_text|safe }}</li>
