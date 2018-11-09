@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'django.forms',
     'widget_tweaks',
     'sorl.thumbnail',
     'comicsdb',
@@ -78,9 +79,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'metron.wsgi.application'
 
+# Custom User Model
+AUTH_USER_MODEL = 'users.CustomUser'
+
+# Needed to override form widgets template
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
+
 # Site app id
 SITE_ID = 1
-
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
@@ -95,9 +101,6 @@ DATABASES = {
         'PORT': '',
     }
 }
-
-# Custom User Model
-AUTH_USER_MODEL = 'users.CustomUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

@@ -1,5 +1,5 @@
 from django.forms import (ModelForm, TextInput, Textarea,
-                          ClearableFileInput, SelectMultiple)
+                          SelectMultiple, ClearableFileInput)
 
 from comicsdb.models import Character
 
