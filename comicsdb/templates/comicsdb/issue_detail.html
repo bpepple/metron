@@ -106,7 +106,7 @@
           <div class="box">
             <div class="columns">
               <div class="column">
-                <h1 class="title is-5">Credits</h1>
+                <h1 class="title is-5">Credit{{ credits|pluralize }}</h1>
                 <div class="columns is-multiline">
                   <!-- creators -->
                   {% for credit in credits %}
@@ -151,7 +151,7 @@
         <div class="box">
           <div class="columns">
             <div class="column">
-              <h1 class="title is-5">Characters</h1>
+              <h1 class="title is-5">Character{{ characters|pluralize }}</h1>
               <div class="columns is-multiline">
               {% for character in characters %}
                 <div class="column is-4">
@@ -178,6 +178,40 @@
         {% endif %}
       {% endwith %}
       <!-- end characters -->
+
+      <!-- teams -->
+      {% with teams=issue.teams.all %}
+        {% if teams %}
+        <div class="box">
+          <div class="columns">
+            <div class="column">
+              <h1 class="title is-5">Team{{ teams|pluralize }}</h1>
+              <div class="columns is-multiline">
+              {% for team in teams %}
+                <div class="column is-4">
+                  <article class="media">
+                    <div class="media-left">
+                      <figure class="image is-64x64">
+                      {% thumbnail team.image "64x64" crop="center" as im %}
+                        <img src="{{ im.url }}" alt="{{ character }}">
+                      {% endthumbnail %}
+                      </figure>
+                    </div>
+                    <div class="media-content">
+                      <div class="content">
+                        <p><a href="{% url 'team:detail' team.slug %}">{{ team }}</a></p>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      {% endwith %}
+      <!-- end teams -->
 
     </div>
     <!-- end middle sections -->
