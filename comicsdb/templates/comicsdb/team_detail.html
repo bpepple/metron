@@ -36,7 +36,7 @@
 
   <!-- main page content -->
   <div class="columns">
-    <!-- team image -->
+    <!-- left column -->
     <div class="column is-one-fifth">
       <div class="box">
         <figure class="image is-2by3">
@@ -50,10 +50,11 @@
         </figure>
       </div>
     </div>
-    <!-- end of team image -->
+    <!-- end of left column -->
 
-    <!-- team summary -->
+    <!-- middle column -->
     <div class="column">
+      <!-- summary -->
       <div class="box">
         {% if team.desc %}
           <h1 class="title is-5">Summary</h1>
@@ -75,21 +76,67 @@
            <h1 class="title is-5">No information available.</h1>
         {% endif %}
       </div>
-      {% with issues=team.issue_set.all %}
-        {% if issues %}
-          <div class="box">
-            <h1 class="title is-5">List of Issues</h1>
-            <div class="content"></div>
-              <dl>
-              {% for issue in issues %}
-                <li><a href="{% url 'issue:detail' issue.slug %}">{{ issue }}</a></li>
+      <!-- end summary -->
+
+      <!-- members -->
+      {% with characters=team.character_set.all %}
+        {% if characters %}
+        <div class="box">
+          <div class="columns">
+            <div class="column">
+              <h1 class="title is-5">Member{{ characters|pluralize }}</h1>
+              <div class="columns is-multiline">
+              {% for character in characters %}
+                <div class="column is-4">
+                  <article class="media">
+                    <div class="media-left">
+                      <figure class="image is-64x64">
+                      {% thumbnail character.image "64x64" crop="center" as im %}
+                        <img src="{{ im.url }}" alt="{{ character }}">
+                      {% endthumbnail %}
+                      </figure>
+                    </div>
+                    <div class="media-content">
+                      <div class="content">
+                        <p><a href="{% url 'character:detail' character.slug %}">{{ character }}</a></p>
+                      </div>
+                    </div>
+                  </article>
+                </div>
               {% endfor %}
-              </dl>
+              </div>
+            </div>
           </div>
+        </div>
         {% endif %}
       {% endwith %}
+      <!-- end members -->
     </div>
-    <!-- end of team summary -->
+    <!-- end middle column -->
+
+    <!-- right column -->
+    <div class="column is-one-fifth">
+      <!-- misc info -->
+      <div class="box">
+        <h1 class="title is-6">Team Details</h1>
+        <p><b>Number of Issues:</b> {{ team.issue_count }}</p>
+        {% with creators=team.creators.all %}
+          {% if creators %}
+            <br>
+            <p><b>Creator{{ creators|pluralize }}</b></p>
+            <div class="content">
+              <dl>
+              {% for creator in creators %}
+              <li><a href="{% url 'creator:detail' creator.slug %}">{{ creator }}</a></li>
+              {% endfor %}
+              </dl>
+            </div>
+          {% endif %}
+        {% endwith %}
+      </div>
+      <!-- end misc info -->
+    </div>
+    <!-- end right column -->
   </div>
   <!-- end of main page content -->
 {% endblock %}
