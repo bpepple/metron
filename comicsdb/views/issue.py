@@ -30,8 +30,10 @@ class IssueDetail(DetailView):
         Issue.objects
         .select_related('series')
         .prefetch_related(Prefetch('credits_set',
-                                   queryset=Credits.objects.distinct('creator__last_name', 'creator__first_name')),
-                          'credits_set__creator', 'credits_set__role')
+                                   queryset=Credits.objects.distinct('creator__last_name',
+                                                                     'creator__first_name')
+                                   .select_related('creator')
+                                   .prefetch_related('role')))
     )
 
     def get_context_data(self, **kwargs):
