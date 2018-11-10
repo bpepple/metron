@@ -1,22 +1,33 @@
-from django.forms import (ModelForm, TextInput, Textarea, Select,
-                          SelectMultiple, SelectDateWidget, ClearableFileInput)
 import datetime
+
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.forms import (ModelForm, TextInput, Textarea, Select,
+                          SelectDateWidget, ClearableFileInput)
+
 from comicsdb.models import Issue
+
 
 YEARS = [(r) for r in range(1925, datetime.date.today().year + 2)]
 
 
 class IssueForm(ModelForm):
 
+    class Media:
+        css = {'all': ('/static/admin/css/widgets.css',), }
+        js = ('/admin/jsi18n'),
+
     class Meta:
         model = Issue
-        exclude = ('creators',)
+        # exclude 'creators' field
+        fields = ('series', 'name', 'slug', 'number', 'cover_date',
+                  'store_date', 'desc', 'characters', 'arcs', 'image')
         widgets = {
             'series': Select(),
             'name': TextInput(attrs={'class': 'input'}),
             'slug': TextInput(attrs={'class': 'input'}),
             'number': TextInput(attrs={'class': 'input'}),
-            'arcs': SelectMultiple(),
+            'arcs': FilteredSelectMultiple("Story Arcs", is_stacked=False),
+            'characters': FilteredSelectMultiple("Characters", is_stacked=False),
             'cover_date': SelectDateWidget(attrs={'class': 'input', 'style': 'width: 10%; display: inline-block;'},
                                            empty_label=("Choose Year", "Choose Month", "Choose Day"),
                                            years=YEARS),
