@@ -60,6 +60,10 @@ class Team(models.Model):
     def get_absolute_url(self):
         return reverse('team:detail', args=[self.slug])
 
+    @property
+    def issue_count(self):
+        return self.issue_set.all().count()
+
     def __str__(self):
         return self.name
 
