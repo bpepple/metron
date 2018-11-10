@@ -5,6 +5,11 @@ from comicsdb.models import (Arc, Character, Credits, Creator, Issue,
                              Publisher, Role, Series, SeriesType)
 
 
+class CreditsInline(admin.TabularInline):
+    model = Credits
+    extra = 1
+
+
 @admin.register(Arc)
 class ArcAdmin(AdminImageMixin, admin.ModelAdmin):
     search_fields = ('name',)
@@ -22,21 +27,6 @@ class CharacterAdmin(AdminImageMixin, admin.ModelAdmin):
         ('Related', {'fields': ('creators',)}),
     )
     filter_horizontal = ('creators',)
-
-
-@admin.register(Credits)
-class RolesAdmin(admin.ModelAdmin):
-    search_fields = ('issue__series__name', 'issue__number')
-    list_filter = ('role',)
-    list_display = ('issue', 'creator')
-    ordering = ('issue', 'creator')
-    filter_horizontal = ['role']
-    autocomplete_fields = ['issue', 'creator']
-    # form view
-    fieldsets = (
-        (None, {'fields': ('issue', 'creator')}),
-        ('Related', {'fields': ('role',)}),
-    )
 
 
 @admin.register(Creator)
@@ -62,6 +52,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
         ('Related', {'fields': ('arcs', 'characters',)}),
     )
     filter_horizontal = ('arcs', 'characters',)
+    inlines = (CreditsInline,)
 
     def get_queryset(self, request):
         queryset = (
