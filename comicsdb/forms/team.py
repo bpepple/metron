@@ -1,19 +1,25 @@
 from django.forms import (ModelForm, TextInput, Textarea,
                           ClearableFileInput, SelectDateWidget)
+from django.contrib.admin.widgets import FilteredSelectMultiple
 
 from comicsdb.models import Team
 
 
 class TeamForm(ModelForm):
 
+    class Media:
+        css = {'all': ('/static/admin/css/widgets.css',), }
+        js = ('/admin/jsi18n'),
+
     class Meta:
         model = Team
-        fields = ('name', 'slug', 'desc', 'wikipedia', 'image')
+        fields = ('name', 'slug', 'desc', 'wikipedia', 'creators', 'image')
         widgets = {
             'name': TextInput(attrs={'class': 'input'}),
             'slug': TextInput(attrs={'class': 'input'}),
             'desc': Textarea(attrs={'class': 'textarea'}),
             'wikipedia': TextInput(attrs={'class': 'input'}),
+            'creators': FilteredSelectMultiple("Creators", is_stacked=False),
             'image': ClearableFileInput(),
         }
         help_texts = {

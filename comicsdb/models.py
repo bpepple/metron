@@ -20,24 +20,6 @@ class Arc(models.Model):
         ordering = ['name']
 
 
-class Team(models.Model):
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=255, unique=True)
-    desc = models.TextField('Description', blank=True)
-    wikipedia = models.CharField('Wikipedia Slug', max_length=255, blank=True)
-    image = models.ImageField(upload_to='team/%Y/%m/%d/', blank=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    def get_absolute_url(self):
-        return reverse('team:detail', args=[self.slug])
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ['name']
-
-
 class Creator(models.Model):
     first_name = models.CharField('First Name', max_length=30)
     last_name = models.CharField('Last Name', max_length=150)
@@ -64,6 +46,25 @@ class Creator(models.Model):
 
     class Meta:
         ordering = ['last_name', 'first_name']
+
+
+class Team(models.Model):
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=255, unique=True)
+    desc = models.TextField('Description', blank=True)
+    wikipedia = models.CharField('Wikipedia Slug', max_length=255, blank=True)
+    image = models.ImageField(upload_to='team/%Y/%m/%d/', blank=True)
+    creators = models.ManyToManyField(Creator, blank=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse('team:detail', args=[self.slug])
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
 
 
 class Character(models.Model):
