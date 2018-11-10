@@ -5,6 +5,7 @@
 
 {% block comic_content %}
   <h1 class="title">Credits Form</h1>
+  {{ form.media }}
   <form method="post">
   {% csrf_token %}
     {% if form.errors %}

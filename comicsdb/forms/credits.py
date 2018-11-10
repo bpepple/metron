@@ -1,9 +1,14 @@
-from django.forms import ModelForm, Select, SelectMultiple, CharField, HiddenInput
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.forms import ModelForm, Select
 
 from comicsdb.models import Credits, Issue
 
 
 class CreditsForm(ModelForm):
+
+    class Media:
+        css = {'all': ('/static/admin/css/widgets.css',), }
+        js = ('/admin/jsi18n'),
 
     class Meta:
         model = Credits
@@ -11,7 +16,7 @@ class CreditsForm(ModelForm):
         widgets = {
             'issue': Select(),
             'creator': Select(),
-            'role': SelectMultiple()
+            'role': FilteredSelectMultiple("Roles", is_stacked=False)
         }
 
     def __init__(self, *args, **kwargs):
