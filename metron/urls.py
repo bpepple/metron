@@ -18,6 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView
+from django.views.i18n import JavaScriptCatalog
 
 from comicsdb.urls import (
     arc as arc_urls,
@@ -35,6 +36,7 @@ urlpatterns = [
     path('character/', include(character_urls)),
     path('creator/', include(creator_urls)),
     path('issue/', include(issue_urls)),
+    path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
     path('pages/', include('django.contrib.flatpages.urls')),
     path('publisher/', include(publisher_urls)),
     path('series/', include(series_urls)),

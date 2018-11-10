@@ -5,6 +5,7 @@
 
 {% block comic_content %}
   <h1 class="title">{{ form|get_class }}</h1>
+  {{ form.media }}
   <form method="post" enctype="multipart/form-data">
     {%csrf_token%}
     {% if form.errors %}

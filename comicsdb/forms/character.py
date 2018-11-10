@@ -1,20 +1,24 @@
-from django.forms import (ModelForm, TextInput, Textarea,
-                          SelectMultiple, ClearableFileInput)
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.forms import (ModelForm, TextInput, Textarea, ClearableFileInput)
 
-from comicsdb.models import Character
+from comicsdb.models import Character, Creator
 
 
 class CharacterForm(ModelForm):
 
+    class Media:
+        css = {'all': ('/static/admin/css/widgets.css',), }
+        js = ('/admin/jsi18n'),
+
     class Meta:
         model = Character
-        fields = '__all__'
+        fields = ('name', 'slug', 'desc', 'wikipedia', 'creators', 'image')
         widgets = {
             'name': TextInput(attrs={'class': 'input'}),
             'slug': TextInput(attrs={'class': 'input'}),
             'desc': Textarea(attrs={'class': 'textarea'}),
             'wikipedia': TextInput(attrs={'class': 'input'}),
-            'creator': SelectMultiple(),
+            'creators': FilteredSelectMultiple("Creators", is_stacked=False),
             'image': ClearableFileInput(),
         }
         help_texts = {
