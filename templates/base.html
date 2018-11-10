@@ -25,6 +25,7 @@
           <a class="navbar-item" href="{% url 'creator:list' page=1 %}">Creators</a>
           <a class="navbar-item" href="{% url 'character:list' page=1 %}">Characters</a>
           <a class="navbar-item" href="{% url 'arc:list' page=1 %}">Story Arcs</a>
+          <a class="navbar-item" href="{% url 'team:list' page=1 %}">Teams</a>
         </div>
         <div class="navbar-end">
           {% if user.is_authenticated %}

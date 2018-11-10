@@ -26,7 +26,8 @@ from comicsdb.urls import (
     creator as creator_urls,
     issue as issue_urls,
     publisher as publisher_urls,
-    series as series_urls
+    series as series_urls,
+    team as team_urls
 )
 
 
@@ -40,6 +41,7 @@ urlpatterns = [
     path('pages/', include('django.contrib.flatpages.urls')),
     path('publisher/', include(publisher_urls)),
     path('series/', include(series_urls)),
+    path('team/', include(team_urls)),
     path('users/', include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home')

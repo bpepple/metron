@@ -6,12 +6,30 @@ from sorl.thumbnail import ImageField
 class Arc(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=255, unique=True)
-    desc = models.TextField('Description', max_length=500, blank=True)
+    desc = models.TextField('Description', blank=True)
     image = ImageField(upload_to='arc/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
         return reverse('arc:detail', args=[self.slug])
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
+
+
+class Team(models.Model):
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=255, unique=True)
+    desc = models.TextField('Description', blank=True)
+    wikipedia = models.CharField('Wikipedia Slug', max_length=255, blank=True)
+    image = models.ImageField(upload_to='team/%Y/%m/%d/', blank=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse('team:detail', args=[self.slug])
 
     def __str__(self):
         return self.name
@@ -55,6 +73,7 @@ class Character(models.Model):
     wikipedia = models.CharField('Wikipedia Slug', max_length=255, blank=True)
     image = ImageField(upload_to='character/%Y/%m/%d/', blank=True)
     creators = models.ManyToManyField(Creator, blank=True)
+    teams = models.ManyToManyField(Team, blank=True)
     modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
@@ -160,6 +179,7 @@ class Issue(models.Model):
     image = ImageField('Cover', upload_to='issue/%Y/%m/%d/', blank=True)
     creators = models.ManyToManyField(Creator, through='Credits', blank=True)
     characters = models.ManyToManyField(Character, blank=True)
+    teams = models.ManyToManyField(Team, blank=True)
     modified = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):

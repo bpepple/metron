@@ -1,0 +1,95 @@
+{% extends "comicsdb/comics_base.html" %}
+{% load thumbnail %}
+{% load static %}
+
+{% block page-title %}Team Detail{% endblock page-title %}
+
+{% block comic_content %}
+  <!-- page header -->
+  <nav class="level">
+    <div class="level-left">
+      <div class="level-item">
+        <div>
+          <p class="title">{{ team }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="level-right">
+    {% if user.is_authenticated %}
+      <p class="level-item">
+        <a class="button is-primary" href="{% url 'team:update' team.slug %}" title="Edit team">Edit</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-danger" href="{% url 'team:delete' team.slug %}" title="Delete team">Delete</a>
+      </p>
+    {% else %}
+      <p class="level-item">
+        <a class="button is-primary" title="Edit team" disabled>Edit</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-danger" title="Delete team" disabled>Delete</a>
+      </p>
+    {% endif %}
+    </div>
+  </nav>
+  <!-- end of page header -->
+
+  <!-- main page content -->
+  <div class="columns">
+    <!-- team image -->
+    <div class="column is-one-fifth">
+      <div class="box">
+        <figure class="image is-2by3">
+          {% if team.image %}
+            {% thumbnail team.image "320x480" crop="center" as im %}
+              <img src="{{ im.url }}" alt = "{{ team.name }}">
+            {% endthumbnail %}
+          {% else %}
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ team.name }}">
+          {% endif %}
+        </figure>
+      </div>
+    </div>
+    <!-- end of team image -->
+
+    <!-- team summary -->
+    <div class="column">
+      <div class="box">
+        {% if team.desc %}
+          <h1 class="title is-5">Summary</h1>
+          <p>{{ team.desc|linebreaksbr }}</p>
+          {% if team.wikipedia %}
+              <br/>
+              <div class="content is-small">
+                This article uses material from the Wikipedia article
+                <a href="https://en.wikipedia.org/wiki/{{ team.wikipedia}}">
+                  "{{ team.wikipedia }}"
+                </a>
+                , which is released under the
+                <a href="https://creativecommons.org/licenses/by-sa/3.0/">
+                  Creative Commons Attribution-Share-Alike License 3.0
+                </a>.
+              </div>
+          {% endif %}
+        {% else %}
+           <h1 class="title is-5">No information available.</h1>
+        {% endif %}
+      </div>
+      {% with issues=team.issue_set.all %}
+        {% if issues %}
+          <div class="box">
+            <h1 class="title is-5">List of Issues</h1>
+            <div class="content"></div>
+              <dl>
+              {% for issue in issues %}
+                <li><a href="{% url 'issue:detail' issue.slug %}">{{ issue }}</a></li>
+              {% endfor %}
+              </dl>
+          </div>
+        {% endif %}
+      {% endwith %}
+    </div>
+    <!-- end of team summary -->
+  </div>
+  <!-- end of main page content -->
+{% endblock %}
