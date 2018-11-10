@@ -121,6 +121,18 @@
             </div>
           {% endif %}
         {% endwith %}
+        {% with teams=character.teams.all %}
+          {% if teams %}
+            <p><b>Team{{ teams|pluralize }}</b></p>
+            <div class="content">
+              <dl>
+              {% for team in teams %}
+              <li><a href="{% url 'team:detail' team.slug %}">{{ team }}</a></li>
+              {% endfor %}
+              </dl>
+            </div>
+          {% endif %}
+        {% endwith %}
       </div>
     </div>
     <!-- end misc info -->

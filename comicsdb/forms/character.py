@@ -12,13 +12,15 @@ class CharacterForm(ModelForm):
 
     class Meta:
         model = Character
-        fields = ('name', 'slug', 'desc', 'wikipedia', 'creators', 'image')
+        fields = ('name', 'slug', 'desc', 'wikipedia',
+                  'creators', 'teams', 'image')
         widgets = {
             'name': TextInput(attrs={'class': 'input'}),
             'slug': TextInput(attrs={'class': 'input'}),
             'desc': Textarea(attrs={'class': 'textarea'}),
             'wikipedia': TextInput(attrs={'class': 'input'}),
             'creators': FilteredSelectMultiple("Creators", is_stacked=False),
+            'teams': FilteredSelectMultiple("Teams", is_stacked=False),
             'image': ClearableFileInput(),
         }
         help_texts = {
