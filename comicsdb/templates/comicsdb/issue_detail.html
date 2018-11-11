@@ -70,6 +70,7 @@
 
   <!-- main page content -->
   <div class="columns">
+    <!-- left column -->
     <div class="column is-one-quarter">
       <!-- main cover -->
       <div class="box">
@@ -84,6 +85,8 @@
         </figure>
       </div>
       <!-- end of main cover -->
+
+      <!-- variant covers -->
       {% with variants=issue.variant_set.all %}
         {% if variants %}
           {% for variant in variants %}
@@ -103,7 +106,9 @@
           {% endfor %}
         {% endif %}
       {% endwith %}
+      <!-- end variant covers -->
     </div>
+    <!-- end left column -->
 
     <!-- middle sections -->
     <div class="column">
