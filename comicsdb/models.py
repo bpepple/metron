@@ -197,6 +197,12 @@ class Issue(models.Model):
         ordering = ['series__name', 'cover_date', 'number']
 
 
+class Variant(models.Model):
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
+    image = ImageField('Variant Cover', upload_to='variants/%Y/%m/%d/')
+    name = models.CharField('Name', max_length=255, blank=True)
+
+
 class Credits(models.Model):
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
     creator = models.ForeignKey(Creator, on_delete=models.CASCADE)
