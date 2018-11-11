@@ -45,6 +45,9 @@
         <a class="button is-info" href="{% url 'issue:credit' issue.slug %}" title="Add issue credit">Add Credit</a>
       </p>
       <p class="level-item">
+        <a class="button is-warning" href="{% url 'issue:variant' issue.slug %}" title="Add variant cover">Add Variant Cover</a>
+      </p>
+      <p class="level-item">
         <a class="button is-primary" href="{% url 'issue:update' issue.slug %}" title="Edit Issue">Edit Issue</a>
       </p>
       <p class="level-item">
@@ -67,8 +70,8 @@
 
   <!-- main page content -->
   <div class="columns">
-    <!-- issue image -->
     <div class="column is-one-quarter">
+      <!-- main cover -->
       <div class="box">
         <figure class="image is-2by3">
           {% if issue.image %}
@@ -80,8 +83,27 @@
           {% endif %}
         </figure>
       </div>
+      <!-- end of main cover -->
+      {% with variants=issue.variant_set.all %}
+        {% if variants %}
+          {% for variant in variants %}
+            <div class="box">
+              <figure class="image is-2by3">
+                {% if variant.image %}
+                  {% thumbnail variant.image "320x480" crop="center" as im %}
+                    <img src="{{ im.url }}" alt = "{{ variant }}">
+                  {% endthumbnail %}
+                {% else %}
+                  <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ variant }}">
+                {% endif %}
+              </figure>
+              <br/>
+              <p class="has-text-centered"><strong>{{ variant.name }}</strong></p>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
     </div>
-    <!-- end of issue image -->
 
     <!-- middle sections -->
     <div class="column">
