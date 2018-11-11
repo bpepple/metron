@@ -11,7 +11,7 @@ from comicsdb.forms.publisher import PublisherForm
 from comicsdb.models import Publisher
 
 
-PAGINATE = 30
+PAGINATE = 28
 
 
 class PublisherList(ListView):

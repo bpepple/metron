@@ -12,7 +12,7 @@ from comicsdb.forms.issue import IssueForm
 from comicsdb.models import Issue, Credits
 
 
-PAGINATE = 30
+PAGINATE = 28
 
 
 class IssueList(ListView):

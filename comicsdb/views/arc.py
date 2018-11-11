@@ -11,7 +11,7 @@ from comicsdb.forms.arc import ArcForm
 from comicsdb.models import Arc, Issue
 
 
-PAGINATE = 30
+PAGINATE = 28
 
 
 class ArcList(ListView):

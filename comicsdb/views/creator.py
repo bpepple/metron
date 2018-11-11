@@ -11,7 +11,7 @@ from comicsdb.forms.creator import CreatorForm
 from comicsdb.models import Creator
 
 
-PAGINATE = 30
+PAGINATE = 28
 
 
 class CreatorList(ListView):

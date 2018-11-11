@@ -11,7 +11,7 @@ from comicsdb.forms.character import CharacterForm
 from comicsdb.models import Character
 
 
-PAGINATE = 30
+PAGINATE = 28
 
 
 class CharacterList(ListView):

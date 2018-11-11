@@ -11,7 +11,7 @@ from comicsdb.forms.series import SeriesForm
 from comicsdb.models import Series
 
 
-PAGINATE = 30
+PAGINATE = 28
 
 
 class SeriesList(ListView):

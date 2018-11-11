@@ -11,7 +11,7 @@ from comicsdb.forms.team import TeamForm
 from comicsdb.models import Team, Issue
 
 
-PAGINATE = 30
+PAGINATE = 28
 
 
 class TeamList(ListView):
