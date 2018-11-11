@@ -35,8 +35,9 @@ class IssueDetail(DetailView):
         Issue.objects
         .select_related('series')
         .prefetch_related(Prefetch('credits_set',
-                                   queryset=Credits.objects.distinct('creator__last_name',
-                                                                     'creator__first_name')
+                                   queryset=Credits.objects
+                                   .order_by('creator__last_name', 'creator__first_name')
+                                   .distinct('creator__last_name', 'creator__first_name')
                                    .select_related('creator')
                                    .prefetch_related('role')))
     )
