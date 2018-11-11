@@ -2,11 +2,16 @@ from django.contrib import admin
 from sorl.thumbnail.admin import AdminImageMixin
 
 from comicsdb.models import (Arc, Character, Credits, Creator, Issue,
-                             Publisher, Role, Series, SeriesType)
+                             Publisher, Role, Series, SeriesType, Variant)
 
 
 class CreditsInline(admin.TabularInline):
     model = Credits
+    extra = 1
+
+
+class VariantInline(admin.TabularInline):
+    model = Variant
     extra = 1
 
 
@@ -52,7 +57,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
         ('Related', {'fields': ('arcs', 'characters',)}),
     )
     filter_horizontal = ('arcs', 'characters',)
-    inlines = (CreditsInline,)
+    inlines = (CreditsInline, VariantInline)
 
     def get_queryset(self, request):
         queryset = (
