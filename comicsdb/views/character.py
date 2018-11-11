@@ -18,6 +18,11 @@ class CharacterList(ListView):
     model = Character
     paginate_by = PAGINATE
 
+    def get_context_data(self, **kwargs):
+        context = super(CharacterList, self).get_context_data(**kwargs)
+        context['count'] = self.get_queryset().count()
+        return context
+
 
 class CharacterDetail(DetailView):
     model = Character
