@@ -202,6 +202,9 @@ class Variant(models.Model):
     image = ImageField('Variant Cover', upload_to='variants/%Y/%m/%d/')
     name = models.CharField('Name', max_length=255, blank=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Credits(models.Model):
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
