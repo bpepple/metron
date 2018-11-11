@@ -22,6 +22,11 @@ class SeriesList(ListView):
         .prefetch_related('issue_set')
     )
 
+    def get_context_data(self, **kwargs):
+        context = super(SeriesList, self).get_context_data(**kwargs)
+        context['count'] = self.get_queryset().count()
+        return context
+
 
 class SeriesDetail(DetailView):
     model = Series
