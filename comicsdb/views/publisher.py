@@ -18,6 +18,11 @@ class PublisherList(ListView):
     model = Publisher
     paginate_by = PAGINATE
 
+    def get_context_data(self, **kwargs):
+        context = super(PublisherList, self).get_context_data(**kwargs)
+        context['count'] = self.get_queryset().count()
+        return context
+
 
 class PublisherDetail(DetailView):
     model = Publisher
