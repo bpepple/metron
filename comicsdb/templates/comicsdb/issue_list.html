@@ -11,9 +11,7 @@
       <div class="level-left">
         <div class="level-item">
           <p class="subtitle is-5">
-            {% with total=issue_list.count %}
-              <strong>{{ total }}</strong> Issue{{ total|pluralize }}
-            {% endwith %}
+            <strong>{{ count }}</strong> Issue{{ count|pluralize }}
           </p>
         </div>
         <div class="level-item">
