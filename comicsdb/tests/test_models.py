@@ -3,10 +3,32 @@ from django.utils import timezone
 from django.utils.text import slugify
 
 from comicsdb.models import (Publisher, Series, SeriesType,
-                             Creator, Role, Issue)
+                             Creator, Role, Issue, Arc)
 
 
 HTTP_200_OK = 200
+
+
+class ArcTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.name = 'The Last Age of Magic'
+        cls.slug = slugify(cls.name)
+
+        cls.arc = Arc.objects.create(name=cls.name, slug=cls.slug)
+
+    def test_publisher_creation(self):
+        self.assertTrue(isinstance(self.arc, Arc))
+        self.assertEqual(str(self.arc), self.name)
+
+    def test_verbose_name_plural(self):
+        self.assertEqual(str(self.arc._meta.verbose_name_plural),
+                         "arcs")
+
+    def test_absolute_url(self):
+        resp = self.client.get(self.arc.get_absolute_url())
+        self.assertEqual(resp.status_code, HTTP_200_OK)
 
 
 class CreatorTest(TestCase):
