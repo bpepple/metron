@@ -5,6 +5,31 @@
 {% block page-title %}Creator Detail{% endblock page-title %}
 
 {% block comic_content %}
+  <!-- creator nav -->
+  <nav class="level">
+    <div class="level-left">
+      <div class="level-item">
+        {% if navigation.previous_creator %}
+          <a class="button is-link" href="{% url 'creator:detail' navigation.previous_creator.slug %}">
+            &laquo; Previous Creator
+          </a>
+        {% else %}
+            <a class="button" disabled>&laquo; Previous Creator</a>
+        {% endif %}
+      </div>
+      <div class="level-item">
+        {% if navigation.next_creator %}
+          <a class="button is-link" href="{% url 'creator:detail' navigation.next_creator.slug %}">
+            Next Creator &raquo;
+          </a>
+        {% else %}
+          <a class="button" disabled>Next Creator &raquo;</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  <!--  end creator nav -->
+
   <!-- page header -->
   <nav class="level">
     <div class="level-left">
