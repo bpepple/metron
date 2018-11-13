@@ -45,7 +45,7 @@ class Creator(models.Model):
         return self.get_full_name()
 
     class Meta:
-        ordering = ['last_name', 'first_name']
+        ordering = ['first_name', 'last_name']
 
 
 class Team(models.Model):
