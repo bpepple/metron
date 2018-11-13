@@ -31,6 +31,33 @@ class CreatorDetail(DetailView):
         .prefetch_related('credits_set')
     )
 
+    def get_context_data(self, **kwargs):
+        context = super(CreatorDetail, self).get_context_data(**kwargs)
+        creator = self.get_object()
+        try:
+            next_creator = (
+                Creator.objects
+                .filter(first_name__gt=creator.first_name)
+                .order_by('first_name', 'last_name').first()
+            )
+        except:
+            next_creator = None
+
+        try:
+            previous_creator = (
+                Creator.objects
+                .filter(first_name__lt=creator.first_name)
+                .order_by('first_name', 'last_name').last()
+            )
+        except:
+            previous_creator = None
+
+        context['navigation'] = {
+            'next_creator': next_creator,
+            'previous_creator': previous_creator,
+        }
+        return context
+
 
 class SearchCreatorList(CreatorList):
 
