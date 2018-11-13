@@ -31,6 +31,33 @@ class TeamDetail(DetailView):
         .prefetch_related('creators', 'character_set', 'issue_set')
     )
 
+    def get_context_data(self, **kwargs):
+        context = super(TeamDetail, self).get_context_data(**kwargs)
+        team = self.get_object()
+        try:
+            next_team = (
+                Team.objects
+                .filter(name__gt=team.name)
+                .order_by('name').first()
+            )
+        except:
+            next_team = None
+
+        try:
+            previous_team = (
+                Team.objects
+                .filter(name__lt=team.name)
+                .order_by('name').last()
+            )
+        except:
+            previous_team = None
+
+        context['navigation'] = {
+            'next_team': next_team,
+            'previous_team': previous_team,
+        }
+        return context
+
 
 class SearchTeamList(TeamList):
 

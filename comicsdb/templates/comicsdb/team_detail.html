@@ -5,6 +5,31 @@
 {% block page-title %}Team Detail{% endblock page-title %}
 
 {% block comic_content %}
+  <!-- team nav -->
+  <nav class="level">
+    <div class="level-left">
+      <div class="level-item">
+        {% if navigation.previous_team %}
+          <a class="button is-link" href="{% url 'team:detail' navigation.previous_team.slug %}">
+            &laquo; Previous Team
+          </a>
+        {% else %}
+            <a class="button" disabled>&laquo; Previous Team</a>
+        {% endif %}
+      </div>
+      <div class="level-item">
+        {% if navigation.next_team %}
+          <a class="button is-link" href="{% url 'team:detail' navigation.next_team.slug %}">
+            Next Team &raquo;
+          </a>
+        {% else %}
+          <a class="button" disabled>Next Team &raquo;</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  <!--  end team nav -->
+
   <!-- page header -->
   <nav class="level">
     <div class="level-left">
