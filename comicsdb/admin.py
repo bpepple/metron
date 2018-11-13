@@ -2,7 +2,8 @@ from django.contrib import admin
 from sorl.thumbnail.admin import AdminImageMixin
 
 from comicsdb.models import (Arc, Character, Credits, Creator, Issue,
-                             Publisher, Role, Series, SeriesType, Variant)
+                             Publisher, Role, Series, SeriesType,
+                             Team, Variant)
 
 
 class CreditsInline(admin.TabularInline):
@@ -29,9 +30,9 @@ class CharacterAdmin(AdminImageMixin, admin.ModelAdmin):
     # form view
     fieldsets = (
         (None, {'fields': ('name', 'slug', 'desc', 'wikipedia', 'image')}),
-        ('Related', {'fields': ('creators',)}),
+        ('Related', {'fields': ('creators', 'teams')}),
     )
-    filter_horizontal = ('creators',)
+    filter_horizontal = ('creators', 'teams')
 
 
 @admin.register(Creator)
@@ -54,9 +55,9 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
     fieldsets = (
         (None, {'fields': ('series', 'number', 'name', 'slug',
                            'cover_date', 'store_date', 'desc', 'image')}),
-        ('Related', {'fields': ('arcs', 'characters',)}),
+        ('Related', {'fields': ('arcs', 'characters', 'teams')}),
     )
-    filter_horizontal = ('arcs', 'characters',)
+    filter_horizontal = ('arcs', 'characters', 'teams')
     inlines = (CreditsInline, VariantInline)
 
     def get_queryset(self, request):
@@ -80,7 +81,7 @@ class PublisherAdmin(AdminImageMixin, admin.ModelAdmin):
 class RoleAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     readonly_fields = ('modified',)
-    fields = ('name', 'notes', 'modified')
+    fields = ('name', 'notes', 'order', 'modified')
 
 
 @admin.register(Series)
@@ -90,9 +91,16 @@ class SeriesAdmin(admin.ModelAdmin):
     list_filter = ('publisher',)
     prepopulated_fields = {'slug': ('name',)}
     fields = ('name', 'slug', 'sort_name', 'publisher', 'volume',
-              'year_began', 'year_end', 'series_type', 'short_desc', 'desc')
+              'year_began', 'year_end', 'series_type', 'desc')
 
 
 @admin.register(SeriesType)
 class SeriesTypeAdmin(admin.ModelAdmin):
     fields = ('name', 'notes')
+
+
+@admin.register(Team)
+class TeamAdmin(admin.ModelAdmin):
+    search_fields = ('name',)
+    prepopulated_fields = {'slug': ('name',)}
+    fields = ('name', 'slug', 'desc', 'wikipedia', 'image')
