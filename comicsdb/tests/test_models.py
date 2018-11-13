@@ -3,10 +3,30 @@ from django.utils import timezone
 from django.utils.text import slugify
 
 from comicsdb.models import (Publisher, Series, SeriesType,
-                             Creator, Role, Issue, Arc)
+                             Creator, Role, Issue, Arc, Character)
 
 
 HTTP_200_OK = 200
+
+
+class CharacterTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.name = 'Wonder Woman'
+        cls.slug = slugify(cls.name)
+        cls.ww = Character.objects.create(name=cls.name, slug=cls.slug)
+
+    def test_character_creation(self):
+        self.assertTrue(isinstance(self.ww, Character))
+        self.assertEqual(str(self.ww), self.name)
+
+    def test_verbose_name_plural(self):
+        self.assertEqual(str(self.ww._meta.verbose_name_plural), 'characters')
+
+    def test_absolute_url(self):
+        resp = self.client.get(self.ww.get_absolute_url())
+        self.assertEqual(resp.status_code, HTTP_200_OK)
 
 
 class ArcTest(TestCase):
@@ -18,7 +38,7 @@ class ArcTest(TestCase):
 
         cls.arc = Arc.objects.create(name=cls.name, slug=cls.slug)
 
-    def test_publisher_creation(self):
+    def test_arc_creation(self):
         self.assertTrue(isinstance(self.arc, Arc))
         self.assertEqual(str(self.arc), self.name)
 
