@@ -49,7 +49,7 @@ class Team(models.Model):
     slug = models.SlugField(max_length=255, unique=True)
     desc = models.TextField('Description', blank=True)
     wikipedia = models.CharField('Wikipedia Slug', max_length=255, blank=True)
-    image = models.ImageField(upload_to='team/%Y/%m/%d/', blank=True)
+    image = ImageField(upload_to='team/%Y/%m/%d/', blank=True)
     creators = models.ManyToManyField(Creator, blank=True)
     modified = models.DateTimeField(auto_now=True)
 
