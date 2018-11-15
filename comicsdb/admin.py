@@ -100,7 +100,12 @@ class SeriesTypeAdmin(admin.ModelAdmin):
 
 
 @admin.register(Team)
-class TeamAdmin(admin.ModelAdmin):
+class TeamAdmin(AdminImageMixin, admin.ModelAdmin):
     search_fields = ('name',)
     prepopulated_fields = {'slug': ('name',)}
-    fields = ('name', 'slug', 'desc', 'wikipedia', 'image')
+    # form view
+    fieldsets = (
+        (None, {'fields': ('name', 'slug', 'desc', 'wikipedia', 'image')}),
+        ('Related', {'fields': ('creators',)}),
+    )
+    filter_horizontal = ('creators',)
