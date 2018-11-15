@@ -15,8 +15,7 @@ class CreatorForm(ModelForm):
         model = Creator
         fields = '__all__'
         widgets = {
-            'first_name': TextInput(attrs={'class': 'input'}),
-            'last_name': TextInput(attrs={'class': 'input'}),
+            'name': TextInput(attrs={'class': 'input'}),
             'slug': TextInput(attrs={'class': 'input'}),
             'desc': Textarea(attrs={'class': 'textarea'}),
             'wikipedia': TextInput(attrs={'class': 'input'}),

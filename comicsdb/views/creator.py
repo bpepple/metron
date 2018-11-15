@@ -10,6 +10,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from comicsdb.forms.creator import CreatorForm
 from comicsdb.models import Creator
 
+from django.db.models.functions import Concat
+from django.db.models import Value
 
 PAGINATE = 28
 
@@ -37,8 +39,9 @@ class CreatorDetail(DetailView):
         try:
             next_creator = (
                 Creator.objects
-                .filter(first_name__gt=creator.first_name)
-                .order_by('first_name', 'last_name').first()
+                .order_by('name')
+                .filter(name__gt=creator.name)
+                .first()
             )
         except:
             next_creator = None
@@ -46,8 +49,9 @@ class CreatorDetail(DetailView):
         try:
             previous_creator = (
                 Creator.objects
-                .filter(first_name__lt=creator.first_name)
-                .order_by('first_name', 'last_name').last()
+                .order_by('name')
+                .filter(name__lt=creator.name)
+                .last()
             )
         except:
             previous_creator = None
@@ -68,7 +72,7 @@ class SearchCreatorList(CreatorList):
             query_list = query.split()
             result = result.filter(
                 reduce(operator.and_,
-                       (Q(last_name__icontains=q) for q in query_list)))
+                       (Q(name__icontains=q) for q in query_list)))
 
         return result
 

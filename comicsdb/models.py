@@ -21,8 +21,7 @@ class Arc(models.Model):
 
 
 class Creator(models.Model):
-    first_name = models.CharField('First Name', max_length=30)
-    last_name = models.CharField('Last Name', max_length=150)
+    name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=255, unique=True)
     desc = models.TextField('Description', blank=True)
     wikipedia = models.CharField('Wikipedia Slug', max_length=255, blank=True)
@@ -35,17 +34,14 @@ class Creator(models.Model):
     def issue_count(self):
         return self.credits_set.all().count()
 
-    def get_full_name(self):
-        return f'{self.first_name} {self.last_name}'
-
     def get_absolute_url(self):
         return reverse('creator:detail', args=[self.slug])
 
     def __str__(self):
-        return self.get_full_name()
+        return self.name
 
     class Meta:
-        ordering = ['first_name', 'last_name']
+        ordering = ['name', 'name']
 
 
 class Team(models.Model):
@@ -215,4 +211,4 @@ class Credits(models.Model):
     class Meta:
         verbose_name_plural = "Credits"
         unique_together = ['creator', 'issue']
-        ordering = ['creator__last_name', 'creator__first_name']
+        ordering = ['creator__name', ]

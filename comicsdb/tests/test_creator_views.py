@@ -16,9 +16,7 @@ class CreatorSearchViewsTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         for pub_num in range(PAGINATE_TEST_VAL):
-            Creator.objects.create(first_name=f'John-{pub_num}',
-                                   last_name=f'Smith-{pub_num}',
-                                   slug=f'john-smith-{pub_num}')
+            Creator.objects.create(name=f'John-Smith-{pub_num}', slug=f'john-smith-{pub_num}')
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get('/creator/search/page1/')
@@ -57,9 +55,7 @@ class CreatorListViewTest(TestCase):
     def setUpTestData(cls):
 
         for pub_num in range(PAGINATE_TEST_VAL):
-            Creator.objects.create(first_name=f'John-{pub_num}',
-                                   last_name=f'Smith-{pub_num}',
-                                   slug=f'john-smith-{pub_num}')
+            Creator.objects.create(name=f'John-Smith-{pub_num}', slug=f'john-smith-{pub_num}')
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get('/creator/page1/')

@@ -47,14 +47,14 @@
           <figure class="image is-square">
           {% if creator.image %}
             {% thumbnail creator.image "256x256" crop="center" as im %}
-              <img src="{{ im.url }}" alt = "{{ creator.get_full_name }}">
+              <img src="{{ im.url }}" alt = "{{ creator.name }}">
             {% endthumbnail %}
           {% else %}
-            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ creator.get_full_name }}">
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ creator.name }}">
           {% endif %}
           </figure>
         </a>
-        <a href="{% url 'creator:detail' creator.slug %}">{{ creator.get_full_name }}</a>
+        <a href="{% url 'creator:detail' creator.slug %}">{{ creator.name }}</a>
       </div>
       {% endfor %}
   </div>

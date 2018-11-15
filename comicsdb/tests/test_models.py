@@ -55,20 +55,16 @@ class CreatorTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.first_name = 'Walter'
-        cls.last_name = 'Simonson'
-        cls.full_name = f'{cls.first_name} {cls.last_name}'
+        cls.name = 'Walter Simonson'
         cls.slug = 'walter-simonson'
-        cls.creator = Creator.objects.create(first_name=cls.first_name,
-                                             last_name=cls.last_name,
-                                             slug=cls.slug)
+        cls.creator = Creator.objects.create(name=cls.name, slug=cls.slug)
 
     def test_creator_creation(self):
         self.assertTrue(isinstance(self.creator, Creator))
-        self.assertEqual(str(self.creator), self.full_name)
+        self.assertEqual(str(self.creator), self.name)
 
     def test_creator_get_full_name(self):
-        self.assertEqual(self.creator.get_full_name(), self.full_name)
+        self.assertEqual(self.creator.name, self.name)
 
     def test_verbose_name_plural(self):
         self.assertEqual(str(self.creator._meta.verbose_name_plural),

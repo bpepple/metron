@@ -37,11 +37,11 @@ class CharacterAdmin(AdminImageMixin, admin.ModelAdmin):
 
 @admin.register(Creator)
 class CreatorAdmin(AdminImageMixin, admin.ModelAdmin):
-    search_fields = ('first_name', 'last_name')
-    prepopulated_fields = {'slug': ('first_name', 'last_name')}
+    search_fields = ('name',)
+    prepopulated_fields = {'slug': ('name',)}
     readonly_fields = ('modified',)
-    field = ('first_name', 'last_name', 'slug', 'modified',
-             'birth', 'death', 'desc', 'wikipedia', 'image')
+    field = ('name', 'slug', 'modified', 'birth',
+             'death', 'desc', 'wikipedia', 'image')
 
 
 @admin.register(Issue)
