@@ -26,6 +26,10 @@ class PublisherList(ListView):
 
 class PublisherDetail(DetailView):
     model = Publisher
+    queryset = (
+        Publisher.objects
+        .prefetch_related('series_set')
+    )
 
 
 class SearchPublisherList(PublisherList):

@@ -9,12 +9,7 @@
   <nav class="level">
     <div class="level-left">
       <div class="level-item">
-        <div>
-          <p class="title">{{ publisher }}</p>
-          {% if publisher.founded %}
-            <p class="heading">founded in {{ publisher.founded }}</p>
-          {% endif %}
-        </div>
+        <div><p class="title">{{ publisher }}</p></div>
       </div>
     </div>
     <div class="level-right">
@@ -80,6 +75,22 @@
       </div>
     </div>
     <!-- end of publisher summary -->
+
+    <!-- misc info -->
+    {% if publisher.series_count > 0 or publisher.founded %}
+    <div class="column is-one-fifth">
+      <div class="box">
+        <h1 class="title is-6">Publisher Details</h1>
+        {% if publisher.founded %}
+          <p><b>Found:</b> {{ publisher.founded }}</p>
+        {% endif %}
+        {% if publisher.series_count > 0 %}
+          <p><b>Number of Series:</b> {{ publisher.series_count }}</p>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+    <!-- end misc info -->
   </div>
   <!-- end of main page content -->
 {% endblock %}
