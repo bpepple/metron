@@ -1,5 +1,3 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -10,45 +8,49 @@
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
   <body class="has-navbar-fixed-top">
+    <!-- navbar -->
+    {% include "navbar.html" %}
+    <!-- end navbar -->
 
-    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="{% url 'home' %}">
-          <img src="{% static 'site/img/atomic-symbol.png' %}" width="24" height="24">
-        </a>
-      </div>
-      <div class="navbar-menu">
-        <div class="navbar-start">
-          <a class="navbar-item" href="{% url 'publisher:list' page=1 %}">Publishers</a>
-          <a class="navbar-item" href="{% url 'series:list' page=1 %}">Series</a>
-          <a class="navbar-item" href="{% url 'issue:list' page=1 %}">Issues</a>
-          <a class="navbar-item" href="{% url 'creator:list' page=1 %}">Creators</a>
-          <a class="navbar-item" href="{% url 'character:list' page=1 %}">Characters</a>
-          <a class="navbar-item" href="{% url 'arc:list' page=1 %}">Story Arcs</a>
-        </div>
-        <div class="navbar-end">
-          {% if user.is_authenticated %}
-            <div class="navbar-item">
-              <a class="button is-light" href="{% url 'logout' %}">Log out</a>
-            </div>
-          {% else %}
-            <div class="navbar-item">
-              <a class="button is-light" href="{% url 'signup' %}">Sign Up</a>
-            </div>
-            <div class="navbar-item">
-              <a class="button is-light" href="{% url 'login' %}">Log in</a>
-            </div>
-          {% endif %}
-        </div>
-      </div>
-    </nav>
-
+    <!-- content -->
     <section>
       <div class="container">
-        <div class="content">
-          {{ flatpage.content }}
+        <div class="box">
+          <div class="content">
+            {{ flatpage.content }}
+          </div>
         </div>
       </div>
     </section>
+    <!-- end content -->
+
+    <!-- footer -->
+    <footer class="footer">
+      <div class="content has-text-centered is-small">
+        <p>
+          <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+            <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" />
+          </a>
+          <br />
+          This work is licensed under a
+          <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+            Creative Commons Attribution-ShareAlike 4.0 International License
+          </a>.
+        </p>
+        <p>
+          Icons made by
+          <a href="http://www.freepik.com" title="Freepik" target="_blank" rel="noopener noreferrer">Freepik</a>
+          from
+          <a href="https://www.flaticon.com/" title="Flaticon" target="_blank" rel="noopener noreferrer">
+            www.flaticon.com
+          </a>
+          is licensed by
+          <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" rel="noopener noreferrer">
+            CC 3.0 BY
+          </a>
+        </p>
+      </div>
+    </footer>
+    <!-- end footer -->
   </body>
 </html>
