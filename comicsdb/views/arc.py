@@ -33,6 +33,35 @@ class ArcDetail(DetailView):
                           'issue_set__series')
     )
 
+    def get_context_data(self, **kwargs):
+        context = super(ArcDetail, self).get_context_data(**kwargs)
+        arc = self.get_object()
+        try:
+            next_arc = (
+                Arc.objects
+                .order_by('name')
+                .filter(name__gt=arc.name)
+                .first()
+            )
+        except:
+            next_arc = None
+
+        try:
+            previous_arc = (
+                Arc.objects
+                .order_by('name')
+                .filter(name__lt=arc.name)
+                .last()
+            )
+        except:
+            previous_arc = None
+
+        context['navigation'] = {
+            'next_arc': next_arc,
+            'previous_arc': previous_arc,
+        }
+        return context
+
 
 class SearchArcList(ArcList):
 
