@@ -26,10 +26,6 @@ class TeamList(ListView):
 
 class TeamDetail(DetailView):
     model = Team
-    queryset = (
-        Team.objects
-        .prefetch_related('creators', 'character_set', 'issue_set')
-    )
 
     def get_context_data(self, **kwargs):
         context = super(TeamDetail, self).get_context_data(**kwargs)
