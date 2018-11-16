@@ -36,6 +36,35 @@ class SeriesDetail(DetailView):
         .prefetch_related('issue_set')
     )
 
+    def get_context_data(self, **kwargs):
+        context = super(SeriesDetail, self).get_context_data(**kwargs)
+        series = self.get_object()
+        try:
+            next_series = (
+                Series.objects
+                .order_by('name')
+                .filter(name__gt=series.name)
+                .first()
+            )
+        except:
+            next_series = None
+
+        try:
+            previous_series = (
+                Series.objects
+                .order_by('name')
+                .filter(name__lt=series.name)
+                .last()
+            )
+        except:
+            previous_series = None
+
+        context['navigation'] = {
+            'next_series': next_series,
+            'previous_series': previous_series,
+        }
+        return context
+
 
 class SearchSeriesList(SeriesList):
 
