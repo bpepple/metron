@@ -31,6 +31,35 @@ class PublisherDetail(DetailView):
         .prefetch_related('series_set')
     )
 
+    def get_context_data(self, **kwargs):
+        context = super(PublisherDetail, self).get_context_data(**kwargs)
+        publisher = self.get_object()
+        try:
+            next_publisher = (
+                Publisher.objects
+                .order_by('name')
+                .filter(name__gt=publisher.name)
+                .first()
+            )
+        except:
+            next_publisher = None
+
+        try:
+            previous_publisher = (
+                Publisher.objects
+                .order_by('name')
+                .filter(name__lt=publisher.name)
+                .last()
+            )
+        except:
+            previous_publisher = None
+
+        context['navigation'] = {
+            'next_publisher': next_publisher,
+            'previous_publisher': previous_publisher,
+        }
+        return context
+
 
 class SearchPublisherList(PublisherList):
 

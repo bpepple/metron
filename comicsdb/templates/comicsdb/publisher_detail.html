@@ -5,6 +5,31 @@
 {% block page-title %}Publisher Detail{% endblock page-title %}
 
 {% block comic_content %}
+  <!-- publisher nav -->
+  <nav class="level">
+    <div class="level-left">
+      <div class="level-item">
+        {% if navigation.previous_publisher %}
+          <a class="button is-link" href="{% url 'publisher:detail' navigation.previous_publisher.slug %}">
+            &laquo; Previous Publisher
+          </a>
+        {% else %}
+            <a class="button" disabled>&laquo; Previous Publisher</a>
+        {% endif %}
+      </div>
+      <div class="level-item">
+        {% if navigation.next_publisher %}
+          <a class="button is-link" href="{% url 'publisher:detail' navigation.next_publisher.slug %}">
+            Next Publisher &raquo;
+          </a>
+        {% else %}
+          <a class="button" disabled>Next Publisher &raquo;</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  <!--  end publisher nav -->
+
   <!-- page header -->
   <nav class="level">
     <div class="level-left">
