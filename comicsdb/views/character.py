@@ -26,10 +26,6 @@ class CharacterList(ListView):
 
 class CharacterDetail(DetailView):
     model = Character
-    queryset = (
-        Character.objects
-        .prefetch_related('issue_set')
-    )
 
     def get_context_data(self, **kwargs):
         context = super(CharacterDetail, self).get_context_data(**kwargs)
