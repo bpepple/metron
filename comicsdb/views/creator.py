@@ -28,10 +28,6 @@ class CreatorList(ListView):
 
 class CreatorDetail(DetailView):
     model = Creator
-    queryset = (
-        Creator.objects
-        .prefetch_related('credits_set')
-    )
 
     def get_context_data(self, **kwargs):
         context = super(CreatorDetail, self).get_context_data(**kwargs)
