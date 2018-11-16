@@ -29,8 +29,11 @@ class ArcDetail(DetailView):
     queryset = (
         Arc.objects
         .prefetch_related(Prefetch('issue_set',
-                                   queryset=Issue.objects.order_by('cover_date', 'series', 'number')),
-                          'issue_set__series')
+                                   queryset=Issue.objects
+                                   .order_by('cover_date', 'series', 'number')
+                                   .select_related('series')
+                                   )
+                          )
     )
 
     def get_context_data(self, **kwargs):
