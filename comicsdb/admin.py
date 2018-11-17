@@ -89,7 +89,7 @@ class SeriesAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_display = ('name', 'year_began')
     list_filter = ('publisher',)
-    prepopulated_fields = {'slug': ('name',)}
+    prepopulated_fields = {'slug': ('name', 'year_began')}
     fields = ('name', 'slug', 'sort_name', 'publisher', 'volume',
               'year_began', 'year_end', 'series_type', 'desc')
 
