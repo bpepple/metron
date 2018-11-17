@@ -108,6 +108,9 @@
       <div class="box">
         <h1 class="title is-6">Character Details</h1>
         <p><b>Number of Issue:</b> {{ character.issue_count }}</p>
+        {% if character.issue_count > 0 %}
+          <p><b>First Appearance:</b> {{ character.first_appearance }}</p>
+        {% endif %}
         {% with creators=character.creators.all %}
           {% if creators %}
             <br>

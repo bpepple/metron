@@ -84,6 +84,10 @@ class Character(models.Model):
     def issue_count(self):
         return self.issue_set.all().count()
 
+    @property
+    def first_appearance(self):
+        return self.issue_set.order_by('cover_date').all().first
+
     def __str__(self):
         return self.name
 
@@ -190,7 +194,7 @@ class Issue(models.Model):
         return f'{self.series.name} #{self.number}'
 
     class Meta:
-        ordering = ['series__name', 'cover_date', 'number']
+        ordering = ['series__sort_name', 'cover_date', 'number']
 
 
 class Variant(models.Model):
