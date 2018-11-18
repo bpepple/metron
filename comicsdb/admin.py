@@ -29,7 +29,7 @@ class CharacterAdmin(AdminImageMixin, admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     # form view
     fieldsets = (
-        (None, {'fields': ('name', 'slug', 'desc', 'wikipedia', 'image')}),
+        (None, {'fields': ('name', 'slug', 'desc', 'wikipedia', 'alias', 'image')}),
         ('Related', {'fields': ('creators', 'teams')}),
     )
     filter_horizontal = ('creators', 'teams')
