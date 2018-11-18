@@ -69,7 +69,7 @@ class SearchIssueList(IssueList):
             query_list = query.split()
             result = result.filter(
                 reduce(operator.and_,
-                       (Q(series__name__icontains=q) for q in query_list)))
+                       (Q(series__name__icontains=q) | Q(number__in=q) for q in query_list)))
 
         return result
 
