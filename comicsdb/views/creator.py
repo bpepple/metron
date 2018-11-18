@@ -20,11 +20,6 @@ class CreatorList(ListView):
     model = Creator
     paginate_by = PAGINATE
 
-    def get_context_data(self, **kwargs):
-        context = super(CreatorList, self).get_context_data(**kwargs)
-        context['count'] = self.get_queryset().count()
-        return context
-
 
 class CreatorDetail(DetailView):
     model = Creator
