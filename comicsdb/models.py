@@ -1,3 +1,4 @@
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse
 from sorl.thumbnail import ImageField
@@ -73,6 +74,7 @@ class Character(models.Model):
     desc = models.TextField('Description', blank=True)
     wikipedia = models.CharField('Wikipedia Slug', max_length=255, blank=True)
     image = ImageField(upload_to='character/%Y/%m/%d/', blank=True)
+    alias = ArrayField(models.CharField(max_length=100), null=True, blank=True)
     creators = models.ManyToManyField(Creator, blank=True)
     teams = models.ManyToManyField(Team, blank=True)
     modified = models.DateTimeField(auto_now=True)
