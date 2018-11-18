@@ -6,7 +6,7 @@ from django.forms import (ModelForm, TextInput, Textarea,
 from comicsdb.models import Creator
 
 
-YEARS = [(r) for r in range(1900, datetime.date.today().year)]
+YEARS = [(r) for r in range(1900, datetime.date.today().year + 1)]
 
 
 class CreatorForm(ModelForm):
