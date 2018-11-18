@@ -18,11 +18,6 @@ class ArcList(ListView):
     model = Arc
     paginate_by = PAGINATE
 
-    def get_context_data(self, **kwargs):
-        context = super(ArcList, self).get_context_data(**kwargs)
-        context['count'] = self.get_queryset().count()
-        return context
-
 
 class ArcDetail(DetailView):
     model = Arc
