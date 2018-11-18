@@ -59,7 +59,7 @@ class SearchCharacterList(CharacterList):
             query_list = query.split()
             result = result.filter(
                 reduce(operator.and_,
-                       (Q(name__icontains=q) for q in query_list)))
+                       (Q(name__icontains=q) | Q(alias__icontains=q) for q in query_list)))
 
         return result
 
