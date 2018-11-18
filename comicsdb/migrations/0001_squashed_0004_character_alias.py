@@ -8,8 +8,6 @@ import sorl.thumbnail.fields
 
 class Migration(migrations.Migration):
 
-    replaces = [('comicsdb', '0001_initial'), ('comicsdb', '0002_change_team_image_field'), ('comicsdb', '0003_auto_20181117_1112'), ('comicsdb', '0004_character_alias')]
-
     initial = True
 
     dependencies = [
