@@ -23,11 +23,6 @@ class IssueList(ListView):
         .select_related('series')
     )
 
-    def get_context_data(self, **kwargs):
-        context = super(IssueList, self).get_context_data(**kwargs)
-        context['count'] = self.get_queryset().count()
-        return context
-
 
 class IssueDetail(DetailView):
     model = Issue
