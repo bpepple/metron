@@ -111,6 +111,14 @@
         {% if character.issue_count > 0 %}
           <p><b>First Appearance:</b> {{ character.first_appearance }}</p>
         {% endif %}
+        {% if character.alias %}
+          {% with aliases=character.alias %}
+            <p>
+              <b>Alias{{ aliases|pluralize:"es" }}:</b>
+              {% for alias in aliases %}{% if not forloop.first %}, {% endif %}{{ alias }}{% endfor %}
+            </p>
+          {% endwith %}
+        {% endif %}
         {% with creators=character.creators.all %}
           {% if creators %}
             <br>
