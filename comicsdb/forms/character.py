@@ -21,8 +21,8 @@ class CharacterForm(ModelForm):
             'desc': Textarea(attrs={'class': 'textarea'}),
             'wikipedia': TextInput(attrs={'class': 'input'}),
             'alias': TextInput(attrs={'class': 'input'}),
-            'creators': FilteredSelectMultiple("Creators", is_stacked=False),
-            'teams': FilteredSelectMultiple("Teams", is_stacked=False),
+            'creators': FilteredSelectMultiple("Creators", attrs={'size': '6'}, is_stacked=False),
+            'teams': FilteredSelectMultiple("Teams", attrs={'size': '6'}, is_stacked=False),
             'image': ClearableFileInput(),
         }
         help_texts = {

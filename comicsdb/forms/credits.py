@@ -16,7 +16,7 @@ class CreditsForm(ModelForm):
         widgets = {
             'issue': Select(),
             'creator': Select(),
-            'role': FilteredSelectMultiple("Roles", is_stacked=False)
+            'role': FilteredSelectMultiple("Roles", attrs={'size': '6'}, is_stacked=False)
         }
 
     def __init__(self, *args, **kwargs):

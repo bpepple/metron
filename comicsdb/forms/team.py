@@ -19,7 +19,7 @@ class TeamForm(ModelForm):
             'slug': TextInput(attrs={'class': 'input'}),
             'desc': Textarea(attrs={'class': 'textarea'}),
             'wikipedia': TextInput(attrs={'class': 'input'}),
-            'creators': FilteredSelectMultiple("Creators", is_stacked=False),
+            'creators': FilteredSelectMultiple("Creators", attrs={'size': '6'}, is_stacked=False),
             'image': ClearableFileInput(),
         }
         help_texts = {
