@@ -40,6 +40,11 @@
       </div>
     </div>
     <div class="level-right">
+      <div class="level-item">
+          <a class="button is-link" href="{% url 'series:issue' series.slug %}">
+            Open Issue List
+          </a>
+      </div>
       {% if user.is_authenticated %}
       <p class="level-item">
         <a class="button is-primary" href="{% url 'series:update' series.slug %}" title="Edit Series">Edit</a>

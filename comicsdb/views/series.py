@@ -3,12 +3,13 @@ import operator
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from comicsdb.forms.series import SeriesForm
-from comicsdb.models import Series
+from comicsdb.models import Series, Issue
 
 
 PAGINATE = 28
@@ -21,6 +22,14 @@ class SeriesList(ListView):
         Series.objects
         .prefetch_related('issue_set')
     )
+
+
+class SeriesIssueList(ListView):
+    template_name = 'comicsdb/issue_list.html'
+
+    def get_queryset(self):
+        self.series = get_object_or_404(Series, slug=self.kwargs['slug'])
+        return Issue.objects.select_related('series').filter(series=self.series)
 
 
 class SeriesDetail(DetailView):
