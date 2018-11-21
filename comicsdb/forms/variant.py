@@ -22,4 +22,8 @@ class VariantForm(ModelForm):
         super(VariantForm, self).__init__(*args, **kwargs)
 
         issue = Issue.objects.get(slug=kwargs["initial"]["issue_slug"])
+        self.fields['issue'].queryset = (
+            Issue.objects
+            .select_related('series')
+        )
         self.initial['issue'] = issue
