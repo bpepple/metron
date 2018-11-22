@@ -11,7 +11,11 @@
       <div class="level-left">
         <div class="level-item">
           <p class="subtitle is-5">
-            <strong>{{ page_obj.paginator.count }}</strong> Issue{{ page_obj.paginator.count|pluralize }}
+            {% if page_obj.paginator %}
+              <strong>{{ page_obj.paginator.count }}</strong> Issue{{ page_obj.paginator.count|pluralize }}
+            {% else %}
+              <strong>{{ issue_list.count }}</strong> Issue{{ issue_list.count|pluralize }}
+            {% endif %}
           </p>
         </div>
         <div class="level-item">
