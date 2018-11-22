@@ -8,7 +8,8 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from comicsdb.forms.publisher import PublisherForm
-from comicsdb.models import Publisher
+from comicsdb.models import Publisher, Series
+from django.shortcuts import get_object_or_404
 
 
 PAGINATE = 28
@@ -17,6 +18,14 @@ PAGINATE = 28
 class PublisherList(ListView):
     model = Publisher
     paginate_by = PAGINATE
+
+
+class PublisherSeriesList(ListView):
+    template_name = 'comicsdb/series_list.html'
+
+    def get_queryset(self):
+        self.publisher = get_object_or_404(Publisher, slug=self.kwargs['slug'])
+        return Series.objects.filter(publisher=self.publisher)
 
 
 class PublisherDetail(DetailView):

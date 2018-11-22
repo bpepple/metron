@@ -38,6 +38,11 @@
       </div>
     </div>
     <div class="level-right">
+      <div class="level-item">
+          <a class="button is-link" href="{% url 'publisher:series' publisher.slug %}">
+            Open Series List
+          </a>
+      </div>
       {% if user.is_authenticated %}
       <p class="level-item">
         <a class="button is-primary" href="{% url 'publisher:update' publisher.slug %}" title="Edit publisher">Edit</a>
