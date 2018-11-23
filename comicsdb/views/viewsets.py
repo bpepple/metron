@@ -20,10 +20,9 @@ class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PublisherSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
-    lookup_field = 'slug'
 
     @action(detail=True)
-    def series_list(self, request, slug=None):
+    def series_list(self, request, pk=None):
         """
         Returns a list of series for a publisher.
         """
@@ -55,10 +54,9 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = SeriesSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
-    lookup_field = 'slug'
 
     @action(detail=True)
-    def issue_list(self, request, slug=None):
+    def issue_list(self, request, pk=None):
         """
         Returns a list of issues for a series.
         """

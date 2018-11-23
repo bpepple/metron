@@ -7,31 +7,31 @@ class RoleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Role
-        fields = ('name',)
+        fields = ('id', 'name')
 
 
 class CreditsSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField(source='creator.id')
     creator = serializers.ReadOnlyField(source='creator.name')
-    slug = serializers.ReadOnlyField(source='creator.slug')
     role = RoleSerializer('role', many=True)
 
     class Meta:
         model = Credits
-        fields = ('creator', 'slug', 'role')
+        fields = ('id', 'creator', 'role')
 
 
 class IssueArcSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Arc
-        fields = ('name', 'slug')
+        fields = ('id', 'name')
 
 
 class IssueCharacterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Character
-        fields = ('name', 'slug')
+        fields = ('id', 'name')
 
 
 class IssueSerializer(serializers.ModelSerializer):
@@ -42,17 +42,15 @@ class IssueSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Issue
-        fields = ('__str__', 'slug', 'name', 'number', 'cover_date',
+        fields = ('id', '__str__', 'name', 'number', 'cover_date',
                   'store_date', 'desc', 'arcs', 'image', 'credits', 'characters')
-        lookup_field = 'slug'
 
 
 class PublisherSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Publisher
-        fields = ('name', 'slug', 'founded', 'desc', 'image')
-        lookup_field = 'slug'
+        fields = ('id', 'name', 'founded', 'desc', 'image')
 
 
 class SeriesImageSerializer(serializers.ModelSerializer):
@@ -62,7 +60,6 @@ class SeriesImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
         fields = ('image',)
-        lookup_field = 'slug'
 
 
 class SeriesSerializer(serializers.ModelSerializer):
@@ -72,9 +69,8 @@ class SeriesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Series
-        fields = ('name', 'slug', 'sort_name', 'volume', 'series_type',
+        fields = ('id', 'name', 'sort_name', 'volume', 'series_type',
                   'year_began', 'year_end', 'desc', 'issue_count', 'image')
-        lookup_field = 'slug'
 
     def to_representation(self, obj):
         """ Move image field from Issue to Series representation. """
