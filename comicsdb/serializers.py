@@ -1,6 +1,50 @@
 from rest_framework import serializers
 
-from comicsdb.models import Publisher, Series, Issue
+from comicsdb.models import Arc, Character, Credits, Issue, Publisher, Series, Role
+
+
+class RoleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Role
+        fields = ('name',)
+
+
+class CreditsSerializer(serializers.ModelSerializer):
+    creator = serializers.ReadOnlyField(source='creator.name')
+    slug = serializers.ReadOnlyField(source='creator.slug')
+    role = RoleSerializer('role', many=True)
+
+    class Meta:
+        model = Credits
+        fields = ('creator', 'slug', 'role')
+
+
+class IssueArcSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Arc
+        fields = ('name', 'slug')
+
+
+class IssueCharacterSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Character
+        fields = ('name', 'slug')
+
+
+class IssueSerializer(serializers.ModelSerializer):
+    credits = CreditsSerializer(
+        source='credits_set', many=True, read_only=True)
+    arcs = IssueArcSerializer(many=True, read_only=True)
+    characters = IssueArcSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Issue
+        fields = ('__str__', 'slug', 'name', 'number', 'cover_date',
+                  'store_date', 'desc', 'arcs', 'image', 'credits', 'characters')
+        lookup_field = 'slug'
 
 
 class PublisherSerializer(serializers.ModelSerializer):
@@ -24,7 +68,7 @@ class SeriesImageSerializer(serializers.ModelSerializer):
 class SeriesSerializer(serializers.ModelSerializer):
     issue_count = serializers.ReadOnlyField
     image = SeriesImageSerializer(source='issue_set.first', many=False)
-    series_type = serializers.CharField(source='series_type.name')
+    series_type = serializers.ReadOnlyField(source='series_type.name')
 
     class Meta:
         model = Series
