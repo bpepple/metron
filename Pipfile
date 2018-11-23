@@ -10,6 +10,7 @@ pillow = "*"
 redis = "*"
 sorl-thumbnail = "*"
 django-widget-tweaks = "*"
+djangorestframework = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
