@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'django.forms',
+    'rest_framework',
     'widget_tweaks',
     'sorl.thumbnail',
     'comicsdb',
@@ -129,6 +130,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
 THUMBNAIL_REDIS_HOST = 'localhost'  # default
 THUMBNAIL_REDIS_PORT = 6379  # default
+
+# REST settings
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 28
+}
 
 
 # Internationalization
