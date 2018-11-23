@@ -11,6 +11,7 @@ redis = "*"
 sorl-thumbnail = "*"
 django-widget-tweaks = "*"
 djangorestframework = "*"
+coreapi = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
