@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from comicsdb.models import (Arc, Character, Creator, Credits,
-                             Issue, Publisher, Series, Role)
+                             Issue, Publisher, Role, Series, Team)
 
 
 class RoleSerializer(serializers.ModelSerializer):
@@ -103,3 +103,18 @@ class SeriesSerializer(serializers.ModelSerializer):
             representation[key] = issue_representation[key]
 
         return representation
+
+
+class TeamListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Team
+        fields = ('id', 'name')
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    creators = CreatorListSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Team
+        fields = ('id', 'name', 'desc', 'image', 'creators')
