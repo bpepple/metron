@@ -53,8 +53,8 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
     date_hierarchy = 'cover_date'
     # form view
     fieldsets = (
-        (None, {'fields': ('series', 'number', 'name', 'slug',
-                           'cover_date', 'store_date', 'desc', 'image')}),
+        (None, {'fields': ('series', 'number', 'name', 'cover_date',
+                           'store_date', 'slug', 'desc', 'image')}),
         ('Related', {'fields': ('arcs', 'characters', 'teams')}),
     )
     filter_horizontal = ('arcs', 'characters', 'teams')
