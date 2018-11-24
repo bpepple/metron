@@ -102,7 +102,7 @@ class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
         fields = ('id', '__str__', 'name', 'number', 'cover_date',
-                  'store_date', 'desc', 'arcs', 'image', 'credits', 'characters')
+                  'store_date', 'desc', 'image', 'arcs', 'credits', 'characters')
 
 
 class PublisherSerializer(serializers.ModelSerializer):

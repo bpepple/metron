@@ -1,8 +1,10 @@
+from django.db.models import Prefetch
 from django.http import Http404
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 
-from comicsdb.models import Arc, Character, Creator, Publisher, Series, Team
+from comicsdb.models import (Arc, Character, Creator, Credits,
+                             Issue, Publisher, Series, Team)
 from comicsdb.serializers import (ArcSerializer, ArcListSerializer,
                                   CharacterSerializer, CharacterListSerializer,
                                   CreatorSerializer, CreatorListSerializer,
@@ -88,6 +90,34 @@ class CreatorViewSet(viewsets.ReadOnlyModelViewSet):
         return CreatorListSerializer
 
 
+class IssueViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    list:
+    Return a list of all the creators.
+    retrieve:
+    Returns the information of an individual creator.
+    """
+    queryset = (
+        Issue.objects
+        .select_related('series')
+        .prefetch_related(Prefetch('credits_set',
+                                   queryset=Credits.objects
+                                   .order_by('creator__name')
+                                   .distinct('creator__name')
+                                   .select_related('creator')
+                                   .prefetch_related('role')))
+    )
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('series__name', 'number')
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return IssueListSerializer
+        if self.action == 'retrieve':
+            return IssueSerializer
+        return IssueListSerializer
+
+
 class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
     """
     list:
@@ -142,7 +172,7 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
     )
     serializer_class = SeriesSerializer
     filter_backends = (filters.SearchFilter,)
-    search_fields = ('name',)
+    search_fields = ('name', 'year_began')
 
     def get_serializer_class(self):
         if self.action == 'list':
