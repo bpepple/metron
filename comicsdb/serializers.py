@@ -98,11 +98,13 @@ class IssueSerializer(serializers.ModelSerializer):
         source='credits_set', many=True, read_only=True)
     arcs = ArcListSerializer(many=True, read_only=True)
     characters = CharacterListSerializer(many=True, read_only=True)
+    teams = TeamListSerializer(many=True, read_only=True)
 
     class Meta:
         model = Issue
         fields = ('id', '__str__', 'name', 'number', 'cover_date',
-                  'store_date', 'desc', 'image', 'arcs', 'credits', 'characters')
+                  'store_date', 'desc', 'image', 'arcs', 'credits',
+                  'characters', 'teams')
 
 
 class PublisherSerializer(serializers.ModelSerializer):
