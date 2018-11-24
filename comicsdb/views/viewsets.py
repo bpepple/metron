@@ -3,12 +3,12 @@ from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 
 from comicsdb.models import Arc, Character, Creator, Publisher, Series, Team
-from comicsdb.serializers import (ArcSerializer,
+from comicsdb.serializers import (ArcSerializer, ArcListSerializer,
                                   CharacterSerializer, CharacterListSerializer,
                                   CreatorSerializer, CreatorListSerializer,
-                                  IssueSerializer,
+                                  IssueSerializer, IssueListSerializer,
                                   PublisherSerializer, PublisherListSerializer,
-                                  SeriesSerializer,
+                                  SeriesSerializer, SeriesListSerializer,
                                   TeamSerializer, TeamListSerializer)
 
 
@@ -20,9 +20,15 @@ class ArcViewSet(viewsets.ReadOnlyModelViewSet):
     Returns the information of an individual story arc.
     """
     queryset = Arc.objects.all()
-    serializer_class = ArcSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ArcListSerializer
+        if self.action == 'retrieve':
+            return ArcSerializer
+        return ArcListSerializer
 
     @action(detail=True)
     def issue_list(self, request, pk=None):
@@ -33,14 +39,12 @@ class ArcViewSet(viewsets.ReadOnlyModelViewSet):
         queryset = (
             arc.issue_set
             .select_related('series')
-            .prefetch_related('credits_set', 'credits_set__creator',
-                              'credits_set__role', 'characters', 'arcs')
             .order_by('cover_date', 'series', 'number')
         )
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = IssueSerializer(
-                page, many=True, context={"request": request})
+            serializer = IssueListSerializer(page, many=True,
+                                             context={"request": request})
             return self.get_paginated_response(serializer.data)
         else:
             raise Http404()
@@ -135,11 +139,17 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = (
         Series.objects
         .select_related('series_type')
-        .prefetch_related('issue_set')
     )
     serializer_class = SeriesSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return SeriesListSerializer
+        if self.action == 'retrieve':
+            return SeriesSerializer
+        return SeriesListSerializer
 
     @action(detail=True)
     def issue_list(self, request, pk=None):
@@ -148,13 +158,12 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
         """
         series = self.get_object()
         queryset = (
-            series.issue_set
-            .prefetch_related('credits_set', 'credits_set__creator', 'credits_set__role', 'arcs', 'characters')
+            series.issue_set.all()
         )
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = IssueSerializer(
-                page, many=True, context={"request": request})
+            serializer = IssueListSerializer(page, many=True,
+                                             context={"request": request})
             return self.get_paginated_response(serializer.data)
         else:
             raise Http404()

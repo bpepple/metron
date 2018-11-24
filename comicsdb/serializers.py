@@ -25,6 +25,13 @@ class CreatorListSerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 
+class IssueListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Issue
+        fields = ('id', '__str__')
+
+
 class PublisherListSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -37,6 +44,13 @@ class RoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Role
         fields = ('id', 'name')
+
+
+class SeriesListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Series
+        fields = ('id', '__str__')
 
 
 class TeamListSerializer(serializers.ModelSerializer):
