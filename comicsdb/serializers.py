@@ -20,14 +20,14 @@ class CreditsSerializer(serializers.ModelSerializer):
         fields = ('id', 'creator', 'role')
 
 
-class IssueArcSerializer(serializers.ModelSerializer):
+class ArcListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Arc
         fields = ('id', 'name')
 
 
-class IssueCharacterSerializer(serializers.ModelSerializer):
+class CharacterListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Character
@@ -37,8 +37,8 @@ class IssueCharacterSerializer(serializers.ModelSerializer):
 class IssueSerializer(serializers.ModelSerializer):
     credits = CreditsSerializer(
         source='credits_set', many=True, read_only=True)
-    arcs = IssueArcSerializer(many=True, read_only=True)
-    characters = IssueArcSerializer(many=True, read_only=True)
+    arcs = ArcListSerializer(many=True, read_only=True)
+    characters = CharacterListSerializer(many=True, read_only=True)
 
     class Meta:
         model = Issue
