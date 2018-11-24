@@ -1,5 +1,4 @@
 {% load static %}
-{% load flatpages %}
     <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a class="navbar-item" href="{% url 'home' %}">
@@ -18,10 +17,8 @@
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">More</a>
             <div class="navbar-dropdown">
-              {% get_flatpages as flatpages %}
-              {% for page in flatpages %}
-              <a class="navbar-item" href="/pages{{ page.url }}">{{ page.title }}</a>
-              {% endfor %}
+              <a class="navbar-item" href="/pages/contribute/">How To Contribute FAQ</a>
+              <a class="navbar-item" href="/docs/">API Docs</a>
               <hr class="navbar-divider">
               <a class="navbar-item">Report an issue</a>
             </div>
