@@ -2,10 +2,14 @@ from django.http import Http404
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 
-from comicsdb.models import Arc, Character, Publisher, Series, Team
-from comicsdb.serializers import (ArcSerializer, CharacterSerializer, CharacterListSerializer,
-                                  IssueSerializer, PublisherSerializer, SeriesSerializer,
-                                  TeamListSerializer, TeamSerializer)
+from comicsdb.models import Arc, Character, Creator, Publisher, Series, Team
+from comicsdb.serializers import (ArcSerializer,
+                                  CharacterSerializer, CharacterListSerializer,
+                                  CreatorSerializer, CreatorListSerializer,
+                                  IssueSerializer,
+                                  PublisherSerializer, PublisherListSerializer,
+                                  SeriesSerializer,
+                                  TeamSerializer, TeamListSerializer)
 
 
 class ArcViewSet(viewsets.ReadOnlyModelViewSet):
@@ -50,7 +54,6 @@ class CharacterViewSet(viewsets.ReadOnlyModelViewSet):
     Returns the information of an individual character.
     """
     queryset = Character.objects.all()
-    serializer_class = CharacterSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name', 'alias')
 
@@ -60,6 +63,25 @@ class CharacterViewSet(viewsets.ReadOnlyModelViewSet):
         if self.action == 'retrieve':
             return CharacterSerializer
         return CharacterListSerializer
+
+
+class CreatorViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    list:
+    Return a list of all the creators.
+    retrieve:
+    Returns the information of an individual creator.
+    """
+    queryset = Creator.objects.all()
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name',)
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return CreatorListSerializer
+        if self.action == 'retrieve':
+            return CreatorSerializer
+        return CreatorListSerializer
 
 
 class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
@@ -73,9 +95,15 @@ class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
         Publisher.objects
         .prefetch_related('series_set')
     )
-    serializer_class = PublisherSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return PublisherListSerializer
+        if self.action == 'retrieve':
+            return PublisherSerializer
+        return PublisherListSerializer
 
     @action(detail=True)
     def series_list(self, request, pk=None):
@@ -133,12 +161,11 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
 class TeamViewSet(viewsets.ReadOnlyModelViewSet):
     """
     list:
-    Return a list of all the characters.
+    Return a list of all the teams.
     retrieve:
-    Returns the information of an individual character.
+    Returns the information of an individual team.
     """
     queryset = Team.objects.all()
-    serializer_class = TeamSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
 

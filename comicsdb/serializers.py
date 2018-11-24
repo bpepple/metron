@@ -3,11 +3,13 @@ from rest_framework import serializers
 from comicsdb.models import (Arc, Character, Creator, Credits,
                              Issue, Publisher, Role, Series, Team)
 
+
 class ArcListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Arc
         fields = ('id', 'name')
+
 
 class CharacterListSerializer(serializers.ModelSerializer):
 
@@ -22,11 +24,20 @@ class CreatorListSerializer(serializers.ModelSerializer):
         model = Creator
         fields = ('id', 'name')
 
+
+class PublisherListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Publisher
+        fields = ('id', 'name')
+
+
 class RoleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Role
         fields = ('id', 'name')
+
 
 class TeamListSerializer(serializers.ModelSerializer):
 
@@ -44,11 +55,18 @@ class ArcSerializer(serializers.ModelSerializer):
 
 class CharacterSerializer(serializers.ModelSerializer):
     creators = CreatorListSerializer(many=True, read_only=True)
-    teams = TeamListSerializer(many=True,read_only=True)
+    teams = TeamListSerializer(many=True, read_only=True)
 
     class Meta:
         model = Character
         fields = ('id', 'name', 'alias', 'desc', 'image', 'creators', 'teams')
+
+
+class CreatorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Creator
+        fields = ('id', 'name', 'birth', 'death', 'desc', 'image')
 
 
 class CreditsSerializer(serializers.ModelSerializer):

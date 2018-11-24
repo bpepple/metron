@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework import routers
 
-from comicsdb.views.viewsets import (ArcViewSet, CharacterViewSet,
+from comicsdb.views.viewsets import (ArcViewSet, CharacterViewSet, CreatorViewSet,
                                      PublisherViewSet, SeriesViewSet,
                                      TeamViewSet)
 
@@ -9,6 +9,7 @@ from comicsdb.views.viewsets import (ArcViewSet, CharacterViewSet,
 router = routers.DefaultRouter()
 router.register('arc', ArcViewSet)
 router.register('character', CharacterViewSet)
+router.register('creator', CreatorViewSet)
 router.register('publisher', PublisherViewSet)
 router.register('series', SeriesViewSet)
 router.register('team', TeamViewSet)
