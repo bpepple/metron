@@ -20,6 +20,13 @@ class CreditsSerializer(serializers.ModelSerializer):
         fields = ('id', 'creator', 'role')
 
 
+class ArcSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Arc
+        fields = ('id', 'name', 'desc', 'image')
+
+
 class ArcListSerializer(serializers.ModelSerializer):
 
     class Meta:
