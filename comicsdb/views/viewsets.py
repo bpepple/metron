@@ -2,9 +2,9 @@ from django.http import Http404
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 
-from comicsdb.models import Arc, Publisher, Series
-from comicsdb.serializers import (ArcSerializer, IssueSerializer,
-                                  PublisherSerializer, SeriesSerializer)
+from comicsdb.models import Arc, Character, Publisher, Series
+from comicsdb.serializers import (ArcSerializer, CharacterSerializer, CharacterListSerializer,
+                                  IssueSerializer, PublisherSerializer, SeriesSerializer)
 
 
 class ArcViewSet(viewsets.ReadOnlyModelViewSet):
@@ -39,6 +39,26 @@ class ArcViewSet(viewsets.ReadOnlyModelViewSet):
             return self.get_paginated_response(serializer.data)
         else:
             raise Http404()
+
+
+class CharacterViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    list:
+    Return a list of all the characters.
+    retrieve:
+    Returns the information of an individual character.
+    """
+    queryset = Character.objects.all()
+    serializer_class = CharacterSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name', 'alias')
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return CharacterListSerializer
+        if self.action == 'retrieve':
+            return CharacterSerializer
+        return CharacterListSerializer
 
 
 class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
