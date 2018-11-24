@@ -134,6 +134,7 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = (
         Series.objects
+        .select_related('series_type')
         .prefetch_related('issue_set')
     )
     serializer_class = SeriesSerializer
