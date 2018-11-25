@@ -12,6 +12,7 @@ sorl-thumbnail = "*"
 django-widget-tweaks = "*"
 djangorestframework = "*"
 coreapi = "*"
+gunicorn = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
