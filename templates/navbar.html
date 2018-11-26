@@ -4,16 +4,26 @@
         <a class="navbar-item" href="{% url 'home' %}">
           <img src="{% static 'site/img/atomic-symbol.png' %}" width="24" height="24">
         </a>
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
       </div>
       <div class="navbar-menu">
         <div class="navbar-start">
-          <a class="navbar-item" href="{% url 'publisher:list' page=1 %}">Publishers</a>
-          <a class="navbar-item" href="{% url 'series:list' page=1 %}">Series</a>
-          <a class="navbar-item" href="{% url 'issue:list' page=1 %}">Issues</a>
-          <a class="navbar-item" href="{% url 'creator:list' page=1 %}">Creators</a>
-          <a class="navbar-item" href="{% url 'character:list' page=1 %}">Characters</a>
-          <a class="navbar-item" href="{% url 'arc:list' page=1 %}">Story Arcs</a>
-          <a class="navbar-item" href="{% url 'team:list' page=1 %}">Teams</a>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">Browse</a>
+            <div class="navbar-dropdown">
+              <a class="navbar-item" href="{% url 'publisher:list' page=1 %}">Publishers</a>
+              <a class="navbar-item" href="{% url 'series:list' page=1 %}">Series</a>
+              <a class="navbar-item" href="{% url 'issue:list' page=1 %}">Issues</a>
+              <a class="navbar-item" href="{% url 'creator:list' page=1 %}">Creators</a>
+              <a class="navbar-item" href="{% url 'character:list' page=1 %}">Characters</a>
+              <a class="navbar-item" href="{% url 'arc:list' page=1 %}">Story Arcs</a>
+              <a class="navbar-item" href="{% url 'team:list' page=1 %}">Teams</a>
+            </div>
+          </div>
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">More</a>
             <div class="navbar-dropdown">
