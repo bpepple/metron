@@ -91,12 +91,13 @@
         {% if issues %}
           <div class="box">
             <h1 class="title is-5">List of Issues</h1>
-            <div class="content"></div>
-              <dl>
+            <div class="content">
+              <ul>
               {% for issue in issues %}
                 <li><a href="{% url 'issue:detail' issue.slug %}">{{ issue }}</a></li>
               {% endfor %}
-              </dl>
+              </ul>
+            </div>
           </div>
         {% endif %}
       {% endwith %}
