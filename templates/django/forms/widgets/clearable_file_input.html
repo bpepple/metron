@@ -20,7 +20,7 @@
     <div class="control">
       <div class="file has-name">
         <label class="file-label">
-        <input class="file-input" type="{{ widget.type }}" name="{{ widget.name }}" id="file" {% include "django/forms/widgets/attrs.html" %}>
+        <input class="file-input" type="{{ widget.type }}" name="{{ widget.name }}" {% include "django/forms/widgets/attrs.html" %}>
         <span class="file-cta">
           <span class="file-icon">
             <i class="fas fa-upload"></i>
@@ -37,7 +37,7 @@
 {% else %}
   <div class="file has-name">
     <label class="file-label">
-      <input class="file-input" type="{{ widget.type }}" name="{{ widget.name }}" id="file" {% include "django/forms/widgets/attrs.html" %}>
+      <input class="file-input" type="{{ widget.type }}" name="{{ widget.name }}" {% include "django/forms/widgets/attrs.html" %}>
       <span class="file-cta">
         <span class="file-icon">
           <i class="fas fa-upload"></i>
