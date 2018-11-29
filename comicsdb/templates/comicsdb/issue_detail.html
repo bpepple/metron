@@ -258,11 +258,11 @@
             <br>
             <p><b>Story Arcs</b></p>
             <div class="content">
-              <dl>
+              <ul>
               {% for arc in arcs %}
-              <li><a href="{% url 'arc:detail' arc.slug %}">{{ arc.name }}</a></li>
+                <li><a href="{% url 'arc:detail' arc.slug %}">{{ arc.name }}</a></li>
               {% endfor %}
-              </dl>
+              </ul>
             </div>
           {% endif %}
         {% endwith %}
