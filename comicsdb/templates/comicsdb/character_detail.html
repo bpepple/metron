@@ -124,11 +124,11 @@
             <br>
             <p><b>Creator{{ creators|pluralize }}</b></p>
             <div class="content">
-              <dl>
+              <ul>
               {% for creator in creators %}
-              <li><a href="{% url 'creator:detail' creator.slug %}">{{ creator }}</a></li>
+                <li><a href="{% url 'creator:detail' creator.slug %}">{{ creator }}</a></li>
               {% endfor %}
-              </dl>
+              </ul>
             </div>
           {% endif %}
         {% endwith %}
@@ -136,11 +136,11 @@
           {% if teams %}
             <p><b>Team{{ teams|pluralize }}</b></p>
             <div class="content">
-              <dl>
+              <ul>
               {% for team in teams %}
-              <li><a href="{% url 'team:detail' team.slug %}">{{ team }}</a></li>
+                <li><a href="{% url 'team:detail' team.slug %}">{{ team }}</a></li>
               {% endfor %}
-              </dl>
+              </ul>
             </div>
           {% endif %}
         {% endwith %}
