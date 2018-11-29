@@ -209,8 +209,8 @@ class Variant(models.Model):
 
 
 class Credits(models.Model):
-    issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
-    creator = models.ForeignKey(Creator, on_delete=models.CASCADE)
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, db_index=False)
+    creator = models.ForeignKey(Creator, on_delete=models.CASCADE, db_index=False)
     role = models.ManyToManyField(Role)
     modified = models.DateTimeField(auto_now=True)
 
