@@ -16,7 +16,7 @@ class IssueSearchViewsTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cover_date = issue_date = timezone.now().date()
+        cover_date = timezone.now().date()
         publisher = Publisher.objects.create(name='DC', slug='dc')
         series_type = SeriesType.objects.create(name='Ongoing Series')
         superman = Series.objects.create(name='Superman', slug='superman',
@@ -61,7 +61,7 @@ class IssueListViewTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cover_date = issue_date = timezone.now().date()
+        cover_date = timezone.now().date()
         publisher = Publisher.objects.create(name='DC', slug='dc')
         series_type = SeriesType.objects.create(name='Ongoing Series')
         superman = Series.objects.create(name='Superman', slug='superman',
