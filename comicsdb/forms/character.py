@@ -1,8 +1,7 @@
 from django.contrib.admin.widgets import FilteredSelectMultiple
-from django.contrib.postgres.forms import SimpleArrayField
 from django.forms import (ModelForm, TextInput, Textarea, ClearableFileInput)
 
-from comicsdb.models import Character, Creator
+from comicsdb.models import Character
 
 
 class CharacterForm(ModelForm):
