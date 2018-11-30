@@ -17,7 +17,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic.base import TemplateView
 from django.views.i18n import JavaScriptCatalog
 from rest_framework.documentation import include_docs_urls
 
@@ -27,6 +26,7 @@ from comicsdb.urls import (
     character as character_urls,
     contact as contact_urls,
     creator as creator_urls,
+    home as home_urls,
     issue as issue_urls,
     publisher as publisher_urls,
     series as series_urls,
@@ -43,6 +43,7 @@ urlpatterns = [
     path('contact/', include(contact_urls)),
     path('creator/', include(creator_urls)),
     path('docs/', include_docs_urls(title='Metron API', public=True)),
+    path('', include(home_urls)),
     path('issue/', include(issue_urls)),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
     path('pages/', include('django.contrib.flatpages.urls')),
@@ -50,8 +51,7 @@ urlpatterns = [
     path('series/', include(series_urls)),
     path('team/', include(team_urls)),
     path('users/', include('users.urls')),
-    path('users/', include('django.contrib.auth.urls')),
-    path('', TemplateView.as_view(template_name='home.html'), name='home')
+    path('users/', include('django.contrib.auth.urls'))
 ]
 
 if settings.DEBUG:

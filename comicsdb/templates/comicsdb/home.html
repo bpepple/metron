@@ -1,0 +1,68 @@
+{% extends "comicsdb/comics_base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  <!-- hero -->
+  <section class="hero is-link is-bold">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">Metron</h1>
+        <h2 class="subtitle">Comic Book Database</h2>
+      </div>
+    </div>
+  </section>
+  <!-- end hero -->
+
+  <!-- information section --> 
+  <section>
+    <div class="container">
+      <div class="columns">
+        <!-- welcome column  -->
+        <div class="column">
+          <div class="box">
+            <h1 class="title is-5">What?</h1>
+            <h2 class="subtitle is-6">
+              <strong>Metron</strong>
+              is a community-based site whose goal is to build an open database with a
+              <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a> API for comics.
+            </h2>
+            <br>
+            <h1 class="title is-5">Why?</h1>
+            <h2 class="subtitle is-6">
+              Currently the only comic book database the provides a REST API for users is
+              <a href="https://comicvine.gamespot.com/">Comic Vine</a>.
+              Unfortunately, since it's a corporately-owned service, the community that uses it has no control
+              over the amount of resources provided to maintain it or ensure it's continued accessibility.
+            </h2>
+            <br>
+            <h1 class="title is-5">Want to join?</h1>
+            <h2 class="subtitle is-6">
+              Currently, the site is under heavy construction but I'll be opening up registration and adding some
+              documentation fairly soon.
+            </h2>
+          </div>
+        </div>
+        <!-- end welcome column-->
+
+        <!-- stats column -->
+        <div class="column is-one-fifth">
+          <div class="box">
+            <h1 class="title is-5">Indexed Statistics</h1>
+            <ul>
+              <li>Publisher{{ publisher|pluralize }}: {{ publisher }}</li>
+              <li>Series: {{ series }}</li>
+              <li>Issue{{ issue|pluralize }}: {{ issue }}</li>
+              <li>Creator{{ creator|pluralize }}: {{ creator }}</li>
+              <li>Character{{ character|pluralize }}: {{ character }}</li>
+              <li>Team{{ team|pluralize }}: {{ team }}</li>
+              <li>Story Arc{{ arc|pluralize }}: {{ arc }}</li>
+            </ul>
+          </div>
+        </div>
+        <!-- end stats column -->
+      </div>
+    </div>
+  </section>
+  <!-- end information section -->
+{% endblock %}
