@@ -2,13 +2,13 @@ from functools import reduce
 import operator
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q, Prefetch
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from comicsdb.forms.team import TeamForm
-from comicsdb.models import Team, Issue
+from comicsdb.models import Team
 
 
 PAGINATE = 28
