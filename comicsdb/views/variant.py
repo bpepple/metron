@@ -1,10 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404
 from django.urls import reverse
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView
 
 from comicsdb.forms.variant import VariantForm
-from comicsdb.models import Variant, Issue
+from comicsdb.models import Variant
 
 
 class VariantCreate(LoginRequiredMixin, CreateView):
@@ -20,6 +19,5 @@ class VariantCreate(LoginRequiredMixin, CreateView):
     def get_initial(self):
         """Calculate Initial Data for the form, validate ownership of issue """
         issue_slug = self.kwargs.get('slug', self.request.POST.get('slug'))
-        issue = get_object_or_404(Issue, slug=issue_slug)
 
         return {'issue_slug': issue_slug}
