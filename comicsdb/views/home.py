@@ -11,12 +11,12 @@ class HomePageView(TemplateView):
 #           but for now this should be fine.
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-        context['publisher'] = Publisher.objects.all().count()
-        context['series'] = Series.objects.all().count()
-        context['issue'] = Issue.objects.all().count()
-        context['character'] = Character.objects.all().count()
-        context['creator'] = Creator.objects.all().count()
-        context['team'] = Team.objects.all().count()
-        context['arc'] = Arc.objects.all().count()
+        context['publisher'] = Publisher.objects.count()
+        context['series'] = Series.objects.count()
+        context['issue'] = Issue.objects.count()
+        context['character'] = Character.objects.count()
+        context['creator'] = Creator.objects.count()
+        context['team'] = Team.objects.count()
+        context['arc'] = Arc.objects.count()
 
         return context
