@@ -10,8 +10,6 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from comicsdb.forms.creator import CreatorForm
 from comicsdb.models import Creator
 
-from django.db.models.functions import Concat
-from django.db.models import Value
 
 PAGINATE = 28
 
