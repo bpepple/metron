@@ -1,5 +1,4 @@
-from django.forms import (ModelForm, TextInput, Textarea,
-                          ClearableFileInput, SelectDateWidget)
+from django.forms import (ModelForm, TextInput, Textarea, ClearableFileInput)
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
 from comicsdb.models import Team
