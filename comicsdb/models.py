@@ -209,12 +209,12 @@ class Variant(models.Model):
 
 
 class Credits(models.Model):
-    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, db_index=False)
-    creator = models.ForeignKey(Creator, on_delete=models.CASCADE, db_index=False)
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
+    creator = models.ForeignKey(Creator, on_delete=models.CASCADE)
     role = models.ManyToManyField(Role)
     modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name_plural = "Credits"
-        unique_together = ['creator', 'issue']
+        unique_together = ['issue','creator']
         ordering = ['creator__name', ]
