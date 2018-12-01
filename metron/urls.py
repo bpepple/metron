@@ -16,10 +16,14 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 from django.urls import path, include
 from django.views.i18n import JavaScriptCatalog
 from rest_framework.documentation import include_docs_urls
 
+from comicsdb.sitemaps import (ArcSitemap, CharacterSitemap, CreatorSitemap,
+                               IssueSitemap, PublisherSitemap, SeriesSitemap,
+                               TeamSitemap)
 from comicsdb.urls import (
     api as api_urls,
     arc as arc_urls,
@@ -33,6 +37,16 @@ from comicsdb.urls import (
     team as team_urls
 )
 
+
+sitemaps = {
+    'arc': ArcSitemap(),
+    'character': CharacterSitemap(),
+    'creator': CreatorSitemap(),
+    'issue': IssueSitemap(),
+    'publisher': PublisherSitemap(),
+    'series': SeriesSitemap(),
+    'team': TeamSitemap()
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -51,7 +65,9 @@ urlpatterns = [
     path('series/', include(series_urls)),
     path('team/', include(team_urls)),
     path('users/', include('users.urls')),
-    path('users/', include('django.contrib.auth.urls'))
+    path('users/', include('django.contrib.auth.urls')),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
+         name='django.contrib.sitemaps.views.sitemap')
 ]
 
 if settings.DEBUG:
