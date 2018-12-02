@@ -26,6 +26,7 @@ class SeriesList(ListView):
 
 class SeriesIssueList(ListView):
     template_name = 'comicsdb/issue_list.html'
+    paginate_by = PAGINATE
 
     def get_queryset(self):
         self.series = get_object_or_404(Series, slug=self.kwargs['slug'])

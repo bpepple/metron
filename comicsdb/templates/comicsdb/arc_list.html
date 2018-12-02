@@ -15,7 +15,7 @@
           </p>
         </div>
         <div class="level-item">
-          <form action="{% url 'arc:search' page=1 %}" method="get" accept-charset="utf-8">
+          <form action="{% url 'arc:search' %}" method="get" accept-charset="utf-8">
             <div class="field has-addons">
               <p class="control">
                 <input class="input" name="q" type="search" placeholder="Find a arc">
@@ -65,72 +65,5 @@
 {% endblock %}
 
 {% block pagination %}
-  {% if is_paginated %}
-  <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-    {% if page_obj.has_previous %}
-      <a class="pagination-previous" href="{% url 'arc:list' page=page_obj.previous_page_number %}">Previous</a>
-    {% else %}
-      <a class="pagination-previous" title="This is the first page" disabled>Previous</a>
-    {% endif %}
-    {% if page_obj.has_next %}
-      <a class="pagination-next" href="{% url 'arc:list' page=page_obj.next_page_number %}">Next page</a>
-    {% else %}
-      <a class="pagination-next" title="This is the last page" disabled>Next page</a>
-    {% endif %}
-
-    <ul class="pagination-list">
-      {% if page_obj.number > 1 %}
-        <li><a class="pagination-link" href="{% url 'arc:list' page=1 %}" aria-label="Goto page 1">1</a></li>
-      {% endif %}
-
-      {% if page_obj.number  > 2 %}
-        {% if page_obj.number > 3 %}
-          <li><span class="pagination-ellipsis">&hellip;</span></li>
-          <li>
-            <a class="pagination-link" href="{% url 'arc:list' page=page_obj.previous_page_number %}" aria-label="Goto page {{page_obj.previous_page_number}}">
-              {{page_obj.previous_page_number}}
-            </a>
-          </li>
-        {% else %}
-          <li>
-            <a class="pagination-link" href="{% url 'arc:list' page=page_obj.previous_page_number %}" aria-label="Goto page {{page_obj.previous_page_number}}">
-              {{page_obj.previous_page_number}}
-            </a>
-          </li>
-        {% endif %}
-      {% endif %}
-
-      <li>
-        <a class="pagination-link is-current" aria-label="Page {{ page_obj.number }}" aria-current="page">
-          {{ page_obj.number }}
-        </a>
-      </li>
-
-      {% if page_obj.next_page_number < paginator.num_pages %}
-        {% if page_obj.next_page_number < paginator.num_pages|add:'-1' %}
-          <li>
-            <a class="pagination-link" href="{% url 'arc:list' page=page_obj.next_page_number %}" aria-label="Goto page {{ page_obj.next_page_number }}">
-              {{ page_obj.next_page_number}}
-            </a>
-          </li>
-          <li><span class="pagination-ellipsis">&hellip;</span></li>
-        {% else %}
-          <li>
-            <a class="pagination-link" href="{% url 'arc:list' page=page_obj.next_page_number %}" aria-label="Goto page {{ page_obj.next_page_number }}">
-              {{ page_obj.next_page_number}}
-            </a>
-          </li>
-        {% endif %}
-      {% endif %}
-
-      {% if page_obj.number < paginator.num_pages %}
-        <li>
-          <a class="pagination-link" href="{% url 'arc:list' page=paginator.num_pages %}" aria-label="Goto page {{ paginator.num_pages }}">
-            {{ paginator.num_pages }}
-          </a>
-        </li>
-      {% endif %}
-    </ul>
-  </nav>
-  {% endif %}
+  {% include "comicsdb/pagination.html" %}
 {% endblock %}

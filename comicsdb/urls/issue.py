@@ -9,12 +9,11 @@ from comicsdb.views.variant import VariantCreate
 app_name = 'issue'
 urlpatterns = [
     path('create/', IssueCreate.as_view(), name='create'),
-    path('page<int:page>/', IssueList.as_view(), name='list'),
+    path('', IssueList.as_view(), name='list'),
     path('<slug:slug>/', IssueDetail.as_view(), name='detail'),
     path('<slug:slug>/update/', IssueUpdate.as_view(), name='update'),
     path('<slug:slug>/delete/', IssueDelete.as_view(), name='delete'),
     path('<slug:slug>/add/credit/', CreditsCreate.as_view(), name='credit'),
     path('<slug:slug>/add/variant/', VariantCreate.as_view(), name='variant'),
-    re_path(r'^search/(?:page(?P<page>\d+)/)?$',
-            SearchIssueList.as_view(), name='search')
+    re_path(r'^search/?$', SearchIssueList.as_view(), name='search')
 ]

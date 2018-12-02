@@ -8,10 +8,9 @@ from comicsdb.views.character import (CharacterList, CharacterDetail,
 app_name = 'character'
 urlpatterns = [
     path('create/', CharacterCreate.as_view(), name='create'),
-    path('page<int:page>/', CharacterList.as_view(), name='list'),
+    path('', CharacterList.as_view(), name='list'),
     path('<slug:slug>/', CharacterDetail.as_view(), name='detail'),
     path('<slug:slug>/update/', CharacterUpdate.as_view(), name='update'),
     path('<slug:slug>/delete/', CharacterDelete.as_view(), name='delete'),
-    re_path(r'^search/(?:page(?P<page>\d+)/)?$',
-            SearchCharacterList.as_view(), name='search')
+    re_path(r'^search/?$', SearchCharacterList.as_view(), name='search')
 ]

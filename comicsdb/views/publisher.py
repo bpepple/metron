@@ -22,6 +22,7 @@ class PublisherList(ListView):
 
 class PublisherSeriesList(ListView):
     template_name = 'comicsdb/series_list.html'
+    paginate_by = PAGINATE
 
     def get_queryset(self):
         self.publisher = get_object_or_404(Publisher, slug=self.kwargs['slug'])
