@@ -20,20 +20,20 @@ class PublisherSearchViewsTest(TestCase):
                                      slug='publisher-%s' % pub_num)
 
     def test_view_url_exists_at_desired_location(self):
-        resp = self.client.get('/publisher/search/page1/')
+        resp = self.client.get('/publisher/search')
         self.assertEqual(resp.status_code, HTML_OK_CODE)
 
     def test_view_url_accessible_by_name(self):
-        resp = self.client.get(reverse('publisher:search', args=(1,)))
+        resp = self.client.get(reverse('publisher:search'))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
 
     def test_view_uses_correct_template(self):
-        resp = self.client.get(reverse('publisher:search', args=(1,)))
+        resp = self.client.get(reverse('publisher:search'))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTemplateUsed(resp, 'comicsdb/publisher_list.html')
 
     def test_pagination_is_thirty(self):
-        resp = self.client.get('/publisher/search/page1/?q=pub')
+        resp = self.client.get('/publisher/search?q=pub')
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue('is_paginated' in resp.context)
         self.assertTrue(resp.context['is_paginated'] == True)
@@ -42,7 +42,7 @@ class PublisherSearchViewsTest(TestCase):
 
     def test_lists_all_publishers(self):
         # Get second page and confirm it has (exactly) remaining 7 items
-        resp = self.client.get('/publisher/search/page2/?q=pub')
+        resp = self.client.get('/publisher/search?page=2&q=pub')
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue('is_paginated' in resp.context)
         self.assertTrue(resp.context['is_paginated'] == True)
@@ -61,20 +61,20 @@ class PublisherListViewTest(TestCase):
                 slug='publisher-%s' % pub_num)
 
     def test_view_url_exists_at_desired_location(self):
-        resp = self.client.get('/publisher/page1/')
+        resp = self.client.get('/publisher/')
         self.assertEqual(resp.status_code, HTML_OK_CODE)
 
     def test_view_url_accessible_by_name(self):
-        resp = self.client.get(reverse('publisher:list', args=(1,)))
+        resp = self.client.get(reverse('publisher:list'))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
 
     def test_view_uses_correct_template(self):
-        resp = self.client.get(reverse('publisher:list', args=(1,)))
+        resp = self.client.get(reverse('publisher:list'))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTemplateUsed(resp, 'comicsdb/publisher_list.html')
 
     def test_pagination_is_thirty(self):
-        resp = self.client.get(reverse('publisher:list', args=(1,)))
+        resp = self.client.get(reverse('publisher:list'))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue('is_paginated' in resp.context)
         self.assertTrue(resp.context['is_paginated'] == True)
@@ -83,7 +83,7 @@ class PublisherListViewTest(TestCase):
 
     def test_lists_second_page(self):
         # Get second page and confirm it has (exactly) remaining 7 items
-        resp = self.client.get(reverse('publisher:list', args=(2,)))
+        resp = self.client.get(reverse('publisher:list') + '?page=2')
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue('is_paginated' in resp.context)
         self.assertTrue(resp.context['is_paginated'] == True)

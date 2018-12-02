@@ -26,20 +26,20 @@ class SeriesSearchViewsTest(TestCase):
                                   series_type=series_type)
 
     def test_view_url_exists_at_desired_location(self):
-        resp = self.client.get('/series/search/page1/')
+        resp = self.client.get('/series/search')
         self.assertEqual(resp.status_code, HTML_OK_CODE)
 
     def test_view_url_accessible_by_name(self):
-        resp = self.client.get(reverse('series:search', args=(1,)))
+        resp = self.client.get(reverse('series:search'))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
 
     def test_view_uses_correct_template(self):
-        resp = self.client.get(reverse('series:search', args=(1,)))
+        resp = self.client.get(reverse('series:search'))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTemplateUsed(resp, 'comicsdb/series_list.html')
 
     def test_pagination_is_thirty(self):
-        resp = self.client.get('/series/search/page1/?q=seri')
+        resp = self.client.get('/series/search?q=seri')
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue('is_paginated' in resp.context)
         self.assertTrue(resp.context['is_paginated'] == True)
@@ -48,7 +48,7 @@ class SeriesSearchViewsTest(TestCase):
 
     def test_lists_all_series(self):
         # Get second page and confirm it has (exactly) remaining 5 items
-        resp = self.client.get('/series/search/page2/?q=ser')
+        resp = self.client.get('/series/search?page=2&q=ser')
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue('is_paginated' in resp.context)
         self.assertTrue(resp.context['is_paginated'] == True)
@@ -71,20 +71,20 @@ class SeriesListViewTest(TestCase):
                                   series_type=series_type)
 
     def test_view_url_exists_at_desired_location(self):
-        resp = self.client.get('/series/page1/')
+        resp = self.client.get('/series/')
         self.assertEqual(resp.status_code, HTML_OK_CODE)
 
     def test_view_url_accessible_by_name(self):
-        resp = self.client.get(reverse('series:list', args=(1,)))
+        resp = self.client.get(reverse('series:list'))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
 
     def test_view_uses_correct_template(self):
-        resp = self.client.get(reverse('series:list', args=(1,)))
+        resp = self.client.get(reverse('series:list'))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTemplateUsed(resp, 'comicsdb/series_list.html')
 
     def test_pagination_is_thirty(self):
-        resp = self.client.get(reverse('series:list', args=(1,)))
+        resp = self.client.get(reverse('series:list'))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue('is_paginated' in resp.context)
         self.assertTrue(resp.context['is_paginated'] == True)
@@ -93,7 +93,7 @@ class SeriesListViewTest(TestCase):
 
     def test_lists_second_page(self):
         # Get second page and confirm it has (exactly) remaining 7 items
-        resp = self.client.get(reverse('series:list', args=(2,)))
+        resp = self.client.get(reverse('series:list') + '?page=2')
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue('is_paginated' in resp.context)
         self.assertTrue(resp.context['is_paginated'] == True)
