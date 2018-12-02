@@ -8,8 +8,6 @@ import sorl.thumbnail.fields
 
 class Migration(migrations.Migration):
 
-    replaces = [('comicsdb', '0001_squashed_0004_character_alias'), ('comicsdb', '0002_remove_redundant_indexes'), ('comicsdb', '0003_modify_credits_indexes'), ('comicsdb', '0004_make_issues_unique')]
-
     initial = True
 
     dependencies = [
