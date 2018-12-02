@@ -40,16 +40,16 @@ class IssueSearchViewsTest(TestCase):
         self.assertTemplateUsed(resp, 'comicsdb/issue_list.html')
 
     def test_pagination_is_thirty(self):
-        resp = self.client.get('/issue/search&q=super')
+        resp = self.client.get('/issue/search?q=Super')
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue('is_paginated' in resp.context)
         self.assertTrue(resp.context['is_paginated'] == True)
         self.assertTrue(
             len(resp.context['issue_list']) == PAGINATE_DEFAULT_VAL)
 
-    def test_lists_all_series(self):
+    def test_lists_all_issues(self):
         # Get second page and confirm it has (exactly) remaining 5 items
-        resp = self.client.get('/issue/searchsearch?page=2&q=super')
+        resp = self.client.get('/issue/search?page=2&q=Super')
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue('is_paginated' in resp.context)
         self.assertTrue(resp.context['is_paginated'] == True)
