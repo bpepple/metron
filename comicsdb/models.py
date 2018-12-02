@@ -196,6 +196,7 @@ class Issue(models.Model):
         return f'{self.series.name} #{self.number}'
 
     class Meta:
+        unique_together = ['series', 'number']
         ordering = ['series__sort_name', 'cover_date', 'number']
 
 
@@ -216,5 +217,5 @@ class Credits(models.Model):
 
     class Meta:
         verbose_name_plural = "Credits"
-        unique_together = ['issue','creator']
+        unique_together = ['issue', 'creator']
         ordering = ['creator__name', ]
