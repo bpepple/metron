@@ -47,3 +47,7 @@ class IssueForm(ModelForm):
         labels = {
             'name': "Story Title"
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].delimiter = ';'
