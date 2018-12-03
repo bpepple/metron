@@ -117,7 +117,13 @@
       <div class="box">
         <h1 class="title is-5">Summary</h1>
         {% if issue.name %}
-          <p><strong><em>"{{ issue.name }}"</em></strong></p><br>
+          {% with names=issue.name %}
+            <p>
+              <strong>
+                <em>"{% for name in names %}{% if not forloop.first %}, {% endif %}{{ name }}{% endfor %}"</em>
+              </strong>
+            </p><br>
+          {% endwith %}
         {% endif %}
         {% if issue.desc %}
           <p>{{ issue.desc|linebreaksbr }}</p>

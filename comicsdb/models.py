@@ -176,7 +176,8 @@ class Series(models.Model):
 
 class Issue(models.Model):
     series = models.ForeignKey(Series, on_delete=models.CASCADE)
-    name = models.CharField('Story Title', max_length=255, blank=True)
+    name = ArrayField(models.CharField('Story Title', max_length=150),
+                      null=True, blank=True)
     slug = models.SlugField(max_length=255, unique=True)
     number = models.CharField(max_length=25)
     arcs = models.ManyToManyField(Arc, blank=True)

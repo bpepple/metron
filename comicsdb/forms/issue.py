@@ -41,3 +41,9 @@ class IssueForm(ModelForm):
             'desc': Textarea(attrs={'class': 'textarea'}),
             'image': ClearableFileInput(),
         }
+        help_texts = {
+            'name': "Separate multiple story titles by a semicolon"
+        }
+        labels = {
+            'name': "Story Title"
+        }
