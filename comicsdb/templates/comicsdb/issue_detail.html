@@ -120,7 +120,7 @@
           {% with names=issue.name %}
             <p>
               <strong>
-                <em>"{% for name in names %}{% if not forloop.first %}, {% endif %}{{ name }}{% endfor %}"</em>
+                <em>"{% for name in names %}{% if not forloop.first %}; {% endif %}{{ name }}{% endfor %}"</em>
               </strong>
             </p><br>
           {% endwith %}
