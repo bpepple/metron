@@ -1,9 +1,10 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 from rest_framework import status
 
-from comicsdb.models import Arc
-from comicsdb.serializers import ArcSerializer
+from comicsdb.models import Arc, Publisher, Series, SeriesType, Issue
+from comicsdb.serializers import ArcSerializer, IssueListSerializer
 from users.models import CustomUser
 
 
@@ -49,10 +50,21 @@ class GetSingleArcTest(TestCaseBase):
     def setUpTestData(cls):
         cls._create_user(cls)
 
-        cls.hulk = Arc.objects.create(
-            name='World War Hulk', slug='world-war-hulk')
-        cls.crisis = Arc.objects.create(
-            name='Final Crisis', slug='final-crisis')
+        publisher_obj = Publisher.objects.create(name='DC Comics',
+                                                 slug='dc-comics')
+        series_type_obj = SeriesType.objects.create(name='Cancelled')
+        series_obj = Series.objects.create(name='Final Crisis', slug='final-crisis',
+                                           publisher=publisher_obj, year_began=1939,
+                                           series_type=series_type_obj)
+        cls.issue_obj = Issue.objects.create(series=series_obj,
+                                             number='1',
+                                             slug='final-crisis-1',
+                                             cover_date=timezone.now().date())
+        cls.hulk = Arc.objects.create(name='World War Hulk',
+                                      slug='world-war-hulk')
+        cls.crisis = Arc.objects.create(name='Final Crisis',
+                                        slug='final-crisis')
+        cls.issue_obj.arcs.add(cls.crisis)
 
     def setUp(self):
         self._client_login()
@@ -72,6 +84,16 @@ class GetSingleArcTest(TestCaseBase):
 
     def test_unauthorized_view_url(self):
         self.client.logout()
-        response = self.client.get(
-            reverse('api:arc-detail', kwargs={'pk': self.hulk.pk}))
+        response = self.client.get(reverse('api:arc-detail',
+                                           kwargs={'pk': self.hulk.pk}))
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_arc_issue_list_view(self):
+        response = self.client.get(reverse('api:arc-issue-list',
+                                           kwargs={'pk': self.crisis.pk}))
+        serializer = IssueListSerializer(self.issue_obj)
+        self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['next'], None)
+        self.assertEqual(response.data['previous'], None)
+        self.assertEqual(response.data['results'][0], serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
