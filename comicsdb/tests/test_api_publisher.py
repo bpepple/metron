@@ -1,9 +1,10 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 from rest_framework import status
 
-from comicsdb.models import Publisher
-from comicsdb.serializers import PublisherSerializer
+from comicsdb.models import Publisher, Series, SeriesType, Issue
+from comicsdb.serializers import PublisherSerializer, SeriesListSerializer
 from users.models import CustomUser
 
 
@@ -52,6 +53,16 @@ class GetSinglePublisherTest(TestCaseBase):
         cls.dc = Publisher.objects.create(name='DC Comics', slug='dc-comics')
         cls.marvel = Publisher.objects.create(name='Marvel', slug='marvel')
 
+        series_type_obj = SeriesType.objects.create(name='Cancelled')
+        cls.series_obj = Series.objects.create(name='Final Crisis', slug='final-crisis',
+                                               publisher=cls.dc, year_began=1939,
+                                               series_type=series_type_obj)
+        Issue.objects.create(series=cls.series_obj,
+                             number='1',
+                             slug='final-crisis-1',
+                             image='issue/test.jpg',
+                             cover_date=timezone.now().date())
+
     def setUp(self):
         self._client_login()
 
@@ -73,3 +84,13 @@ class GetSinglePublisherTest(TestCaseBase):
         response = self.client.get(
             reverse('api:publisher-detail', kwargs={'pk': self.dc.pk}))
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_publisher_series_list_view(self):
+        response = self.client.get(reverse('api:publisher-series-list',
+                                           kwargs={'pk': self.dc.pk}))
+        serializer = SeriesListSerializer(self.series_obj)
+        self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['next'], None)
+        self.assertEqual(response.data['previous'], None)
+        self.assertEqual(response.data['results'][0], serializer.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
