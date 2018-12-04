@@ -98,4 +98,4 @@ class SeriesUpdate(LoginRequiredMixin, UpdateView):
 class SeriesDelete(LoginRequiredMixin, DeleteView):
     model = Series
     template_name = 'comicsdb/confirm_delete.html'
-    success_url = reverse_lazy('series:list', kwargs={'page': 1})
+    success_url = reverse_lazy('series:list')

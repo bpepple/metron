@@ -79,4 +79,4 @@ class TeamUpdate(LoginRequiredMixin, UpdateView):
 class TeamDelete(LoginRequiredMixin, DeleteView):
     model = Team
     template_name = 'comicsdb/confirm_delete.html'
-    success_url = reverse_lazy('team:list', kwargs={'page': 1})
+    success_url = reverse_lazy('team:list')

@@ -81,4 +81,4 @@ class CreatorUpdate(LoginRequiredMixin, UpdateView):
 class CreatorDelete(LoginRequiredMixin, DeleteView):
     model = Creator
     template_name = 'comicsdb/confirm_delete.html'
-    success_url = reverse_lazy('creator:list', kwargs={'page': 1})
+    success_url = reverse_lazy('creator:list')
