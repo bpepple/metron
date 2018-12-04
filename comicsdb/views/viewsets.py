@@ -152,8 +152,8 @@ class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
         )
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = SeriesSerializer(page, many=True,
-                                          context={"request": request})
+            serializer = SeriesListSerializer(page, many=True,
+                                              context={"request": request})
             return self.get_paginated_response(serializer.data)
         else:
             raise Http404()
