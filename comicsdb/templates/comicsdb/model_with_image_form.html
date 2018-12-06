@@ -1,7 +1,7 @@
 {% extends "comicsdb/comics_base.html" %}
 {% load bulma_tags %}
 
-{% block page-title %}{{ form.instance }} Form{% endblock page-title %}
+{% block title %}{{ form.instance }} Form{% endblock title %}
 
 {% block comic_content %}
   <h1 class="title">{{ form|get_class }}</h1>
