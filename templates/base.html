@@ -10,7 +10,60 @@
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
   <body class="has-navbar-fixed-top">
-    {% include "navbar.html" %}
+    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="{% url 'home' %}">
+          <img src="{% static 'site/img/atomic-symbol.png' %}" width="24" height="24">
+        </a>
+        <span class="navbar-burger burger" data-target="navMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </div>
+      <div id="navMenu" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href="{% url 'home' %}">Home</a>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">Browse</a>
+            <div class="navbar-dropdown">
+              <a class="navbar-item" href="{% url 'publisher:list' %}">Publishers</a>
+              <a class="navbar-item" href="{% url 'series:list' %}">Series</a>
+              <a class="navbar-item" href="{% url 'issue:list' %}">Issues</a>
+              <a class="navbar-item" href="{% url 'creator:list' %}">Creators</a>
+              <a class="navbar-item" href="{% url 'character:list' %}">Characters</a>
+              <a class="navbar-item" href="{% url 'arc:list' %}">Story Arcs</a>
+              <a class="navbar-item" href="{% url 'team:list' %}">Teams</a>
+            </div>
+          </div>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">More</a>
+            <div class="navbar-dropdown">
+              <a class="navbar-item" href="/pages/contribute/">How To Contribute FAQ</a>
+              <a class="navbar-item" href="/pages/guidelines/editing/">Editing Guidelines</a>
+              <a class="navbar-item" href="/docs/">API Docs</a>
+              <hr class="navbar-divider">
+              <a class="navbar-item" href="{% url 'contact:email' %}">Contact Us</a>
+              <a class="navbar-item" href="https://github.com/bpepple/metron/issues/new/choose">Report an issue</a>
+            </div>
+          </div>
+        </div>
+        <div class="navbar-end">
+          {% if user.is_authenticated %}
+            <div class="navbar-item">
+              <a class="button is-light" href="{% url 'logout' %}">Log out</a>
+            </div>
+          {% else %}
+            <div class="navbar-item">
+              <a class="button is-light" href="{% url 'signup' %}" disabled>Sign Up</a>
+            </div>
+            <div class="navbar-item">
+              <a class="button is-light" href="{% url 'login' %}">Log in</a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
 
     {% block content %}{% endblock %}
 
@@ -50,5 +103,6 @@
     </footer>
 
     {% block js %}{% endblock %}
+    <script src="{% static 'site/js/navbar.js' %}"></script>
   </body>
 </html>
