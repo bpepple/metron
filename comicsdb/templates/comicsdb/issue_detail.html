@@ -253,7 +253,7 @@
     <div class="column is-one-fifth">
       <div class="box">
         <h1 class="title is-6">Issue Details</h1>
-        <p><b>Series:</b> {{ issue.series }}</p>
+        <p><b>Series:</b> <a href="{% url 'series:detail' issue.series.slug %}">{{ issue.series }}</a></p>
         <p><b>Number:</b> {{ issue.number }}</p>
         <p><b>Cover Date:</b> {{ issue.cover_date|date:"SHORT_DATE_FORMAT" }}</p>
         {% if issue.store_date %}
