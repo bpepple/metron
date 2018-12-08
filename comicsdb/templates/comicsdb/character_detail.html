@@ -109,7 +109,11 @@
         <h1 class="title is-6">Character Details</h1>
         <p><b>Number of Issue:</b> {{ character.issue_count }}</p>
         {% if character.issue_count > 0 %}
-          <p><b>First Appearance:</b> {{ character.first_appearance }}</p>
+          {% with first=character.first_appearance %}
+            <p>
+              <b>First Appearance:</b> <a href="{% url 'issue:detail' first.slug %}">{{ first }}</a>
+            </p>
+          {% endwith %}
         {% endif %}
         {% if character.alias %}
           {% with aliases=character.alias %}
