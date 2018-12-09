@@ -77,7 +77,6 @@ class SearchIssueList(IssueList):
 class IssueCreate(LoginRequiredMixin, CreateView):
     model = Issue
     form_class = IssueForm
-    template_name = 'comicsdb/model_with_image_form.html'
 
 
 class IssueUpdate(LoginRequiredMixin, UpdateView):
