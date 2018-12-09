@@ -7,6 +7,7 @@ from comicsdb.models import (Arc, Character, Credits, Creator, Issue,
 
 from comicsdb.forms.issue import IssueForm
 
+
 class CreditsInline(admin.TabularInline):
     model = Credits
     extra = 1
@@ -49,7 +50,7 @@ class CreatorAdmin(AdminImageMixin, admin.ModelAdmin):
 class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
     form = IssueForm
     search_fields = ('series__name',)
-    list_display = ('__str__',)
+    list_display = ('readable_name',)
     list_filter = ('cover_date',)
     list_select_related = ('series',)
     date_hierarchy = 'cover_date'

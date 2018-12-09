@@ -2,7 +2,7 @@
 {% load thumbnail %}
 {% load static %}
 
-{% block title %}{{ issue }}{% endblock title %}
+{% block title %}{{ issue.readable_name }}{% endblock title %}
 
 {% block comic_content %}
   <!-- series issue nav -->
@@ -35,7 +35,7 @@
     <div class="level-left">
       <div class="level-item">
         <div>
-          <p class="title">{{ issue }}</p>
+          <p class="title">{{ issue.readable_name }}</p>
         </div>
       </div>
     </div>
@@ -77,10 +77,10 @@
         <figure class="image is-2by3">
           {% if issue.image %}
             {% thumbnail issue.image "320x480" crop="center" as im %}
-              <img src="{{ im.url }}" alt = "{{ issue }}">
+              <img src="{{ im.url }}" alt = "{{ issue.readable_name }}">
             {% endthumbnail %}
           {% else %}
-            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ issue }}">
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ issue.readable_name }}">
           {% endif %}
         </figure>
       </div>

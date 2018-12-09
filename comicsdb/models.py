@@ -194,6 +194,10 @@ class Issue(models.Model):
         return reverse('issue:detail', args=[self.slug])
 
     def __str__(self):
+        return self.number
+
+    @property
+    def readable_name(self):
         return f'{self.series.name} #{self.number}'
 
     class Meta:
