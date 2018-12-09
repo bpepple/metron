@@ -1,4 +1,5 @@
 {% extends "comicsdb/comics_base.html" %}
+{% load static %}
 {% load bulma_tags %}
 
 {% block title %}{{ form.instance }} Form{% endblock title %}
@@ -53,6 +54,14 @@
 {% endblock %}
 
 {% block js %}
+<script src="{% static 'admin/js/vendor/xregexp/xregexp.min.js' %}"></script>
+<script src="{% static 'admin/js/urlify.js' %}"></script>
+<script>
+document.getElementById("id_name").onkeyup = function() {
+    var e = document.getElementById("id_slug");
+    if (!e._changed) { e.value = URLify(document.getElementById("id_name").value, 255, false); }
+}
+</script>
 <script>
 var file = document.getElementById("id_image");
 file.onchange = function(){
