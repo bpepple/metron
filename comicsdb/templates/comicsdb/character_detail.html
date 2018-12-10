@@ -111,7 +111,7 @@
         {% if character.issue_count > 0 %}
           {% with first=character.first_appearance %}
             <p>
-              <b>First Appearance:</b> <a href="{% url 'issue:detail' first.slug %}">{{ first }}</a>
+              <b>First Appearance:</b> <a href="{% url 'issue:detail' first.slug %}">{{ first.readable_name }}</a>
             </p>
           {% endwith %}
         {% endif %}
