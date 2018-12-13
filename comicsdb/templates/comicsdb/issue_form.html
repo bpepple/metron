@@ -1,4 +1,5 @@
 {% extends "comicsdb/comics_base.html" %}
+{% load static %}
 {{% load bulma_tags %}
 
 {% block title %}{{ form.instance }} Form{% endblock title %}
@@ -53,6 +54,36 @@
 {% endblock %}
 
 {% block js %}
+<script src="{% static 'admin/js/vendor/xregexp/xregexp.min.js' %}"></script>
+<script src="{% static 'admin/js/urlify.js' %}"></script>
+<script>
+function getSelectedOption(sel) {
+    var opt;
+    for ( var i = 0, len = sel.options.length; i < len; i++ ) {
+        opt = sel.options[i];
+        if ( opt.selected === true ) {
+            break;
+        }
+    }
+    return opt;
+}
+document.getElementById("id_series").onclick = function() {
+    var e = document.getElementById("id_slug");
+    var sel = document.getElementById("id_series");
+    var seriesName = getSelectedOption(sel);
+    var issueNumber = document.getElementById("id_number").value;
+    var res = seriesName.text + ' ' + issueNumber;
+    if (!e._changed) { e.value = URLify(res, 255, false); }
+}
+document.getElementById("id_number").onkeyup = function() {
+    var e = document.getElementById("id_slug");
+    var sel = document.getElementById("id_series");
+    var seriesName = getSelectedOption(sel);
+    var issueNumber = document.getElementById("id_number").value;
+    var res = seriesName.text + ' ' + issueNumber;
+    if (!e._changed) { e.value = URLify(res, 255, false); }
+}
+</script>
 <script>
 var file = document.getElementById("id_image");
 file.onchange = function(){
