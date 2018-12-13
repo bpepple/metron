@@ -168,7 +168,7 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = (
         Series.objects
-        .select_related('series_type')
+        .select_related('series_type', 'publisher')
     )
     serializer_class = SeriesSerializer
     filter_backends = (filters.SearchFilter,)

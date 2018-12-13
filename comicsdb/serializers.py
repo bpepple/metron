@@ -130,7 +130,7 @@ class SeriesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Series
-        fields = ('id', 'name', 'sort_name', 'volume', 'series_type',
+        fields = ('id', 'name', 'sort_name', 'volume', 'series_type', 'publisher',
                   'year_began', 'year_end', 'desc', 'issue_count', 'image')
 
     def to_representation(self, obj):
