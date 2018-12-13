@@ -19,7 +19,7 @@ class IssueForm(ModelForm):
     class Meta:
         model = Issue
         # exclude 'creators' field
-        fields = ('series', 'name', 'slug', 'number', 'cover_date',
+        fields = ('series', 'number', 'slug', 'name', 'cover_date',
                   'store_date', 'desc', 'characters', 'arcs', 'teams',
                   'image')
         widgets = {
