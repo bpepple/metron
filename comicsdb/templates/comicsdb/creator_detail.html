@@ -109,8 +109,6 @@
         <h1 class="title is-6">Creator Details</h1>
         {% if creator.birth %}
           <p><b>Birth:</b> {{ creator.birth|date:"SHORT_DATE_FORMAT" }}</p>
-        {% else %}
-          <p><b>Birth:</b> Unknown</p>
         {% endif %}
         {% if creator.death %}
           <p><b>Death:</b> {{ creator.death|date:"SHORT_DATE_FORMAT" }}</p>
