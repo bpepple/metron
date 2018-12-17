@@ -82,7 +82,6 @@ class IssueCreate(LoginRequiredMixin, CreateView):
 class IssueUpdate(LoginRequiredMixin, UpdateView):
     model = Issue
     form_class = IssueForm
-    template_name = 'comicsdb/model_with_image_form.html'
 
 
 class IssueDelete(LoginRequiredMixin, DeleteView):
