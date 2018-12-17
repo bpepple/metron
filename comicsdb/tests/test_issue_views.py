@@ -100,3 +100,7 @@ class IssueListViewTest(TestCase):
         self.assertTrue(resp.context['is_paginated'] == True)
         self.assertTrue(
             len(resp.context['issue_list']) == PAGINATE_DIFF_VAL)
+
+    def test_sitemap(self):
+        response = self.client.get('/sitemap.xml')
+        self.assertEquals(response.status_code, HTML_OK_CODE)
