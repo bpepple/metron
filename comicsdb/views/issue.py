@@ -108,9 +108,19 @@ class IssueUpdate(LoginRequiredMixin, UpdateView):
         data = super(IssueUpdate, self).get_context_data(**kwargs)
         if self.request.POST:
             data['credits'] = CreditsFormSet(self.request.POST,
-                                             instance=self.object)
+                                             instance=self.object,
+                                             queryset=(
+                                                 Credits.objects
+                                                 .filter(issue=self.object)
+                                                 .prefetch_related('role')
+                                             ))
         else:
-            data['credits'] = CreditsFormSet(instance=self.object)
+            data['credits'] = CreditsFormSet(instance=self.object,
+                                             queryset=(
+                                                 Credits.objects
+                                                 .filter(issue=self.object)
+                                                 .prefetch_related('role')
+                                             ))
         return data
 
     def form_valid(self, form):
