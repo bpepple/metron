@@ -3,11 +3,13 @@ import operator
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 from django.db.models import Q, Prefetch
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
+from comicsdb.forms.credits import CreditsFormSet
 from comicsdb.forms.issue import IssueForm
 from comicsdb.models import Issue, Credits
 
@@ -77,6 +79,25 @@ class SearchIssueList(IssueList):
 class IssueCreate(LoginRequiredMixin, CreateView):
     model = Issue
     form_class = IssueForm
+
+    def get_context_data(self, **kwargs):
+        data = super(IssueCreate, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['credits'] = CreditsFormSet(self.request.POST)
+        else:
+            data['credits'] = CreditsFormSet()
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        credits_form = context['credits']
+        with transaction.atomic():
+            self.object = form.save()
+
+            if credits_form.is_valid():
+                credits_form.instance = self.object
+                credits_form.save()
+        return super(IssueCreate, self).form_valid(form)
 
 
 class IssueUpdate(LoginRequiredMixin, UpdateView):

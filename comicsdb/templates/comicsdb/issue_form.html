@@ -9,6 +9,7 @@
   {{ form.media }}
   <form method="post" enctype="multipart/form-data">
     {%csrf_token%}
+    <!-- main -->
     {% if form.errors %}
       {% for field in form %}
         {% for error in field.errors %}
@@ -45,11 +46,51 @@
         {% endif %}
       </div>
     {% endfor %}
+    <!-- end main -->
+
+    <!-- credits -->
+    <label class="label">Credits</label>
+    {{ credits.management_form }}
+
+    {% for form in credits.forms %}
+      <div class="field is-horizontal formset_row">
+        <div class="field-body">
+          {% for field in form.visible_fields %}
+            {# Include the hidden fields in the form #}
+            {% if forloop.first %}
+              {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+              {% endfor %}
+            {% endif %}
+            <div class="field">
+              {% if field|is_select %}
+                <div class="control is-expanded">
+                  <div class="select is-fullwidth {% if field|is_multiple_select %}is-multiple{% endif %}">
+                    {{ field }}
+                  </div>
+                </div>
+              {% else %}
+                <div class="control">{{ field }}</div>
+              {% endif %}
+              {% if field.help_text %}
+                <ul>
+                  <li class="help">{{ field.help_text|safe }}</li>
+                </ul>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+    <!-- end credits -->
+
+    <!-- submit -->
     <div class="field">
       <div class="control">
         <button class="button is-info" type="submit">Submit</button>
       </div>
     </div>
+    <!-- end submit -->
   </form>
 {% endblock %}
 
@@ -58,4 +99,12 @@
 <script src="{% static 'admin/js/urlify.js' %}"></script>
 <script src="{% static 'site/js/issue-slug.js' %}"></script>
 <script src="{% static 'site/js/image-selector-filename.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'site/js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $('.formset_row').formset({
+        addText: 'Add creator credit',
+        prefix: 'credits_set'
+    });
+</script>
 {% endblock %}
