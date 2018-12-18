@@ -94,7 +94,7 @@
             <div class="content">
               <ul>
               {% for issue in issues %}
-                <li><a href="{% url 'issue:detail' issue.slug %}">{{ issue.readable_name }}</a></li>
+                <li><a href="{% url 'issue:detail' issue.slug %}">{{ issue }}</a></li>
               {% endfor %}
               </ul>
             </div>
