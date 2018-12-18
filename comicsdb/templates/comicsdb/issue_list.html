@@ -51,14 +51,14 @@
           <figure class="image is-2by3">
           {% if issue.image %}
             {% thumbnail issue.image "320x480" crop="center" as im %}
-              <img src="{{ im.url }}" alt = "{{ issue.readable_name }}">
+              <img src="{{ im.url }}" alt = "{{ issue }}">
             {% endthumbnail %}
           {% else %}
-            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ issue.readable_name }}">
+            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ issue }}">
           {% endif %}
           </figure>
         </a>
-        <a href="{% url 'issue:detail' issue.slug %}">{{ issue.readable_name }}</a>
+        <a href="{% url 'issue:detail' issue.slug %}">{{ issue }}</a>
       </div>
       {% endfor %}
     </div>

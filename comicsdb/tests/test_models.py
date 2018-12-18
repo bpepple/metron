@@ -186,7 +186,7 @@ class IssueTest(TestCase):
 
     def test_issue_creation(self):
         self.assertTrue(isinstance(self.issue, Issue))
-        self.assertEqual(str(self.issue.readable_name), 'Superman #1')
+        self.assertEqual(str(self.issue), 'Superman #1')
 
     def test_verbose_name_plural(self):
         self.assertEqual(str(self.issue._meta.verbose_name_plural), 'issues')

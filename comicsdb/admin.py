@@ -50,7 +50,7 @@ class CreatorAdmin(AdminImageMixin, admin.ModelAdmin):
 class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
     form = IssueForm
     search_fields = ('series__name',)
-    list_display = ('readable_name',)
+    list_display = ('__str__',)
     list_filter = ('cover_date',)
     list_select_related = ('series',)
     date_hierarchy = 'cover_date'
