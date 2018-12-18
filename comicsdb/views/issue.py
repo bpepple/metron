@@ -104,6 +104,26 @@ class IssueUpdate(LoginRequiredMixin, UpdateView):
     model = Issue
     form_class = IssueForm
 
+    def get_context_data(self, **kwargs):
+        data = super(IssueUpdate, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['credits'] = CreditsFormSet(self.request.POST,
+                                             instance=self.object)
+        else:
+            data['credits'] = CreditsFormSet(instance=self.object)
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        credits_form = context['credits']
+        with transaction.atomic():
+            self.object = form.save()
+
+            if credits_form.is_valid():
+                credits_form.instance = self.object
+                credits_form.save()
+        return super(IssueUpdate, self).form_valid(form)
+
 
 class IssueDelete(LoginRequiredMixin, DeleteView):
     model = Issue
