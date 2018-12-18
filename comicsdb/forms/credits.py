@@ -10,4 +10,4 @@ class CreditsForm(ModelForm):
         fields = '__all__'
 
 CreditsFormSet = inlineformset_factory(Issue, Credits, form=CreditsForm,
-                                       extra=2)
+                                       extra=1)
