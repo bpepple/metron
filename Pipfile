@@ -13,6 +13,7 @@ django-widget-tweaks = "*"
 djangorestframework = "*"
 coreapi = "*"
 gunicorn = "*"
+django-autocomplete-light = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
