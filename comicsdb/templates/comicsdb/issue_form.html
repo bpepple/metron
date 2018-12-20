@@ -51,6 +51,7 @@
     <!-- credits -->
     <label class="label">Credits</label>
     {{ credits.management_form }}
+    {{ credits.media }}
 
     {% for form in credits.forms %}
       <div class="field is-horizontal formset_row">
@@ -99,7 +100,6 @@
 <script src="{% static 'admin/js/urlify.js' %}"></script>
 <script src="{% static 'site/js/issue-slug.js' %}"></script>
 <script src="{% static 'site/js/image-selector-filename.js' %}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="{% static 'site/js/jquery.formset.js' %}"></script>
 <script type="text/javascript">
     $('.formset_row').formset({

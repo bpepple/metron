@@ -4,7 +4,7 @@ from comicsdb.models import Credits, Issue, Creator
 from dal import autocomplete
 
 
-class AdminCreditsForm(ModelForm):
+class CreditsForm(ModelForm):
     creator = ModelChoiceField(
         queryset=Creator.objects.all(),
         widget=autocomplete.ModelSelect2(url='issue:creator-autocomplete',
@@ -18,12 +18,6 @@ class AdminCreditsForm(ModelForm):
         model = Credits
         fields = '__all__'
 
-
-class CreditsForm(ModelForm):
-
-    class Meta:
-        model = Credits
-        fields = '__all__'
 
 CreditsFormSet = inlineformset_factory(Issue, Credits, form=CreditsForm,
                                        extra=1)
