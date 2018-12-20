@@ -1,7 +1,8 @@
 from django.urls import path, re_path
 
 from comicsdb.views.issue import (IssueList, IssueDetail, SearchIssueList,
-                                  IssueCreate, IssueUpdate, IssueDelete)
+                                  IssueCreate, IssueUpdate, IssueDelete,
+                                  CreatorAutocomplete)
 from comicsdb.views.variant import VariantCreate
 
 
@@ -13,5 +14,7 @@ urlpatterns = [
     path('<slug:slug>/update/', IssueUpdate.as_view(), name='update'),
     path('<slug:slug>/delete/', IssueDelete.as_view(), name='delete'),
     path('<slug:slug>/add/variant/', VariantCreate.as_view(), name='variant'),
+    re_path(r'^creator-autocomplete/?$', CreatorAutocomplete.as_view(),
+            name='creator-autocomplete'),
     re_path(r'^search/?$', SearchIssueList.as_view(), name='search')
 ]

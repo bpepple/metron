@@ -1,6 +1,7 @@
 from functools import reduce
 import operator
 
+from dal import autocomplete
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
@@ -11,10 +12,24 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from comicsdb.forms.credits import CreditsFormSet
 from comicsdb.forms.issue import IssueForm
-from comicsdb.models import Issue, Credits
+from comicsdb.models import Issue, Credits, Creator
 
 
 PAGINATE = 28
+
+
+class CreatorAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return Creator.objects.none()
+
+        qs = Creator.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+
+        return qs
 
 
 class IssueList(ListView):

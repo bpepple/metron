@@ -6,10 +6,12 @@ from comicsdb.models import (Arc, Character, Credits, Creator, Issue,
                              Team, Variant)
 
 from comicsdb.forms.issue import IssueForm
+from comicsdb.forms.credits import CreditsForm
 
 
 class CreditsInline(admin.TabularInline):
     model = Credits
+    form = CreditsForm
     extra = 1
 
 
