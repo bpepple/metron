@@ -42,14 +42,20 @@
     <div class="level-right">
     {% if user.is_authenticated %}
       <p class="level-item">
-        <a class="button is-primary" href="{% url 'team:update' team.slug %}" title="Edit team">Edit</a>
+        <a class="button is-primary" href="{% url 'team:create' %}" title="Add a new team">New</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-info" href="{% url 'team:update' team.slug %}" title="Edit team">Edit</a>
       </p>
       <p class="level-item">
         <a class="button is-danger" href="{% url 'team:delete' team.slug %}" title="Delete team">Delete</a>
       </p>
     {% else %}
       <p class="level-item">
-        <a class="button is-primary" title="Edit team" disabled>Edit</a>
+        <a class="button is-primary" href="{% url 'team:create' %}" title="Add a new team" disabled>New</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-info" title="Edit team" disabled>Edit</a>
       </p>
       <p class="level-item">
         <a class="button is-danger" title="Delete team" disabled>Delete</a>

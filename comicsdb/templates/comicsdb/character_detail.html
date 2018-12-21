@@ -42,14 +42,20 @@
     <div class="level-right">
     {% if user.is_authenticated %}
       <p class="level-item">
-        <a class="button is-primary" href="{% url 'character:update' character.slug %}" title="Edit character">Edit</a>
+        <a class="button is-primary" href="{% url 'character:create' %}" title="Add a new character">New</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-info" href="{% url 'character:update' character.slug %}" title="Edit character">Edit</a>
       </p>
       <p class="level-item">
         <a class="button is-danger" href="{% url 'character:delete' character.slug %}" title="Delete character">Delete</a>
       </p>
     {% else %}
       <p class="level-item">
-        <a class="button is-primary" title="Edit character" disabled>Edit</a>
+        <a class="button is-primary" href="{% url 'character:create' %}" title="Add a new character" disabled>New</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-info" title="Edit character" disabled>Edit</a>
       </p>
       <p class="level-item">
         <a class="button is-danger" title="Delete character" disabled>Delete</a>

@@ -39,18 +39,24 @@
     </div>
     <div class="level-right">
       <div class="level-item">
-          <a class="button is-link" href="{% url 'publisher:series' publisher.slug %}">
-            Open Series List
+          <a class="button is-link" href="{% url 'publisher:series' publisher.slug %}" title="Open series list for publisher">
+            Series List
           </a>
       </div>
       {% if user.is_authenticated %}
       <p class="level-item">
-        <a class="button is-primary" href="{% url 'publisher:update' publisher.slug %}" title="Edit publisher">Edit</a>
+        <a class="button is-primary" href="{% url 'publisher:create' %}" title="Add a new publisher">New</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-info" href="{% url 'publisher:update' publisher.slug %}" title="Edit publisher">Edit</a>
       </p>
       <p class="level-item">
         <a class="button is-danger" href="{% url 'publisher:delete' publisher.slug %}" title="Delete publisher">Delete</a>
       </p>
       {% else %}
+      <p class="level-item">
+        <a class="button is-primary" href="{% url 'publisher:create' %}" title="Add a new publisher" disabled>New</a>
+      </p>
       <p class="level-item">
         <a class="button is-primary" title="Edit publisher" disabled>Edit</a>
       </p>

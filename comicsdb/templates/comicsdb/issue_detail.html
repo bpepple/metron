@@ -42,17 +42,26 @@
     <div class="level-right">
       {% if user.is_authenticated %}
       <p class="level-item">
+        <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">New</a>
+      </p>
+      <p class="level-item">
         <a class="button is-warning" href="{% url 'issue:variant' issue.slug %}" title="Add variant cover">Add Variant Cover</a>
       </p>
       <p class="level-item">
-        <a class="button is-primary" href="{% url 'issue:update' issue.slug %}" title="Edit Issue">Edit Issue</a>
+        <a class="button is-info" href="{% url 'issue:update' issue.slug %}" title="Edit Issue">Edit Issue</a>
       </p>
       <p class="level-item">
         <a class="button is-danger" href="{% url 'issue:delete' issue.slug %}" title="Delete Issue">Delete Issue</a>
       </p>
       {% else %}
       <p class="level-item">
-        <a class="button is-primary" title="Edit Issue" disabled>Edit Issue</a>
+        <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue" disabled>New</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-warning" href="{% url 'issue:variant' issue.slug %}" title="Add variant cover" disabled>Add Variant Cover</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-info" title="Edit Issue" disabled>Edit Issue</a>
       </p>
       <p class="level-item">
         <a class="button is-danger" title="Delete Issue" disabled>Delete Issue</a>

@@ -42,14 +42,20 @@
     <div class="level-right">
     {% if user.is_authenticated %}
       <p class="level-item">
-        <a class="button is-primary" href="{% url 'arc:update' arc.slug %}" title="Edit arc">Edit</a>
+        <a class="button is-primary" href="{% url 'arc:create' %}" title="Add a new story arc">New</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-info" href="{% url 'arc:update' arc.slug %}" title="Edit arc">Edit</a>
       </p>
       <p class="level-item">
         <a class="button is-danger" href="{% url 'arc:delete' arc.slug %}" title="Delete arc">Delete</a>
       </p>
     {% else %}
       <p class="level-item">
-        <a class="button is-primary" title="Edit arc" disabled>Edit</a>
+        <a class="button is-primary" href="{% url 'arc:create' %}" title="Add a new story arc" disabled>New</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-info" title="Edit arc" disabled>Edit</a>
       </p>
       <p class="level-item">
         <a class="button is-danger" title="Delete arc" disabled>Delete</a>

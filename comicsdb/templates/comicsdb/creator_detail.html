@@ -42,14 +42,20 @@
     <div class="level-right">
     {% if user.is_authenticated %}
       <p class="level-item">
-        <a class="button is-primary" href="{% url 'creator:update' creator.slug %}" title="Edit creator">Edit</a>
+        <a class="button is-primary" href="{% url 'creator:create' %}" title="Add a new creator">New</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-info" href="{% url 'creator:update' creator.slug %}" title="Edit creator">Edit</a>
       </p>
       <p class="level-item">
         <a class="button is-danger" href="{% url 'creator:delete' creator.slug %}" title="Delete creator">Delete</a>
       </p>
     {% else %}
       <p class="level-item">
-        <a class="button is-primary" title="Edit creator" disabled>Edit</a>
+        <a class="button is-primary" href="{% url 'creator:create' %}" title="Add a new creator" disabled>New</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-info" title="Edit creator" disabled>Edit</a>
       </p>
       <p class="level-item">
         <a class="button is-danger" title="Delete creator" disabled>Delete</a>

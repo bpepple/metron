@@ -41,20 +41,26 @@
     </div>
     <div class="level-right">
       <div class="level-item">
-          <a class="button is-link" href="{% url 'series:issue' series.slug %}">
-            Open Issue List
+          <a class="button is-link" href="{% url 'series:issue' series.slug %}" title="Open issue list for series">
+            Issue List
           </a>
       </div>
       {% if user.is_authenticated %}
       <p class="level-item">
-        <a class="button is-primary" href="{% url 'series:update' series.slug %}" title="Edit Series">Edit</a>
+        <a class="button is-primary" href="{% url 'series:create' %}" title="Add a new series">New</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-info" href="{% url 'series:update' series.slug %}" title="Edit Series">Edit</a>
       </p>
       <p class="level-item">
         <a class="button is-danger" href="{% url 'series:delete' series.slug %}" title="Delete Series">Delete</a>
       </p>
       {% else %}
       <p class="level-item">
-        <a class="button is-primary" title="Edit Series" disabled>Edit</a>
+        <a class="button is-primary" href="{% url 'series:create' %}" title="Add a new series" disabled>New</a>
+      </p>
+      <p class="level-item">
+        <a class="button is-info" title="Edit Series" disabled>Edit</a>
       </p>
       <p class="level-item">
         <a class="button is-danger" title="Delete Series"disabled>Delete</a>
