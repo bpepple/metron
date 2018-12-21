@@ -48,10 +48,10 @@
         <a class="button is-warning" href="{% url 'issue:variant' issue.slug %}" title="Add variant cover">Add Variant Cover</a>
       </p>
       <p class="level-item">
-        <a class="button is-info" href="{% url 'issue:update' issue.slug %}" title="Edit Issue">Edit Issue</a>
+        <a class="button is-info" href="{% url 'issue:update' issue.slug %}" title="Edit Issue">Edit</a>
       </p>
       <p class="level-item">
-        <a class="button is-danger" href="{% url 'issue:delete' issue.slug %}" title="Delete Issue">Delete Issue</a>
+        <a class="button is-danger" href="{% url 'issue:delete' issue.slug %}" title="Delete Issue">Delete</a>
       </p>
       {% else %}
       <p class="level-item">
@@ -61,10 +61,10 @@
         <a class="button is-warning" href="{% url 'issue:variant' issue.slug %}" title="Add variant cover" disabled>Add Variant Cover</a>
       </p>
       <p class="level-item">
-        <a class="button is-info" title="Edit Issue" disabled>Edit Issue</a>
+        <a class="button is-info" title="Edit Issue" disabled>Edit</a>
       </p>
       <p class="level-item">
-        <a class="button is-danger" title="Delete Issue" disabled>Delete Issue</a>
+        <a class="button is-danger" title="Delete Issue" disabled>Delete</a>
       </p>
       {% endif %}
     </div>
