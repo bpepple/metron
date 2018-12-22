@@ -90,6 +90,10 @@ class Character(models.Model):
     def first_appearance(self):
         return self.issue_set.order_by('cover_date').all().first
 
+    @property
+    def recent_appearances(self):
+        return self.issue_set.order_by('-cover_date').all()[:5]
+
     def __str__(self):
         return self.name
 

@@ -83,8 +83,9 @@
     </div>
     <!-- end of character image -->
 
-    <!-- character summary -->
+    <!-- center column -->
     <div class="column">
+      <!-- desc -->
       <div class="box">
         {% if character.desc %}
           <h1 class="title is-5">Summary</h1>
@@ -106,10 +107,28 @@
            <h1 class="title is-5">No information available.</h1>
         {% endif %}
       </div>
+      <!-- end desc -->
+
+      <!-- recent appearances -->
+      {% with appearances=character.recent_appearances %}
+        {% if appearances %}
+          <div class="box">
+            <h1 class="title is-5">Recent Appearance{{ appearances|pluralize }}</h1>
+            <div class="content">
+              <ul>
+                {% for appearance in appearances %}
+                  <li><a href="{% url 'issue:detail' appearance.slug %}">{{ appearance }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        {% endif %}
+      {% endwith %}
+      <!-- end recent issues -->
     </div>
-    <!-- end of character summary -->
-    
-        <!-- misc info -->
+    <!-- end of center column -->
+
+    <!-- misc info -->
     <div class="column is-one-fifth">
       <div class="box">
         <h1 class="title is-6">Character Details</h1>
@@ -157,7 +176,6 @@
       </div>
     </div>
     <!-- end misc info -->
-    
   </div>
   <!-- end of main page content -->
 {% endblock %}
