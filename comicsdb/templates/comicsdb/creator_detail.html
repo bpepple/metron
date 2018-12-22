@@ -83,8 +83,9 @@
     </div>
     <!-- end of creator image -->
 
-    <!-- creator summary -->
+    <!-- center column -->
     <div class="column">
+      <!-- summary -->
       <div class="box">
         {% if creator.desc %}
           <h1 class="title is-5">Summary</h1>
@@ -106,8 +107,25 @@
            <h1 class="title is-5">No information available.</h1>
         {% endif %}
       </div>
+       <!-- end of summary -->
+       <!-- recent issues -->
+      {% with issues=creator.recent_issues %}
+        {% if issues %}
+          <div class="box">
+            <h1 class="title is-5">Recent Issue{{ issues|pluralize }}</h1>
+            <div class="content">
+              <ul>
+                {% for i in issues %}
+                  <li><a href="{% url 'issue:detail' i.issue.slug %}">{{ i.issue }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        {% endif %}
+      {% endwith %}
+       <!-- end of recent issues -->
     </div>
-    <!-- end of creator summary -->
+    <!-- end of center column -->
 
     <!-- misc info -->
     <div class="column is-one-fifth">

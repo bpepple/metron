@@ -2,13 +2,13 @@ from functools import reduce
 import operator
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from comicsdb.forms.creator import CreatorForm
-from comicsdb.models import Creator
+from comicsdb.models import Creator, Credits
 
 
 PAGINATE = 28
@@ -21,6 +21,13 @@ class CreatorList(ListView):
 
 class CreatorDetail(DetailView):
     model = Creator
+    queryset = (
+        Creator.objects
+        .prefetch_related(Prefetch('credits_set',
+                                   queryset=Credits.objects
+                                   .select_related('issue', 'issue__series'))
+                          )
+    )
 
     def get_context_data(self, **kwargs):
         context = super(CreatorDetail, self).get_context_data(**kwargs)

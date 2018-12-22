@@ -35,6 +35,10 @@ class Creator(models.Model):
     def issue_count(self):
         return self.credits_set.all().count()
 
+    @property
+    def recent_issues(self):
+        return self.credits_set.order_by('-issue__cover_date').all()[:5]
+
     def get_absolute_url(self):
         return reverse('creator:detail', args=[self.slug])
 
