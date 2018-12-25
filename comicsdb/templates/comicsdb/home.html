@@ -1,4 +1,6 @@
 {% extends "comicsdb/comics_base.html" %}
+{% load thumbnail %}
+{% load static %}
 
 {% block title %}Metron{% endblock %}
 
@@ -20,6 +22,7 @@
       <div class="columns">
         <!-- welcome column  -->
         <div class="column">
+          <!-- info box -->
           <div class="box">
             <h1 class="title is-5">What?</h1>
             <h2 class="subtitle is-6">
@@ -42,13 +45,37 @@
               documentation fairly soon.
             </h2>
           </div>
+          <!-- end info box -->
+          <!-- recent issues -->
+          <div class="box">
+            <h1 class="title is-5">Recently Edited Issues</h1>
+            <div class="columns is-multiline">
+            {% for issue in recent %}
+              <div class="column is-one-fifth has-text-centered">
+                <a href="{% url 'issue:detail' issue.slug %}">
+                  <figure class="image is-2by3">
+                    {% if issue.image %}
+                      {% thumbnail issue.image "320x480" crop="center" as im %}
+                        <img src="{{ im.url }}" alt = "{{ issue }}">
+                      {% endthumbnail %}
+                    {% else %}
+                      <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ issue }}">
+                    {% endif %}
+                  </figure>
+                </a>
+                <a href="{% url 'issue:detail' issue.slug %}">{{ issue }}</a>
+              </div>
+            {% endfor %}
+            </div>
+          </div>
+          <!-- end recent issues -->
         </div>
         <!-- end welcome column-->
 
         <!-- stats column -->
         <div class="column is-one-fifth">
           <div class="box">
-            <h1 class="title is-5">Indexed Statistics</h1>
+            <h1 class="title is-5">Database Statistics</h1>
             <ul>
               <li>Publisher{{ publisher|pluralize }}: {{ publisher }}</li>
               <li>Series: {{ series }}</li>
