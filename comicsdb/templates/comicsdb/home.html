@@ -1,5 +1,6 @@
 {% extends "comicsdb/comics_base.html" %}
 {% load thumbnail %}
+{% load humanize %}
 {% load static %}
 
 {% block title %}Metron{% endblock %}
@@ -77,13 +78,13 @@
           <div class="box">
             <h1 class="title is-5">Database Statistics</h1>
             <ul>
-              <li>Publisher{{ publisher|pluralize }}: {{ publisher }}</li>
-              <li>Series: {{ series }}</li>
-              <li>Issue{{ issue|pluralize }}: {{ issue }}</li>
-              <li>Creator{{ creator|pluralize }}: {{ creator }}</li>
-              <li>Character{{ character|pluralize }}: {{ character }}</li>
-              <li>Team{{ team|pluralize }}: {{ team }}</li>
-              <li>Story Arc{{ arc|pluralize }}: {{ arc }}</li>
+              <li>Publisher{{ publisher|pluralize }}: {{ publisher|intcomma }}</li>
+              <li>Series: {{ series|intcomma }}</li>
+              <li>Issue{{ issue|pluralize }}: {{ issue|intcomma }}</li>
+              <li>Creator{{ creator|pluralize }}: {{ creator|intcomma }}</li>
+              <li>Character{{ character|pluralize }}: {{ character|intcomma }}</li>
+              <li>Team{{ team|pluralize }}: {{ team|intcomma }}</li>
+              <li>Story Arc{{ arc|pluralize }}: {{ arc|intcomma }}</li>
             </ul>
           </div>
         </div>

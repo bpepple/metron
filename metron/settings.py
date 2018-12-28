@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.flatpages',
+    'django.contrib.humanize',
     'django.forms',
     'rest_framework',
     'widget_tweaks',
