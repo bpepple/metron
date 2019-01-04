@@ -25,6 +25,7 @@ class CreatorDetail(DetailView):
         Creator.objects
         .prefetch_related(Prefetch('credits_set',
                                    queryset=Credits.objects
+                                   .order_by('issue__cover_date', 'issue__series', 'issue__number')
                                    .select_related('issue', 'issue__series'))
                           )
     )
