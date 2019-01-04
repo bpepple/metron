@@ -162,7 +162,7 @@
                             <!-- creator roles -->
                             {% with roles=credit.role.all %}
                               {% if roles %}
-                                {% for role in roles %}<small><em>{% if not forloop.first %}, {% endif %}{{ role.name }}</em></small>{% endfor %}
+                                <small><em>{% for role in roles %}{% if not forloop.first %}, {% endif %}{{ role.name }}{% endfor %}</em></small>
                               {% endif %}
                             {% endwith %}
                             <!-- end creator roles -->
