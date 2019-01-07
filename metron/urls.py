@@ -24,7 +24,7 @@ from rest_framework.documentation import include_docs_urls
 
 from comicsdb.sitemaps import (ArcSitemap, CharacterSitemap, CreatorSitemap,
                                IssueSitemap, PublisherSitemap, SeriesSitemap,
-                               TeamSitemap)
+                               TeamSitemap, StaticViewSitemap)
 from comicsdb.urls import (
     api as api_urls,
     arc as arc_urls,
@@ -47,6 +47,7 @@ sitemaps = {
     'publisher': PublisherSitemap(),
     'series': SeriesSitemap(),
     'team': TeamSitemap(),
+    'static': StaticViewSitemap,
     'pages': FlatPageSitemap
 }
 

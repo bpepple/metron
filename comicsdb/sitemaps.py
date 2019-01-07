@@ -1,7 +1,19 @@
 from django.contrib.sitemaps import Sitemap
+from django.urls import reverse
 
 from comicsdb.models import (Arc, Character, Creator, Issue,
                              Publisher, Series, Team)
+
+
+class StaticViewSitemap(Sitemap):
+    changefreq = 'daily'
+    priority = 0.5
+
+    def items(self):
+        return ['home']
+
+    def location(self, item):
+        return reverse(item)
 
 
 class ArcSitemap(Sitemap):
