@@ -47,6 +47,33 @@
             </h2>
           </div>
           <!-- end info box -->
+
+          <!-- this weeks issues -->
+          {% if new %}
+          <div class="box">
+            <h1 class="title is-5">This Week's Issues</h1>
+            <div class="columns is-multiline">
+            {% for issue in new %}
+              <div class="column is-one-fifth has-text-centered">
+                <a href="{% url 'issue:detail' issue.slug %}">
+                  <figure class="image is-2by3">
+                    {% if issue.image %}
+                      {% thumbnail issue.image "320x480" crop="center" as im %}
+                        <img src="{{ im.url }}" alt = "{{ issue }}">
+                      {% endthumbnail %}
+                    {% else %}
+                      <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ issue }}">
+                    {% endif %}
+                  </figure>
+                </a>
+                <a href="{% url 'issue:detail' issue.slug %}">{{ issue }}</a>
+              </div>
+            {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+          <!-- end this weeks issues -->
+
           <!-- recent issues -->
           <div class="box">
             <h1 class="title is-5">Recently Edited Issues</h1>
