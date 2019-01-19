@@ -79,7 +79,7 @@
       <div class="box">
         <figure class="image is-2by3">
           {% if issue.image %}
-            {% thumbnail issue.image "320x480" crop="center" as im %}
+            {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
               <img src="{{ im.url }}" alt = "{{ issue }}">
             {% endthumbnail %}
           {% else %}
@@ -96,7 +96,7 @@
             <div class="box">
               <figure class="image is-2by3">
                 {% if variant.image %}
-                  {% thumbnail variant.image "320x480" crop="center" as im %}
+                  {% thumbnail variant.image "320x480" crop="center" format="WEBP" as im %}
                     <img src="{{ im.url }}" alt = "{{ variant }}">
                   {% endthumbnail %}
                 {% else %}
@@ -150,7 +150,7 @@
                       <article class="media">
                         <div class="media-left">
                           <figure class="image is-64x64">
-                            {% thumbnail credit.creator.image "64x64" crop="center" as im %}
+                            {% thumbnail credit.creator.image "64x64" crop="center" format="WEBP" as im %}
                               <img src="{{ im.url }}" alt="{{ credit.creator }}">
                             {% endthumbnail %}
                           </figure>
@@ -194,7 +194,7 @@
                   <article class="media">
                     <div class="media-left">
                       <figure class="image is-64x64">
-                      {% thumbnail character.image "64x64" crop="center" as im %}
+                      {% thumbnail character.image "64x64" crop="center" format="WEBP" as im %}
                         <img src="{{ im.url }}" alt="{{ character }}">
                       {% endthumbnail %}
                       </figure>
@@ -228,7 +228,7 @@
                   <article class="media">
                     <div class="media-left">
                       <figure class="image is-64x64">
-                      {% thumbnail team.image "64x64" crop="center" as im %}
+                      {% thumbnail team.image "64x64" crop="center" format="WEBP" as im %}
                         <img src="{{ im.url }}" alt="{{ character }}">
                       {% endthumbnail %}
                       </figure>

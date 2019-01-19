@@ -46,7 +46,7 @@
         <a href="{% url 'creator:detail' creator.slug %}">
           <figure class="image is-square">
           {% if creator.image %}
-            {% thumbnail creator.image "256x256" crop="center" as im %}
+            {% thumbnail creator.image "256x256" crop="center" format="WEBP" as im %}
               <img src="{{ im.url }}" alt = "{{ creator.name }}">
             {% endthumbnail %}
           {% else %}

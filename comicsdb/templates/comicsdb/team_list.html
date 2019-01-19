@@ -46,7 +46,7 @@
         <a href="{% url 'team:detail' team.slug %}">
           <figure class="image is-2by3">
           {% if team.image %}
-            {% thumbnail team.image "320x480" crop="center" as im %}
+            {% thumbnail team.image "320x480" crop="center" format="WEBP" as im %}
               <img src="{{ im.url }}" alt="{{ team.name }}">
             {% endthumbnail %}
           {% else %}

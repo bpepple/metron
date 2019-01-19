@@ -46,7 +46,7 @@
         <a href="{% url 'publisher:detail' publisher.slug %}">
           <figure class="image is-2by3">
           {% if publisher.image %}
-            {% thumbnail publisher.image "320x480" crop="center" as im %}
+            {% thumbnail publisher.image "320x480" crop="center" format="WEBP" as im %}
               <img src="{{ im.url }}" alt = "{{ publisher.name }}">
             {% endthumbnail %}
           {% else %}

@@ -58,7 +58,7 @@
                 <a href="{% url 'issue:detail' issue.slug %}">
                   <figure class="image is-2by3">
                     {% if issue.image %}
-                      {% thumbnail issue.image "320x480" crop="center" as im %}
+                      {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
                         <img src="{{ im.url }}" alt = "{{ issue }}">
                       {% endthumbnail %}
                     {% else %}
@@ -83,7 +83,7 @@
                 <a href="{% url 'issue:detail' issue.slug %}">
                   <figure class="image is-2by3">
                     {% if issue.image %}
-                      {% thumbnail issue.image "320x480" crop="center" as im %}
+                      {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
                         <img src="{{ im.url }}" alt = "{{ issue }}">
                       {% endthumbnail %}
                     {% else %}
