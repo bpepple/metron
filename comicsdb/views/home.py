@@ -6,14 +6,14 @@ from comicsdb.models import (Publisher, Series, Issue, Character,
                              Creator, Team, Arc)
 
 
-current_week = date.today().isocalendar()[1]
-current_year = date.today().year
-
-
 class HomePageView(TemplateView):
     template_name = 'comicsdb/home.html'
 
     def get_context_data(self, **kwargs):
+        current_week = date.today().isocalendar()[1]
+        last_week = current_week - 1
+        current_year = date.today().year
+
         context = super(HomePageView, self).get_context_data(**kwargs)
         context['publisher'] = Publisher.objects.count()
         context['series'] = Series.objects.count()
@@ -28,9 +28,15 @@ class HomePageView(TemplateView):
             .order_by('-modified')
             .all()[:10]
         )
-        context['new'] = (
+        context['current_week'] = (
             Issue.objects
             .filter(store_date__week=current_week)
+            .filter(store_date__year=current_year)
+            .prefetch_related('series')
+        )
+        context['last_week'] = (
+            Issue.objects
+            .filter(store_date__week=last_week)
             .filter(store_date__year=current_year)
             .prefetch_related('series')
         )
