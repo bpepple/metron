@@ -49,13 +49,15 @@
       <div class="column is-one-quarter has-text-centered">
         <a href="{% url 'series:detail' series.slug %}">
           <figure class="image is-2by3">
-            {% if series.issue_set.first.image %}
-              {% thumbnail series.issue_set.first.image "320x480" crop="center" format="WEBP" as im %}
-                <img src="{{ im.url }}" alt = "{{ series }}">
-              {% endthumbnail %}
-            {% else %}
-              <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ series }}">
-            {% endif %}
+            {% with cover=series.first_issue_cover %}
+              {% if cover %}
+                {% thumbnail cover "320x480" crop="center" format="WEBP" as im %}
+                  <img src="{{ im.url }}" alt = "{{ series }}">
+                {% endthumbnail %}
+              {% else %}
+                <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ series }}">
+              {% endif %}
+            {% endwith %}
           </figure>
         </a>
         <a href="{% url 'series:detail' series.slug %}">{{ series }}</a>

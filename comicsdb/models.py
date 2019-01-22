@@ -173,6 +173,9 @@ class Series(models.Model):
     def __str__(self):
         return f'{self.name} ({self.year_began})'
 
+    def first_issue_cover(self):
+        return self.issue_set.all().first().image
+
     @property
     def issue_count(self):
         return self.issue_set.all().count()
