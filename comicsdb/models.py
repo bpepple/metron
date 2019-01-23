@@ -174,7 +174,10 @@ class Series(models.Model):
         return f'{self.name} ({self.year_began})'
 
     def first_issue_cover(self):
-        return self.issue_set.all().first().image
+        try:
+            return self.issue_set.all().first().image
+        except:
+            return None
 
     @property
     def issue_count(self):
