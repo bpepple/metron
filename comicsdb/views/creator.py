@@ -3,15 +3,26 @@ import operator
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Prefetch
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from comicsdb.forms.creator import CreatorForm
-from comicsdb.models import Creator, Credits
+from comicsdb.models import Creator, Credits, Issue, Series
 
 
 PAGINATE = 28
+
+
+class CreatorSeriesList(ListView):
+    paginate_by = PAGINATE
+    template_name = 'comicsdb/issue_list.html'
+
+    def get_queryset(self):
+        self.series = get_object_or_404(Series, slug=self.kwargs['series'])
+        self.creator = get_object_or_404(Creator, slug=self.kwargs['creator'])
+        return Issue.objects.select_related('series').filter(creators=self.creator, series=self.series)
 
 
 class CreatorList(ListView):
