@@ -1,4 +1,5 @@
 {% extends "comicsdb/comics_base.html" %}
+{% load creator_tags %}
 {% load thumbnail %}
 {% load static %}
 
@@ -72,7 +73,7 @@
       <div class="box">
         <figure class="image is-square">
           {% if creator.image %}
-            {% thumbnail creator.image "256x256" crop="center" format="WEBP" as im %}
+            {% thumbnail creator.image "256x256" crop="center" as im %}
               <img src="{{ im.url }}" alt = "{{ creator.name }}">
             {% endthumbnail %}
           {% else %}
@@ -107,26 +108,30 @@
            <h1 class="title is-5">No information available.</h1>
         {% endif %}
       </div>
-       <!-- end of summary -->
-       <!-- recent issues -->
-      {% with issues=creator.recent_issues %}
-        {% if issues %}
+      <!-- end of summary -->
+      <!-- series -->
+      {% with series=credits %}
+        {% if series %}
           <div class="box">
-            <h1 class="title is-5">Recent Issue{{ issues|pluralize }}</h1>
-            <div class="content">
-              <ul>
-                {% for i in issues %}
-                  <li><a href="{% url 'issue:detail' i.issue.slug %}">{{ i.issue }}</a></li>
-                {% endfor %}
-              </ul>
-            </div>
+            <h1 class="title is-5">Series</h1>
+          <div class="content">
+            <ul>
+            {% for i in series %}
+              <li>
+                {{ i|get_item:"issue__series__name" }}:
+                <a href="{% url 'creator:series' creator=creator.slug series=i|get_item:'issue__series__slug' %}">
+                  {{ i|get_item:"issue__count" }} issue{{ i|get_item:"issue__count"|pluralize }}
+                </a>
+              </li>
+            {% endfor %}
+            </ul>
+          </div>
           </div>
         {% endif %}
       {% endwith %}
-       <!-- end of recent issues -->
+      <!-- end series -->
     </div>
     <!-- end of center column -->
-
     <!-- misc info -->
     <div class="column is-one-fifth">
       <div class="box">

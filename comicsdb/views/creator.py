@@ -2,7 +2,7 @@ from functools import reduce
 import operator
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q, Prefetch
+from django.db.models import Q, Prefetch, Count
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
@@ -68,6 +68,16 @@ class CreatorDetail(DetailView):
             'next_creator': next_creator,
             'previous_creator': previous_creator,
         }
+
+        series_issues = (
+            Credits.objects
+            .filter(creator=creator)
+            .values('issue__series__name', 'issue__series__slug')
+            .annotate(Count('issue'))
+            .order_by('issue__series__sort_name')
+        )
+        context['credits'] = series_issues
+
         return context
 
 
