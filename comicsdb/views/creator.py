@@ -74,7 +74,7 @@ class CreatorDetail(DetailView):
             .filter(creator=creator)
             .values('issue__series__name', 'issue__series__year_began', 'issue__series__slug')
             .annotate(Count('issue'))
-            .order_by('issue__series__sort_name')
+            .order_by('issue__series__sort_name', 'issue__series__year_began')
         )
         context['credits'] = series_issues
 
