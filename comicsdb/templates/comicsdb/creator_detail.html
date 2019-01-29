@@ -118,7 +118,9 @@
             <ul>
             {% for i in series %}
               <li>
-                {{ i|get_item:"issue__series__name" }}:
+                <a href="{% url 'series:detail' slug=i|get_item:'issue__series__slug' %}">
+                  {{ i|get_item:"issue__series__name" }} ({{ i|get_item:"issue__series__year_began"}})
+                </a>:
                 <a href="{% url 'creator:series' creator=creator.slug series=i|get_item:'issue__series__slug' %}">
                   {{ i|get_item:"issue__count" }} issue{{ i|get_item:"issue__count"|pluralize }}
                 </a>

@@ -72,7 +72,7 @@ class CreatorDetail(DetailView):
         series_issues = (
             Credits.objects
             .filter(creator=creator)
-            .values('issue__series__name', 'issue__series__slug')
+            .values('issue__series__name', 'issue__series__year_began', 'issue__series__slug')
             .annotate(Count('issue'))
             .order_by('issue__series__sort_name')
         )
