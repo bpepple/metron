@@ -2,6 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    {% block sitedesc %}{% endblock %}
+    {% block sitekeywords %}{% endblock %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'site/img/favicon.ico' %}"/>
