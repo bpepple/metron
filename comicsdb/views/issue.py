@@ -45,7 +45,7 @@ class IssueDetail(DetailView):
     model = Issue
     queryset = (
         Issue.objects
-        .select_related('series')
+        .select_related('series', 'series__publisher')
         .prefetch_related(Prefetch('credits_set',
                                    queryset=Credits.objects
                                    .order_by('creator__name')

@@ -2,6 +2,8 @@
 {% load thumbnail %}
 {% load static %}
 
+{% block sitedesc %}<meta name="description" content="{{ issue }} Information">{% endblock %}
+{% block sitekeywords %}<meta name="keywords" content="{{ issue.series.publisher }}, {{ issue.series.name }}, {{ issue.cover_date|date:'F Y' }}{% with characters=issue.characters.all %}{% if characters %}{% for character in characters %}, {{ character.name }}{% endfor %}{% endif %}{% endwith %}">{% endblock %}
 {% block title %}{{ issue }}{% endblock title %}
 
 {% block comic_content %}
