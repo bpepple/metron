@@ -6,7 +6,7 @@ from comicsdb.models import (Arc, Character, Creator, Issue,
 
 
 class StaticViewSitemap(Sitemap):
-    changefreq = 'daily'
+    changefreq = 'weekly'
     priority = 0.5
 
     def items(self):
@@ -17,7 +17,7 @@ class StaticViewSitemap(Sitemap):
 
 
 class ArcSitemap(Sitemap):
-    changefreq = "daily"
+    changefreq = "weekly"
     priority = 0.5
 
     def items(self):
@@ -28,7 +28,7 @@ class ArcSitemap(Sitemap):
 
 
 class CharacterSitemap(Sitemap):
-    changefreq = "daily"
+    changefreq = "weekly"
     priority = 0.5
 
     def items(self):
@@ -39,7 +39,7 @@ class CharacterSitemap(Sitemap):
 
 
 class CreatorSitemap(Sitemap):
-    changefreq = "daily"
+    changefreq = "weekly"
     priority = 0.5
 
     def items(self):
@@ -50,7 +50,7 @@ class CreatorSitemap(Sitemap):
 
 
 class IssueSitemap(Sitemap):
-    changefreq = "daily"
+    changefreq = "weekly"
     priority = 0.5
 
     def items(self):
@@ -61,7 +61,7 @@ class IssueSitemap(Sitemap):
 
 
 class PublisherSitemap(Sitemap):
-    changefreq = "daily"
+    changefreq = "weekly"
     priority = 0.5
 
     def items(self):
@@ -72,7 +72,7 @@ class PublisherSitemap(Sitemap):
 
 
 class SeriesSitemap(Sitemap):
-    changefreq = "daily"
+    changefreq = "weekly"
     priority = 0.5
 
     def items(self):
@@ -83,7 +83,7 @@ class SeriesSitemap(Sitemap):
 
 
 class TeamSitemap(Sitemap):
-    changefreq = "daily"
+    changefreq = "weekly"
     priority = 0.5
 
     def items(self):
