@@ -105,5 +105,8 @@ ENV/
 .pydevproject
 .settings/
 
+# vscode
+.vscode/
+
 # React files
 node_modules/
