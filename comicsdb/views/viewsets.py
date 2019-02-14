@@ -1,6 +1,7 @@
 from django.db.models import Prefetch
 from django.http import Http404
-from rest_framework import viewsets, filters
+from django_filters import rest_framework as filters
+from rest_framework import viewsets
 from rest_framework.decorators import action
 
 from comicsdb.models import (Arc, Character, Creator, Credits,
@@ -14,6 +15,17 @@ from comicsdb.serializers import (ArcSerializer, ArcListSerializer,
                                   TeamSerializer, TeamListSerializer)
 
 
+class IssueFilter(filters.FilterSet):
+    series_name = filters.CharFilter(field_name='series__name',
+                                     lookup_expr='icontains')
+    cover_year = filters.NumberFilter(field_name='cover_date',
+                                      lookup_expr='year')
+
+    class Meta:
+        model = Issue
+        fields = ['series_name', 'number', 'cover_year']
+
+
 class ArcViewSet(viewsets.ReadOnlyModelViewSet):
     """
     list:
@@ -22,8 +34,7 @@ class ArcViewSet(viewsets.ReadOnlyModelViewSet):
     Returns the information of an individual story arc.
     """
     queryset = Arc.objects.all()
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('name',)
+    filterset_fields = ('name',)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -60,8 +71,7 @@ class CharacterViewSet(viewsets.ReadOnlyModelViewSet):
     Returns the information of an individual character.
     """
     queryset = Character.objects.all()
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('name', 'alias')
+    filterset_fields = ('name',)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -79,8 +89,7 @@ class CreatorViewSet(viewsets.ReadOnlyModelViewSet):
     Returns the information of an individual creator.
     """
     queryset = Creator.objects.all()
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('name',)
+    filterset_fields = ('name',)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -107,8 +116,7 @@ class IssueViewSet(viewsets.ReadOnlyModelViewSet):
                                    .select_related('creator')
                                    .prefetch_related('role')))
     )
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('series__name', 'number')
+    filterset_class = IssueFilter
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -129,8 +137,7 @@ class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
         Publisher.objects
         .prefetch_related('series_set')
     )
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('name',)
+    filterset_fields = ('name',)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -171,8 +178,7 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
         .select_related('series_type', 'publisher')
     )
     serializer_class = SeriesSerializer
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('name', 'year_began')
+    filterset_fields = ('name', 'year_began')
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -207,8 +213,7 @@ class TeamViewSet(viewsets.ReadOnlyModelViewSet):
     Returns the information of an individual team.
     """
     queryset = Team.objects.all()
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('name',)
+    filterset_fields = ('name',)
 
     def get_serializer_class(self):
         if self.action == 'list':
