@@ -103,4 +103,4 @@ class IssueListViewTest(TestCase):
 
     def test_sitemap(self):
         response = self.client.get('/sitemap.xml')
-        self.assertEquals(response.status_code, HTML_OK_CODE)
+        self.assertEqual(response.status_code, HTML_OK_CODE)
