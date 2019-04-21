@@ -1,7 +1,7 @@
 from functools import reduce
 import operator
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
@@ -76,7 +76,8 @@ class CharacterUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'comicsdb/model_with_image_form.html'
 
 
-class CharacterDelete(LoginRequiredMixin, DeleteView):
+class CharacterDelete(PermissionRequiredMixin, DeleteView):
     model = Character
     template_name = 'comicsdb/confirm_delete.html'
+    permission_required = 'comicsdb.delete_character'
     success_url = reverse_lazy('character:list')

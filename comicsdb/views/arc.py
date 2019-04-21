@@ -1,7 +1,7 @@
 from functools import reduce
 import operator
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Q, Prefetch
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
@@ -87,7 +87,8 @@ class ArcUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'comicsdb/model_with_image_form.html'
 
 
-class ArcDelete(LoginRequiredMixin, DeleteView):
+class ArcDelete(PermissionRequiredMixin, DeleteView):
     model = Arc
     template_name = 'comicsdb/confirm_delete.html'
+    permission_required = 'comicsdb.delete_arc'
     success_url = reverse_lazy('arc:list')

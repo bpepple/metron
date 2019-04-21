@@ -2,7 +2,7 @@ from functools import reduce
 import operator
 
 from dal import autocomplete
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models import Q, Prefetch
@@ -150,7 +150,8 @@ class IssueUpdate(LoginRequiredMixin, UpdateView):
         return super(IssueUpdate, self).form_valid(form)
 
 
-class IssueDelete(LoginRequiredMixin, DeleteView):
+class IssueDelete(PermissionRequiredMixin, DeleteView):
     model = Issue
     template_name = 'comicsdb/confirm_delete.html'
+    permission_required = 'comicsdb.delete_issue'
     success_url = reverse_lazy('issue:list')
