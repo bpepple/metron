@@ -47,19 +47,15 @@
       <p class="level-item">
         <a class="button is-info" href="{% url 'character:update' character.slug %}" title="Edit character">Edit</a>
       </p>
+      {% if perms.comicsdb.delete_character %}
       <p class="level-item">
         <a class="button is-danger" href="{% url 'character:delete' character.slug %}" title="Delete character">Delete</a>
       </p>
-    {% else %}
-      <p class="level-item">
-        <a class="button is-primary" title="Add a new character" disabled>New</a>
-      </p>
-      <p class="level-item">
-        <a class="button is-info" title="Edit character" disabled>Edit</a>
-      </p>
+      {% else %}
       <p class="level-item">
         <a class="button is-danger" title="Delete character" disabled>Delete</a>
       </p>
+      {% endif %}
     {% endif %}
     </div>
   </nav>

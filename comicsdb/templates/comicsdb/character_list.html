@@ -33,8 +33,6 @@
         <p class="level-item">
         {% if user.is_authenticated %}
           <a class="button is-primary" href="{% url 'character:create' %}" title="Add a new character">New</a>
-        {% else %}
-          <a class="button is-primary" title="Add a new character" disabled>New</a>
         {% endif %}
         </p>
       </div>
