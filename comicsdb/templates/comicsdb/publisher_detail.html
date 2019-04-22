@@ -50,7 +50,7 @@
         <p class="level-item">
           <a class="button is-info" href="{% url 'publisher:update' publisher.slug %}" title="Edit publisher">Edit</a>
         </p>
-        {% if perms.comicsdb.delete_issue %}
+        {% if perms.comicsdb.delete_publisher %}
         <p class="level-item">
           <a class="button is-danger" href="{% url 'publisher:delete' publisher.slug %}" title="Delete publisher">Delete</a>
         </p>
