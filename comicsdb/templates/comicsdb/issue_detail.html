@@ -42,7 +42,7 @@
       </div>
     </div>
     <div class="level-right">
-      {% if user.is_authenticated %}
+    {% if user.is_authenticated %}
       <p class="level-item">
         <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">New</a>
       </p>
@@ -52,23 +52,16 @@
       <p class="level-item">
         <a class="button is-info" href="{% url 'issue:update' issue.slug %}" title="Edit Issue">Edit</a>
       </p>
+      {% if perms.comicsdb.delete_issue %}
       <p class="level-item">
         <a class="button is-danger" href="{% url 'issue:delete' issue.slug %}" title="Delete Issue">Delete</a>
       </p>
       {% else %}
       <p class="level-item">
-        <a class="button is-primary" title="Add a new issue" disabled>New</a>
-      </p>
-      <p class="level-item">
-        <a class="button is-warning" title="Add variant cover" disabled>Add Variant Cover</a>
-      </p>
-      <p class="level-item">
-        <a class="button is-info" title="Edit Issue" disabled>Edit</a>
-      </p>
-      <p class="level-item">
         <a class="button is-danger" title="Delete Issue" disabled>Delete</a>
       </p>
       {% endif %}
+    {% endif %}
     </div>
   </nav>
   <!-- end of page header -->
