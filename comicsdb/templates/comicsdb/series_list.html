@@ -36,9 +36,7 @@
       <div class="level-right">
         <p class="level-item">
           {% if user.is_authenticated %}
-            <a class="button is-primary" href="{% url 'series:create' %}" title="Add a new series">New</a>
-          {% else %}
-            <a class="button is-primary" title="Add a new series" disabled>New</a>
+          <a class="button is-primary" href="{% url 'series:create' %}" title="Add a new series">New</a>
           {% endif %}
         </p>
       </div>

@@ -46,25 +46,21 @@
           </a>
       </div>
       {% if user.is_authenticated %}
-      <p class="level-item">
-        <a class="button is-primary" href="{% url 'series:create' %}" title="Add a new series">New</a>
-      </p>
-      <p class="level-item">
-        <a class="button is-info" href="{% url 'series:update' series.slug %}" title="Edit Series">Edit</a>
-      </p>
-      <p class="level-item">
-        <a class="button is-danger" href="{% url 'series:delete' series.slug %}" title="Delete Series">Delete</a>
-      </p>
-      {% else %}
-      <p class="level-item">
-        <a class="button is-primary" title="Add a new series" disabled>New</a>
-      </p>
-      <p class="level-item">
-        <a class="button is-info" title="Edit Series" disabled>Edit</a>
-      </p>
-      <p class="level-item">
-        <a class="button is-danger" title="Delete Series"disabled>Delete</a>
-      </p>
+        <p class="level-item">
+          <a class="button is-primary" href="{% url 'series:create' %}" title="Add a new series">New</a>
+        </p>
+        <p class="level-item">
+          <a class="button is-info" href="{% url 'series:update' series.slug %}" title="Edit Series">Edit</a>
+        </p>
+        {% if perms.comicsdb.delete_series %}
+        <p class="level-item">
+          <a class="button is-danger" href="{% url 'series:delete' series.slug %}" title="Delete Series">Delete</a>
+        </p>
+        {% else %}
+        <p class="level-item">
+          <a class="button is-danger" title="Delete Series" disabled>Delete</a>
+        </p>        
+        {% endif %}
       {% endif %}
     </div>
   </nav>
