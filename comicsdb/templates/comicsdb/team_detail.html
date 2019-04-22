@@ -47,19 +47,15 @@
       <p class="level-item">
         <a class="button is-info" href="{% url 'team:update' team.slug %}" title="Edit team">Edit</a>
       </p>
+      {% if perms.comicsdb.delete_team %}
       <p class="level-item">
         <a class="button is-danger" href="{% url 'team:delete' team.slug %}" title="Delete team">Delete</a>
       </p>
-    {% else %}
-      <p class="level-item">
-        <a class="button is-primary" title="Add a new team" disabled>New</a>
-      </p>
-      <p class="level-item">
-        <a class="button is-info" title="Edit team" disabled>Edit</a>
-      </p>
+      {% else %}
       <p class="level-item">
         <a class="button is-danger" title="Delete team" disabled>Delete</a>
       </p>
+      {% endif %}
     {% endif %}
     </div>
   </nav>
