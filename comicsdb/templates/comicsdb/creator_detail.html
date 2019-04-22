@@ -48,19 +48,15 @@
       <p class="level-item">
         <a class="button is-info" href="{% url 'creator:update' creator.slug %}" title="Edit creator">Edit</a>
       </p>
+      {% if perms.comicsdb.delete_creator %}
       <p class="level-item">
         <a class="button is-danger" href="{% url 'creator:delete' creator.slug %}" title="Delete creator">Delete</a>
       </p>
-    {% else %}
-      <p class="level-item">
-        <a class="button is-primary" title="Add a new creator" disabled>New</a>
-      </p>
-      <p class="level-item">
-        <a class="button is-info" title="Edit creator" disabled>Edit</a>
-      </p>
+      {% else %}
       <p class="level-item">
         <a class="button is-danger" title="Delete creator" disabled>Delete</a>
       </p>
+      {% endif %}
     {% endif %}
     </div>
   </nav>
