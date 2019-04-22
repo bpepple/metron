@@ -47,7 +47,7 @@
       <p class="level-item">
         <a class="button is-info" href="{% url 'arc:update' arc.slug %}" title="Edit arc">Edit</a>
       </p>
-      {% if perms.comicsdb.can_delete %}
+      {% if perms.comicsdb.delete_arc %}
       <p class="level-item">
         <a class="button is-danger" href="{% url 'arc:delete' arc.slug %}" title="Delete arc">Delete</a>
       </p>
