@@ -31,6 +31,7 @@ from comicsdb.urls import (
     character as character_urls,
     contact as contact_urls,
     creator as creator_urls,
+    flatpage as flatpage_urls,
     home as home_urls,
     issue as issue_urls,
     publisher as publisher_urls,
@@ -63,13 +64,14 @@ urlpatterns = [
     path('', include(home_urls)),
     path('issue/', include(issue_urls)),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
-    path('pages/', include('django.contrib.flatpages.urls')),
+    path('pages/', include(flatpage_urls)),
     path('publisher/', include(publisher_urls)),
     path('series/', include(series_urls)),
     path('team/', include(team_urls)),
     path('users/', include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
+    path('sitemap.xml', sitemap,
+         {'sitemaps': sitemaps},
          name='django.contrib.sitemaps.views.sitemap')
 ]
 

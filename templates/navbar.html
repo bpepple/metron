@@ -29,10 +29,8 @@
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">More</a>
             <div class="navbar-dropdown">
-            {% get_flatpages as flatpages %}
-              {% for page in flatpages %}
-              <a class="navbar-item" href="/pages{{ page.url }}">{{ page.title }}</a>
-              {% endfor %}
+              <a class="navbar-item" href="{% url 'flatpage:contribute' %}">How To Contribute FAQ</a>
+              <a class="navbar-item" href="{% url 'flatpage:editing-guidelines' %}">Editing Guidelines</a>
               {% if user.is_authenticated %}
               <a class="navbar-item" href="/docs/">API Docs</a>
               {% endif %}
