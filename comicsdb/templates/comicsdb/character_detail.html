@@ -98,10 +98,13 @@
                   Creative Commons Attribution-Share-Alike License 3.0
                 </a>.
               </div>
+          {% else %}
+          <br/>
           {% endif %}
         {% else %}
            <h1 class="title is-5">No information available.</h1>
         {% endif %}
+        <div class="content is-small is-italic">Last edited on {{ character.modified }} by {{ character.edited_by.username }}</div>
       </div>
       <!-- end desc -->
 
@@ -169,8 +172,6 @@
             </div>
           {% endif %}
         {% endwith %}
-        <br />
-        <p class="has-text-left is-italic is-size-7">Edited on {{ character.modified }}</p>
       </div>
     </div>
     <!-- end misc info -->

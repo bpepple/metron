@@ -69,11 +69,19 @@ class CharacterCreate(LoginRequiredMixin, CreateView):
     form_class = CharacterForm
     template_name = 'comicsdb/model_with_image_form.html'
 
+    def form_valid(self, form):
+        form.instance.edited_by = self.request.user
+        return super().form_valid(form)
+
 
 class CharacterUpdate(LoginRequiredMixin, UpdateView):
     model = Character
     form_class = CharacterForm
     template_name = 'comicsdb/model_with_image_form.html'
+
+    def form_valid(self, form):
+        form.instance.edited_by = self.request.user
+        return super().form_valid(form)
 
 
 class CharacterDelete(PermissionRequiredMixin, DeleteView):
