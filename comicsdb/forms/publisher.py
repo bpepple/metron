@@ -7,7 +7,7 @@ class PublisherForm(ModelForm):
 
     class Meta:
         model = Publisher
-        fields = '__all__'
+        exclude = ('edited_by',)
         widgets = {
             'name': TextInput(attrs={'class': 'input'}),
             'slug': TextInput(attrs={'class': 'input'}),

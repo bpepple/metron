@@ -85,8 +85,8 @@
     <!-- publisher summary -->
     <div class="column">
       <div class="box">
+        <h1 class="title is-5">Summary</h1>
         {% if publisher.desc %}
-          <h1 class="title is-5">Summary</h1>
           <p>{{ publisher.desc|linebreaksbr }}</p>
           {% if publisher.wikipedia %}
               <br/>
@@ -100,10 +100,14 @@
                   Creative Commons Attribution-Share-Alike License 3.0
                 </a>.
               </div>
+          {% else %}
+          <br/>
           {% endif %}
         {% else %}
-           <h1 class="title is-5">No information available.</h1>
+           <p>No information available.</p>
+           <br/>
         {% endif %}
+        <div class="content is-small is-italic">Last edited on {{ publisher.modified }} by {{ publisher.edited_by.username }}</div>
       </div>
     </div>
     <!-- end of publisher summary -->
@@ -119,8 +123,6 @@
         {% if publisher.series_count > 0 %}
           <p><b>Number of Series:</b> {{ publisher.series_count }}</p>
         {% endif %}
-        <br />
-        <p class="has-text-left is-italic is-size-7">Edited on {{ publisher.modified }}</p>
       </div>
     </div>
     {% endif %}
