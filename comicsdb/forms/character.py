@@ -8,7 +8,7 @@ class CharacterForm(ModelForm):
 
     class Media:
         css = {'all': ('/static/admin/css/widgets.css',), }
-        js = ('/admin/jsi18n'),
+        js = ('/jsi18n'),
 
     class Meta:
         model = Character
