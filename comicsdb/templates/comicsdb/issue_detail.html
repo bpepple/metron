@@ -128,6 +128,8 @@
         {% else %}
            <p class="title is-5">No information available.</p>
         {% endif %}
+        <br/>
+        <div class="content is-small is-italic">Last edited on {{ issue.modified }} by {{ issue.edited_by.username }}</div>
       </div>
       <!-- end of issue summary -->
 
@@ -270,8 +272,6 @@
             </div>
           {% endif %}
         {% endwith %}
-        <br />
-        <p class="has-text-left is-italic is-size-7">Edited on {{ issue.modified }}</p>
       </div>
     </div>
     <!-- end misc info -->
