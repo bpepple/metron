@@ -89,12 +89,14 @@
     <!-- series summary -->
     <div class="column">
       <div class="box">
+        <h1 class="title is-5">Summary</h1>
         {% if series.desc %}
-          <h1 class="title is-5">Summary</h1>
           <p>{{ series.desc|linebreaksbr }}</p>
         {% else %}
-           <p class="title is-5">No information available.</p>
+          <p>No information available.</p>
         {% endif %}
+        <br/>
+        <div class="content is-small is-italic">Last edited on {{ series.modified }} by {{ series.edited_by.username }}</div>
       </div>
     </div>
     <!-- end of series summary -->
@@ -114,8 +116,6 @@
         {% if series.issue_count > 0 %}
           <p><b>Number of Issues:</b> {{ series.issue_count }}</p>
         {% endif %}
-        <br />
-        <p class="has-text-left is-italic is-size-7">Edited on {{ series.modified }}</p>
       </div>
     </div>
     <!-- end misc info -->

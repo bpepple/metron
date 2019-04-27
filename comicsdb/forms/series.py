@@ -7,7 +7,7 @@ class SeriesForm(ModelForm):
 
     class Meta:
         model = Series
-        fields = '__all__'
+        exclude = ('edited_by',)
         widgets = {
             'name': TextInput(attrs={'class': 'input'}),
             'slug': TextInput(attrs={'class': 'input'}),

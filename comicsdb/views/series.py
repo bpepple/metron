@@ -89,10 +89,18 @@ class SeriesCreate(LoginRequiredMixin, CreateView):
     model = Series
     form_class = SeriesForm
 
+    def form_valid(self, form):
+        form.instance.edited_by = self.request.user
+        return super().form_valid(form)
+
 
 class SeriesUpdate(LoginRequiredMixin, UpdateView):
     model = Series
     form_class = SeriesForm
+
+    def form_valid(self, form):
+        form.instance.edited_by = self.request.user
+        return super().form_valid(form)
 
 
 class SeriesDelete(PermissionRequiredMixin, DeleteView):
