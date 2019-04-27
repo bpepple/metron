@@ -69,11 +69,19 @@ class TeamCreate(LoginRequiredMixin, CreateView):
     form_class = TeamForm
     template_name = 'comicsdb/model_with_image_form.html'
 
+    def form_valid(self, form):
+        form.instance.edited_by = self.request.user
+        return super().form_valid(form)
+
 
 class TeamUpdate(LoginRequiredMixin, UpdateView):
     model = Team
     form_class = TeamForm
     template_name = 'comicsdb/model_with_image_form.html'
+
+    def form_valid(self, form):
+        form.instance.edited_by = self.request.user
+        return super().form_valid(form)
 
 
 class TeamDelete(PermissionRequiredMixin, DeleteView):

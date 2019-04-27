@@ -83,8 +83,8 @@
     <div class="column">
       <!-- summary -->
       <div class="box">
+        <h1 class="title is-5">Summary</h1>
         {% if team.desc %}
-          <h1 class="title is-5">Summary</h1>
           <p>{{ team.desc|linebreaksbr }}</p>
           {% if team.wikipedia %}
               <br/>
@@ -98,10 +98,13 @@
                   Creative Commons Attribution-Share-Alike License 3.0
                 </a>.
               </div>
+          {% else %}
+            <br/>
           {% endif %}
         {% else %}
-           <h1 class="title is-5">No information available.</h1>
+           <p>No information available.</p>
         {% endif %}
+        <div class="content is-small is-italic">Last edited on {{ team.modified }} by {{ team.edited_by.username }}</div>
       </div>
       <!-- end summary -->
 
@@ -160,8 +163,6 @@
             </div>
           {% endif %}
         {% endwith %}
-        <br />
-        <p class="has-text-left is-italic is-size-7">Edited on {{ team.modified }}</p>
       </div>
       <!-- end misc info -->
     </div>
