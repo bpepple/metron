@@ -2,6 +2,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse
 from sorl.thumbnail import ImageField
+from users.models import CustomUser
 
 
 class Arc(models.Model):
@@ -10,6 +11,8 @@ class Arc(models.Model):
     desc = models.TextField('Description', blank=True)
     image = ImageField(upload_to='arc/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
+    edited_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     @property
     def issue_count(self):
@@ -34,6 +37,8 @@ class Creator(models.Model):
     death = models.DateField('Date of Death', null=True, blank=True)
     image = ImageField(upload_to='creator/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
+    edited_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     @property
     def issue_count(self):
@@ -61,6 +66,8 @@ class Team(models.Model):
     image = ImageField(upload_to='team/%Y/%m/%d/', blank=True)
     creators = models.ManyToManyField(Creator, blank=True)
     modified = models.DateTimeField(auto_now=True)
+    edited_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     def get_absolute_url(self):
         return reverse('team:detail', args=[self.slug])
@@ -86,6 +93,8 @@ class Character(models.Model):
     creators = models.ManyToManyField(Creator, blank=True)
     teams = models.ManyToManyField(Team, blank=True)
     modified = models.DateTimeField(auto_now=True)
+    edited_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     def get_absolute_url(self):
         return reverse('character:detail', args=[self.slug])
@@ -118,6 +127,8 @@ class Publisher(models.Model):
     wikipedia = models.CharField('Wikipedia Slug', max_length=255, blank=True)
     image = ImageField('Logo', upload_to='publisher/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
+    edited_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     def get_absolute_url(self):
         return reverse('publisher:detail', args=[self.slug])
@@ -170,6 +181,8 @@ class Series(models.Model):
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
     desc = models.TextField('Description', blank=True)
     modified = models.DateTimeField(auto_now=True)
+    edited_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     def get_absolute_url(self):
         return reverse('series:detail', args=[self.slug])
@@ -207,6 +220,8 @@ class Issue(models.Model):
     characters = models.ManyToManyField(Character, blank=True)
     teams = models.ManyToManyField(Team, blank=True)
     modified = models.DateTimeField(auto_now=True)
+    edited_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     def get_absolute_url(self):
         return reverse('issue:detail', args=[self.slug])
