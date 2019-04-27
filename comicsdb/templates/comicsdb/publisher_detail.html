@@ -119,6 +119,8 @@
         {% if publisher.series_count > 0 %}
           <p><b>Number of Series:</b> {{ publisher.series_count }}</p>
         {% endif %}
+        <br />
+        <p class="has-text-left is-italic is-size-7">Edited on {{ publisher.modified }}</p>
       </div>
     </div>
     {% endif %}
