@@ -84,8 +84,8 @@
     <div class="column">
       <!-- summary -->
       <div class="box">
+        <h1 class="title is-5">Summary</h1>
         {% if creator.desc %}
-          <h1 class="title is-5">Summary</h1>
           <p>{{ creator.desc|linebreaksbr }}</p>
           {% if creator.wikipedia %}
               <br/>
@@ -99,10 +99,14 @@
                   Creative Commons Attribution-Share-Alike License 3.0
                 </a>.
               </div>
+          {% else %}
+              <br/>
           {% endif %}
         {% else %}
-           <h1 class="title is-5">No information available.</h1>
+           <p>No information available.<p>
+           <br/>
         {% endif %}
+        <div class="content is-small is-italic">Last edited on {{ creator.modified }} by {{ creator.edited_by.username }}</div>
       </div>
       <!-- end of summary -->
       <!-- series -->
@@ -141,8 +145,6 @@
           <p><b>Death:</b> {{ creator.death|date:"SHORT_DATE_FORMAT" }}</p>
         {% endif %}
         <p><b>Number of Issue:</b> {{ creator.issue_count }}</p>
-        <br />
-        <p class="has-text-left is-italic is-size-7">Edited on {{ creator.modified }}</p>
       </div>
     </div>
     <!-- end misc info -->

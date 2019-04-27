@@ -13,7 +13,7 @@ class CreatorForm(ModelForm):
 
     class Meta:
         model = Creator
-        fields = '__all__'
+        exclude = ('edited_by',)
         widgets = {
             'name': TextInput(attrs={'class': 'input'}),
             'slug': TextInput(attrs={'class': 'input'}),

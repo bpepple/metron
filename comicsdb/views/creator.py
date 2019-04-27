@@ -100,11 +100,19 @@ class CreatorCreate(LoginRequiredMixin, CreateView):
     form_class = CreatorForm
     template_name = 'comicsdb/model_with_image_form.html'
 
+    def form_valid(self, form):
+        form.instance.edited_by = self.request.user
+        return super().form_valid(form)
+
 
 class CreatorUpdate(LoginRequiredMixin, UpdateView):
     model = Creator
     form_class = CreatorForm
     template_name = 'comicsdb/model_with_image_form.html'
+
+    def form_valid(self, form):
+        form.instance.edited_by = self.request.user
+        return super().form_valid(form)
 
 
 class CreatorDelete(PermissionRequiredMixin, DeleteView):
