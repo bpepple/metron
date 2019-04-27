@@ -11,6 +11,10 @@ class Arc(models.Model):
     image = ImageField(upload_to='arc/%Y/%m/%d/', blank=True)
     modified = models.DateTimeField(auto_now=True)
 
+    @property
+    def issue_count(self):
+        return self.issue_set.all().count()
+
     def get_absolute_url(self):
         return reverse('arc:detail', args=[self.slug])
 
