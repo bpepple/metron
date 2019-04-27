@@ -88,6 +88,8 @@
         {% else %}
         <p>No information available.</p>
         {% endif %}
+        <br/>
+        <div class="content is-small is-italic">Last edited on {{ arc.modified }} by {{ arc.edited_by.username }}</div>
       </div>
       {% with issues=arc.issue_set.all %}
         {% if issues %}
@@ -110,8 +112,6 @@
       <div class="box">
         <h1 class="title is-6">Story Arc Details</h1>
         <p><b>Number of Issue:</b> {{ arc.issue_count }}</p>
-        <br />
-        <p class="has-text-left is-italic is-size-7">Edited on {{ arc.modified }}</p>
       </div>
     </div>
     <!-- end misc info -->
