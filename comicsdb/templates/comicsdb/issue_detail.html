@@ -78,7 +78,7 @@
               <img src="{{ im.url }}" alt = "{{ issue }}">
             {% endthumbnail %}
           {% else %}
-            <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ issue }}">
+            <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ issue }}">
           {% endif %}
         </figure>
       </div>
@@ -95,7 +95,7 @@
                     <img src="{{ im.url }}" alt = "{{ variant }}">
                   {% endthumbnail %}
                 {% else %}
-                  <img src="{% static 'site/img/image-not-found.png' %}" alt="No image for {{ variant }}">
+                  <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ variant }}">
                 {% endif %}
               </figure>
               <br/>
@@ -147,9 +147,13 @@
                       <article class="media">
                         <div class="media-left">
                           <figure class="image is-64x64">
+                          {% if credit.creator.image %}
                             {% thumbnail credit.creator.image "64x64" crop="center" format="WEBP" as im %}
-                              <img src="{{ im.url }}" alt="{{ credit.creator }}">
+                            <img src="{{ im.url }}" alt="{{ credit.creator }}">
                             {% endthumbnail %}
+                          {% else %}
+                            <img src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ credit.creator }}">
+                          {% endif %}
                           </figure>
                         </div>
                         <div class="media-content">
@@ -191,9 +195,13 @@
                   <article class="media">
                     <div class="media-left">
                       <figure class="image is-64x64">
-                      {% thumbnail character.image "64x64" crop="center" format="WEBP" as im %}
+                      {% if character.image %}
+                        {% thumbnail character.image "64x64" crop="center" format="WEBP" as im %}
                         <img src="{{ im.url }}" alt="{{ character }}">
-                      {% endthumbnail %}
+                        {% endthumbnail %}
+                      {% else %}
+                        <img src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ character }}">
+                      {% endif %}
                       </figure>
                     </div>
                     <div class="media-content">
