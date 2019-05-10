@@ -149,10 +149,10 @@
                           <figure class="image is-64x64">
                           {% if credit.creator.image %}
                             {% thumbnail credit.creator.image "64x64" crop="center" format="WEBP" as im %}
-                            <img src="{{ im.url }}" alt="{{ credit.creator }}">
+                            <img class="is-rounded" src="{{ im.url }}" alt="{{ credit.creator }}">
                             {% endthumbnail %}
                           {% else %}
-                            <img src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ credit.creator }}">
+                            <img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ credit.creator }}">
                           {% endif %}
                           </figure>
                         </div>
@@ -197,10 +197,10 @@
                       <figure class="image is-64x64">
                       {% if character.image %}
                         {% thumbnail character.image "64x64" crop="center" format="WEBP" as im %}
-                        <img src="{{ im.url }}" alt="{{ character }}">
+                        <img class="is-rounded" src="{{ im.url }}" alt="{{ character }}">
                         {% endthumbnail %}
                       {% else %}
-                        <img src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ character }}">
+                        <img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ character }}">
                       {% endif %}
                       </figure>
                     </div>
@@ -234,7 +234,7 @@
                     <div class="media-left">
                       <figure class="image is-64x64">
                       {% thumbnail team.image "64x64" crop="center" format="WEBP" as im %}
-                        <img src="{{ im.url }}" alt="{{ character }}">
+                        <img class="is-rounded" src="{{ im.url }}" alt="{{ team }}">
                       {% endthumbnail %}
                       </figure>
                     </div>

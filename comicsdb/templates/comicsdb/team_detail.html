@@ -121,9 +121,13 @@
                   <article class="media">
                     <div class="media-left">
                       <figure class="image is-64x64">
-                      {% thumbnail character.image "64x64" crop="center" format="WEBP" as im %}
-                        <img src="{{ im.url }}" alt="{{ character }}">
-                      {% endthumbnail %}
+                      {% if character.image %}
+                      	{% thumbnail character.image "64x64" crop="center" format="WEBP" as im %}
+                        <img class="is-rounded" src="{{ im.url }}" alt="{{ character }}">
+                      	{% endthumbnail %}
+                      {% else %}
+                      	<img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ character }}">
+                      {% endif %}
                       </figure>
                     </div>
                     <div class="media-content">
