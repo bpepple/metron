@@ -7,6 +7,20 @@
 {% block title %}{{ issue }}{% endblock title %}
 
 {% block comic_content %}
+  <!-- issue cover modal -->
+  <div id="modal-bis" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <p class="image is-2by3">
+      {% thumbnail issue.image "640x960" crop="center" format="WEBP" as im %}
+        <img src="{{ im.url }}" alt = "{{ issue }}">
+      {% endthumbnail %}
+      </p>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
+  </div>
+  <!-- end issue cover modal -->
+
   <!-- series issue nav -->
   <nav class="level">
     <div class="level-left">
@@ -75,7 +89,9 @@
         <figure class="image is-2by3">
           {% if issue.image %}
             {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
+            <a class="modal-button" data-target="modal-bis">
               <img src="{{ im.url }}" alt = "{{ issue }}">
+            </a>
             {% endthumbnail %}
           {% else %}
             <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ issue }}">
@@ -285,4 +301,8 @@
     <!-- end misc info -->
   </div>
   <!-- end of main page content -->
+{% endblock %}
+
+{% block js %}
+  <script src="{% static 'site/js/image-modal.js' %}"></script>
 {% endblock %}
