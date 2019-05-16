@@ -29,7 +29,7 @@ class IssueListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Issue
-        fields = ('id', '__str__')
+        fields = ('id', '__str__', 'cover_date')
 
 
 class PublisherListSerializer(serializers.ModelSerializer):
@@ -99,10 +99,11 @@ class IssueSerializer(serializers.ModelSerializer):
     arcs = ArcListSerializer(many=True, read_only=True)
     characters = CharacterListSerializer(many=True, read_only=True)
     teams = TeamListSerializer(many=True, read_only=True)
+    series = serializers.ReadOnlyField(source='series.name')
 
     class Meta:
         model = Issue
-        fields = ('id', '__str__', 'name', 'number', 'cover_date',
+        fields = ('id', 'series', 'number', 'name', 'cover_date',
                   'store_date', 'desc', 'image', 'arcs', 'credits',
                   'characters', 'teams')
 
