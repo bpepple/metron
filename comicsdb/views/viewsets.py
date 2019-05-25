@@ -3,6 +3,7 @@ from django.http import Http404
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.throttling import UserRateThrottle
 
 from comicsdb.models import (Arc, Character, Creator, Credits,
                              Issue, Publisher, Series, Team)
@@ -35,6 +36,7 @@ class ArcViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Arc.objects.all()
     filterset_fields = ('name',)
+    throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -72,6 +74,7 @@ class CharacterViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Character.objects.all()
     filterset_fields = ('name',)
+    throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -90,6 +93,7 @@ class CreatorViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Creator.objects.all()
     filterset_fields = ('name',)
+    throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -117,6 +121,7 @@ class IssueViewSet(viewsets.ReadOnlyModelViewSet):
                                    .prefetch_related('role')))
     )
     filterset_class = IssueFilter
+    throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -138,6 +143,7 @@ class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
         .prefetch_related('series_set')
     )
     filterset_fields = ('name',)
+    throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -179,6 +185,7 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
     )
     serializer_class = SeriesSerializer
     filterset_fields = ('name', 'year_began')
+    throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -214,6 +221,7 @@ class TeamViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Team.objects.all()
     filterset_fields = ('name',)
+    throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
         if self.action == 'list':
