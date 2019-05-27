@@ -97,6 +97,9 @@
             <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ issue }}">
           {% endif %}
         </figure>
+        {% if issue.image %}
+        <p class="has-text-centered">Click cover to view larger version</p>
+        {% endif %}
       </div>
       <!-- end of main cover -->
 
