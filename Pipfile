@@ -15,7 +15,6 @@ gunicorn = "*"
 django-autocomplete-light = "*"
 django-filter = "*"
 psycopg2 = "*"
-python-memcached = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
