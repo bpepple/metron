@@ -1,0 +1,72 @@
+{% extends "comicsdb/comics_base.html" %}
+{% load thumbnail %}
+{% load static %}
+
+{% block title %}Issues{% endblock title %}
+
+{% block comic_content %}
+
+  {% if issue_list %}
+    <h1 class="title is-4">Comics for the Week of {{ release_day|date:'F d, Y' }}</h1>
+    <nav class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <p class="subtitle is-5">
+            {% if page_obj.paginator %}
+              <strong>{{ page_obj.paginator.count }}</strong> Issue{{ page_obj.paginator.count|pluralize }}
+            {% else %}
+              <strong>{{ issue_list.count }}</strong> Issue{{ issue_list.count|pluralize }}
+            {% endif %}
+          </p>
+        </div>
+        <div class="level-item">
+          <form action="{% url 'issue:search' %}" method="get" accept-charset="utf-8">
+            <div class="field has-addons">
+              <p class="control">
+                <input class="input" name="q" type="search" placeholder="Find an issue">
+              </p>
+              <p class="control">
+                <button class="button">
+                  Search
+                </button>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="level-right">
+        <p class="level-item">
+        {% if user.is_authenticated %}
+          <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">New</a>
+        {% endif %}
+        </p>
+      </div>
+    </nav>
+
+    <div class="columns is-multiline">
+      {% for issue in issue_list %}
+      <div class="column is-one-quarter has-text-centered">
+        <a href="{% url 'issue:detail' issue.slug %}">
+          <figure class="image is-2by3">
+          {% if issue.image %}
+            {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
+              <img src="{{ im.url }}" alt = "{{ issue }}">
+            {% endthumbnail %}
+          {% else %}
+            <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ issue }}">
+          {% endif %}
+          </figure>
+        </a>
+        <a href="{% url 'issue:detail' issue.slug %}">{{ issue }}</a>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No Issues currently available. Do you want to add one?</p>
+    <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">New</a>
+  {% endif %}
+{% endblock %}
+
+{% block pagination %}
+  {% include "comicsdb/pagination.html" %}
+{% endblock %}

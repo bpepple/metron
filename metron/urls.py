@@ -35,7 +35,8 @@ from comicsdb.urls import (
     issue as issue_urls,
     publisher as publisher_urls,
     series as series_urls,
-    team as team_urls
+    team as team_urls,
+    week as week_urls
 )
 
 
@@ -68,6 +69,7 @@ urlpatterns = [
     path('team/', include(team_urls)),
     path('users/', include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),
+    path('week/', include(week_urls)),
     path('sitemap.xml', sitemap,
          {'sitemaps': sitemaps},
          name='django.contrib.sitemaps.views.sitemap')
