@@ -2,12 +2,12 @@
 {% load thumbnail %}
 {% load static %}
 
-{% block title %}Issues{% endblock title %}
+{% block title %}New Comics{% endblock title %}
 
 {% block comic_content %}
 
   {% if issue_list %}
-    <h1 class="title is-4">Comics for the Week of {{ release_day|date:'F d, Y' }}</h1>
+    <h1 class="title is-4">Comics released on {{ release_day|date:'F d, Y' }}</h1>
     <nav class="level">
       <div class="level-left">
         <div class="level-item">
