@@ -58,59 +58,11 @@
           </div>
           <!-- end info box -->
 
-          <!-- this weeks issues -->
-          {% if current_week %}
-          <div class="box">
-            <h1 class="title is-5">This Week's Issues</h1>
-            <div class="columns is-multiline">
-            {% for issue in current_week %}
-              <div class="column is-one-fifth has-text-centered">
-                <a href="{% url 'issue:detail' issue.slug %}">
-                  <figure class="image is-2by3">
-                    {% if issue.image %}
-                      {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
-                        <img src="{{ im.url }}" alt = "{{ issue }}">
-                      {% endthumbnail %}
-                    {% else %}
-                      <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ issue }}">
-                    {% endif %}
-                  </figure>
-                </a>
-                <a href="{% url 'issue:detail' issue.slug %}">{{ issue }}</a>
-              </div>
-            {% endfor %}
-            </div>
-          </div>
-          {% elif last_week %}
-          <div class="box">
-            <h1 class="title is-5">Last Week's Issues</h1>
-            <div class="columns is-multiline">
-            {% for issue in last_week %}
-              <div class="column is-one-fifth has-text-centered">
-                <a href="{% url 'issue:detail' issue.slug %}">
-                  <figure class="image is-2by3">
-                    {% if issue.image %}
-                      {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
-                        <img src="{{ im.url }}" alt = "{{ issue }}">
-                      {% endthumbnail %}
-                    {% else %}
-                      <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ issue }}">
-                    {% endif %}
-                  </figure>
-                </a>
-                <a href="{% url 'issue:detail' issue.slug %}">{{ issue }}</a>
-              </div>
-            {% endfor %}
-            </div>
-          </div>
-          {% endif %}
-          <!-- end this weeks issues -->
-
-          <!-- recent issues -->
+          <!-- recently edited issues -->
           <div class="box">
             <h1 class="title is-5">Recently Edited Issues</h1>
             <div class="columns is-multiline">
-            {% for issue in recent %}
+            {% for issue in recently_edited %}
               <div class="column is-one-fifth has-text-centered">
                 <a href="{% url 'issue:detail' issue.slug %}">
                   <figure class="image is-2by3">
@@ -128,7 +80,7 @@
             {% endfor %}
             </div>
           </div>
-          <!-- end recent issues -->
+          <!-- end recently edited issues -->
         </div>
         <!-- end welcome column-->
 
