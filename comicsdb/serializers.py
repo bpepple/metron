@@ -100,10 +100,11 @@ class IssueSerializer(serializers.ModelSerializer):
     characters = CharacterListSerializer(many=True, read_only=True)
     teams = TeamListSerializer(many=True, read_only=True)
     series = serializers.ReadOnlyField(source='series.name')
+    publisher = serializers.ReadOnlyField(source='series.publisher.name')
 
     class Meta:
         model = Issue
-        fields = ('id', 'series', 'number', 'name', 'cover_date',
+        fields = ('id', 'publisher', 'series', 'number', 'name', 'cover_date',
                   'store_date', 'desc', 'image', 'arcs', 'credits',
                   'characters', 'teams')
 
