@@ -25,10 +25,11 @@ class GetAllCharactersTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        cls._create_user(cls)
+        user = cls._create_user(cls)
 
-        Character.objects.create(name='Superman', slug='superman')
-        Character.objects.create(name='Batman', slug='batman')
+        Character.objects.create(
+            name='Superman', slug='superman', edited_by=user)
+        Character.objects.create(name='Batman', slug='batman', edited_by=user)
 
     def setUp(self):
         self._client_login()
@@ -40,17 +41,18 @@ class GetAllCharactersTest(TestCaseBase):
     def test_unauthorized_view_url(self):
         self.client.logout()
         resp = self.client.get(reverse('api:character-list'))
-        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
 class GetSingleCharacterTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        cls._create_user(cls)
+        user = cls._create_user(cls)
 
-        cls.hulk = Character.objects.create(name='Hulk', slug='hulk')
-        Character.objects.create(name='Thor', slug='thor')
+        cls.hulk = Character.objects.create(
+            name='Hulk', slug='hulk', edited_by=user)
+        Character.objects.create(name='Thor', slug='thor', edited_by=user)
 
     def setUp(self):
         self._client_login()
@@ -72,4 +74,4 @@ class GetSingleCharacterTest(TestCaseBase):
         self.client.logout()
         response = self.client.get(reverse('api:character-detail',
                                            kwargs={'pk': self.hulk.pk}))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
