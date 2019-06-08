@@ -22,6 +22,5 @@ class HomePageView(TemplateView):
             .order_by('-modified')
             .all()[:10]
         )
-        context
 
         return context
