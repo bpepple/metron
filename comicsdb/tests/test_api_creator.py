@@ -25,10 +25,12 @@ class GetAllCreatorsTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        cls._create_user(cls)
+        user = cls._create_user(cls)
 
-        Creator.objects.create(name='John Byrne', slug='john-byrne')
-        Creator.objects.create(name='Walter Simonson', slug='walter-simonson')
+        Creator.objects.create(
+            name='John Byrne', slug='john-byrne', edited_by=user)
+        Creator.objects.create(name='Walter Simonson',
+                               slug='walter-simonson', edited_by=user)
 
     def setUp(self):
         self._client_login()
@@ -40,17 +42,19 @@ class GetAllCreatorsTest(TestCaseBase):
     def test_unauthorized_view_url(self):
         self.client.logout()
         resp = self.client.get(reverse('api:creator-list'))
-        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
 class GetSingleCreatorTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        cls._create_user(cls)
+        user = cls._create_user(cls)
 
-        cls.jack = Creator.objects.create(name='Jack Kirby', slug='jack-kirby')
-        Creator.objects.create(name='Steve Ditko', slug='steve-ditko')
+        cls.jack = Creator.objects.create(
+            name='Jack Kirby', slug='jack-kirby', edited_by=user)
+        Creator.objects.create(
+            name='Steve Ditko', slug='steve-ditko', edited_by=user)
 
     def setUp(self):
         self._client_login()
@@ -72,4 +76,4 @@ class GetSingleCreatorTest(TestCaseBase):
         self.client.logout()
         response = self.client.get(reverse('api:creator-detail',
                                            kwargs={'pk': self.jack.pk}))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
