@@ -32,36 +32,19 @@ class CreatorList(ListView):
 
 class CreatorDetail(DetailView):
     model = Creator
-    queryset = (
-        Creator.objects
-        .select_related('edited_by')
-        .prefetch_related(Prefetch('credits_set',
-                                   queryset=Credits.objects
-                                   .order_by('issue__cover_date', 'issue__series', 'issue__number')
-                                   .select_related('issue', 'issue__series'))
-                          )
-    )
+    queryset = Creator.objects.select_related('edited_by')
 
     def get_context_data(self, **kwargs):
         context = super(CreatorDetail, self).get_context_data(**kwargs)
         creator = self.get_object()
+        qs = Creator.objects.order_by('name')
         try:
-            next_creator = (
-                Creator.objects
-                .order_by('name')
-                .filter(name__gt=creator.name)
-                .first()
-            )
+            next_creator = qs.filter(name__gt=creator.name).first()
         except:
             next_creator = None
 
         try:
-            previous_creator = (
-                Creator.objects
-                .order_by('name')
-                .filter(name__lt=creator.name)
-                .last()
-            )
+            previous_creator = qs.filter(name__lt=creator.name).last()
         except:
             previous_creator = None
 
