@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.test import APIRequestFactory
 
-from comicsdb.models import Series, SeriesType, Publisher, Issue
+from comicsdb.models import Issue, Publisher, Series, SeriesType
 from comicsdb.serializers import SeriesSerializer
 from users.models import CustomUser
 
@@ -28,15 +28,15 @@ class GetAllSeriesTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        cls._create_user(cls)
+        user = cls._create_user(cls)
 
         publisher_obj = Publisher.objects.create(name='DC Comics',
-                                                 slug='dc-comics')
+                                                 slug='dc-comics', edited_by=user)
         series_type_obj = SeriesType.objects.create(name='Cancelled')
         Series.objects.create(name='Superman', slug='superman', publisher=publisher_obj,
-                              year_began=1939, series_type=series_type_obj)
+                              year_began=1939, series_type=series_type_obj, edited_by=user)
         Series.objects.create(name='Batman', slug='batman', publisher=publisher_obj,
-                              year_began=1940, series_type=series_type_obj)
+                              year_began=1940, series_type=series_type_obj, edited_by=user)
 
     def setUp(self):
         self._client_login()
@@ -48,14 +48,14 @@ class GetAllSeriesTest(TestCaseBase):
     def test_unauthorized_view_url(self):
         self.client.logout()
         resp = self.client.get(reverse('api:series-list'))
-        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
 class GetSingleSeriesTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        cls._create_user(cls)
+        user = cls._create_user(cls)
 
         factory = APIRequestFactory()
         request = factory.get('/')
@@ -64,13 +64,14 @@ class GetSingleSeriesTest(TestCaseBase):
             'request': Request(request),
         }
 
-        publisher_obj = Publisher.objects.create(name='Marvel', slug='marvel')
+        publisher_obj = Publisher.objects.create(
+            name='Marvel', slug='marvel', edited_by=user)
         series_type_obj = SeriesType.objects.create(name='Cancelled')
         cls.thor = Series.objects.create(name='The Mighty Thor', slug='the-mighty-thor',
                                          publisher=publisher_obj, year_began=1965,
-                                         series_type=series_type_obj)
+                                         series_type=series_type_obj, edited_by=user)
         Issue.objects.create(slug='thor-1', cover_date=timezone.now().date(),
-                             number='1', series=cls.thor)
+                             number='1', series=cls.thor, edited_by=user)
 
     def setUp(self):
         self._client_login()
@@ -87,4 +88,4 @@ class GetSingleSeriesTest(TestCaseBase):
         self.client.logout()
         response = self.client.get(
             reverse('api:series-detail', kwargs={'pk': self.thor.pk}))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
