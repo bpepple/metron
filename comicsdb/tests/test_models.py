@@ -2,20 +2,40 @@ from django.test import TestCase
 from django.utils import timezone
 from django.utils.text import slugify
 
-from comicsdb.models import (Publisher, Series, SeriesType, Team,
-                             Creator, Role, Issue, Arc, Character)
-
+from comicsdb.models import (Arc, Character, Creator, Issue, Publisher, Role,
+                             Series, SeriesType, Team)
+from users.models import CustomUser
 
 HTTP_200_OK = 200
 
 
-class TeamTest(TestCase):
+class TestCaseBase(TestCase):
+
+    def _create_user(self):
+        user = CustomUser.objects.create(
+            username='brian', email='brian@test.com')
+        user.set_password('1234')
+        user.save()
+
+        return user
+
+    def _client_login(self):
+        self.client.login(username='brian', password='1234')
+
+
+class TeamTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
+        user = cls._create_user(cls)
+
         cls.name = 'Justice League'
         cls.slug = slugify(cls.name)
-        cls.jl = Team.objects.create(name=cls.name, slug=cls.slug)
+        cls.jl = Team.objects.create(
+            name=cls.name, slug=cls.slug, edited_by=user)
+
+    def setUp(self):
+        self._client_login()
 
     def test_test_creation(self):
         self.assertTrue(isinstance(self.jl, Team))
@@ -29,13 +49,19 @@ class TeamTest(TestCase):
         self.assertEqual(resp.status_code, HTTP_200_OK)
 
 
-class CharacterTest(TestCase):
+class CharacterTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
+        user = cls._create_user(cls)
+
         cls.name = 'Wonder Woman'
         cls.slug = slugify(cls.name)
-        cls.ww = Character.objects.create(name=cls.name, slug=cls.slug)
+        cls.ww = Character.objects.create(
+            name=cls.name, slug=cls.slug, edited_by=user)
+
+    def setUp(self):
+        self._client_login()
 
     def test_character_creation(self):
         self.assertTrue(isinstance(self.ww, Character))
@@ -49,14 +75,20 @@ class CharacterTest(TestCase):
         self.assertEqual(resp.status_code, HTTP_200_OK)
 
 
-class ArcTest(TestCase):
+class ArcTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
+        user = cls._create_user(cls)
+
         cls.name = 'The Last Age of Magic'
         cls.slug = slugify(cls.name)
 
-        cls.arc = Arc.objects.create(name=cls.name, slug=cls.slug)
+        cls.arc = Arc.objects.create(
+            name=cls.name, slug=cls.slug, edited_by=user)
+
+    def setUp(self):
+        self._client_login()
 
     def test_arc_creation(self):
         self.assertTrue(isinstance(self.arc, Arc))
@@ -71,13 +103,19 @@ class ArcTest(TestCase):
         self.assertEqual(resp.status_code, HTTP_200_OK)
 
 
-class CreatorTest(TestCase):
+class CreatorTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
+        user = cls._create_user(cls)
+
         cls.name = 'Walter Simonson'
         cls.slug = 'walter-simonson'
-        cls.creator = Creator.objects.create(name=cls.name, slug=cls.slug)
+        cls.creator = Creator.objects.create(
+            name=cls.name, slug=cls.slug, edited_by=user)
+
+    def setUp(self):
+        self._client_login()
 
     def test_creator_creation(self):
         self.assertTrue(isinstance(self.creator, Creator))
@@ -111,21 +149,26 @@ class RoleTest(TestCase):
         self.assertEqual(str(self.role._meta.verbose_name_plural), 'roles')
 
 
-class PublisherTest(TestCase):
+class PublisherTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
+        user = cls._create_user(cls)
+
         cls.name = 'DC Comics'
         cls.slug = slugify(cls.name)
 
         cls.publisher = Publisher.objects.create(name=cls.name, slug=cls.slug,
-                                                 founded=1934)
+                                                 founded=1934, edited_by=user)
 
         on_going_series = SeriesType.objects.create(name='Ongoing Series')
 
         Series.objects.create(name='Superman', slug='superman', sort_name='Superman',
                               series_type=on_going_series, publisher=cls.publisher, volume=1,
-                              year_began=1939)
+                              year_began=1939, edited_by=user)
+
+    def setUp(self):
+        self._client_login()
 
     def test_series_count(self):
         self.assertEqual(self.publisher.series_count, 1)
@@ -143,17 +186,23 @@ class PublisherTest(TestCase):
         self.assertEqual(resp.status_code, HTTP_200_OK)
 
 
-class SeriesTest(TestCase):
+class SeriesTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
+        user = cls._create_user(cls)
+
         publisher = Publisher.objects.create(
-            name='DC Comics', slug='dc-comics')
+            name='DC Comics', slug='dc-comics', edited_by=user)
         series_type = SeriesType.objects.create(name='Ongoing Series')
         cls.name = 'Superman'
         cls.superman = Series.objects.create(name=cls.name, slug=slugify(cls.name),
                                              sort_name=cls.name, series_type=series_type,
-                                             publisher=publisher, year_began=1939)
+                                             publisher=publisher, year_began=1939,
+                                             edited_by=user)
+
+    def setUp(self):
+        self._client_login()
 
     def test_series_creation(self):
         self.assertTrue(isinstance(self.superman, Series))
@@ -168,21 +217,27 @@ class SeriesTest(TestCase):
         self.assertEqual(resp.status_code, HTTP_200_OK)
 
 
-class IssueTest(TestCase):
+class IssueTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
+        user = cls._create_user(cls)
+
         issue_date = timezone.now().date()
         publisher = Publisher.objects.create(
-            name='DC Comics', slug='dc-comics')
+            name='DC Comics', slug='dc-comics', edited_by=user)
         series_type = SeriesType.objects.create(name='Ongoing Series')
         cls.series_name = 'Superman'
         cls.superman = Series.objects.create(name=cls.series_name, slug=slugify(cls.series_name),
                                              sort_name=cls.series_name, series_type=series_type,
-                                             publisher=publisher, year_began=1939)
+                                             publisher=publisher, year_began=1939,
+                                             edited_by=user)
 
         cls.issue = Issue.objects.create(series=cls.superman, number='1', slug='superman-1939-1',
-                                         cover_date=issue_date)
+                                         cover_date=issue_date, edited_by=user)
+
+    def setUp(self):
+        self._client_login()
 
     def test_issue_creation(self):
         self.assertTrue(isinstance(self.issue, Issue))
