@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils import timezone
 from rest_framework import status
 
-from comicsdb.models import Arc, Publisher, Series, SeriesType, Issue
+from comicsdb.models import Arc, Issue, Publisher, Series, SeriesType
 from comicsdb.serializers import ArcSerializer, IssueListSerializer
 from users.models import CustomUser
 
@@ -26,10 +26,12 @@ class GetAllArcsTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        cls._create_user(cls)
+        user = cls._create_user(cls)
 
-        Arc.objects.create(name='World War Hulk', slug='world-war-hulk')
-        Arc.objects.create(name='Final Crisis', slug='final-crisis')
+        Arc.objects.create(name='World War Hulk',
+                           slug='world-war-hulk', edited_by=user)
+        Arc.objects.create(name='Final Crisis',
+                           slug='final-crisis', edited_by=user)
 
     def setUp(self):
         self._client_login()
@@ -41,29 +43,30 @@ class GetAllArcsTest(TestCaseBase):
     def test_unauthorized_view_url(self):
         self.client.logout()
         resp = self.client.get(reverse('api:arc-list'))
-        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
 class GetSingleArcTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        cls._create_user(cls)
+        user = cls._create_user(cls)
 
         publisher_obj = Publisher.objects.create(name='DC Comics',
-                                                 slug='dc-comics')
+                                                 slug='dc-comics', edited_by=user)
         series_type_obj = SeriesType.objects.create(name='Cancelled')
         series_obj = Series.objects.create(name='Final Crisis', slug='final-crisis',
                                            publisher=publisher_obj, year_began=1939,
-                                           series_type=series_type_obj)
+                                           series_type=series_type_obj, edited_by=user)
         cls.issue_obj = Issue.objects.create(series=series_obj,
                                              number='1',
                                              slug='final-crisis-1',
-                                             cover_date=timezone.now().date())
+                                             cover_date=timezone.now().date(),
+                                             edited_by=user)
         cls.hulk = Arc.objects.create(name='World War Hulk',
-                                      slug='world-war-hulk')
+                                      slug='world-war-hulk', edited_by=user)
         cls.crisis = Arc.objects.create(name='Final Crisis',
-                                        slug='final-crisis')
+                                        slug='final-crisis', edited_by=user)
         cls.issue_obj.arcs.add(cls.crisis)
 
     def setUp(self):
@@ -86,7 +89,7 @@ class GetSingleArcTest(TestCaseBase):
         self.client.logout()
         response = self.client.get(reverse('api:arc-detail',
                                            kwargs={'pk': self.hulk.pk}))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_arc_issue_list_view(self):
         response = self.client.get(reverse('api:arc-issue-list',
