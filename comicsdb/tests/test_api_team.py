@@ -25,10 +25,12 @@ class GetAllTeamsTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        cls._create_user(cls)
+        user = cls._create_user(cls)
 
-        Team.objects.create(name='Teen Titans', slug='teen-titans')
-        Team.objects.create(name='The Avengers', slug='the-avengers')
+        Team.objects.create(name='Teen Titans',
+                            slug='teen-titans', edited_by=user)
+        Team.objects.create(name='The Avengers',
+                            slug='the-avengers', edited_by=user)
 
     def setUp(self):
         self._client_login()
@@ -40,19 +42,19 @@ class GetAllTeamsTest(TestCaseBase):
     def test_unauthorized_view_url(self):
         self.client.logout()
         resp = self.client.get(reverse('api:team-list'))
-        self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
 class GetSingleTeamTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        cls._create_user(cls)
+        user = cls._create_user(cls)
 
         cls.titans = Team.objects.create(
-            name='Teen Titans', slug='teen-titans')
+            name='Teen Titans', slug='teen-titans', edited_by=user)
         cls.avengers = Team.objects.create(
-            name='The Avengers', slug='the-avengers')
+            name='The Avengers', slug='the-avengers', edited_by=user)
 
     def setUp(self):
         self._client_login()
@@ -74,4 +76,4 @@ class GetSingleTeamTest(TestCaseBase):
         self.client.logout()
         response = self.client.get(
             reverse('api:team-detail', kwargs={'pk': self.avengers.pk}))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
