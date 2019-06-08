@@ -13,7 +13,7 @@ PAGINATE_DIFF_VAL = (PAGINATE_TEST_VAL - PAGINATE_DEFAULT_VAL)
 
 
 class TestCaseBase(TestCase):
-
+    @classmethod
     def _create_user(self):
         user = CustomUser.objects.create(
             username='brian', email='brian@test.com')
@@ -30,7 +30,7 @@ class IssueSearchViewsTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         cover_date = timezone.now().date()
         publisher = Publisher.objects.create(
@@ -84,7 +84,7 @@ class IssueListViewTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         cover_date = timezone.now().date()
         publisher = Publisher.objects.create(

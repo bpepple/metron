@@ -8,7 +8,7 @@ from users.models import CustomUser
 
 
 class TestCaseBase(TestCase):
-
+    @classmethod
     def _create_user(self):
         user = CustomUser.objects.create(
             username='brian', email='brian@test.com')
@@ -25,7 +25,7 @@ class GetAllTeamsTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         Team.objects.create(name='Teen Titans',
                             slug='teen-titans', edited_by=user)
@@ -49,7 +49,7 @@ class GetSingleTeamTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         cls.titans = Team.objects.create(
             name='Teen Titans', slug='teen-titans', edited_by=user)

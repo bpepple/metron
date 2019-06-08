@@ -10,7 +10,7 @@ HTTP_200_OK = 200
 
 
 class TestCaseBase(TestCase):
-
+    @classmethod
     def _create_user(self):
         user = CustomUser.objects.create(
             username='brian', email='brian@test.com')
@@ -27,7 +27,7 @@ class TeamTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         cls.name = 'Justice League'
         cls.slug = slugify(cls.name)
@@ -53,7 +53,7 @@ class CharacterTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         cls.name = 'Wonder Woman'
         cls.slug = slugify(cls.name)
@@ -79,7 +79,7 @@ class ArcTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         cls.name = 'The Last Age of Magic'
         cls.slug = slugify(cls.name)
@@ -107,7 +107,7 @@ class CreatorTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         cls.name = 'Walter Simonson'
         cls.slug = 'walter-simonson'
@@ -153,7 +153,7 @@ class PublisherTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         cls.name = 'DC Comics'
         cls.slug = slugify(cls.name)
@@ -190,7 +190,7 @@ class SeriesTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         publisher = Publisher.objects.create(
             name='DC Comics', slug='dc-comics', edited_by=user)
@@ -221,7 +221,7 @@ class IssueTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         issue_date = timezone.now().date()
         publisher = Publisher.objects.create(

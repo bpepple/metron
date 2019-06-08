@@ -11,7 +11,7 @@ from users.models import CustomUser
 
 
 class TestCaseBase(TestCase):
-
+    @classmethod
     def _create_user(self):
         user = CustomUser.objects.create(
             username='brian', email='brian@test.com')
@@ -28,7 +28,7 @@ class GetAllSeriesTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         publisher_obj = Publisher.objects.create(name='DC Comics',
                                                  slug='dc-comics', edited_by=user)
@@ -55,7 +55,7 @@ class GetSingleSeriesTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         factory = APIRequestFactory()
         request = factory.get('/')

@@ -12,7 +12,7 @@ PAGINATE_DIFF_VAL = (PAGINATE_TEST_VAL - PAGINATE_DEFAULT_VAL)
 
 
 class TestCaseBase(TestCase):
-
+    @classmethod
     def _create_user(self):
         user = CustomUser.objects.create(
             username='brian', email='brian@test.com')
@@ -29,7 +29,7 @@ class ArcSearchViewsTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         for pub_num in range(PAGINATE_TEST_VAL):
             Arc.objects.create(name='Arc %s' % pub_num,
@@ -74,7 +74,7 @@ class ArcListViewTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         for pub_num in range(PAGINATE_TEST_VAL):
             Arc.objects.create(

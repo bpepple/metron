@@ -8,7 +8,7 @@ from users.models import CustomUser
 
 
 class TestCaseBase(TestCase):
-
+    @classmethod
     def _create_user(self):
         user = CustomUser.objects.create(
             username='brian', email='brian@test.com')
@@ -25,7 +25,7 @@ class GetAllCharactersTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         Character.objects.create(
             name='Superman', slug='superman', edited_by=user)
@@ -48,7 +48,7 @@ class GetSingleCharacterTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         cls.hulk = Character.objects.create(
             name='Hulk', slug='hulk', edited_by=user)

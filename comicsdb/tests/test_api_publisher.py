@@ -9,7 +9,7 @@ from users.models import CustomUser
 
 
 class TestCaseBase(TestCase):
-
+    @classmethod
     def _create_user(self):
         user = CustomUser.objects.create(
             username='brian', email='brian@test.com')
@@ -26,7 +26,7 @@ class GetAllPublisherTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         Publisher.objects.create(
             name='DC Comics', slug='dc-comics', edited_by=user)
@@ -49,7 +49,7 @@ class GetSinglePublisherTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user(cls)
+        user = cls._create_user()
 
         cls.dc = Publisher.objects.create(
             name='DC Comics', slug='dc-comics', edited_by=user)
