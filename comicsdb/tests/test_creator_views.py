@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from comicsdb.models import Creator
-
+from users.models import CustomUser
 
 HTML_OK_CODE = 200
 
@@ -11,13 +11,33 @@ PAGINATE_DEFAULT_VAL = 28
 PAGINATE_DIFF_VAL = (PAGINATE_TEST_VAL - PAGINATE_DEFAULT_VAL)
 
 
-class CreatorSearchViewsTest(TestCase):
+class TestCaseBase(TestCase):
+
+    def _create_user(self):
+        user = CustomUser.objects.create(
+            username='brian', email='brian@test.com')
+        user.set_password('1234')
+        user.save()
+
+        return user
+
+    def _client_login(self):
+        self.client.login(username='brian', password='1234')
+
+
+class CreatorSearchViewsTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
+        user = cls._create_user(cls)
+
         for pub_num in range(PAGINATE_TEST_VAL):
-            Creator.objects.create(
-                name=f'John-Smith-{pub_num}', slug=f'john-smith-{pub_num}')
+            Creator.objects.create(name=f'John-Smith-{pub_num}',
+                                   slug=f'john-smith-{pub_num}',
+                                   edited_by=user)
+
+    def setUp(self):
+        self._client_login()
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get('/creator/search')
@@ -50,14 +70,19 @@ class CreatorSearchViewsTest(TestCase):
             len(resp.context['creator_list']) == PAGINATE_DIFF_VAL)
 
 
-class CreatorListViewTest(TestCase):
+class CreatorListViewTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
+        user = cls._create_user(cls)
 
         for pub_num in range(PAGINATE_TEST_VAL):
-            Creator.objects.create(
-                name=f'John-Smith-{pub_num}', slug=f'john-smith-{pub_num}')
+            Creator.objects.create(name=f'John-Smith-{pub_num}',
+                                   slug=f'john-smith-{pub_num}',
+                                   edited_by=user)
+
+    def setUp(self):
+        self._client_login()
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get('/creator/')
