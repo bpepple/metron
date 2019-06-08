@@ -7,6 +7,14 @@ document.addEventListener("DOMContentLoaded", function () {
     return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
   }
 
+  // Modals
+
+  var rootEl = document.documentElement;
+  var $modals = getAll(".modal");
+  var $modalButtons = getAll(".modal-button");
+  var $modalCloses = getAll(".modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button");
+
+  // Function
   function closeModals() {
     rootEl.classList.remove("is-clipped");
     $modals.forEach(function ($el) {
@@ -14,12 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Modals
-
-  var rootEl = document.documentElement;
-  var $modals = getAll(".modal");
-  var $modalButtons = getAll(".modal-button");
-  var $modalCloses = getAll(".modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button");
 
   if ($modalButtons.length > 0) {
     $modalButtons.forEach(function ($el) {
