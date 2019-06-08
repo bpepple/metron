@@ -23,8 +23,10 @@ class PublisherUpdateTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
-        cls._create_user(cls)
-        cls.dc = Publisher.objects.create(name='DC Comics', slug='dc-comics')
+        user = cls._create_user(cls)
+        cls.dc = Publisher.objects.create(name='DC Comics',
+                                          slug='dc-comics',
+                                          edited_by=user)
 
     def setUp(self):
         self._client_login()
