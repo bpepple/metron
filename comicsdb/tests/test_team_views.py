@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from comicsdb.models import Team
-
+from users.models import CustomUser
 
 HTML_OK_CODE = 200
 
@@ -11,13 +11,33 @@ PAGINATE_DEFAULT_VAL = 28
 PAGINATE_DIFF_VAL = (PAGINATE_TEST_VAL - PAGINATE_DEFAULT_VAL)
 
 
-class TeamSearchViewsTest(TestCase):
+class TestCaseBase(TestCase):
+
+    def _create_user(self):
+        user = CustomUser.objects.create(
+            username='brian', email='brian@test.com')
+        user.set_password('1234')
+        user.save()
+
+        return user
+
+    def _client_login(self):
+        self.client.login(username='brian', password='1234')
+
+
+class TeamSearchViewsTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
+        user = cls._create_user(cls)
+
         for pub_num in range(PAGINATE_TEST_VAL):
             Team.objects.create(name='Team %s' % pub_num,
-                                     slug='team-%s' % pub_num)
+                                slug='team-%s' % pub_num,
+                                edited_by=user)
+
+    def setUp(self):
+        self._client_login()
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get('/team/search')
@@ -50,15 +70,19 @@ class TeamSearchViewsTest(TestCase):
             len(resp.context['team_list']) == PAGINATE_DIFF_VAL)
 
 
-class TeamListViewTest(TestCase):
+class TeamListViewTest(TestCaseBase):
 
     @classmethod
     def setUpTestData(cls):
+        user = cls._create_user(cls)
 
         for pub_num in range(PAGINATE_TEST_VAL):
-            Team.objects.create(
-                name='Team %s' % pub_num,
-                slug='team-%s' % pub_num)
+            Team.objects.create(name='Team %s' % pub_num,
+                                slug='team-%s' % pub_num,
+                                edited_by=user)
+
+    def setUp(self):
+        self._client_login()
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get('/team/')
