@@ -38,6 +38,7 @@ class SeriesDetail(DetailView):
     queryset = (
         Series.objects
         .select_related('publisher')
+        .select_related('edited_by')
         .prefetch_related('issue_set')
     )
 
