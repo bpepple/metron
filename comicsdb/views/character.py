@@ -1,15 +1,15 @@
-from functools import reduce
 import operator
+from functools import reduce
 
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.db.models import Q
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin)
+from django.db.models import Prefetch, Q
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from comicsdb.forms.character import CharacterForm
-from comicsdb.models import Character
-
+from comicsdb.models import Character, Issue
 
 PAGINATE = 28
 
@@ -21,26 +21,28 @@ class CharacterList(ListView):
 
 class CharacterDetail(DetailView):
     model = Character
-    queryset = Character.objects.select_related('edited_by')
+    queryset = (
+        Character.objects
+        .select_related('edited_by')
+        .prefetch_related(Prefetch('issue_set',
+                                   queryset=Issue.objects.order_by(
+                                       'series__sort_name', 'cover_date', 'number')
+                                   .select_related('series')
+                                   )
+                          )
+    )
 
     def get_context_data(self, **kwargs):
         context = super(CharacterDetail, self).get_context_data(**kwargs)
         character = self.get_object()
+        qs = Character.objects.order_by('name')
         try:
-            next_character = (
-                Character.objects
-                .filter(name__gt=character.name)
-                .order_by('name').first()
-            )
+            next_character = qs.filter(name__gt=character.name).first()
         except:
             next_character = None
 
         try:
-            previous_character = (
-                Character.objects
-                .filter(name__lt=character.name)
-                .order_by('name').last()
-            )
+            previous_character = qs.filter(name__lt=character.name).last()
         except:
             previous_character = None
 
