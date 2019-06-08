@@ -34,6 +34,7 @@ class CreatorDetail(DetailView):
     model = Creator
     queryset = (
         Creator.objects
+        .select_related('edited_by')
         .prefetch_related(Prefetch('credits_set',
                                    queryset=Credits.objects
                                    .order_by('issue__cover_date', 'issue__series', 'issue__number')

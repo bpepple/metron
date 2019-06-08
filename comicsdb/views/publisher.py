@@ -33,6 +33,7 @@ class PublisherDetail(DetailView):
     model = Publisher
     queryset = (
         Publisher.objects
+        .select_related('edited_by')
         .prefetch_related('series_set')
     )
 

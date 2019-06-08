@@ -21,6 +21,7 @@ class TeamList(ListView):
 
 class TeamDetail(DetailView):
     model = Team
+    queryset = Team.objects.select_related('edited_by')
 
     def get_context_data(self, **kwargs):
         context = super(TeamDetail, self).get_context_data(**kwargs)

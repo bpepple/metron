@@ -21,6 +21,7 @@ class CharacterList(ListView):
 
 class CharacterDetail(DetailView):
     model = Character
+    queryset = Character.objects.select_related('edited_by')
 
     def get_context_data(self, **kwargs):
         context = super(CharacterDetail, self).get_context_data(**kwargs)
