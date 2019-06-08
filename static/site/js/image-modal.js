@@ -1,6 +1,11 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", function () {
+  // Functions
+
+  function getAll(selector) {
+    return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
+  }
 
   // Modals
 
@@ -41,11 +46,4 @@ document.addEventListener("DOMContentLoaded", function () {
       $el.classList.remove("is-active");
     });
   }
-
-  // Functions
-
-  function getAll(selector) {
-    return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
-  }
-
 });
