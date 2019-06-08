@@ -26,7 +26,7 @@ class ArcDetail(DetailView):
         .select_related('edited_by')
         .prefetch_related(Prefetch('issue_set',
                                    queryset=Issue.objects
-                                   .order_by('cover_date', 'series', 'number')
+                                   .order_by('cover_date', 'series__sort_name', 'number')
                                    .select_related('series')
                                    )
                           )
