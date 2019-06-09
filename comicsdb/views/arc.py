@@ -1,15 +1,15 @@
-from functools import reduce
 import operator
+from functools import reduce
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.db.models import Q, Prefetch
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Prefetch, Q
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from comicsdb.forms.arc import ArcForm
 from comicsdb.models import Arc, Issue
-
 
 PAGINATE = 28
 
@@ -35,12 +35,12 @@ class ArcDetail(DetailView):
         arc = self.get_object()
         try:
             next_arc = Arc.objects.order_by("name").filter(name__gt=arc.name).first()
-        except:
+        except ObjectDoesNotExist:
             next_arc = None
 
         try:
             previous_arc = Arc.objects.order_by("name").filter(name__lt=arc.name).last()
-        except:
+        except ObjectDoesNotExist:
             previous_arc = None
 
         context["navigation"] = {"next_arc": next_arc, "previous_arc": previous_arc}

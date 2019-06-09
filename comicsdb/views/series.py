@@ -2,6 +2,7 @@ import operator
 from functools import reduce
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -56,26 +57,26 @@ class SeriesDetail(DetailView):
                 next_series = qs.filter(
                     name=series.name, year_began__gt=series.year_began
                 ).first()
-            except:
+            except ObjectDoesNotExist:
                 next_series = None
 
             try:
                 previous_series = qs.filter(
                     name=series.name, year_began__lt=series.year_began
                 ).last()
-            except:
+            except ObjectDoesNotExist:
                 previous_series = None
 
         if not next_series:
             try:
                 next_series = qs.filter(name__gt=series.name).first()
-            except:
+            except ObjectDoesNotExist:
                 next_series = None
 
         if not previous_series:
             try:
                 previous_series = qs.filter(name__lt=series.name).last()
-            except:
+            except ObjectDoesNotExist:
                 previous_series = None
 
         context["navigation"] = {

@@ -2,6 +2,7 @@ import operator
 from functools import reduce
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Prefetch, Q
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
@@ -35,12 +36,12 @@ class CharacterDetail(DetailView):
         qs = Character.objects.order_by("name")
         try:
             next_character = qs.filter(name__gt=character.name).first()
-        except:
+        except ObjectDoesNotExist:
             next_character = None
 
         try:
             previous_character = qs.filter(name__lt=character.name).last()
-        except:
+        except ObjectDoesNotExist:
             previous_character = None
 
         context["navigation"] = {

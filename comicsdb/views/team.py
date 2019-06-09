@@ -1,15 +1,15 @@
-from functools import reduce
 import operator
+from functools import reduce
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from comicsdb.forms.team import TeamForm
 from comicsdb.models import Team
-
 
 PAGINATE = 28
 
@@ -28,14 +28,14 @@ class TeamDetail(DetailView):
         team = self.get_object()
         try:
             next_team = Team.objects.filter(name__gt=team.name).order_by("name").first()
-        except:
+        except ObjectDoesNotExist:
             next_team = None
 
         try:
             previous_team = (
                 Team.objects.filter(name__lt=team.name).order_by("name").last()
             )
-        except:
+        except ObjectDoesNotExist:
             previous_team = None
 
         context["navigation"] = {"next_team": next_team, "previous_team": previous_team}

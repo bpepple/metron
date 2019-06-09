@@ -1,16 +1,16 @@
-from functools import reduce
 import operator
+from functools import reduce
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from comicsdb.forms.publisher import PublisherForm
 from comicsdb.models import Publisher, Series
-from django.shortcuts import get_object_or_404
-
 
 PAGINATE = 28
 
@@ -44,7 +44,7 @@ class PublisherDetail(DetailView):
                 .filter(name__gt=publisher.name)
                 .first()
             )
-        except:
+        except ObjectDoesNotExist:
             next_publisher = None
 
         try:
@@ -53,7 +53,7 @@ class PublisherDetail(DetailView):
                 .filter(name__lt=publisher.name)
                 .last()
             )
-        except:
+        except ObjectDoesNotExist:
             previous_publisher = None
 
         context["navigation"] = {

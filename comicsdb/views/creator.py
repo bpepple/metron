@@ -1,16 +1,16 @@
-from functools import reduce
 import operator
+from functools import reduce
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.db.models import Q, Count
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from comicsdb.forms.creator import CreatorForm
 from comicsdb.models import Creator, Credits, Issue, Series
-
 
 PAGINATE = 28
 
@@ -42,12 +42,12 @@ class CreatorDetail(DetailView):
         qs = Creator.objects.order_by("name")
         try:
             next_creator = qs.filter(name__gt=creator.name).first()
-        except:
+        except ObjectDoesNotExist:
             next_creator = None
 
         try:
             previous_creator = qs.filter(name__lt=creator.name).last()
-        except:
+        except ObjectDoesNotExist:
             previous_creator = None
 
         context["navigation"] = {
