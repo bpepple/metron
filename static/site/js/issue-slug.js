@@ -14,7 +14,7 @@ document.getElementById("id_series").onclick = function() {
     var sel = document.getElementById("id_series");
     var seriesName = getSelectedOption(sel);
     var issueNumber = document.getElementById("id_number").value;
-    var res = seriesName.text + ' ' + issueNumber;
+    var res = seriesName.text + " " + issueNumber;
     if (!e._changed) { e.value = URLify(res, 255, false); }
 }
 
@@ -23,6 +23,6 @@ document.getElementById("id_number").onkeyup = function() {
     var sel = document.getElementById("id_series");
     var seriesName = getSelectedOption(sel);
     var issueNumber = document.getElementById("id_number").value;
-    var res = seriesName.text + ' ' + issueNumber;
+    var res = seriesName.text + " " + issueNumber;
     if (!e._changed) { e.value = URLify(res, 255, false); }
 }
