@@ -15,7 +15,7 @@ class HomeViewTest(TestCaseBase):
 
         cover_date = timezone.now().date()
         dc = Publisher.objects.create(name="DC", slug="dc", edited_by=user)
-        marvel = Publisher.objects.create(name="Marvel", slug="marvel", edited_by=user)
+        Publisher.objects.create(name="Marvel", slug="marvel", edited_by=user)
         series_type = SeriesType.objects.create(name="Ongoing Series")
         batman = Series.objects.create(
             name="Batman",
