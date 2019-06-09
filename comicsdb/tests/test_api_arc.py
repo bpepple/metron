@@ -1,25 +1,11 @@
-from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework import status
 
 from comicsdb.models import Arc, Issue, Publisher, Series, SeriesType
 from comicsdb.serializers import ArcSerializer, IssueListSerializer
-from users.models import CustomUser
 
-
-class TestCaseBase(TestCase):
-    @classmethod
-    def _create_user(self):
-        user = CustomUser.objects.create(
-            username='brian', email='brian@test.com')
-        user.set_password('1234')
-        user.save()
-
-        return user
-
-    def _client_login(self):
-        self.client.login(username='brian', password='1234')
+from .case_base import TestCaseBase
 
 
 class GetAllArcsTest(TestCaseBase):

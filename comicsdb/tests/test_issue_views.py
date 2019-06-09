@@ -1,29 +1,15 @@
-from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
 from comicsdb.models import Issue, Publisher, Series, SeriesType
-from users.models import CustomUser
+
+from .case_base import TestCaseBase
 
 HTML_OK_CODE = 200
 
 PAGINATE_TEST_VAL = 35
 PAGINATE_DEFAULT_VAL = 28
 PAGINATE_DIFF_VAL = (PAGINATE_TEST_VAL - PAGINATE_DEFAULT_VAL)
-
-
-class TestCaseBase(TestCase):
-    @classmethod
-    def _create_user(self):
-        user = CustomUser.objects.create(
-            username='brian', email='brian@test.com')
-        user.set_password('1234')
-        user.save()
-
-        return user
-
-    def _client_login(self):
-        self.client.login(username='brian', password='1234')
 
 
 class IssueSearchViewsTest(TestCaseBase):

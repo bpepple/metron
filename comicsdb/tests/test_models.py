@@ -4,23 +4,10 @@ from django.utils.text import slugify
 
 from comicsdb.models import (Arc, Character, Creator, Issue, Publisher, Role,
                              Series, SeriesType, Team)
-from users.models import CustomUser
+
+from .case_base import TestCaseBase
 
 HTTP_200_OK = 200
-
-
-class TestCaseBase(TestCase):
-    @classmethod
-    def _create_user(self):
-        user = CustomUser.objects.create(
-            username='brian', email='brian@test.com')
-        user.set_password('1234')
-        user.save()
-
-        return user
-
-    def _client_login(self):
-        self.client.login(username='brian', password='1234')
 
 
 class TeamTest(TestCaseBase):
