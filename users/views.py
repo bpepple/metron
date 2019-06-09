@@ -11,7 +11,7 @@ from .tokens import account_activation_token
 
 
 def account_activation_sent(request):
-    return render(request, 'users/account_activation_sent.html')
+    return render(request, "users/account_activation_sent.html")
 
 
 def activate(request, uidb64, token):
@@ -26,28 +26,31 @@ def activate(request, uidb64, token):
         user.email_confirmed = True
         user.save()
         login(request, user)
-        return redirect('home')
+        return redirect("home")
     else:
-        return render(request, 'users/account_activation_invalid.html')
+        return render(request, "users/account_activation_invalid.html")
 
 
 def signup(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
-            subject = 'Activate Your MySite Account'
-            message = render_to_string('users/account_activation_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
+            subject = "Activate Your MySite Account"
+            message = render_to_string(
+                "users/account_activation_email.html",
+                {
+                    "user": user,
+                    "domain": current_site.domain,
+                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                    "token": account_activation_token.make_token(user),
+                },
+            )
             user.email_user(subject, message)
-            return redirect('account_activation_sent')
+            return redirect("account_activation_sent")
     else:
         form = CustomUserCreationForm()
-    return render(request, 'users/signup.html', {'form': form})
+    return render(request, "users/signup.html", {"form": form})

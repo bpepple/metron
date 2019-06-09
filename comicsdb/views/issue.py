@@ -19,7 +19,6 @@ PAGINATE = 28
 
 
 class CreatorAutocomplete(autocomplete.Select2QuerySetView):
-
     def get_queryset(self):
         if not self.request.user.is_authenticated:
             return Creator.objects.none()
@@ -35,23 +34,21 @@ class CreatorAutocomplete(autocomplete.Select2QuerySetView):
 class IssueList(ListView):
     model = Issue
     paginate_by = PAGINATE
-    queryset = (
-        Issue.objects
-        .select_related('series')
-    )
+    queryset = Issue.objects.select_related("series")
 
 
 class IssueDetail(DetailView):
     model = Issue
-    queryset = (
-        Issue.objects
-        .select_related('series', 'series__publisher')
-        .prefetch_related(Prefetch('credits_set',
-                                   queryset=Credits.objects
-                                   .order_by('creator__name')
-                                   .distinct('creator__name')
-                                   .select_related('creator')
-                                   .prefetch_related('role')))
+    queryset = Issue.objects.select_related(
+        "series", "series__publisher"
+    ).prefetch_related(
+        Prefetch(
+            "credits_set",
+            queryset=Credits.objects.order_by("creator__name")
+            .distinct("creator__name")
+            .select_related("creator")
+            .prefetch_related("role"),
+        )
     )
 
     def get_context_data(self, **kwargs):
@@ -63,14 +60,13 @@ class IssueDetail(DetailView):
             next_issue = None
 
         try:
-            previous_issue = issue.get_previous_by_cover_date(
-                series=issue.series)
+            previous_issue = issue.get_previous_by_cover_date(series=issue.series)
         except ObjectDoesNotExist:
             previous_issue = None
 
-        context['navigation'] = {
-            'next_issue': next_issue,
-            'previous_issue': previous_issue,
+        context["navigation"] = {
+            "next_issue": next_issue,
+            "previous_issue": previous_issue,
         }
         return context
 
@@ -81,12 +77,18 @@ class SearchIssueList(IssueList):
     # I'll look at implementing a better search engine.
     def get_queryset(self):
         result = super(SearchIssueList, self).get_queryset()
-        query = self.request.GET.get('q')
+        query = self.request.GET.get("q")
         if query:
             query_list = query.split()
             result = result.filter(
-                reduce(operator.and_,
-                       (Q(series__name__icontains=q) | Q(number__in=q) for q in query_list)))
+                reduce(
+                    operator.and_,
+                    (
+                        Q(series__name__icontains=q) | Q(number__in=q)
+                        for q in query_list
+                    ),
+                )
+            )
 
         return result
 
@@ -98,15 +100,15 @@ class IssueCreate(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         data = super(IssueCreate, self).get_context_data(**kwargs)
         if self.request.POST:
-            data['credits'] = CreditsFormSet(self.request.POST)
+            data["credits"] = CreditsFormSet(self.request.POST)
         else:
-            data['credits'] = CreditsFormSet()
+            data["credits"] = CreditsFormSet()
         return data
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
         context = self.get_context_data()
-        credits_form = context['credits']
+        credits_form = context["credits"]
         with transaction.atomic():
             self.object = form.save()
 
@@ -123,26 +125,26 @@ class IssueUpdate(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         data = super(IssueUpdate, self).get_context_data(**kwargs)
         if self.request.POST:
-            data['credits'] = CreditsFormSet(self.request.POST,
-                                             instance=self.object,
-                                             queryset=(
-                                                 Credits.objects
-                                                 .filter(issue=self.object)
-                                                 .prefetch_related('role')
-                                             ))
+            data["credits"] = CreditsFormSet(
+                self.request.POST,
+                instance=self.object,
+                queryset=(
+                    Credits.objects.filter(issue=self.object).prefetch_related("role")
+                ),
+            )
         else:
-            data['credits'] = CreditsFormSet(instance=self.object,
-                                             queryset=(
-                                                 Credits.objects
-                                                 .filter(issue=self.object)
-                                                 .prefetch_related('role')
-                                             ))
+            data["credits"] = CreditsFormSet(
+                instance=self.object,
+                queryset=(
+                    Credits.objects.filter(issue=self.object).prefetch_related("role")
+                ),
+            )
         return data
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
         context = self.get_context_data()
-        credits_form = context['credits']
+        credits_form = context["credits"]
         with transaction.atomic():
             self.object = form.save()
 
@@ -154,6 +156,6 @@ class IssueUpdate(LoginRequiredMixin, UpdateView):
 
 class IssueDelete(PermissionRequiredMixin, DeleteView):
     model = Issue
-    template_name = 'comicsdb/confirm_delete.html'
-    permission_required = 'comicsdb.delete_issue'
-    success_url = reverse_lazy('issue:list')
+    template_name = "comicsdb/confirm_delete.html"
+    permission_required = "comicsdb.delete_issue"
+    success_url = reverse_lazy("issue:list")

@@ -21,9 +21,16 @@ from django.urls import path, include
 from django.views.i18n import JavaScriptCatalog
 from rest_framework.documentation import include_docs_urls
 
-from comicsdb.sitemaps import (ArcSitemap, CharacterSitemap, CreatorSitemap,
-                               IssueSitemap, PublisherSitemap, SeriesSitemap,
-                               TeamSitemap, StaticViewSitemap)
+from comicsdb.sitemaps import (
+    ArcSitemap,
+    CharacterSitemap,
+    CreatorSitemap,
+    IssueSitemap,
+    PublisherSitemap,
+    SeriesSitemap,
+    TeamSitemap,
+    StaticViewSitemap,
+)
 from comicsdb.urls import (
     api as api_urls,
     arc as arc_urls,
@@ -36,49 +43,50 @@ from comicsdb.urls import (
     publisher as publisher_urls,
     series as series_urls,
     team as team_urls,
-    week as week_urls
+    week as week_urls,
 )
 
 
 sitemaps = {
-    'arc': ArcSitemap(),
-    'character': CharacterSitemap(),
-    'creator': CreatorSitemap(),
-    'issue': IssueSitemap(),
-    'publisher': PublisherSitemap(),
-    'series': SeriesSitemap(),
-    'team': TeamSitemap(),
-    'static': StaticViewSitemap,
+    "arc": ArcSitemap(),
+    "character": CharacterSitemap(),
+    "creator": CreatorSitemap(),
+    "issue": IssueSitemap(),
+    "publisher": PublisherSitemap(),
+    "series": SeriesSitemap(),
+    "team": TeamSitemap(),
+    "static": StaticViewSitemap,
 }
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include(api_urls)),
-    path('api-auth/', include('rest_framework.urls')),
-    path('arc/', include(arc_urls)),
-    path('character/', include(character_urls)),
-    path('contact/', include(contact_urls)),
-    path('creator/', include(creator_urls)),
-    path('docs/', include_docs_urls(title='Metron API', public=True)),
-    path('', include(home_urls)),
-    path('issue/', include(issue_urls)),
-    path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
-    path('pages/', include(flatpage_urls)),
-    path('publisher/', include(publisher_urls)),
-    path('series/', include(series_urls)),
-    path('team/', include(team_urls)),
-    path('users/', include('users.urls')),
-    path('users/', include('django.contrib.auth.urls')),
-    path('week/', include(week_urls)),
-    path('sitemap.xml', sitemap,
-         {'sitemaps': sitemaps},
-         name='django.contrib.sitemaps.views.sitemap')
+    path("admin/", admin.site.urls),
+    path("api/", include(api_urls)),
+    path("api-auth/", include("rest_framework.urls")),
+    path("arc/", include(arc_urls)),
+    path("character/", include(character_urls)),
+    path("contact/", include(contact_urls)),
+    path("creator/", include(creator_urls)),
+    path("docs/", include_docs_urls(title="Metron API", public=True)),
+    path("", include(home_urls)),
+    path("issue/", include(issue_urls)),
+    path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),
+    path("pages/", include(flatpage_urls)),
+    path("publisher/", include(publisher_urls)),
+    path("series/", include(series_urls)),
+    path("team/", include(team_urls)),
+    path("users/", include("users.urls")),
+    path("users/", include("django.contrib.auth.urls")),
+    path("week/", include(week_urls)),
+    path(
+        "sitemap.xml",
+        sitemap,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
-    urlpatterns += [
-        path('__debug__/', include(debug_toolbar.urls)),
-    ]
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+
+    urlpatterns += [path("__debug__/", include(debug_toolbar.urls))]
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

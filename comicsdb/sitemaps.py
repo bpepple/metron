@@ -1,16 +1,15 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
-from comicsdb.models import (Arc, Character, Creator, Issue,
-                             Publisher, Series, Team)
+from comicsdb.models import Arc, Character, Creator, Issue, Publisher, Series, Team
 
 
 class StaticViewSitemap(Sitemap):
-    changefreq = 'weekly'
+    changefreq = "weekly"
     priority = 0.5
 
     def items(self):
-        return ['home', 'flatpage:contribute', 'flatpage:editing-guidelines']
+        return ["home", "flatpage:contribute", "flatpage:editing-guidelines"]
 
     def location(self, item):
         return reverse(item)

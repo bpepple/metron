@@ -1,8 +1,7 @@
 import operator
 from functools import reduce
 
-from django.contrib.auth.mixins import (LoginRequiredMixin,
-                                        PermissionRequiredMixin)
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -18,27 +17,22 @@ PAGINATE = 28
 class SeriesList(ListView):
     model = Series
     paginate_by = PAGINATE
-    queryset = (
-        Series.objects
-        .prefetch_related('issue_set')
-    )
+    queryset = Series.objects.prefetch_related("issue_set")
 
 
 class SeriesIssueList(ListView):
-    template_name = 'comicsdb/issue_list.html'
+    template_name = "comicsdb/issue_list.html"
     paginate_by = PAGINATE
 
     def get_queryset(self):
-        self.series = get_object_or_404(Series, slug=self.kwargs['slug'])
-        return Issue.objects.select_related('series').filter(series=self.series)
+        self.series = get_object_or_404(Series, slug=self.kwargs["slug"])
+        return Issue.objects.select_related("series").filter(series=self.series)
 
 
 class SeriesDetail(DetailView):
     model = Series
-    queryset = (
-        Series.objects
-        .select_related('publisher', 'edited_by')
-        .prefetch_related('issue_set')
+    queryset = Series.objects.select_related("publisher", "edited_by").prefetch_related(
+        "issue_set"
     )
 
     def get_context_data(self, **kwargs):
@@ -50,7 +44,7 @@ class SeriesDetail(DetailView):
         previous_series = None
 
         # Create the base queryset with all the series.
-        qs = Series.objects.all().order_by('name', 'year_began')
+        qs = Series.objects.all().order_by("name", "year_began")
 
         # Determine if there is more than 1 series with the same name
         series_count = qs.filter(name__gte=series.name).count()
@@ -59,20 +53,16 @@ class SeriesDetail(DetailView):
         # let's attempt to get the next and previous items
         if series_count > 1:
             try:
-                next_series = (
-                    qs
-                    .filter(name=series.name, year_began__gt=series.year_began)
-                    .first()
-                )
+                next_series = qs.filter(
+                    name=series.name, year_began__gt=series.year_began
+                ).first()
             except:
                 next_series = None
 
             try:
-                previous_series = (
-                    qs
-                    .filter(name=series.name, year_began__lt=series.year_began)
-                    .last()
-                )
+                previous_series = qs.filter(
+                    name=series.name, year_began__lt=series.year_began
+                ).last()
             except:
                 previous_series = None
 
@@ -88,23 +78,22 @@ class SeriesDetail(DetailView):
             except:
                 previous_series = None
 
-        context['navigation'] = {
-            'next_series': next_series,
-            'previous_series': previous_series,
+        context["navigation"] = {
+            "next_series": next_series,
+            "previous_series": previous_series,
         }
         return context
 
 
 class SearchSeriesList(SeriesList):
-
     def get_queryset(self):
         result = super(SearchSeriesList, self).get_queryset()
-        query = self.request.GET.get('q')
+        query = self.request.GET.get("q")
         if query:
             query_list = query.split()
             result = result.filter(
-                reduce(operator.and_,
-                       (Q(name__icontains=q) for q in query_list)))
+                reduce(operator.and_, (Q(name__icontains=q) for q in query_list))
+            )
 
         return result
 
@@ -129,6 +118,6 @@ class SeriesUpdate(LoginRequiredMixin, UpdateView):
 
 class SeriesDelete(PermissionRequiredMixin, DeleteView):
     model = Series
-    template_name = 'comicsdb/confirm_delete.html'
-    permission_required = 'comicsdb.delete_series'
-    success_url = reverse_lazy('series:list')
+    template_name = "comicsdb/confirm_delete.html"
+    permission_required = "comicsdb.delete_series"
+    success_url = reverse_lazy("series:list")

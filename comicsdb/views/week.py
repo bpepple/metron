@@ -14,18 +14,18 @@ class WeekList(ListView):
 
     model = Issue
     paginate_by = PAGINATE
-    template_name = 'comicsdb/week_list.html'
+    template_name = "comicsdb/week_list.html"
     queryset = (
-        Issue.objects
-        .filter(store_date__week=current_week)
+        Issue.objects.filter(store_date__week=current_week)
         .filter(store_date__year=current_year)
-        .prefetch_related('series')
+        .prefetch_related("series")
     )
 
     def get_context_data(self, **kwargs):
         # The '3' in the format string gives the date for Wednesday
         release_day = datetime.strptime(
-            f'{self.current_year}-{self.current_week}-3', '%G-%V-%u')
+            f"{self.current_year}-{self.current_week}-3", "%G-%V-%u"
+        )
         context = super().get_context_data(**kwargs)
-        context['release_day'] = release_day
+        context["release_day"] = release_day
         return context

@@ -1,1 +1,1 @@
-default_app_config = 'comicsdb.apps.ComicsdbConfig'
+default_app_config = "comicsdb.apps.ComicsdbConfig"

@@ -17,12 +17,14 @@ PAGINATE = 28
 
 class CreatorSeriesList(ListView):
     paginate_by = PAGINATE
-    template_name = 'comicsdb/issue_list.html'
+    template_name = "comicsdb/issue_list.html"
 
     def get_queryset(self):
-        self.series = get_object_or_404(Series, slug=self.kwargs['series'])
-        self.creator = get_object_or_404(Creator, slug=self.kwargs['creator'])
-        return Issue.objects.select_related('series').filter(creators=self.creator, series=self.series)
+        self.series = get_object_or_404(Series, slug=self.kwargs["series"])
+        self.creator = get_object_or_404(Creator, slug=self.kwargs["creator"])
+        return Issue.objects.select_related("series").filter(
+            creators=self.creator, series=self.series
+        )
 
 
 class CreatorList(ListView):
@@ -32,12 +34,12 @@ class CreatorList(ListView):
 
 class CreatorDetail(DetailView):
     model = Creator
-    queryset = Creator.objects.select_related('edited_by')
+    queryset = Creator.objects.select_related("edited_by")
 
     def get_context_data(self, **kwargs):
         context = super(CreatorDetail, self).get_context_data(**kwargs)
         creator = self.get_object()
-        qs = Creator.objects.order_by('name')
+        qs = Creator.objects.order_by("name")
         try:
             next_creator = qs.filter(name__gt=creator.name).first()
         except:
@@ -48,33 +50,37 @@ class CreatorDetail(DetailView):
         except:
             previous_creator = None
 
-        context['navigation'] = {
-            'next_creator': next_creator,
-            'previous_creator': previous_creator,
+        context["navigation"] = {
+            "next_creator": next_creator,
+            "previous_creator": previous_creator,
         }
 
         series_issues = (
-            Credits.objects
-            .filter(creator=creator)
-            .values('issue__series__name', 'issue__series__year_began', 'issue__series__slug')
-            .annotate(Count('issue'))
-            .order_by('issue__series__sort_name', 'issue__series__year_began')
+            Credits.objects.filter(creator=creator)
+            .values(
+                "issue__series__name",
+                "issue__series__year_began",
+                "issue__series__slug",
+            )
+            .annotate(Count("issue"))
+            .order_by("issue__series__sort_name", "issue__series__year_began")
         )
-        context['credits'] = series_issues
+        context["credits"] = series_issues
 
         return context
 
 
 class SearchCreatorList(CreatorList):
-
     def get_queryset(self):
         result = super(SearchCreatorList, self).get_queryset()
-        query = self.request.GET.get('q')
+        query = self.request.GET.get("q")
         if query:
             query_list = query.split()
             result = result.filter(
-                reduce(operator.and_,
-                       (Q(name__unaccent__icontains=q) for q in query_list)))
+                reduce(
+                    operator.and_, (Q(name__unaccent__icontains=q) for q in query_list)
+                )
+            )
 
         return result
 
@@ -82,7 +88,7 @@ class SearchCreatorList(CreatorList):
 class CreatorCreate(LoginRequiredMixin, CreateView):
     model = Creator
     form_class = CreatorForm
-    template_name = 'comicsdb/model_with_image_form.html'
+    template_name = "comicsdb/model_with_image_form.html"
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
@@ -92,7 +98,7 @@ class CreatorCreate(LoginRequiredMixin, CreateView):
 class CreatorUpdate(LoginRequiredMixin, UpdateView):
     model = Creator
     form_class = CreatorForm
-    template_name = 'comicsdb/model_with_image_form.html'
+    template_name = "comicsdb/model_with_image_form.html"
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
@@ -101,6 +107,6 @@ class CreatorUpdate(LoginRequiredMixin, UpdateView):
 
 class CreatorDelete(PermissionRequiredMixin, DeleteView):
     model = Creator
-    template_name = 'comicsdb/confirm_delete.html'
-    permission_required = 'comicsdb.delete_creator'
-    success_url = reverse_lazy('creator:list')
+    template_name = "comicsdb/confirm_delete.html"
+    permission_required = "comicsdb.delete_creator"
+    success_url = reverse_lazy("creator:list")
