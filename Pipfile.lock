@@ -70,11 +70,11 @@
         },
         "django-widget-tweaks": {
             "hashes": [
-                "sha256:a69cba6c8a6b98f0cf6eef0535f8212d635e19044ee4533d4d78df700c2e233f",
-                "sha256:bc645ef88307bc4ac269ee8ee9e572be814cd4a125c2bb6edb59ffcdc194982d"
+                "sha256:65c960f3d75008a285e4b10f4d21f9eae4160fd77a0f6097ad545185f8648bd6",
+                "sha256:f2e2c9c9be1ccc59061e248dcc2144f4906d594abe1a563902f4bdf6aa14e432"
             ],
             "index": "pypi",
-            "version": "==1.4.3"
+            "version": "==1.4.5"
         },
         "djangorestframework": {
             "hashes": [
