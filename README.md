@@ -1,4 +1,7 @@
+
 # Metron
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7e810359b10c4ac0bf5ef2792d4d6e73)](https://www.codacy.com/app/bpepple/metron?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bpepple/metron&amp;utm_campaign=Badge_Grade)
 
 Metron is just a little side project I'm toying with to provide a commmunity comicbook database (like the ComicDB,
 Grand Comics Database, or Comic Vine). Currently, Comic Vine is the only the service that provides a REST api, but
