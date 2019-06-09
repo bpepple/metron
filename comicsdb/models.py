@@ -1,5 +1,4 @@
 from django.contrib.postgres.fields import ArrayField
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.urls import reverse
 from sorl.thumbnail import ImageField
@@ -187,7 +186,7 @@ class Series(models.Model):
     def first_issue_cover(self):
         try:
             return self.issue_set.all().first().image
-        except ObjectDoesNotExist:
+        except AttributeError:
             return None
 
     @property
