@@ -167,3 +167,44 @@ class TestCharacterCreate(TestCaseBase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Character.objects.count(), character_count + 1)
+
+
+class TestCharacterUpdate(TestCaseBase):
+    @classmethod
+    def setUpTestData(cls):
+        user = cls._create_user()
+
+        cls.slug = "hulk"
+        Character.objects.create(
+            name="Hulk",
+            slug=cls.slug,
+            desc="Gamma powered goliath.",
+            wikipedia="Hulk",
+            image="character/2019/06/07/hulk.jpg",
+            edited_by=user,
+        )
+
+    def setUp(self):
+        self._client_login()
+
+    def test_character_update_view(self):
+        k = {"slug": self.slug}
+        response = self.client.get(reverse("character:update", kwargs=k))
+        self.assertEqual(response.status_code, HTML_OK_CODE)
+        self.assertTemplateUsed(response, "comicsdb/model_with_image_form.html")
+
+    def test_character_update_validform_view(self):
+        k = {"slug": self.slug}
+        character_count = Character.objects.count()
+        response = self.client.post(
+            reverse("character:update", kwargs=k),
+            {
+                "name": "Hulk",
+                "slug": self.slug,
+                "desc": "Big Green Fighting Machine.",
+                "wikipedia": "Hulk",
+                "image": "character/2019/06/07/hulk.jpg",
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Character.objects.count(), character_count)
