@@ -1,5 +1,6 @@
 from django.urls import reverse
 
+from comicsdb.forms.character import CharacterForm
 from comicsdb.models import Character
 
 from .case_base import TestCaseBase
@@ -97,3 +98,72 @@ class CharacterListViewTest(TestCaseBase):
         self.assertTrue("is_paginated" in resp.context)
         self.assertTrue(resp.context["is_paginated"] == True)
         self.assertTrue(len(resp.context["character_list"]) == PAGINATE_DIFF_VAL)
+
+
+class TestCharacterForm(TestCaseBase):
+    @classmethod
+    def setUpTestData(cls):
+        cls._create_user()
+
+    def setUp(self):
+        self._client_login()
+
+    def test_valid_form(self):
+        form = CharacterForm(
+            data={
+                "name": "Batman",
+                "slug": "batman",
+                "desc": "The Dark Knight.",
+                "wikipedia": "Batman",
+                "image": "character/2019/06/07/batman.jpg",
+                "alias": "Dark Knight",
+                "creators": "",
+                "teams": "",
+            }
+        )
+        self.assertTrue(form.is_valid())
+
+    def test_form_invalid(self):
+        form = CharacterForm(
+            data={
+                "name": "",
+                "slug": "bad-data",
+                "desc": "",
+                "wikipedia": "",
+                "image": "",
+                "alias": "",
+                "creators": "",
+                "teams": "",
+            }
+        )
+        self.assertFalse(form.is_valid())
+
+
+class TestCharacterCreate(TestCaseBase):
+    @classmethod
+    def setUpTestData(cls):
+        cls._create_user()
+
+    def setUp(self):
+        self._client_login()
+
+    def test_create_character_view(self):
+        response = self.client.get(reverse("character:create"))
+        self.assertEqual(response.status_code, HTML_OK_CODE)
+        self.assertTemplateUsed(response, "comicsdb/model_with_image_form.html")
+
+    def test_create_character_validform_view(self):
+        character_count = Character.objects.count()
+        response = self.client.post(
+            reverse("character:create"),
+            {
+                "name": "Hulk",
+                "slug": "hulk",
+                "desc": "Gamma powered goliath.",
+                "wikipedia": "Hulk",
+                "image": "character/2019/06/07/hulk.jpg",
+                "alias": "Green Goliath",
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Character.objects.count(), character_count + 1)
