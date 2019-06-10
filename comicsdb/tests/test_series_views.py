@@ -153,3 +153,39 @@ class TestSeriesForm(TestCaseBase):
             }
         )
         self.assertFalse(form.is_valid())
+
+
+class TestSeriesCreate(TestCaseBase):
+    @classmethod
+    def setUpTestData(cls):
+        user = cls._create_user()
+
+        cls.series_type = SeriesType.objects.create(name="Ongoing Series")
+        cls.publisher = Publisher.objects.create(name="DC", slug="dc", edited_by=user)
+
+    def setUp(self):
+        self._client_login()
+
+    def test_create_series_view(self):
+        response = self.client.get(reverse("series:create"))
+        self.assertEqual(response.status_code, HTML_OK_CODE)
+        self.assertTemplateUsed(response, "comicsdb/series_form.html")
+
+    def test_create_series_validform_view(self):
+        series_count = Series.objects.count()
+        response = self.client.post(
+            reverse("series:create"),
+            {
+                "name": "Batman",
+                "sort_name": "Batman",
+                "slug": "batman",
+                "volume": 3,
+                "year_began": 2017,
+                "year_end": "",
+                "series_type": self.series_type.id,
+                "publisher": self.publisher.id,
+                "desc": "The Dark Knight.",
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Series.objects.count(), series_count + 1)
