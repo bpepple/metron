@@ -1,5 +1,6 @@
 from django.urls import reverse
 
+from comicsdb.forms.series import SeriesForm
 from comicsdb.models import Publisher, Series, SeriesType
 
 from .case_base import TestCaseBase
@@ -109,3 +110,46 @@ class SeriesListViewTest(TestCaseBase):
         self.assertTrue("is_paginated" in resp.context)
         self.assertTrue(resp.context["is_paginated"] == True)
         self.assertTrue(len(resp.context["series_list"]) == PAGINATE_DIFF_VAL)
+
+
+class TestSeriesForm(TestCaseBase):
+    @classmethod
+    def setUpTestData(cls):
+        user = cls._create_user()
+
+        cls.series_type = SeriesType.objects.create(name="Ongoing Series")
+        cls.publisher = Publisher.objects.create(name="DC", slug="dc", edited_by=user)
+
+    def setUp(self):
+        self._client_login()
+
+    def test_valid_form(self):
+        form = SeriesForm(
+            data={
+                "name": "Batman",
+                "sort_name": "Batman",
+                "slug": "batman",
+                "volume": 3,
+                "year_began": 2017,
+                "year_end": "",
+                "series_type": self.series_type.id,
+                "publisher": self.publisher.id,
+                "desc": "The Dark Knight.",
+            }
+        )
+        self.assertTrue(form.is_valid())
+
+    def test_form_invalid(self):
+        form = SeriesForm(
+            data={
+                "name": "",
+                "sort_name": "",
+                "slug": "bad-data",
+                "volume": "",
+                "year_began": "",
+                "series_type": self.series_type.id,
+                "publisher": self.publisher.id,
+                "desc": "",
+            }
+        )
+        self.assertFalse(form.is_valid())
