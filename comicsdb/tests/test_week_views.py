@@ -1,3 +1,5 @@
+from datetime import date, datetime
+
 from django.urls import reverse
 from django.utils import timezone
 
@@ -7,13 +9,23 @@ from .case_base import TestCaseBase
 
 HTML_OK_CODE = 200
 
+PAGINATE_TEST_VAL = 35
+PAGINATE_DEFAULT_VAL = 28
+PAGINATE_DIFF_VAL = PAGINATE_TEST_VAL - PAGINATE_DEFAULT_VAL
+
 
 class TestWeekView(TestCaseBase):
     @classmethod
     def setUpTestData(cls):
+        # Create the store date for this week
+        current_week = date.today().isocalendar()[1]
+        current_year = date.today().year
+        d = f"{current_year}-W{current_week}"
+        in_store_date = datetime.strptime(d + "-3", "%G-W%V-%u")
+        cover_date = timezone.now().date()
+
         user = cls._create_user()
 
-        cover_date = timezone.now().date()
         publisher = Publisher.objects.create(
             name="Marvel", slug="marvel", edited_by=user
         )
@@ -27,12 +39,13 @@ class TestWeekView(TestCaseBase):
             series_type=series_type,
             edited_by=user,
         )
-        for i_num in range(24):
+        for i_num in range(PAGINATE_TEST_VAL):
             Issue.objects.create(
                 series=superman,
                 number=i_num,
                 slug=f"hulk-2019-{i_num}",
                 cover_date=cover_date,
+                store_date=in_store_date,
                 edited_by=user,
             )
 
@@ -51,3 +64,18 @@ class TestWeekView(TestCaseBase):
         resp = self.client.get(reverse("week:list"))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTemplateUsed(resp, "comicsdb/week_list.html")
+
+    def test_pagination_is_thirty(self):
+        resp = self.client.get(reverse("week:list"))
+        self.assertEqual(resp.status_code, HTML_OK_CODE)
+        self.assertTrue("is_paginated" in resp.context)
+        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(len(resp.context["issue_list"]) == PAGINATE_DEFAULT_VAL)
+
+    def test_lists_second_page(self):
+        # Get second page and confirm it has (exactly) remaining 7 items
+        resp = self.client.get(reverse("week:list") + "?page=2")
+        self.assertEqual(resp.status_code, HTML_OK_CODE)
+        self.assertTrue("is_paginated" in resp.context)
+        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(len(resp.context["issue_list"]) == PAGINATE_DIFF_VAL)
