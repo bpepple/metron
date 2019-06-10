@@ -1,7 +1,6 @@
 from datetime import date, datetime
 
 from django.urls import reverse
-from django.utils import timezone
 
 from comicsdb.models import Issue, Publisher, Series, SeriesType
 
@@ -20,9 +19,11 @@ class TestWeekView(TestCaseBase):
         # Create the store date for this week
         current_week = date.today().isocalendar()[1]
         current_year = date.today().year
-        d = f"{current_year}-W{current_week}"
-        in_store_date = datetime.strptime(d + "-3", "%G-W%V-%u")
-        cover_date = timezone.now().date()
+        # The "3" is the weekday (Wednesday)
+        d = f"{current_year}-{current_week}-3"
+        # Dates used in Issue creating
+        in_store_date = datetime.strptime(d, "%G-%V-%u")
+        cover_date = date.today()
 
         user = cls._create_user()
 
