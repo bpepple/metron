@@ -25,6 +25,9 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DJANGO_DEBUG", False)
 
+# Are we using S3?
+USE_S3 = os.getenv("USE_S3") == "TRUE"
+
 ALLOWED_HOSTS = ["metron.cloud", "127.0.0.1"]
 
 
@@ -166,10 +169,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = "/static/"
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+if USE_S3:
+    AWS_ACCESS_KEY_ID = os.environ.get("DO_ACCESS_KEY_ID", "")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("DO_SECRET_ACCESS_KEY", "")
+    AWS_STORAGE_BUCKET_NAME = os.environ.get("DO_STORAGE_BUCKET_NAME", "")
+    AWS_S3_ENDPOINT_URL = os.environ.get("DO_S3_ENDPOINT_URL", "")
+    AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
+    AWS_LOCATION = "/static/"
+    STATIC_URL = f"https://{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/"
+    STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+else:
+    STATIC_URL = "/static/"
+    STATIC_ROOT = os.environ.get("STATIC_ROOT", "")
 
-STATIC_ROOT = os.environ.get("STATIC_ROOT", "")
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
