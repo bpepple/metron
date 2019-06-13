@@ -12,3 +12,6 @@ Disallow: /
 
 User-agent: *
 Disallow: /admin/
+
+User-agent: BLEXBot
+Disallow: /
