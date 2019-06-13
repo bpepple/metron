@@ -8,6 +8,9 @@ DEBUG = True
 STATIC_URL = "/static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 # Debug Settings
 INTERNAL_IPS = ("127.0.0.1", "localhost")
 MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
