@@ -2,6 +2,13 @@ from metron.settings.common import *
 
 DEBUG = True
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.0/howto/static-files/
+
+STATIC_URL = "/static/"
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+
+# Debug Settings
 INTERNAL_IPS = ("127.0.0.1", "localhost")
 MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
 
