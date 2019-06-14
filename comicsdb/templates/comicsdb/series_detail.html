@@ -11,19 +11,35 @@
       <div class="level-item">
         {% if navigation.previous_series %}
           <a class="button is-link" href="{% url 'series:detail' navigation.previous_series.slug %}">
-            &laquo; Previous Series
+            <span class="icon is-small">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            <span>Previous Series</span>
           </a>
         {% else %}
-            <a class="button" disabled>&laquo; Previous Series</a>
+            <a class="button" disabled>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            <span>Previous Series</span>
+            </a>
         {% endif %}
       </div>
       <div class="level-item">
         {% if navigation.next_series %}
           <a class="button is-link" href="{% url 'series:detail' navigation.next_series.slug %}">
-            Next Series &raquo;
+            <span>Next Series</span>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-right"></i>
+            </span>
           </a>
         {% else %}
-          <a class="button" disabled>Next Series &raquo;</a>
+          <a class="button" disabled>
+            <span>Next Series</span>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-right"></i>
+            </span>
+          </a>
         {% endif %}
       </div>
     </div>
