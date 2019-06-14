@@ -63,7 +63,12 @@
     </div>
   {% else %}
     <p>No Issues currently available. Do you want to add one?</p>
-    <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">New</a>
+    <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">
+      <span class="icon is-small">
+        <i class="fas fa-plus"></i>
+      </span>
+      <span>New</span>
+    </a>
   {% endif %}
 {% endblock %}
 
