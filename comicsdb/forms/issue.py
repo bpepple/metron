@@ -18,7 +18,7 @@ YEARS = [(r) for r in range(1925, datetime.date.today().year + 2)]
 
 class IssueForm(ModelForm):
     class Media:
-        css = {"all": ("/static/admin/css/widgets.css",)}
+        css = {"all": ("admin/css/widgets.css",)}
         js = (("/jsi18n"),)
 
     class Meta:
