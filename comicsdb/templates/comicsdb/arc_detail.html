@@ -58,18 +58,38 @@
     <div class="level-right">
     {% if user.is_authenticated %}
       <p class="level-item">
-        <a class="button is-primary" href="{% url 'arc:create' %}" title="Add a new story arc">New</a>
+        <a class="button is-primary" href="{% url 'arc:create' %}" title="Add a new story arc">
+          <span class="icon is-small">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span>New</span>
+        </a>
       </p>
       <p class="level-item">
-        <a class="button is-info" href="{% url 'arc:update' arc.slug %}" title="Edit arc">Edit</a>
+        <a class="button is-info" href="{% url 'arc:update' arc.slug %}" title="Edit arc">
+          <span class="icon is-small">
+            <i class="fas fa-edit"></i>
+          </span>
+          <span>Edit</span>
+        </a>
       </p>
       {% if perms.comicsdb.delete_arc %}
       <p class="level-item">
-        <a class="button is-danger" href="{% url 'arc:delete' arc.slug %}" title="Delete arc">Delete</a>
+        <a class="button is-danger" href="{% url 'arc:delete' arc.slug %}" title="Delete arc">
+          <span class="icon is-small">
+            <i class="fas fa-trash"></i>
+          </span>
+          <span>Delete</span>
+        </a>
       </p>
       {% else %}
       <p class="level-item">
-        <a class="button is-danger" title="Delete arc" disabled>Delete</a>
+        <a class="button is-danger" title="Delete arc" disabled>
+          <span class="icon is-small">
+            <i class="fas fa-trash"></i>
+          </span>
+          <span>Delete</span>
+        </a>
       </p>      
       {% endif %}
     {% endif %}

@@ -32,7 +32,12 @@
       <div class="level-right">
         <p class="level-item">
         {% if user.is_authenticated %}
-          <a class="button is-primary" href="{% url 'arc:create' %}" title="Add a new story arc">New</a>
+          <a class="button is-primary" href="{% url 'arc:create' %}" title="Add a new story arc">
+            <span class="icon is-small">
+              <i class="fas fa-plus"></i>
+            </span>
+            <span>New</span>
+          </a>
         {% endif %}
         </p>
       </div>
