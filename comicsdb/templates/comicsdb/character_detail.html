@@ -58,18 +58,38 @@
     <div class="level-right">
     {% if user.is_authenticated %}
       <p class="level-item">
-        <a class="button is-primary" href="{% url 'character:create' %}" title="Add a new character">New</a>
+        <a class="button is-primary" href="{% url 'character:create' %}" title="Add a new character">
+          <span class="icon is-small">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span>New</span>
+        </a>
       </p>
       <p class="level-item">
-        <a class="button is-info" href="{% url 'character:update' character.slug %}" title="Edit character">Edit</a>
+        <a class="button is-info" href="{% url 'character:update' character.slug %}" title="Edit character">
+          <span class="icon is-small">
+            <i class="fas fa-edit"></i>
+          </span>
+          <span>Edit</span>
+        </a>
       </p>
       {% if perms.comicsdb.delete_character %}
       <p class="level-item">
-        <a class="button is-danger" href="{% url 'character:delete' character.slug %}" title="Delete character">Delete</a>
+        <a class="button is-danger" href="{% url 'character:delete' character.slug %}" title="Delete character">
+          <span class="icon is-small">
+            <i class="fas fa-trash"></i>
+          </span>
+          <span>Delete</span>
+        </a>
       </p>
       {% else %}
       <p class="level-item">
-        <a class="button is-danger" title="Delete character" disabled>Delete</a>
+        <a class="button is-danger" title="Delete character" disabled>
+          <span class="icon is-small">
+            <i class="fas fa-trash"></i>
+          </span>
+          <span>Delete</span>
+        </a>
       </p>
       {% endif %}
     {% endif %}
