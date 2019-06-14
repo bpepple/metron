@@ -58,23 +58,46 @@
     <div class="level-right">
       <div class="level-item">
           <a class="button is-link" href="{% url 'series:issue' series.slug %}" title="Open issue list for series">
-            Issue List
+          <span class="icon is-small">
+            <i class="fas fa-list"></i>
+          </span>
+          <span>Issue List</span>
           </a>
       </div>
       {% if user.is_authenticated %}
         <p class="level-item">
-          <a class="button is-primary" href="{% url 'series:create' %}" title="Add a new series">New</a>
+          <a class="button is-primary" href="{% url 'series:create' %}" title="Add a new series">
+          <span class="icon is-small">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span>New</span>
+          </a>
         </p>
         <p class="level-item">
-          <a class="button is-info" href="{% url 'series:update' series.slug %}" title="Edit Series">Edit</a>
+          <a class="button is-info" href="{% url 'series:update' series.slug %}" title="Edit Series">
+          <span class="icon is-small">
+            <i class="fas fa-edit"></i>
+          </span>
+          <span>Edit</span>
+          </a>
         </p>
         {% if perms.comicsdb.delete_series %}
         <p class="level-item">
-          <a class="button is-danger" href="{% url 'series:delete' series.slug %}" title="Delete Series">Delete</a>
+          <a class="button is-danger" href="{% url 'series:delete' series.slug %}" title="Delete Series">
+          <span class="icon is-small">
+            <i class="fas fa-trash"></i>
+          </span>
+          <span>Delete</span>
+          </a>
         </p>
         {% else %}
         <p class="level-item">
-          <a class="button is-danger" title="Delete Series" disabled>Delete</a>
+          <a class="button is-danger" title="Delete Series" disabled>
+          <span class="icon is-small">
+            <i class="fas fa-trash"></i>
+          </span>
+          <span>Delete</span>
+          </a>
         </p>        
         {% endif %}
       {% endif %}
