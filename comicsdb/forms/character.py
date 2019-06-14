@@ -6,7 +6,7 @@ from comicsdb.models import Character
 
 class CharacterForm(ModelForm):
     class Media:
-        css = {"all": ("/static/admin/css/widgets.css",)}
+        css = {"all": ("admin/css/widgets.css",)}
         js = (("/jsi18n"),)
 
     class Meta:

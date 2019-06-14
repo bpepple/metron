@@ -5,7 +5,7 @@ from comicsdb.models import Variant, Issue
 
 class VariantForm(ModelForm):
     class Media:
-        css = {"all": ("/static/admin/css/widgets.css",)}
+        css = {"all": ("admin/css/widgets.css",)}
         js = (("/jsi18n"),)
 
     class Meta:
