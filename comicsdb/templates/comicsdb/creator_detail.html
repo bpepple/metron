@@ -12,19 +12,35 @@
       <div class="level-item">
         {% if navigation.previous_creator %}
           <a class="button is-link" href="{% url 'creator:detail' navigation.previous_creator.slug %}">
-            &laquo; Previous Creator
+            <span class="icon is-small">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            <span>Previous Creator</span>
           </a>
         {% else %}
-            <a class="button" disabled>&laquo; Previous Creator</a>
+            <a class="button" disabled>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            <span>Previous Creator</span>
+            </a>
         {% endif %}
       </div>
       <div class="level-item">
         {% if navigation.next_creator %}
           <a class="button is-link" href="{% url 'creator:detail' navigation.next_creator.slug %}">
-            Next Creator &raquo;
+            <span>Next Creator</span>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-right"></i>
+            </span>
           </a>
         {% else %}
-          <a class="button" disabled>Next Creator &raquo;</a>
+          <a class="button" disabled>
+            <span>Next Creator</span>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-right"></i>
+            </span>
+          </a>
         {% endif %}
       </div>
     </div>
