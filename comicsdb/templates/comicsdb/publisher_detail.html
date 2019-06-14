@@ -55,20 +55,38 @@
     </div>
     <div class="level-right">
       <div class="level-item">
-          <a class="button is-link" href="{% url 'publisher:series' publisher.slug %}" title="Open series list for publisher">
-            Series List
-          </a>
+        <a class="button is-link" href="{% url 'publisher:series' publisher.slug %}" title="Open series list for publisher">
+          <span class="icon is-small">
+            <i class="fas fa-list"></i>
+          </span>
+          <span>Series List</span>
+        </a>
       </div>
       {% if user.is_authenticated %}
         <p class="level-item">
-          <a class="button is-primary" href="{% url 'publisher:create' %}" title="Add a new publisher">New</a>
+          <a class="button is-primary" href="{% url 'publisher:create' %}" title="Add a new publisher">
+            <span class="icon is-small">
+              <i class="fas fa-plus"></i>
+            </span>
+            <span>New</span>
+          </a>
         </p>
         <p class="level-item">
-          <a class="button is-info" href="{% url 'publisher:update' publisher.slug %}" title="Edit publisher">Edit</a>
+          <a class="button is-info" href="{% url 'publisher:update' publisher.slug %}" title="Edit publisher">
+            <span class="icon is-small">
+              <i class="fas fa-edit"></i>
+            </span>
+            <span>Edit</span>
+          </a>
         </p>
         {% if perms.comicsdb.delete_publisher %}
         <p class="level-item">
-          <a class="button is-danger" href="{% url 'publisher:delete' publisher.slug %}" title="Delete publisher">Delete</a>
+          <a class="button is-danger" href="{% url 'publisher:delete' publisher.slug %}" title="Delete publisher">
+            <span class="icon is-small">
+              <i class="fas fa-trash"></i>
+            </span>
+            <span>Delete</span>
+          </a>
         </p>
         {% else %}
         <p class="level-item">
