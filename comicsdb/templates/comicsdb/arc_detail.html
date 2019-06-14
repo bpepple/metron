@@ -11,19 +11,35 @@
       <div class="level-item">
         {% if navigation.previous_arc %}
           <a class="button is-link" href="{% url 'arc:detail' navigation.previous_arc.slug %}">
-            &laquo; Previous Arc
+            <span class="icon is-small">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            <span>Previous Arc</span>
           </a>
         {% else %}
-            <a class="button" disabled>&laquo; Previous Arc</a>
+            <a class="button" disabled>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            <span>Previous Arc</span>
+            </a>
         {% endif %}
       </div>
       <div class="level-item">
         {% if navigation.next_arc %}
           <a class="button is-link" href="{% url 'arc:detail' navigation.next_arc.slug %}">
-            Next Arc &raquo;
+            <span>Next Arc</span>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-right"></i>
+            </span>
           </a>
         {% else %}
-          <a class="button" disabled>Next Arc &raquo;</a>
+          <a class="button" disabled>
+            <span>Next Issue</span>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-right"></i>
+            </span>
+          </a>
         {% endif %}
       </div>
     </div>
