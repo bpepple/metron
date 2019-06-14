@@ -74,17 +74,37 @@
     <div class="level-right">
     {% if user.is_authenticated %}
       <p class="level-item">
-        <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">New</a>
+        <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">
+          <span class="icon is-small">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span>New</span>
+        </a>
       </p>
       <p class="level-item">
-        <a class="button is-warning" href="{% url 'issue:variant' issue.slug %}" title="Add variant cover">Add Variant Cover</a>
+        <a class="button is-warning" href="{% url 'issue:variant' issue.slug %}" title="Add variant cover">
+          <span class="icon is-small">
+            <i class="fas fa-plus"></i>
+          </span>
+          <span>Add Variant Cover</span>
+        </a>
       </p>
       <p class="level-item">
-        <a class="button is-info" href="{% url 'issue:update' issue.slug %}" title="Edit Issue">Edit</a>
+        <a class="button is-info" href="{% url 'issue:update' issue.slug %}" title="Edit Issue">
+          <span class="icon is-small">
+            <i class="fas fa-edit"></i>
+          </span>
+          <span>Edit</span>
+        </a>
       </p>
       {% if perms.comicsdb.delete_issue %}
       <p class="level-item">
-        <a class="button is-danger" href="{% url 'issue:delete' issue.slug %}" title="Delete Issue">Delete</a>
+        <a class="button is-danger" href="{% url 'issue:delete' issue.slug %}" title="Delete Issue">
+          <span class="icon is-small">
+            <i class="fas fa-trash"></i>
+          </span>
+          <span>Delete</span>
+        </a>
       </p>
       {% else %}
       <p class="level-item">
