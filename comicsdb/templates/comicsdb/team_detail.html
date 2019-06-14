@@ -11,19 +11,35 @@
       <div class="level-item">
         {% if navigation.previous_team %}
           <a class="button is-link" href="{% url 'team:detail' navigation.previous_team.slug %}">
-            &laquo; Previous Team
+            <span class="icon is-small">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            <span>Previous Team</span>
           </a>
         {% else %}
-            <a class="button" disabled>&laquo; Previous Team</a>
+            <a class="button" disabled>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            <span>Previous Team</span>
+            </a>
         {% endif %}
       </div>
       <div class="level-item">
         {% if navigation.next_team %}
           <a class="button is-link" href="{% url 'team:detail' navigation.next_team.slug %}">
-            Next Team &raquo;
+            <span>Next Team</span>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-right"></i>
+            </span>
           </a>
         {% else %}
-          <a class="button" disabled>Next Team &raquo;</a>
+          <a class="button" disabled>
+            <span>Next Team</span>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-right"></i>
+            </span>
+          </a>
         {% endif %}
       </div>
     </div>
