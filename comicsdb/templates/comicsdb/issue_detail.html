@@ -27,19 +27,35 @@
       <div class="level-item">
         {% if navigation.previous_issue %}
           <a class="button is-link" href="{% url 'issue:detail' navigation.previous_issue.slug %}">
-            &laquo; Previous Issue
+            <span class="icon is-small">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            <span>Previous Issue</span>
           </a>
         {% else %}
-            <a class="button" disabled>&laquo; Previous Issue</a>
+            <a class="button" disabled>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            <span>Previous Issue</span>
+            </a>
         {% endif %}
       </div>
       <div class="level-item">
         {% if navigation.next_issue %}
           <a class="button is-link" href="{% url 'issue:detail' navigation.next_issue.slug %}">
-            Next Issue &raquo;
+            <span>Next Issue</span>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-right"></i>
+            </span>
           </a>
         {% else %}
-          <a class="button" disabled>Next Issue &raquo;</a>
+          <a class="button" disabled>
+            <span>Next Issue</span>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-right"></i>
+            </span>
+          </a>
         {% endif %}
       </div>
     </div>
