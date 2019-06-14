@@ -11,19 +11,35 @@
       <div class="level-item">
         {% if navigation.previous_character %}
           <a class="button is-link" href="{% url 'character:detail' navigation.previous_character.slug %}">
-            &laquo; Previous Character
+            <span class="icon is-small">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            <span>Previous Character</span>
           </a>
         {% else %}
-            <a class="button" disabled>&laquo; Previous Character</a>
+          <a class="button" disabled>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            <span>Previous Character</span>
+          </a>
         {% endif %}
       </div>
       <div class="level-item">
         {% if navigation.next_character %}
           <a class="button is-link" href="{% url 'character:detail' navigation.next_character.slug %}">
-            Next Character &raquo;
+            <span>Next Character</span>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-right"></i>
+            </span>
           </a>
         {% else %}
-          <a class="button" disabled>Next Character &raquo;</a>
+          <a class="button" disabled>
+            <span>Next Character</span>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-right"></i>
+            </span>
+          </a>
         {% endif %}
       </div>
     </div>
