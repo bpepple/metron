@@ -11,19 +11,35 @@
       <div class="level-item">
         {% if navigation.previous_publisher %}
           <a class="button is-link" href="{% url 'publisher:detail' navigation.previous_publisher.slug %}">
-            &laquo; Previous Publisher
+            <span class="icon is-small">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            <span>Previous Publisher</span>
           </a>
         {% else %}
-            <a class="button" disabled>&laquo; Previous Publisher</a>
+            <a class="button" disabled>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            <span>Previous Publisher</span>
+            </a>
         {% endif %}
       </div>
       <div class="level-item">
         {% if navigation.next_publisher %}
           <a class="button is-link" href="{% url 'publisher:detail' navigation.next_publisher.slug %}">
-            Next Publisher &raquo;
+            <span>Next Publisher</span>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-right"></i>
+            </span>
           </a>
         {% else %}
-          <a class="button" disabled>Next Publisher &raquo;</a>
+          <a class="button" disabled>
+            <span>Next Publisher</span>
+            <span class="icon is-small">
+              <i class="fas fa-arrow-right"></i>
+            </span>
+          </a>
         {% endif %}
       </div>
     </div>
