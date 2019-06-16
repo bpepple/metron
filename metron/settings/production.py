@@ -23,7 +23,8 @@ AWS_SECRET_ACCESS_KEY = config("DO_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = config("DO_STORAGE_BUCKET_NAME")
 AWS_S3_ENDPOINT_URL = config("DO_S3_ENDPOINT_URL")
 AWS_S3_CUSTOM_DOMAIN = config("DO_S3_CUSTOM_DOMAIN")
-AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
+# Set the cache to 7 days. 86400 seconds/day * 7
+AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=604800"}
 AWS_LOCATION = "static"
 AWS_DEFAULT_ACL = "public-read"
 
