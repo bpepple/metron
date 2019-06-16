@@ -78,7 +78,12 @@ class SearchCreatorList(CreatorList):
             query_list = query.split()
             result = result.filter(
                 reduce(
-                    operator.and_, (Q(name__unaccent__icontains=q) for q in query_list)
+                    operator.and_,
+                    (
+                        # Unaccent lookup won't work on alias array field.
+                        Q(name__unaccent__icontains=q) | Q(alias__icontains=q)
+                        for q in query_list
+                    ),
                 )
             )
 

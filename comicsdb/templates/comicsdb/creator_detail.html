@@ -181,6 +181,14 @@
           <p><b>Death:</b> {{ creator.death|date:"SHORT_DATE_FORMAT" }}</p>
         {% endif %}
         <p><b>Number of Issue:</b> {{ creator.issue_count }}</p>
+        {% if creator.alias %}
+          {% with aliases=creator.alias %}
+            <p>
+              <b>Alias{{ aliases|pluralize:"es" }}:</b>
+              {% for alias in aliases %}{% if not forloop.first %}, {% endif %}{{ alias }}{% endfor %}
+            </p>
+          {% endwith %}
+        {% endif %}
       </div>
     </div>
     <!-- end misc info -->

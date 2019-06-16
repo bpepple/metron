@@ -36,6 +36,7 @@ class Creator(models.Model):
     birth = models.DateField("Date of Birth", null=True, blank=True)
     death = models.DateField("Date of Death", null=True, blank=True)
     image = ImageField(upload_to="creator/%Y/%m/%d/", blank=True)
+    alias = ArrayField(models.CharField(max_length=100), null=True, blank=True)
     modified = models.DateTimeField(auto_now=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
@@ -54,7 +55,7 @@ class Creator(models.Model):
         return self.name
 
     class Meta:
-        ordering = ["name", "name"]
+        ordering = ["name"]
 
 
 class Team(models.Model):
