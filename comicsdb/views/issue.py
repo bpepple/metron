@@ -26,7 +26,11 @@ class CreatorAutocomplete(autocomplete.Select2QuerySetView):
         qs = Creator.objects.all()
 
         if self.q:
-            qs = qs.filter(name__unaccent__icontains=self.q)
+            qs = qs.filter(
+                # Unaccent lookup won't work on alias array field.
+                Q(name__unaccent__icontains=self.q)
+                | Q(alias__icontains=self.q)
+            )
 
         return qs
 
