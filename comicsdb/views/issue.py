@@ -1,19 +1,16 @@
-from functools import reduce
-import operator
-
 from dal import autocomplete
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.db.models import Q, Prefetch
+from django.db.models import Prefetch, Q
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from comicsdb.forms.credits import CreditsFormSet
 from comicsdb.forms.issue import IssueForm
-from comicsdb.models import Issue, Credits, Creator
-
+from comicsdb.models import Creator, Credits, Issue
+from comicsdb.filters.issue import IssueFilter
 
 PAGINATE = 28
 
@@ -76,25 +73,11 @@ class IssueDetail(DetailView):
 
 
 class SearchIssueList(IssueList):
-
-    # Currently only searching the Series Name but down the road
-    # I'll look at implementing a better search engine.
     def get_queryset(self):
         result = super(SearchIssueList, self).get_queryset()
-        query = self.request.GET.get("q")
-        if query:
-            query_list = query.split()
-            result = result.filter(
-                reduce(
-                    operator.and_,
-                    (
-                        Q(series__name__icontains=q) | Q(number__in=q)
-                        for q in query_list
-                    ),
-                )
-            )
+        issue_result = IssueFilter(self.request.GET, queryset=result)
 
-        return result
+        return issue_result.qs
 
 
 class IssueCreate(LoginRequiredMixin, CreateView):
