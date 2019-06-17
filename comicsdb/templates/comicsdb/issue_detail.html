@@ -13,7 +13,7 @@
     <div class="modal-content">
       <p class="image is-2by3">
       {% thumbnail issue.image "640x960" crop="center" format="WEBP" as im %}
-        <img src="{{ im.url }}" alt = "{{ issue }}">
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt = "{{ issue }}">
       {% endthumbnail %}
       </p>
     </div>
@@ -126,7 +126,7 @@
           {% if issue.image %}
             {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
             <a class="modal-button" data-target="modal-bis">
-              <img src="{{ im.url }}" alt = "{{ issue }}">
+              <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt = "{{ issue }}">
             </a>
             {% endthumbnail %}
           {% else %}
@@ -147,7 +147,7 @@
               <figure class="image is-2by3">
                 {% if variant.image %}
                   {% thumbnail variant.image "320x480" crop="center" format="WEBP" as im %}
-                    <img src="{{ im.url }}" alt = "{{ variant }}">
+                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt = "{{ variant }}">
                   {% endthumbnail %}
                 {% else %}
                   <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ variant }}">
@@ -204,7 +204,7 @@
                           <figure class="image is-64x64">
                           {% if credit.creator.image %}
                             {% thumbnail credit.creator.image "64x64" crop="center" format="WEBP" as im %}
-                            <img class="is-rounded" src="{{ im.url }}" alt="{{ credit.creator }}">
+                            <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"  alt="{{ credit.creator }}">
                             {% endthumbnail %}
                           {% else %}
                             <img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ credit.creator }}">
@@ -252,7 +252,7 @@
                       <figure class="image is-64x64">
                       {% if character.image %}
                         {% thumbnail character.image "64x64" crop="center" format="WEBP" as im %}
-                        <img class="is-rounded" src="{{ im.url }}" alt="{{ character }}">
+                        <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ character }}">
                         {% endthumbnail %}
                       {% else %}
                         <img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ character }}">
@@ -289,7 +289,7 @@
                     <div class="media-left">
                       <figure class="image is-64x64">
                       {% thumbnail team.image "64x64" crop="center" format="WEBP" as im %}
-                        <img class="is-rounded" src="{{ im.url }}" alt="{{ team }}">
+                        <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ team }}">
                       {% endthumbnail %}
                       </figure>
                     </div>

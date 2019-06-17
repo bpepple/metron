@@ -114,7 +114,7 @@
           {% with cover=series.first_issue_cover %}
             {% if cover %}
               {% thumbnail cover "320x480" crop="center" format="WEBP" as im %}
-                <img src="{{ im.url }}" alt = "{{ series }}">
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ series }}">
               {% endthumbnail %}
             {% else %}
               <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ series }}">

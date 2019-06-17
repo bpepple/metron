@@ -105,7 +105,7 @@
         <figure class="image is-2by3">
           {% if character.image %}
             {% thumbnail character.image "320x480" crop="center" format="WEBP" as im %}
-              <img src="{{ im.url }}" alt = "{{ character.name }}">
+              <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt = "{{ character.name }}">
             {% endthumbnail %}
           {% else %}
             <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ character.name }}">

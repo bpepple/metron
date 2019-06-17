@@ -106,7 +106,7 @@
         <figure class="image is-square">
           {% if creator.image %}
             {% thumbnail creator.image "256x256" crop="center" format="WEBP" as im %}
-              <img src="{{ im.url }}" alt = "{{ creator.name }}">
+              <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt = "{{ creator.name }}">
             {% endthumbnail %}
           {% else %}
             <img src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ creator.name }}">
