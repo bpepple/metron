@@ -33,7 +33,7 @@ from comicsdb.serializers import (
 )
 
 
-class IssueFilter(filters.FilterSet):
+class IssueViewSetFilter(filters.FilterSet):
     series_name = filters.CharFilter(field_name="series__name", lookup_expr="icontains")
     cover_year = filters.NumberFilter(field_name="cover_date", lookup_expr="year")
 
@@ -137,7 +137,7 @@ class IssueViewSet(viewsets.ReadOnlyModelViewSet):
             .prefetch_related("role"),
         )
     )
-    filterset_class = IssueFilter
+    filterset_class = IssueViewSetFilter
     throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
