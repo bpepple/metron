@@ -1,76 +1,151 @@
-{% extends "comicsdb/comics_base.html" %}
+{% extends parent_template|default:"base.html" %}
 {% load thumbnail %}
+{% load range_tags %}
 {% load static %}
 
 {% block title %}Issues{% endblock title %}
 
-{% block comic_content %}
-
+{% block content %}
   {% if issue_list %}
-    <nav class="level">
-      <div class="level-left">
-        <div class="level-item">
-          <p class="subtitle is-5">
-            {% if page_obj.paginator %}
-              <strong>{{ page_obj.paginator.count }}</strong> Issue{{ page_obj.paginator.count|pluralize }}
-            {% else %}
-              <strong>{{ issue_list.count }}</strong> Issue{{ issue_list.count|pluralize }}
-            {% endif %}
-          </p>
-        </div>
-        <div class="level-item">
-          <form action="{% url 'issue:search' %}" method="get" accept-charset="utf-8">
-            <div class="field has-addons">
-              <p class="control">
-                <input class="input" name="q" type="search" placeholder="Find an issue">
-              </p>
-              <p class="control">
-                <button class="button">
-                  Search
-                </button>
-              </p>
-            </div>
-          </form>
-        </div>
+  <!-- hero -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title is-3">Issue{{ issue_list.count|pluralize }} List</h1>
       </div>
-      <div class="level-right">
-        <p class="level-item">
-        {% if user.is_authenticated %}
-          <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">
-            <span class="icon is-small">
-              <i class="fas fa-plus"></i>
-            </span>
-            <span>New</span>
-          </a>
-        {% endif %}
-        </p>
-      </div>
-    </nav>
-
-    <div class="columns is-multiline">
-      {% for issue in issue_list %}
-      <div class="column is-one-quarter has-text-centered">
-        <a href="{% url 'issue:detail' issue.slug %}">
-          <figure class="image is-2by3">
-          {% if issue.image %}
-            {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
-              <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt = "{{ issue }}">
-            {% endthumbnail %}
-          {% else %}
-            <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ issue }}">
-          {% endif %}
-          </figure>
-        </a>
-        <a href="{% url 'issue:detail' issue.slug %}">{{ issue }}</a>
-      </div>
-      {% endfor %}
     </div>
+  </section>
+  <!-- end hero -->
+
+  <section>
+    <div class="container">
+      <div class="columns">
+        <!-- Main Column -->
+        <div class="column">
+          <div class="box">
+            <nav class="level">
+              <div class="level-left">
+                <div class="level-item">
+                  <p class="subtitle is-5">
+                    {% if page_obj.paginator %}
+                      <strong>{{ page_obj.paginator.count }}</strong> Issue{{ page_obj.paginator.count|pluralize }}
+                    {% else %}
+                      <strong>{{ issue_list.count }}</strong> Issue{{ issue_list.count|pluralize }}
+                    {% endif %}
+                  </p>
+                </div>
+              </div>
+              <div class="level-right">
+                <p class="level-item">
+                  {% if user.is_authenticated %}
+                    <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">
+                      <span class="icon is-small">
+                        <i class="fas fa-plus"></i>
+                      </span>
+                      <span>New</span>
+                    </a>
+                  {% endif %}
+                </p>
+              </div>
+            </nav>
+
+            <div class="columns is-multiline">
+              {% for issue in issue_list %}
+                <div class="column is-one-quarter has-text-centered">
+                  <a href="{% url 'issue:detail' issue.slug %}">
+                    <figure class="image is-2by3">
+                      {% if issue.image %}
+                        {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
+                          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt = "{{ issue }}">
+                        {% endthumbnail %}
+                      {% else %}
+                        <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ issue }}">
+                      {% endif %}
+                    </figure>
+                  </a>
+                  <a href="{% url 'issue:detail' issue.slug %}">{{ issue }}</a>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <!-- End Main Column-->
+
+        <!-- Search Column -->
+        <div class="column is-one-fifth">
+          <div class="box">
+            <h1 class="title is-5">Filter By:</h1>
+            <form action="{% url 'issue:search' %}" method="get" accept-charset="utf-8">
+              <div class="field">
+                <label class="label">Series Name</label>
+                <div class="control">
+                  <input class="input" type="text" name="series_name" placeholder="Enter Series Name">
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Issue Number</label>
+                <div class="control">
+                  <input class="input" type="text" name="number" placeholder="Enter Issue Number">
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Cover Year</label>
+                <div class="control">
+                  <div class="select">
+                    <select name="cover_year">
+                      <option value="">Select Cover Year</option>
+                      {% now "Y" as current_year %}
+                      {% for i in 1939|cover_year_range:current_year  %}
+                        <option value="{{ i }}">{{ i }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Cover Month</label>
+                <div class="control">
+                  <div class="select">
+                    <select name="cover_month">
+                      <option value="">Select Cover Month</option>
+                      <option value="1">January</option>
+                      <option value="2">February</option>
+                      <option value="3">March</option>
+                      <option value="4">April</option>
+                      <option value="5">May</option>
+                      <option value="6">June</option>
+                      <option value="7">July</option>
+                      <option value="8">August</option>
+                      <option value="9">September</option>
+                      <option value="10">October</option>
+                      <option value="11">November</option>
+                      <option value="12">December</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
+                  <button class="button is-link">Filter</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- End of Search Column -->
+      </div>
+    </div>
+  </section>
   {% else %}
+  <section>
+    <div class="container">
     <p>No Issues currently available. Do you want to add one?</p>
     <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">New</a>
+    </div>
+  </section>
   {% endif %}
 {% endblock %}
 
 {% block pagination %}
-  {% include "comicsdb/pagination.html" %}
+  {% include "comicsdb/pagination_issue.html" %}
 {% endblock %}
