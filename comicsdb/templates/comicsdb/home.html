@@ -1,4 +1,4 @@
-{% extends "comicsdb/comics_base.html" %}
+{% extends parent_template|default:"base.html" %}
 {% load thumbnail %}
 {% load humanize %}
 {% load static %}
@@ -9,11 +9,11 @@
 
 {% block content %}
   <!-- hero -->
-  <section class="hero is-link is-bold">
+  <section class="hero">
     <div class="hero-body">
-      <div class="container">
-        <h1 class="title">Metron</h1>
-        <h2 class="subtitle">Comic Book Database</h2>
+      <div class="container has-text-centered">
+        <h1 class="title is-size-2">Metron</h1>
+        <h2 class="subtitle is-size-4">Comic Book Database</h2>
       </div>
     </div>
   </section>
