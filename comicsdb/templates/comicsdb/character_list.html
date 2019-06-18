@@ -1,69 +1,90 @@
-{% extends "comicsdb/comics_base.html" %}
+{% extends parent_template|default:"base.html" %}
 {% load thumbnail %}
 {% load static %}
 
 {% block title %}Characters{% endblock title %}
 
-{% block comic_content %}
+{% block content %}
 
   {% if character_list %}
-    <nav class="level">
-      <div class="level-left">
-        <div class="level-item">
-          <p class="subtitle is-5">
-            <strong>{{ page_obj.paginator.count }}</strong> Character{{ page_obj.paginator.count|pluralize }}
-          </p>
+    <!-- hero -->
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title is-3">Character{{ character_list.count|pluralize }} List</h1>
         </div>
-        <div class="level-item">
-          <form action="{% url 'character:search' %}" method="get" accept-charset="utf-8">
-            <div class="field has-addons">
-              <p class="control">
-                <input class="input" name="q" type="search" placeholder="Find a character">
-              </p>
-              <p class="control">
-                <button class="button">
-                  Search
-                </button>
+      </div>
+    </section>
+    <!-- end hero -->
+
+    <!-- character list -->
+    <section>
+      <div class="container">
+        <!-- navigation -->
+        <nav class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <p class="subtitle is-5">
+                <strong>{{ page_obj.paginator.count }}</strong> Character{{ page_obj.paginator.count|pluralize }}
               </p>
             </div>
-          </form>
-        </div>
-      </div>
-      <div class="level-right">
-        <p class="level-item">
-        {% if user.is_authenticated %}
-          <a class="button is-primary" href="{% url 'character:create' %}" title="Add a new character">
-            <span class="icon is-small">
-              <i class="fas fa-plus"></i>
-            </span>
-            <span>New</span>
-          </a>
-        {% endif %}
-        </p>
-      </div>
-    </nav>
+            <div class="level-item">
+              <form action="{% url 'character:search' %}" method="get" accept-charset="utf-8">
+                <div class="field has-addons">
+                  <p class="control">
+                    <input class="input" name="q" type="search" placeholder="Find a character">
+                  </p>
+                  <p class="control">
+                    <button class="button">Search</button>
+                  </p>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="level-right">
+            <p class="level-item">
+              {% if user.is_authenticated %}
+                <a class="button is-primary" href="{% url 'character:create' %}" title="Add a new character">
+                  <span class="icon is-small">
+                    <i class="fas fa-plus"></i>
+                  </span>
+                  <span>New</span>
+                </a>
+              {% endif %}
+            </p>
+          </div>
+        </nav>
+        <!-- end navigation -->
 
-    <div class="columns is-multiline">
-      {% for character in character_list %}
-      <div class="column is-one-quarter has-text-centered">
-        <a href="{% url 'character:detail' character.slug %}">
-          <figure class="image is-2by3">
-          {% if character.image %}
-            {% thumbnail character.image "320x480" crop="center" format="WEBP" as im %}
-              <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ character.name }}">
-            {% endthumbnail %}
-          {% else %}
-            <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ character.name }}">
-          {% endif %}
-          </figure>
-        </a>
-        <a href="{% url 'character:detail' character.slug %}">{{ character.name }}</a>
+        <!-- character columns -->
+        <div class="columns is-multiline">
+          {% for character in character_list %}
+            <div class="column is-one-quarter has-text-centered">
+              <a href="{% url 'character:detail' character.slug %}">
+                <figure class="image is-2by3">
+                  {% if character.image %}
+                    {% thumbnail character.image "320x480" crop="center" format="WEBP" as im %}
+                      <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ character.name }}">
+                    {% endthumbnail %}
+                  {% else %}
+                    <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ character.name }}">
+                  {% endif %}
+                </figure>
+              </a>
+              <a href="{% url 'character:detail' character.slug %}">{{ character.name }}</a>
+            </div>
+          {% endfor %}
+        </div>
+        <!-- end character columns -->
       </div>
-      {% endfor %}
-  </div>
+    </section>
   {% else %}
-  <p>No characters currently available. Do you want to create one?</p>
-    <a class="button is-primary" href="{% url 'character:create' %}" title="Add a new character">New</a>
+    <section>
+      <div class="container">
+        <p>No characters currently available. Do you want to create one?</p>
+        <a class="button is-primary" href="{% url 'character:create' %}" title="Add a new character">New</a>
+      </div>
+    </section>
   {% endif %}
 {% endblock %}
 
