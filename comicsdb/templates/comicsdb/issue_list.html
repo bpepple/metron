@@ -1,12 +1,22 @@
-{% extends "comicsdb/comics_base.html" %}
+{% extends parent_template|default:"base.html" %}
 {% load thumbnail %}
+{% load range_tags %}
 {% load static %}
 
 {% block title %}Issues{% endblock title %}
 
-{% block comic_content %}
-
+{% block content %}
   {% if issue_list %}
+  <!-- hero -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title is-3">Issue{{ issue_list.count|pluralize }} List</h1>
+      </div>
+    </div>
+  </section>
+  <!-- end hero -->
+
   <section>
     <div class="container">
       <div class="columns">
@@ -64,23 +74,32 @@
         <!-- Search Column -->
         <div class="column is-one-fifth">
           <div class="box">
+            <h1 class="title is-5">Filter By:</h1>
             <form action="{% url 'issue:search' %}" method="get" accept-charset="utf-8">
               <div class="field">
                 <label class="label">Series Name</label>
                 <div class="control">
-                  <input class="input" type="text" name="series_name" placeholder="Series Name">
+                  <input class="input" type="text" name="series_name" placeholder="Enter Series Name">
                 </div>
               </div>
               <div class="field">
                 <label class="label">Issue Number</label>
                 <div class="control">
-                  <input class="input" type="text" name="number" placeholder="Issue Number">
+                  <input class="input" type="text" name="number" placeholder="Enter Issue Number">
                 </div>
               </div>
               <div class="field">
                 <label class="label">Cover Year</label>
                 <div class="control">
-                  <input class="input" type="text" name="cover_year" placeholder="Cover Year">
+                  <div class="select">
+                    <select name="cover_year">
+                      <option value="">Select Cover Year</option>
+                      {% now "Y" as current_year %}
+                      {% for i in 1939|cover_year_range:current_year  %}
+                        <option value="{{ i }}">{{ i }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
                 </div>
               </div>
               <div class="field">
