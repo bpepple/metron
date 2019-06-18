@@ -20,62 +20,66 @@
     <!-- arc list -->
     <section>
       <div class="container">
-        <!-- navigation -->
-        <nav class="level">
-          <div class="level-left">
-            <div class="level-item">
-              <p class="subtitle is-5">
-                <strong>{{ page_obj.paginator.count }}</strong> Story Arc{{ page_obj.paginator.count|pluralize }}
+        <!-- main box -->
+        <div class="box">
+          <!-- navigation -->
+          <nav class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <p class="subtitle is-5">
+                  <strong>{{ page_obj.paginator.count }}</strong> Story Arc{{ page_obj.paginator.count|pluralize }}
+                </p>
+              </div>
+              <div class="level-item">
+                <form action="{% url 'arc:search' %}" method="get" accept-charset="utf-8">
+                  <div class="field has-addons">
+                    <p class="control">
+                      <input class="input" name="q" type="search" placeholder="Find a arc">
+                    </p>
+                    <p class="control">
+                      <button class="button">Search</button>
+                    </p>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="level-right">
+              <p class="level-item">
+              {% if user.is_authenticated %}
+                <a class="button is-primary" href="{% url 'arc:create' %}" title="Add a new story arc">
+                  <span class="icon is-small">
+                    <i class="fas fa-plus"></i>
+                  </span>
+                  <span>New</span>
+                </a>
+              {% endif %}
               </p>
             </div>
-            <div class="level-item">
-              <form action="{% url 'arc:search' %}" method="get" accept-charset="utf-8">
-                <div class="field has-addons">
-                  <p class="control">
-                    <input class="input" name="q" type="search" placeholder="Find a arc">
-                  </p>
-                  <p class="control">
-                    <button class="button">Search</button>
-                  </p>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div class="level-right">
-            <p class="level-item">
-            {% if user.is_authenticated %}
-              <a class="button is-primary" href="{% url 'arc:create' %}" title="Add a new story arc">
-                <span class="icon is-small">
-                  <i class="fas fa-plus"></i>
-                </span>
-                <span>New</span>
-              </a>
-            {% endif %}
-            </p>
-          </div>
-        </nav>
-        <!-- end navigation -->
+          </nav>
+          <!-- end navigation -->
 
-        <!-- arc columns -->
-        <div class="columns is-multiline">
-          {% for arc in arc_list %}
-          <div class="column is-one-quarter has-text-centered">
-            <a href="{% url 'arc:detail' arc.slug %}">
-              <figure class="image is-2by3">
-              {% if arc.image %}
-                {% thumbnail arc.image "320x480" crop="center" format="WEBP" as im %}
-                  <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ arc.name }}">
-                {% endthumbnail %}
-              {% else %}
-                <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ arc.name }}">
-              {% endif %}
-              </figure>
-            </a>
-            <a href="{% url 'arc:detail' arc.slug %}">{{ arc.name }}</a>
+          <!-- arc columns -->
+          <div class="columns is-multiline">
+            {% for arc in arc_list %}
+            <div class="column is-one-quarter has-text-centered">
+              <a href="{% url 'arc:detail' arc.slug %}">
+                <figure class="image is-2by3">
+                {% if arc.image %}
+                  {% thumbnail arc.image "320x480" crop="center" format="WEBP" as im %}
+                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ arc.name }}">
+                  {% endthumbnail %}
+                {% else %}
+                  <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ arc.name }}">
+                {% endif %}
+                </figure>
+              </a>
+              <a href="{% url 'arc:detail' arc.slug %}">{{ arc.name }}</a>
+            </div>
+            {% endfor %}
           </div>
-          {% endfor %}
+          <!-- end arc columns-->
         </div>
-        <!-- end arc columns-->
+        <!-- end box -->
       </div>
     </section>
     <!-- end arc list-->
