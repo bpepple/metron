@@ -3,15 +3,29 @@ from functools import reduce
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Prefetch, Q
+from django.db.models import Count, Prefetch, Q
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from comicsdb.forms.character import CharacterForm
-from comicsdb.models import Character, Issue
+from comicsdb.models import Character, Issue, Series
 
 PAGINATE = 28
+
+
+class CharacterSeriesList(ListView):
+    paginate_by = PAGINATE
+    template_name = "comicsdb/issue_list.html"
+
+    def get_queryset(self):
+        self.series = get_object_or_404(Series, slug=self.kwargs["series"])
+        self.character = get_object_or_404(Character, slug=self.kwargs["character"])
+
+        return Issue.objects.select_related("series").filter(
+            characters=self.character, series=self.series
+        )
 
 
 class CharacterList(ListView):
@@ -43,6 +57,18 @@ class CharacterDetail(DetailView):
             previous_character = qs.filter(name__lt=character.name).last()
         except ObjectDoesNotExist:
             previous_character = None
+
+        series_issues = (
+            Character.objects.filter(id=character.id)
+            .values(
+                "issue__series__name",
+                "issue__series__year_began",
+                "issue__series__slug",
+            )
+            .annotate(Count("issue"))
+            .order_by("issue__series__sort_name", "issue__series__year_began")
+        )
+        context["appearances"] = series_issues
 
         context["navigation"] = {
             "next_character": next_character,

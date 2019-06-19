@@ -1,4 +1,5 @@
 {% extends "comicsdb/comics_base.html" %}
+{% load creator_tags %}
 {% load thumbnail %}
 {% load static %}
 
@@ -144,22 +145,29 @@
       </div>
       <!-- end desc -->
 
-      <!-- recent appearances -->
-      {% with appearances=character.recent_appearances %}
-        {% if appearances %}
+      <!-- series -->
+      {% with series=appearances %}
+        {% if series %}
           <div class="box">
-            <h1 class="title is-5">Recent Appearance{{ appearances|pluralize }}</h1>
-            <div class="content">
-              <ul>
-                {% for appearance in appearances %}
-                  <li><a href="{% url 'issue:detail' appearance.slug %}">{{ appearance }}</a></li>
-                {% endfor %}
-              </ul>
-            </div>
+            <h1 class="title is-5">Series Appearances</h1>
+          <div class="content">
+            <ul>
+            {% for i in series %}
+              <li>
+                <a href="{% url 'series:detail' slug=i|get_item:'issue__series__slug' %}">
+                  {{ i|get_item:"issue__series__name" }} ({{ i|get_item:"issue__series__year_began"}})
+                </a>:
+                <a href="{% url 'character:series' character=character.slug series=i|get_item:'issue__series__slug' %}">
+                  {{ i|get_item:"issue__count" }} issue{{ i|get_item:"issue__count"|pluralize }}
+                </a>
+              </li>
+            {% endfor %}
+            </ul>
+          </div>
           </div>
         {% endif %}
       {% endwith %}
-      <!-- end recent issues -->
+      <!-- end series -->
     </div>
     <!-- end of center column -->
 
