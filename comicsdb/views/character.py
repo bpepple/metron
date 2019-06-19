@@ -58,17 +58,23 @@ class CharacterDetail(DetailView):
         except ObjectDoesNotExist:
             previous_character = None
 
-        series_issues = (
-            Character.objects.filter(id=character.id)
-            .values(
-                "issue__series__name",
-                "issue__series__year_began",
-                "issue__series__slug",
+        # TODO: Look into improving this queryset
+        #
+        # Run this context queryset if the issue count is greater than 0.
+        if character.issue_count:
+            series_issues = (
+                Character.objects.filter(id=character.id)
+                .values(
+                    "issue__series__name",
+                    "issue__series__year_began",
+                    "issue__series__slug",
+                )
+                .annotate(Count("issue"))
+                .order_by("issue__series__sort_name", "issue__series__year_began")
             )
-            .annotate(Count("issue"))
-            .order_by("issue__series__sort_name", "issue__series__year_began")
-        )
-        context["appearances"] = series_issues
+            context["appearances"] = series_issues
+        else:
+            context["appearances"] = ""
 
         context["navigation"] = {
             "next_character": next_character,
