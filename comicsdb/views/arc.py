@@ -25,7 +25,7 @@ class ArcDetail(DetailView):
         Prefetch(
             "issue_set",
             queryset=Issue.objects.order_by(
-                "cover_date", "series__sort_name", "number"
+                "cover_date", "store_date", "series__sort_name", "number"
             ).select_related("series"),
         )
     )
