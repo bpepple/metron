@@ -215,6 +215,7 @@ class Issue(models.Model):
     characters = models.ManyToManyField(Character, blank=True)
     teams = models.ManyToManyField(Team, blank=True)
     modified = models.DateTimeField(auto_now=True)
+    created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     def get_absolute_url(self):
