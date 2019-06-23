@@ -12,6 +12,7 @@ class Arc(models.Model):
     desc = models.TextField("Description", blank=True)
     image = ImageField(upload_to="arc/%Y/%m/%d/", blank=True)
     modified = models.DateTimeField(auto_now=True)
+    created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     @property
@@ -38,6 +39,7 @@ class Creator(models.Model):
     image = ImageField(upload_to="creator/%Y/%m/%d/", blank=True)
     alias = ArrayField(models.CharField(max_length=100), null=True, blank=True)
     modified = models.DateTimeField(auto_now=True)
+    created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     @property
@@ -66,6 +68,7 @@ class Team(models.Model):
     image = ImageField(upload_to="team/%Y/%m/%d/", blank=True)
     creators = models.ManyToManyField(Creator, blank=True)
     modified = models.DateTimeField(auto_now=True)
+    created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     def get_absolute_url(self):
@@ -92,6 +95,7 @@ class Character(models.Model):
     creators = models.ManyToManyField(Creator, blank=True)
     teams = models.ManyToManyField(Team, blank=True)
     modified = models.DateTimeField(auto_now=True)
+    created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     def get_absolute_url(self):
@@ -124,6 +128,7 @@ class Publisher(models.Model):
     wikipedia = models.CharField("Wikipedia Slug", max_length=255, blank=True)
     image = ImageField("Logo", upload_to="publisher/%Y/%m/%d/", blank=True)
     modified = models.DateTimeField(auto_now=True)
+    created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     def get_absolute_url(self):
@@ -176,6 +181,7 @@ class Series(models.Model):
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
     desc = models.TextField("Description", blank=True)
     modified = models.DateTimeField(auto_now=True)
+    created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     def get_absolute_url(self):
