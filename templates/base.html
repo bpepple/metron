@@ -9,6 +9,7 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'site/img/favicon.ico' %}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    {% block headscripts %}{% endblock %}
   </head>
   <body class="has-navbar-fixed-top">
     {% include "navbar.html" %}
