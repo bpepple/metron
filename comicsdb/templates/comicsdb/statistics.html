@@ -1,0 +1,22 @@
+{% extends parent_template|default:"base.html" %}
+{% load static %}
+{% load chartkick %}
+
+{% block headscripts %}
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src="http://code.highcharts.com/highcharts.js"></script>
+  <script src="{% static 'chartkick.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+  <section>
+    <div class="container">
+      <div class="box">
+        {% pie_chart pub_issues with id='chart-1' height='400px' library={"title":{"text":"Publisher Issue Counts"}} %}
+      </div>
+      <div class="box">
+        {% bar_chart monthly_add_count with id='chart-2' library={"title":{"text":"Issues Added Per Month"}} %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

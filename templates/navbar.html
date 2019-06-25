@@ -35,6 +35,7 @@
               {% if user.is_authenticated %}
               <a class="navbar-item" href="/docs/">API Docs</a>
               {% endif %}
+              <a class="navbar-item" href="{% url 'statistics' %}">Statistics</a>
               <hr class="navbar-divider">
               <a class="navbar-item" href="{% url 'contact:email' %}">Contact Us</a>
               <a class="navbar-item" href="https://github.com/bpepple/metron/issues/new/choose">Report an issue</a>
