@@ -11,7 +11,12 @@
 {% block content %}
   <section>
     <div class="container">
-      {% pie_chart pub_issues with id='chart-1' height='400px' library={"title":{"text":"Publisher Issue Counts"}} %}
+      <div class="box">
+        {% pie_chart pub_issues with id='chart-1' height='400px' library={"title":{"text":"Publisher Issue Counts"}} %}
+      </div>
+      <div class="box">
+        {% bar_chart monthly_add_count with id='chart-2' library={"title":{"text":"Issues Added Per Month"}} %}
+      </div>
     </div>
   </section>
 {% endblock %}
