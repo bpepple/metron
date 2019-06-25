@@ -3,8 +3,7 @@
 {% load chartkick %}
 
 {% block headscripts %}
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-  <script src="http://code.highcharts.com/highcharts.js"></script>
+  <script src="https://www.google.com/jsapi"></script>
   <script src="{% static 'chartkick.js' %}"></script>
 {% endblock %}
 
@@ -12,10 +11,10 @@
   <section>
     <div class="container">
       <div class="box">
-        {% pie_chart pub_issues with id='chart-1' height='400px' library={"title":{"text":"Publisher Issue Counts"}} %}
+        {% pie_chart pub_issues with id='chart-1' height='400px' library={"title":"Issue Counts Per Publisher", "sliceVisibilityThreshold": ".02"} %}
       </div>
       <div class="box">
-        {% bar_chart monthly_add_count with id='chart-2' library={"title":{"text":"Issues Added Per Month"}} %}
+        {% bar_chart monthly_add_count with id='chart-2' library={"title":"Issues Added Per Month", "hAxis": {"title": "Number of Issues", "minValue": "0"},} %}
       </div>
     </div>
   </section>
