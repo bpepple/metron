@@ -1,5 +1,4 @@
 from datetime import datetime
-from time import strftime
 
 from django.db.models import Count
 from django.db.models.functions import TruncMonth
