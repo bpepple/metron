@@ -14,13 +14,13 @@
         {% pie_chart publisher_counts with id='chart-1' height='400px' library={"title":"Issue Counts Per Publisher", "sliceVisibilityThreshold": ".02"} %}
       </div>
       <div class="box">
-        {% bar_chart monthly_issues with id='chart-2' library={"title":"Issues Added Per Month", "hAxis": {"title": "Number of Issues", "minValue": "0"},} %}
+        {% column_chart monthly_issues with id='chart-2' library={"title":"Issues Added Per Month",} %}
       </div>
       <div class="box">
-        {% bar_chart monthly_creator with id='chart-3' library={"title":"Creators Added Per Month", "hAxis": {"title": "Number of Creators", "minValue": "0"},} %}
+        {% column_chart monthly_creator with id='chart-3' library={"title":"Creators Added Per Month",} %}
       </div>
       <div class="box">
-        {% bar_chart monthly_character with id='chart-4' library={"title":"Characters Added Per Month", "hAxis": {"title": "Number of Characters", "minValue": "0"},} %}
+        {% column_chart monthly_character with id='chart-4' library={"title":"Characters Added Per Month",} %}
       </div>
     </div>
   </section>
