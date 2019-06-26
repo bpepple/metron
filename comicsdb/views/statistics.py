@@ -5,7 +5,7 @@ from django.db.models import Count
 from django.db.models.functions import TruncMonth
 from django.views.generic.base import TemplateView
 
-from comicsdb.models import Creator, Issue, Publisher
+from comicsdb.models import Character, Creator, Issue, Publisher
 
 
 class StatisticsView(TemplateView):
@@ -53,9 +53,23 @@ class StatisticsView(TemplateView):
             month_str = creator["month"].strftime("%b '%y")
             creator_dict.update({month_str: creator["c"]})
 
+        # Monthly Characters Added
+        characters = (
+            Character.objects.filter(created_on__year__gte=last_year)
+            .annotate(month=TruncMonth("created_on"))
+            .values("month")
+            .annotate(c=Count("month"))
+            .order_by("month")
+        )
+        character_dict = {}
+        for character in characters:
+            month_str = character["month"].strftime("%b '%y")
+            character_dict.update({month_str: character["c"]})
+
         # Assign the context values
         context["publisher_counts"] = publisher_dict
         context["monthly_issues"] = issue_dict
         context["monthly_creator"] = creator_dict
+        context["monthly_character"] = character_dict
 
         return context
