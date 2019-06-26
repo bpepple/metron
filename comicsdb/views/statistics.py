@@ -37,7 +37,7 @@ class StatisticsView(TemplateView):
         )
         issue_dict = {}
         for issue in issues:
-            month_str = issue["month"].strftime("%b '%y")
+            month_str = issue["month"].strftime("%b")
             issue_dict.update({month_str: issue["c"]})
 
         # Monthly Creators Added
@@ -50,7 +50,7 @@ class StatisticsView(TemplateView):
         )
         creator_dict = {}
         for creator in creators:
-            month_str = creator["month"].strftime("%b '%y")
+            month_str = creator["month"].strftime("%b")
             creator_dict.update({month_str: creator["c"]})
 
         # Monthly Characters Added
@@ -63,7 +63,7 @@ class StatisticsView(TemplateView):
         )
         character_dict = {}
         for character in characters:
-            month_str = character["month"].strftime("%b '%y")
+            month_str = character["month"].strftime("%b")
             character_dict.update({month_str: character["c"]})
 
         # Assign the context values
