@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 from decouple import config
 
+# Pushover Config
+PUSHOVER_TOKEN = config("PUSHOVER_TOKEN")
+PUSHOVER_USER_KEY = config("PUSHOVER_USER_KEY")
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
