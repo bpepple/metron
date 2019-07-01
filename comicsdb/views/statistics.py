@@ -35,10 +35,10 @@ class StatisticsView(TemplateView):
             .annotate(c=Count("month"))
             .order_by("month")
         )
-        issue_dict = {}
+        monthly_issue_dict = {}
         for issue in issues:
             month_str = issue["month"].strftime("%b")
-            issue_dict.update({month_str: issue["c"]})
+            monthly_issue_dict.update({month_str: issue["c"]})
 
         # Daily added issue counts.
         issues = (
@@ -83,7 +83,7 @@ class StatisticsView(TemplateView):
 
         # Assign the context values
         context["publisher_counts"] = publisher_dict
-        context["monthly_issues"] = issue_dict
+        context["monthly_issue_count"] = monthly_issue_dict
         context["daily_issue_count"] = daily_issue_dict
         context["monthly_creator"] = creator_dict
         context["monthly_character"] = character_dict
