@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.db.models import Count
 from django.db.models.functions import TruncDate, TruncMonth
 from django.views.generic.base import TemplateView
@@ -21,19 +19,14 @@ class StatisticsView(TemplateView):
         for publisher in publishers:
             publisher_dict.update({publisher["name"]: publisher["num_issues"]})
 
-        # Dates used for issue counts querysets
-        today = datetime.now()
-        last_year = today.year - 1
-
-        # This should show the last 24 months probably need to refine the
-        # queryset to show something more reasonable like 12 months.
-        issues = (
-            Issue.objects.filter(created_on__year__gte=last_year)
-            .annotate(month=TruncMonth("created_on"))
+        # Monthly Issues Added Queryset
+        res = (
+            Issue.objects.annotate(month=TruncMonth("created_on"))
             .values("month")
             .annotate(c=Count("month"))
-            .order_by("month")
+            .order_by("-month")[:12]
         )
+        issues = reversed(res)
         monthly_issue_dict = {}
         for issue in issues:
             month_str = issue["month"].strftime("%b")
@@ -55,26 +48,26 @@ class StatisticsView(TemplateView):
             daily_issue_dict.update({day_str: issue["c"]})
 
         # Monthly Creators Added
-        creators = (
-            Creator.objects.filter(created_on__year__gte=last_year)
-            .annotate(month=TruncMonth("created_on"))
+        res = (
+            Creator.objects.annotate(month=TruncMonth("created_on"))
             .values("month")
             .annotate(c=Count("month"))
-            .order_by("month")
+            .order_by("-month")[:12]
         )
+        creators = reversed(res)
         creator_dict = {}
         for creator in creators:
             month_str = creator["month"].strftime("%b")
             creator_dict.update({month_str: creator["c"]})
 
         # Monthly Characters Added
-        characters = (
-            Character.objects.filter(created_on__year__gte=last_year)
-            .annotate(month=TruncMonth("created_on"))
+        res = (
+            Character.objects.annotate(month=TruncMonth("created_on"))
             .values("month")
             .annotate(c=Count("month"))
-            .order_by("month")
+            .order_by("-month")[:12]
         )
+        characters = reversed(res)
         character_dict = {}
         for character in characters:
             month_str = character["month"].strftime("%b")
