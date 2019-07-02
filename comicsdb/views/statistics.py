@@ -24,7 +24,6 @@ class StatisticsView(TemplateView):
         # Dates used for issue counts querysets
         today = datetime.now()
         last_year = today.year - 1
-        last_month = today.month - 1
 
         # This should show the last 24 months probably need to refine the
         # queryset to show something more reasonable like 12 months.
@@ -40,16 +39,16 @@ class StatisticsView(TemplateView):
             month_str = issue["month"].strftime("%b")
             monthly_issue_dict.update({month_str: issue["c"]})
 
-        # Daily added issue counts.
-        issues = (
-            Issue.objects.filter(
-                created_on__year=today.year, created_on__month__gte=last_month
-            )
-            .annotate(day=TruncDate("created_on"))
+        # Daily Issues Added Queryset.
+        # To get the last 30 items we need to reverse sort by the 'created_on' date, which
+        # necessitates using python's reversed() function before creating the dict.
+        res = (
+            Issue.objects.annotate(day=TruncDate("created_on"))
             .values("day")
             .annotate(c=Count("day"))
-            .order_by("day")[:30]
+            .order_by("-day")[:30]
         )
+        issues = reversed(res)
         daily_issue_dict = {}
         for issue in issues:
             day_str = issue["day"].strftime("%m/%d")
