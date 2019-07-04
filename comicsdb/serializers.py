@@ -97,8 +97,9 @@ class IssueSerializer(serializers.ModelSerializer):
     arcs = ArcListSerializer(many=True, read_only=True)
     characters = CharacterListSerializer(many=True, read_only=True)
     teams = TeamListSerializer(many=True, read_only=True)
-    series = serializers.ReadOnlyField(source="series.name")
     publisher = serializers.ReadOnlyField(source="series.publisher.name")
+    series = serializers.ReadOnlyField(source="series.name")
+    volume = serializers.ReadOnlyField(source="series.volume")
 
     class Meta:
         model = Issue
@@ -106,6 +107,7 @@ class IssueSerializer(serializers.ModelSerializer):
             "id",
             "publisher",
             "series",
+            "volume",
             "number",
             "name",
             "cover_date",
