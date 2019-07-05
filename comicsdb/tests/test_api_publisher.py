@@ -46,6 +46,7 @@ class GetSinglePublisherTest(TestCaseBase):
             name="Final Crisis",
             slug="final-crisis",
             publisher=cls.dc,
+            volume="1",
             year_began=1939,
             series_type=series_type_obj,
             edited_by=user,

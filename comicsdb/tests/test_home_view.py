@@ -23,6 +23,7 @@ class HomeViewTest(TestCaseBase):
             sort_name="Batman",
             year_began=2016,
             publisher=dc,
+            volume="1",
             series_type=series_type,
             edited_by=user,
         )

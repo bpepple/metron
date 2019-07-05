@@ -37,6 +37,7 @@ class TestWeekView(TestCaseBase):
             sort_name="hulk",
             year_began=2018,
             publisher=publisher,
+            volume=3,
             series_type=series_type,
             edited_by=user,
         )

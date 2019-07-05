@@ -26,6 +26,7 @@ class SeriesSearchViewsTest(TestCaseBase):
                 sort_name=f"Series {pub_num}",
                 year_began=2018,
                 publisher=cls.publisher,
+                volume=f"{pub_num}",
                 series_type=series_type,
                 edited_by=user,
             )
@@ -76,6 +77,7 @@ class SeriesListViewTest(TestCaseBase):
                 sort_name=f"Series {pub_num}",
                 year_began=2018,
                 publisher=publisher,
+                volume=f"{pub_num}",
                 series_type=series_type,
                 edited_by=user,
             )
