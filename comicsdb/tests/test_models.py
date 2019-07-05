@@ -195,6 +195,7 @@ class SeriesTest(TestCaseBase):
             sort_name=cls.name,
             series_type=series_type,
             publisher=publisher,
+            volume=1,
             year_began=1939,
             edited_by=user,
         )
@@ -231,6 +232,7 @@ class IssueTest(TestCaseBase):
             sort_name=cls.series_name,
             series_type=series_type,
             publisher=publisher,
+            volume=1,
             year_began=1939,
             edited_by=user,
         )

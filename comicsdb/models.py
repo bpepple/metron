@@ -174,7 +174,7 @@ class Series(models.Model):
     name = models.CharField(max_length=255)
     sort_name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
-    volume = models.PositiveSmallIntegerField(null=True, blank=True)
+    volume = models.PositiveSmallIntegerField("Volume Number")
     year_began = models.PositiveSmallIntegerField("Year Began")
     year_end = models.PositiveSmallIntegerField("Year Ended", null=True, blank=True)
     series_type = models.ForeignKey(SeriesType, on_delete=models.CASCADE)
@@ -202,6 +202,7 @@ class Series(models.Model):
 
     class Meta:
         verbose_name_plural = "Series"
+        unique_together = ["publisher", "name", "volume"]
         ordering = ["sort_name", "year_began"]
 
 

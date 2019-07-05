@@ -26,6 +26,7 @@ class IssueSearchViewsTest(TestCaseBase):
             sort_name="Superman",
             year_began=2018,
             publisher=publisher,
+            volume="4",
             series_type=series_type,
             edited_by=user,
         )
@@ -84,6 +85,7 @@ class IssueListViewTest(TestCaseBase):
             sort_name="Superman",
             year_began=2018,
             publisher=publisher,
+            volume="4",
             series_type=series_type,
             edited_by=user,
         )
