@@ -1,10 +1,10 @@
 from django.db.models import Prefetch
 from django.http import Http404
-from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.throttling import UserRateThrottle
 
+from comicsdb.filters.issue import IssueFilter
 from comicsdb.models import (
     Arc,
     Character,
@@ -16,30 +16,21 @@ from comicsdb.models import (
     Team,
 )
 from comicsdb.serializers import (
-    ArcSerializer,
     ArcListSerializer,
-    CharacterSerializer,
+    ArcSerializer,
     CharacterListSerializer,
-    CreatorSerializer,
+    CharacterSerializer,
     CreatorListSerializer,
-    IssueSerializer,
+    CreatorSerializer,
     IssueListSerializer,
-    PublisherSerializer,
+    IssueSerializer,
     PublisherListSerializer,
-    SeriesSerializer,
+    PublisherSerializer,
     SeriesListSerializer,
-    TeamSerializer,
+    SeriesSerializer,
     TeamListSerializer,
+    TeamSerializer,
 )
-
-
-class IssueViewSetFilter(filters.FilterSet):
-    series_name = filters.CharFilter(field_name="series__name", lookup_expr="icontains")
-    cover_year = filters.NumberFilter(field_name="cover_date", lookup_expr="year")
-
-    class Meta:
-        model = Issue
-        fields = ["series_name", "number", "cover_year"]
 
 
 class ArcViewSet(viewsets.ReadOnlyModelViewSet):
@@ -137,7 +128,7 @@ class IssueViewSet(viewsets.ReadOnlyModelViewSet):
             .prefetch_related("role"),
         )
     )
-    filterset_class = IssueViewSetFilter
+    filterset_class = IssueFilter
     throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
