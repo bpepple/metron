@@ -24,10 +24,10 @@
         {% pie_chart publisher_counts with id='chart-1' height='400px' library={"title":"Issue Counts Per Publisher", "sliceVisibilityThreshold": ".02"} %}
       </div>
       <div class="box">
-        {% column_chart monthly_issue_count with id='chart-2' library={"title":"Issues Added Per Month",} %}
+        {% column_chart daily_issue_count with id='chart-2' library={"title":"Issues Added During The Last 30 Days",} %}
       </div>
       <div class="box">
-        {% column_chart daily_issue_count with id='chart-3' library={"title":"Issues Added During The Last 30 Days",} %}
+        {% column_chart monthly_issue_count with id='chart-3' library={"title":"Issues Added Per Month",} %}
       </div>
       <div class="box">
         {% column_chart monthly_creator with id='chart-4' library={"title":"Creators Added Per Month",} %}
