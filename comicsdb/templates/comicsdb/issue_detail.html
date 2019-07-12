@@ -288,9 +288,13 @@
                   <article class="media">
                     <div class="media-left">
                       <figure class="image is-64x64">
-                      {% thumbnail team.image "64x64" crop="center" format="WEBP" as im %}
-                        <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ team }}">
-                      {% endthumbnail %}
+                      {% if team.image %}
+                        {% thumbnail team.image "64x64" crop="center" format="WEBP" as im %}
+                          <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ team }}">
+                        {% endthumbnail %}
+                      {% else %}
+                        <img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ character }}">
+                      {% endif %}
                       </figure>
                     </div>
                     <div class="media-content">
