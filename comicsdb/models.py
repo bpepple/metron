@@ -233,7 +233,7 @@ class Issue(models.Model):
 
     class Meta:
         unique_together = ["series", "number"]
-        ordering = ["series__sort_name", "cover_date", "number"]
+        ordering = ["series__sort_name", "cover_date", "store_date", "number"]
 
 
 class Variant(models.Model):
