@@ -1,6 +1,6 @@
 from django.contrib.auth import login
 from django.contrib.sites.shortcuts import get_current_site
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
@@ -8,6 +8,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from .forms import CustomUserCreationForm
 from .models import CustomUser
 from .tokens import account_activation_token
+from .utils import send_pushover
 
 
 def account_activation_sent(request):
@@ -26,6 +27,9 @@ def activate(request, uidb64, token):
         user.email_confirmed = True
         user.save()
         login(request, user)
+        # Send pushover notification tha user activated account
+        send_pushover(f"{user} activated their account on Metron.")
+
         return redirect("home")
     else:
         return render(request, "users/account_activation_invalid.html")
@@ -50,6 +54,9 @@ def signup(request):
                 },
             )
             user.email_user(subject, message)
+            # Let's send a pushover notice that a user requested an account.
+            send_pushover(f"{user} signed up for an account on Metron.")
+
             return redirect("account_activation_sent")
     else:
         form = CustomUserCreationForm()
