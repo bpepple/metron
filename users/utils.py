@@ -1,11 +1,13 @@
 import http.client
+import ssl
 import urllib
 
 from django.conf import settings
 
 
 def send_pushover(message):
-    conn = http.client.HTTPSConnection("api.pushover.net:443")
+    context = ssl.create_default_context()
+    conn = http.client.HTTPSConnection("api.pushover.net:443",context=context)
     conn.request(
         "POST",
         "/1/messages.json",
