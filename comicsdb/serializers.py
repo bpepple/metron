@@ -13,6 +13,18 @@ from comicsdb.models import (
 )
 
 
+class IssuePublisherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Publisher
+        fields = ("id", "name")
+
+
+class IssueSeriesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Series
+        fields = ("id", "name")
+
+
 class ArcListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Arc
@@ -97,8 +109,8 @@ class IssueSerializer(serializers.ModelSerializer):
     arcs = ArcListSerializer(many=True, read_only=True)
     characters = CharacterListSerializer(many=True, read_only=True)
     teams = TeamListSerializer(many=True, read_only=True)
-    publisher = serializers.ReadOnlyField(source="series.publisher.name")
-    series = serializers.ReadOnlyField(source="series.name")
+    publisher = IssuePublisherSerializer(source="series.publisher", read_only=True)
+    series = IssueSeriesSerializer(read_only=True)
     volume = serializers.ReadOnlyField(source="series.volume")
 
     class Meta:
