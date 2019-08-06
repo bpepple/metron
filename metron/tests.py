@@ -21,7 +21,7 @@ class TestCaseBase(TestCase):
 class TestMetron(TestCaseBase):
     @classmethod
     def setUpTestData(cls):
-        user = cls._create_user()
+        cls._create_user()
 
     def setUp(self):
         self._client_login()
