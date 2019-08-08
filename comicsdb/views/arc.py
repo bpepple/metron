@@ -1,3 +1,4 @@
+import logging
 import operator
 from functools import reduce
 
@@ -12,6 +13,7 @@ from comicsdb.forms.arc import ArcForm
 from comicsdb.models import Arc, Issue
 
 PAGINATE = 28
+logger = logging.getLogger(__name__)
 
 
 class ArcList(ListView):
@@ -67,6 +69,7 @@ class ArcCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
+        logger.info(f"Arc: {form.instance.name} was created by {self.request.user}")
         return super().form_valid(form)
 
 
@@ -77,6 +80,7 @@ class ArcUpdate(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
+        logger.info(f"Arc: {form.instance.name} was updated by {self.request.user}")
         return super().form_valid(form)
 
 
