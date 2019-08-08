@@ -1,3 +1,5 @@
+import logging
+
 from dal import autocomplete
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
@@ -7,12 +9,13 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
+from comicsdb.filters.issue import IssueFilter
 from comicsdb.forms.credits import CreditsFormSet
 from comicsdb.forms.issue import IssueForm
 from comicsdb.models import Creator, Credits, Issue
-from comicsdb.filters.issue import IssueFilter
 
 PAGINATE = 28
+logger = logging.getLogger(__name__)
 
 
 class CreatorAutocomplete(autocomplete.Select2QuerySetView):
@@ -102,6 +105,10 @@ class IssueCreate(LoginRequiredMixin, CreateView):
             if credits_form.is_valid():
                 credits_form.instance = self.object
                 credits_form.save()
+
+            logger.info(
+                f"Issue: {form.instance.series} #{form.instance.number} was created by {self.request.user}"
+            )
         return super(IssueCreate, self).form_valid(form)
 
 
@@ -138,6 +145,10 @@ class IssueUpdate(LoginRequiredMixin, UpdateView):
             if credits_form.is_valid():
                 credits_form.instance = self.object
                 credits_form.save()
+
+            logger.info(
+                f"Issue: {form.instance.series} #{form.instance.number} was updated by {self.request.user}"
+            )
         return super(IssueUpdate, self).form_valid(form)
 
 
