@@ -10,8 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
+import logging.config
 import os
+
 from decouple import config
+from django.utils.log import DEFAULT_LOGGING
+
+# Disable Django's logging setup
+LOGGING_CONFIG = None
+
+LOGLEVEL = os.environ.get("LOGLEVEL", "info").upper()
 
 # Pushover Config
 PUSHOVER_TOKEN = config("PUSHOVER_TOKEN")
@@ -136,8 +144,40 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 28,
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
 }
+
+# Logging settings
+logging.config.dictConfig(
+    {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "default": {
+                "format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"
+            },
+            "django.server": DEFAULT_LOGGING["formatters"]["django.server"],
+        },
+        "handlers": {
+            # console logs to stderr
+            "console": {"class": "logging.StreamHandler", "formatter": "default"},
+            "django.server": DEFAULT_LOGGING["handlers"]["django.server"],
+        },
+        "loggers": {
+            # default for all undefined Python modules
+            "": {"level": "WARNING", "handlers": ["console"]},
+            # Our application code
+            "comicsdb": {
+                "level": LOGLEVEL,
+                "handlers": ["console"],
+                # Avoid double logging because of root logger
+                "propagate": False,
+            },
+            # Default runserver request logging
+            "django.server": DEFAULT_LOGGING["loggers"]["django.server"],
+        },
+    }
+)
 
 
 # Internationalization
