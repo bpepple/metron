@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth import login
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render
@@ -9,6 +11,8 @@ from .forms import CustomUserCreationForm
 from .models import CustomUser
 from .tokens import account_activation_token
 from .utils import send_pushover
+
+logger = logging.getLogger(__name__)
 
 
 def account_activation_sent(request):
@@ -29,6 +33,7 @@ def activate(request, uidb64, token):
         login(request, user)
         # Send pushover notification tha user activated account
         send_pushover(f"{user} activated their account on Metron.")
+        logger.info(f"{user} activated their account on Metron")
 
         return redirect("home")
     else:
@@ -56,6 +61,7 @@ def signup(request):
             user.email_user(subject, message)
             # Let's send a pushover notice that a user requested an account.
             send_pushover(f"{user} signed up for an account on Metron.")
+            logger.info(f"{user} signed up for an account on Metron")
 
             return redirect("account_activation_sent")
     else:

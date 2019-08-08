@@ -1,9 +1,13 @@
-from django.core.mail import send_mail, BadHeaderError
+import logging
+
+from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.template.loader import get_template
 
 from comicsdb.forms.contact import ContactForm
+
+logger = logging.getLogger(__name__)
 
 
 def EmailView(request):
@@ -19,6 +23,8 @@ def EmailView(request):
                 send_mail(subject, message, email, ["brian@pepple.info"])
             except BadHeaderError:
                 return HttpResponse("Invalid header found.")
+
+            logger.info(f"{email} sent a contact e-mail")
             return redirect("contact:success")
     return render(request, "comicsdb/contact-us.html", {"form": form})
 
