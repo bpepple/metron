@@ -1,3 +1,4 @@
+import logging
 import operator
 from functools import reduce
 
@@ -13,6 +14,7 @@ from comicsdb.forms.series import SeriesForm
 from comicsdb.models import Issue, Series
 
 PAGINATE = 28
+logger = logging.getLogger(__name__)
 
 
 class SeriesList(ListView):
@@ -105,6 +107,7 @@ class SeriesCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
+        logger.info(f"Series: {form.instance.name} was created by {self.request.user}")
         return super().form_valid(form)
 
 
@@ -114,6 +117,7 @@ class SeriesUpdate(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
+        logger.info(f"Series: {form.instance.name} was updated by {self.request.user}")
         return super().form_valid(form)
 
 
