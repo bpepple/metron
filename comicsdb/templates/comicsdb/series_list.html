@@ -83,14 +83,18 @@
                     {% endwith %}
                   </figure>
                 </a>
+                <a href="{% url 'series:detail' series.slug %}">
+                  {{ series }}
+                </a>
+                <br/>
                 {% with count=series.issue_count %}
-                  <a href="{% url 'series:detail' series.slug %}">
-                    {{ series }}
-                  </a>
-                  <br/>
+                  {% if count %}
                   <a href="{% url 'series:issue' series.slug %}">
                     <small>{{ count }} issue{{ count|pluralize }}</small>
                   </a>
+                  {% else %}
+                    <small>0 issues</small>
+                  {% endif %}
                 {% endwith %}
               </div>
             {% endfor %}
