@@ -86,7 +86,9 @@
                 {% with count=series.issue_count %}
                   <a href="{% url 'series:detail' series.slug %}">
                     {{ series }}
-                    <br/>
+                  </a>
+                  <br/>
+                  <a href="{% url 'series:issue' series.slug %}">
                     <small>{{ count }} issue{{ count|pluralize }}</small>
                   </a>
                 {% endwith %}
