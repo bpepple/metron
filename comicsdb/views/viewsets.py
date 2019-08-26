@@ -114,9 +114,9 @@ class CreatorViewSet(viewsets.ReadOnlyModelViewSet):
 class IssueViewSet(viewsets.ReadOnlyModelViewSet):
     """
     list:
-    Return a list of all the creators.
+    Return a list of all the issues.
     retrieve:
-    Returns the information of an individual creator.
+    Returns the information of an individual issue.
     """
 
     queryset = Issue.objects.select_related("series").prefetch_related(
