@@ -1,3 +1,4 @@
+from django.template.defaultfilters import slugify
 from django.urls import reverse
 
 from comicsdb.models import Creator
@@ -5,10 +6,50 @@ from comicsdb.models import Creator
 from .case_base import TestCaseBase
 
 HTML_OK_CODE = 200
+HTML_REDIRECT_CODE = 302
 
 PAGINATE_TEST_VAL = 35
 PAGINATE_DEFAULT_VAL = 28
 PAGINATE_DIFF_VAL = PAGINATE_TEST_VAL - PAGINATE_DEFAULT_VAL
+
+
+class CreatorViewsTest(TestCaseBase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = cls._create_user()
+        name = "John Smith"
+        cls.slug = slugify(name)
+        cls.creator = Creator.objects.create(
+            name=name, slug=cls.slug, edited_by=cls.user
+        )
+
+    def setUp(self):
+        self._client_login()
+
+    def test_update_view_url_accessible_by_name(self):
+        resp = self.client.get(reverse("creator:update", kwargs={"slug": self.slug}))
+        self.assertEqual(resp.status_code, HTML_OK_CODE)
+
+    def test_creator_update_view(self):
+        name = "John Byrne"
+        resp = self.client.post(
+            reverse("creator:update", kwargs={"slug": self.slug}),
+            {"name": name, "slug": slugify(name), "edited_by": self.user},
+        )
+        self.assertEqual(resp.status_code, HTML_REDIRECT_CODE)
+        self.creator.refresh_from_db()
+        self.assertEqual(self.creator.name, name)
+
+    def test_creator_create_view(self):
+        name = "Walter Simonson"
+        resp = self.client.post(
+            reverse("creator:create"),
+            {"name": name, "slug": slugify(name), "edited_by": self.user},
+        )
+        self.assertEqual(resp.status_code, HTML_REDIRECT_CODE)
+        c = Creator.objects.get(slug=slugify(name))
+        self.assertIsNotNone(c)
+        self.assertEqual(c.name, name)
 
 
 class CreatorSearchViewsTest(TestCaseBase):
