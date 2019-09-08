@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 class PublisherList(ListView):
     model = Publisher
     paginate_by = PAGINATE
+    queryset = Publisher.objects.prefetch_related("series_set")
 
 
 class PublisherSeriesList(ListView):
@@ -28,7 +29,9 @@ class PublisherSeriesList(ListView):
 
     def get_queryset(self):
         self.publisher = get_object_or_404(Publisher, slug=self.kwargs["slug"])
-        return Series.objects.filter(publisher=self.publisher)
+        return Series.objects.filter(publisher=self.publisher).prefetch_related(
+            "issue_set"
+        )
 
 
 class PublisherDetail(DetailView):
