@@ -84,7 +84,7 @@
                   {% with count=arc.issue_count %}
                     {% if count %}
                       <a href="{% url 'arc:issue' arc.slug %}" class="card-footer-item">
-                        {{ count }} Issues
+                        {{ count }} Issue{{ count|pluralize }}
                       </a>
                     {% else %}
                       <p class="card-footer-item">0 Issues</p>
