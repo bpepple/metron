@@ -29,9 +29,19 @@ class CreatorSeriesList(ListView):
         )
 
 
+class CreatorIssueList(ListView):
+    paginate_by = PAGINATE
+    template_name = "comicsdb/issue_list.html"
+
+    def get_queryset(self):
+        self.creator = get_object_or_404(Creator, slug=self.kwargs["slug"])
+        return Issue.objects.select_related("series").filter(creators=self.creator)
+
+
 class CreatorList(ListView):
     model = Creator
     paginate_by = PAGINATE
+    queryset = Creator.objects.prefetch_related("credits_set")
 
 
 class CreatorDetail(DetailView):
