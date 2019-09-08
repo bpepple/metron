@@ -76,6 +76,7 @@
                 <!-- end card image -->
                 <!-- card footer -->
                 <footer class="card-footer">
+                  <p class="card-footer-item">{{ issue.cover_date|date:"M Y" }}</p>
                   <a href="{% url 'issue:detail' issue.slug %}" class="card-footer-item">
                     Info
                   </a>
