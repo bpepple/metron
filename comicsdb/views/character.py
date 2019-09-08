@@ -33,6 +33,16 @@ class CharacterSeriesList(ListView):
 class CharacterList(ListView):
     model = Character
     paginate_by = PAGINATE
+    queryset = Character.objects.prefetch_related("issue_set")
+
+
+class CharacterIssueList(ListView):
+    paginate_by = PAGINATE
+    template_name = "comicsdb/issue_list.html"
+
+    def get_queryset(self):
+        self.character = get_object_or_404(Character, slug=self.kwargs["slug"])
+        return Issue.objects.select_related("series").filter(characters=self.character)
 
 
 class CharacterDetail(DetailView):
