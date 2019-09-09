@@ -16,7 +16,7 @@ class HomePageView(TemplateView):
         context["team"] = Team.objects.count()
         context["arc"] = Arc.objects.count()
         context["recently_edited"] = (
-            Issue.objects.prefetch_related("series").order_by("-modified").all()[:10]
+            Issue.objects.prefetch_related("series").order_by("-modified").all()[:12]
         )
 
         return context
