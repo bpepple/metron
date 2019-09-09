@@ -20,53 +20,59 @@
     <!-- team list -->
     <section>
       <div class="container">
-        <!-- main box -->
-        <div class="box">
-          <!-- navigation -->
-          <nav class="level">
-            <!-- search box -->
-            <div class="level-left">
-              <div class="level-item">
-                <p class="subtitle is-5">
-                  <strong>{{ page_obj.paginator.count }}</strong> Team{{ page_obj.paginator.count|pluralize }}
-                </p>
-              </div>
-              <div class="level-item">
-                <form action="{% url 'team:search' %}" method="get" accept-charset="utf-8">
-                  <div class="field has-addons">
-                    <p class="control">
-                      <input class="input" name="q" type="search" placeholder="Find a team">
-                    </p>
-                    <p class="control">
-                      <button class="button">Search</button>
-                    </p>
-                  </div>
-                </form>
-              </div>
-            </div>
-            <!-- end search box -->
-            <!-- add button -->
-            <div class="level-right">
-              <p class="level-item">
-                {% if user.is_authenticated %}
-                  <a class="button is-primary" href="{% url 'team:create' %}" title="Add a new team">
-                    <span class="icon is-small">
-                      <i class="fas fa-plus"></i>
-                    </span>
-                    <span>New</span>
-                  </a>
-                {% endif %}
+        <!-- navigation -->
+        <nav class="level">
+          <!-- search box -->
+          <div class="level-left">
+            <div class="level-item">
+              <p class="subtitle is-5">
+                <strong>{{ page_obj.paginator.count }}</strong> Team{{ page_obj.paginator.count|pluralize }}
               </p>
             </div>
-            <!-- end button -->
-          </nav>
-          <!-- end navigation -->
+            <div class="level-item">
+              <form action="{% url 'team:search' %}" method="get" accept-charset="utf-8">
+                <div class="field has-addons">
+                  <p class="control">
+                    <input class="input" name="q" type="search" placeholder="Find a team">
+                  </p>
+                  <p class="control">
+                    <button class="button">Search</button>
+                  </p>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- end search box -->
+          <!-- add button -->
+          <div class="level-right">
+            <p class="level-item">
+              {% if user.is_authenticated %}
+                <a class="button is-primary" href="{% url 'team:create' %}" title="Add a new team">
+                  <span class="icon is-small">
+                    <i class="fas fa-plus"></i>
+                  </span>
+                  <span>New</span>
+                </a>
+              {% endif %}
+            </p>
+          </div>
+          <!-- end button -->
+        </nav>
+        <!-- end navigation -->
 
-          <!-- team columns -->
-          <div class="columns is-multiline">
-            {% for team in team_list %}
-              <div class="column is-one-quarter has-text-centered">
-                <a href="{% url 'team:detail' team.slug %}">
+        <!-- team columns -->
+        <div class="columns is-multiline">
+          {% for team in team_list %}
+            <div class="column is-one-quarter">
+              <!-- team card -->
+              <div class="card">
+                <!-- card header -->
+                <header class="card-header">
+                  <p class="card-header-title is-centered">{{ team }}</p>
+                </header>
+                <!-- end card header -->
+                <!-- card image -->
+                <div class="card-image">
                   <figure class="image is-2by3">
                     {% if team.image %}
                       {% thumbnail team.image "320x480" crop="center" format="WEBP" as im %}
@@ -76,14 +82,28 @@
                       <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ team.name }}">
                     {% endif %}
                   </figure>
-                </a>
-                <a href="{% url 'team:detail' team.slug %}">{{ team.name }}</a>
+                </div>
+                <!-- end card image -->
+                <!-- card footer -->
+                <footer class="card-footer">
+                  {% with count=team.issue_count %}
+                    {% if count %}
+                      <a href="{% url 'team:issue' team.slug %}" class="card-footer-item">
+                        {{ count }} issue{{ count|pluralize }}
+                      </a>
+                    {% else %}
+                      <p class="card-footer-item">0 issues</p>
+                    {% endif %}
+                  {% endwith %}
+                  <a href="{% url 'team:detail' team.slug %}" class="card-footer-item">Info</a>
+                </footer>
+                <!-- end card footer -->
               </div>
-            {% endfor %}
-          </div>
-          <!-- end team columns -->
+              <!-- end team card -->
+            </div>
+          {% endfor %}
         </div>
-        <!-- end main box -->
+        <!-- end team columns -->
       </div>
     </section>
     <!-- end team list -->
