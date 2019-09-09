@@ -5,12 +5,13 @@ from functools import reduce
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from comicsdb.forms.team import TeamForm
-from comicsdb.models import Team
+from comicsdb.models import Issue, Team
 
 PAGINATE = 28
 logger = logging.getLogger(__name__)
@@ -19,6 +20,16 @@ logger = logging.getLogger(__name__)
 class TeamList(ListView):
     model = Team
     paginate_by = PAGINATE
+    queryset = Team.objects.prefetch_related("issue_set")
+
+
+class TeamIssueList(ListView):
+    paginate_by = PAGINATE
+    template_name = "comicsdb/issue_list.html"
+
+    def get_queryset(self):
+        self.team = get_object_or_404(Team, slug=self.kwargs["slug"])
+        return Issue.objects.select_related("series").filter(teams=self.team)
 
 
 class TeamDetail(DetailView):

@@ -68,24 +68,42 @@
           <!-- recently edited issues -->
           <div class="box">
             <h1 class="title is-5">Recently Edited Issues</h1>
+            <!-- issue columns -->
             <div class="columns is-multiline">
-            {% for issue in recently_edited %}
-              <div class="column is-one-fifth has-text-centered">
-                <a href="{% url 'issue:detail' issue.slug %}">
-                  <figure class="image is-2by3">
-                    {% if issue.image %}
-                      {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
-                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ issue }}">
-                      {% endthumbnail %}
-                    {% else %}
-                      <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ issue }}">
-                    {% endif %}
-                  </figure>
-                </a>
-                <a href="{% url 'issue:detail' issue.slug %}">{{ issue }}</a>
-              </div>
-            {% endfor %}
+              {% for issue in recently_edited %}
+                <div class="column is-one-quarter">
+                  <!-- issue card-->
+                  <div class="card">
+                    <!-- card header -->
+                    <header class="card-header">
+                      <p class="card-header-title is-centered">{{ issue }}</p>
+                    </header>
+                    <!-- end card header -->
+                    <!-- card image -->
+                    <div class="card-image">
+                      <figure class="image is-2by3">
+                        {% if issue.image %}
+                          {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
+                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ issue }}">
+                          {% endthumbnail %}
+                        {% else %}
+                          <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ issue }}">
+                        {% endif %}
+                      </figure>
+                    </div>
+                    <!-- end card image -->
+                    <!-- card footer -->
+                    <footer class="card-footer">
+                      <p class="card-footer-item">{{ issue.cover_date|date:"M Y" }}</p>
+                      <a href="{% url 'issue:detail' issue.slug %}" class="card-footer-item">Info</a>
+                    </footer>
+                    <!-- end card footer -->
+                  </div>
+                  <!-- end issue card -->
+                </div>
+              {% endfor %}
             </div>
+            <!-- end issue columns -->
           </div>
           <!-- end recently edited issues -->
         </div>

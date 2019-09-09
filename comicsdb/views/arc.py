@@ -5,6 +5,7 @@ from functools import reduce
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Prefetch, Q
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
@@ -19,6 +20,16 @@ logger = logging.getLogger(__name__)
 class ArcList(ListView):
     model = Arc
     paginate_by = PAGINATE
+    queryset = Arc.objects.prefetch_related("issue_set")
+
+
+class ArcIssueList(ListView):
+    template_name = "comicsdb/issue_list.html"
+    paginate_by = PAGINATE
+
+    def get_queryset(self):
+        self.arc = get_object_or_404(Arc, slug=self.kwargs["slug"])
+        return Issue.objects.select_related("series").filter(arcs=self.arc)
 
 
 class ArcDetail(DetailView):

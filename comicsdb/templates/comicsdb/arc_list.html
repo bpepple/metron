@@ -5,7 +5,6 @@
 {% block title %}Story Arcs{% endblock title %}
 
 {% block content %}
-
   {% if arc_list %}
     <!-- hero -->
     <section class="hero">
@@ -20,31 +19,29 @@
     <!-- arc list -->
     <section>
       <div class="container">
-        <!-- main box -->
-        <div class="box">
-          <!-- navigation -->
-          <nav class="level">
-            <div class="level-left">
-              <div class="level-item">
-                <p class="subtitle is-5">
-                  <strong>{{ page_obj.paginator.count }}</strong> Story Arc{{ page_obj.paginator.count|pluralize }}
-                </p>
-              </div>
-              <div class="level-item">
-                <form action="{% url 'arc:search' %}" method="get" accept-charset="utf-8">
-                  <div class="field has-addons">
-                    <p class="control">
-                      <input class="input" name="q" type="search" placeholder="Find a arc">
-                    </p>
-                    <p class="control">
-                      <button class="button">Search</button>
-                    </p>
-                  </div>
-                </form>
-              </div>
+        <!-- navigation -->
+        <nav class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <p class="subtitle is-5">
+                <strong>{{ page_obj.paginator.count }}</strong> Story Arc{{ page_obj.paginator.count|pluralize }}
+              </p>
             </div>
-            <div class="level-right">
-              <p class="level-item">
+            <div class="level-item">
+              <form action="{% url 'arc:search' %}" method="get" accept-charset="utf-8">
+                <div class="field has-addons">
+                  <p class="control">
+                    <input class="input" name="q" type="search" placeholder="Find a arc">
+                  </p>
+                  <p class="control">
+                    <button class="button">Search</button>
+                  </p>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="level-right">
+            <p class="level-item">
               {% if user.is_authenticated %}
                 <a class="button is-primary" href="{% url 'arc:create' %}" title="Add a new story arc">
                   <span class="icon is-small">
@@ -53,33 +50,55 @@
                   <span>New</span>
                 </a>
               {% endif %}
-              </p>
-            </div>
-          </nav>
-          <!-- end navigation -->
-
-          <!-- arc columns -->
-          <div class="columns is-multiline">
-            {% for arc in arc_list %}
-            <div class="column is-one-quarter has-text-centered">
-              <a href="{% url 'arc:detail' arc.slug %}">
-                <figure class="image is-2by3">
-                {% if arc.image %}
-                  {% thumbnail arc.image "320x480" crop="center" format="WEBP" as im %}
-                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ arc.name }}">
-                  {% endthumbnail %}
-                {% else %}
-                  <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ arc.name }}">
-                {% endif %}
-                </figure>
-              </a>
-              <a href="{% url 'arc:detail' arc.slug %}">{{ arc.name }}</a>
-            </div>
-            {% endfor %}
+            </p>
           </div>
-          <!-- end arc columns-->
+        </nav>
+        <!-- end navigation -->
+
+        <!-- arc columns -->
+        <div class="columns is-multiline">
+          {% for arc in arc_list %}
+            <div class="column is-one-quarter has-text-centered">
+              <!-- arc card -->
+              <div class="card">
+                <!-- card header -->
+                <header class="card-header">
+                  <p class="card-header-title is is-centered">{{ arc }}</p>
+                </header>
+                <!-- end card header -->
+                <!-- card image -->
+                <div class="card-image">
+                  <figure class="image is-2by3">
+                    {% if arc.image %}
+                      {% thumbnail arc.image "320x480" crop="center" format="WEBP" as im %}
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ arc.name }}">
+                      {% endthumbnail %}
+                    {% else %}
+                      <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ arc.name }}">
+                    {% endif %}
+                  </figure>
+                </div>
+                <!-- end card image -->
+                <!-- card footer -->
+                <footer class="card-footer">
+                  {% with count=arc.issue_count %}
+                    {% if count %}
+                      <a href="{% url 'arc:issue' arc.slug %}" class="card-footer-item">
+                        {{ count }} Issue{{ count|pluralize }}
+                      </a>
+                    {% else %}
+                      <p class="card-footer-item">0 Issues</p>
+                    {% endif %}
+                  {% endwith %}
+                  <a href="{% url 'arc:detail' arc.slug %}" class="card-footer-item">Info</a>
+                </footer>
+                <!-- end card footer -->
+              </div>
+              <!-- end arc card -->
+            </div>
+          {% endfor %}
         </div>
-        <!-- end box -->
+        <!-- end arc columns-->
       </div>
     </section>
     <!-- end arc list-->
