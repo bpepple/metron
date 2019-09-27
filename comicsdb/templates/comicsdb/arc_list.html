@@ -103,8 +103,12 @@
     </section>
     <!-- end arc list-->
   {% else %}
-    <p>No Story Arcs currently available. Do you want to create one?</p>
-    <a class="button is-primary" href="{% url 'arc:create' %}" title="Add a new arc">New</a>
+    <section>
+      <div class="container">
+        <p>No Story Arcs currently available. Do you want to create one?</p>
+        <a class="button is-primary" href="{% url 'arc:create' %}" title="Add a new arc">New</a>
+      </div>
+    </section>
   {% endif %}
 {% endblock %}
 
