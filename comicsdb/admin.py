@@ -82,7 +82,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
                 )
             },
         ),
-        ("Related", {"fields": ("arcs", "characters", "teams")}),
+        ("Related", {"fields": ("characters", "teams", "arcs")}),
     )
     filter_horizontal = ("arcs", "characters", "teams")
     inlines = (CreditsInline, VariantInline)
