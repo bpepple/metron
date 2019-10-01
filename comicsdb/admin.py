@@ -87,10 +87,6 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
     filter_horizontal = ("arcs", "characters", "teams")
     inlines = (CreditsInline, VariantInline)
 
-    def get_queryset(self, request):
-        queryset = Issue.objects.select_related("series")
-        return queryset
-
 
 @admin.register(Publisher)
 class PublisherAdmin(AdminImageMixin, admin.ModelAdmin):
