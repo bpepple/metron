@@ -254,4 +254,4 @@ class Credits(models.Model):
     class Meta:
         verbose_name_plural = "Credits"
         unique_together = ["issue", "creator"]
-        ordering = ["creator__name"]
+        ordering = ["issue"]
