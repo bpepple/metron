@@ -14,7 +14,7 @@ from comicsdb.forms.team import TeamForm
 from comicsdb.models import Issue, Team
 
 PAGINATE = 28
-logger = logging.getLogger(__name__)
+LOGGER = logging.getLogger(__name__)
 
 
 class TeamList(ListView):
@@ -75,7 +75,7 @@ class TeamCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
-        logger.info(f"Team: {form.instance.name} was created by {self.request.user}")
+        LOGGER.info(f"Team: {form.instance.name} was created by {self.request.user}")
         return super().form_valid(form)
 
 
@@ -86,7 +86,7 @@ class TeamUpdate(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
-        logger.info(f"Team: {form.instance.name} was updated by {self.request.user}")
+        LOGGER.info(f"Team: {form.instance.name} was updated by {self.request.user}")
         return super().form_valid(form)
 
 

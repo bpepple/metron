@@ -14,7 +14,7 @@ from comicsdb.forms.creator import CreatorForm
 from comicsdb.models import Creator, Credits, Issue, Series
 
 PAGINATE = 28
-logging = logging.getLogger(__name__)
+LOGGER = logging.getLogger(__name__)
 
 
 class CreatorSeriesList(ListView):
@@ -109,7 +109,7 @@ class CreatorCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
-        logging.info(
+        LOGGER.info(
             f"Creator: {form.instance.name} was created by {self.request.user}"
         )
         return super().form_valid(form)
@@ -122,7 +122,7 @@ class CreatorUpdate(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
-        logging.info(
+        LOGGER.info(
             f"Creator: {form.instance.name} was updated by {self.request.user}"
         )
         return super().form_valid(form)

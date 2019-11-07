@@ -7,7 +7,7 @@ from django.template.loader import get_template
 
 from comicsdb.forms.contact import ContactForm
 
-logger = logging.getLogger(__name__)
+LOGGER = logging.getLogger(__name__)
 
 
 def EmailView(request):
@@ -24,7 +24,7 @@ def EmailView(request):
             except BadHeaderError:
                 return HttpResponse("Invalid header found.")
 
-            logger.info(f"{email} sent a contact e-mail")
+            LOGGER.info(f"{email} sent a contact e-mail")
             return redirect("contact:success")
     return render(request, "comicsdb/contact-us.html", {"form": form})
 

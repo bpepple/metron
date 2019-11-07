@@ -15,7 +15,7 @@ from comicsdb.forms.issue import IssueForm
 from comicsdb.models import Creator, Credits, Issue
 
 PAGINATE = 28
-logger = logging.getLogger(__name__)
+LOGGER = logging.getLogger(__name__)
 
 
 class CreatorAutocomplete(autocomplete.Select2QuerySetView):
@@ -106,7 +106,7 @@ class IssueCreate(LoginRequiredMixin, CreateView):
                 credits_form.instance = self.object
                 credits_form.save()
 
-            logger.info(
+            LOGGER.info(
                 f"Issue: {form.instance.series} #{form.instance.number} was created by {self.request.user}"
             )
         return super(IssueCreate, self).form_valid(form)
@@ -146,7 +146,7 @@ class IssueUpdate(LoginRequiredMixin, UpdateView):
                 credits_form.instance = self.object
                 credits_form.save()
 
-            logger.info(
+            LOGGER.info(
                 f"Issue: {form.instance.series} #{form.instance.number} was updated by {self.request.user}"
             )
         return super(IssueUpdate, self).form_valid(form)
