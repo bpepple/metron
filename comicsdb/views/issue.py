@@ -96,10 +96,10 @@ class IssueCreate(LoginRequiredMixin, CreateView):
         return data
 
     def form_valid(self, form):
-        form.instance.edited_by = self.request.user
         context = self.get_context_data()
         credits_form = context["credits"]
         with transaction.atomic():
+            form.instance.edited_by = self.request.user
             self.object = form.save()
 
             if credits_form.is_valid():
@@ -136,10 +136,10 @@ class IssueUpdate(LoginRequiredMixin, UpdateView):
         return data
 
     def form_valid(self, form):
-        form.instance.edited_by = self.request.user
         context = self.get_context_data()
         credits_form = context["credits"]
         with transaction.atomic():
+            form.instance.edited_by = self.request.user
             self.object = form.save()
 
             if credits_form.is_valid():
