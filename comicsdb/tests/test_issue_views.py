@@ -59,7 +59,7 @@ class IssueSearchViewsTest(TestCaseBase):
         resp = self.client.get("/issue/search?q=Super")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["issue_list"]) == PAGINATE_DEFAULT_VAL)
 
     def test_lists_all_issues(self):
@@ -67,7 +67,7 @@ class IssueSearchViewsTest(TestCaseBase):
         resp = self.client.get("/issue/search?page=2&q=Super")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["issue_list"]) == PAGINATE_DIFF_VAL)
 
 
@@ -118,7 +118,7 @@ class IssueListViewTest(TestCaseBase):
         resp = self.client.get(reverse("issue:list"))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["issue_list"]) == PAGINATE_DEFAULT_VAL)
 
     def test_lists_second_page(self):
@@ -126,7 +126,7 @@ class IssueListViewTest(TestCaseBase):
         resp = self.client.get(reverse("issue:list") + "?page=2")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["issue_list"]) == PAGINATE_DIFF_VAL)
 
     def test_sitemap(self):
