@@ -22,7 +22,8 @@ class ArcSitemap(Sitemap):
     def items(self):
         return Arc.objects.all()
 
-    def lastmod(self, obj):
+    @classmethod
+    def lastmod(cls, obj):
         return obj.modified
 
 
@@ -33,7 +34,8 @@ class CharacterSitemap(Sitemap):
     def items(self):
         return Character.objects.all()
 
-    def lastmod(self, obj):
+    @classmethod
+    def lastmod(cls, obj):
         return obj.modified
 
 
@@ -44,7 +46,8 @@ class CreatorSitemap(Sitemap):
     def items(self):
         return Creator.objects.all()
 
-    def lastmod(self, obj):
+    @classmethod
+    def lastmod(cls, obj):
         return obj.modified
 
 
@@ -55,7 +58,8 @@ class IssueSitemap(Sitemap):
     def items(self):
         return Issue.objects.all()
 
-    def lastmod(self, obj):
+    @classmethod
+    def lastmod(cls, obj):
         return obj.modified
 
 
@@ -66,7 +70,8 @@ class PublisherSitemap(Sitemap):
     def items(self):
         return Publisher.objects.all()
 
-    def lastmod(self, obj):
+    @classmethod
+    def lastmod(cls, obj):
         return obj.modified
 
 
@@ -77,7 +82,8 @@ class SeriesSitemap(Sitemap):
     def items(self):
         return Series.objects.all()
 
-    def lastmod(self, obj):
+    @classmethod
+    def lastmod(cls, obj):
         return obj.modified
 
 
@@ -88,5 +94,6 @@ class TeamSitemap(Sitemap):
     def items(self):
         return Team.objects.all()
 
-    def lastmod(self, obj):
+    @classmethod
+    def lastmod(cls, obj):
         return obj.modified
