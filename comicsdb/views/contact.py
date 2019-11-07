@@ -10,7 +10,7 @@ from comicsdb.forms.contact import ContactForm
 LOGGER = logging.getLogger(__name__)
 
 
-def EmailView(request):
+def email_view(request):
     if request.method == "GET":
         form = ContactForm()
     else:
@@ -29,8 +29,8 @@ def EmailView(request):
     return render(request, "comicsdb/contact-us.html", {"form": form})
 
 
-def SuccessView(request):
-    t = get_template("comicsdb/contact-success.html")
+def success_view(request):
+    success_template = get_template("comicsdb/contact-success.html")
     message = "Success! Thank you for contacting us."
-    html = t.render({"msg": message})
+    html = success_template.render({"msg": message})
     return HttpResponse(html)
