@@ -20,9 +20,9 @@ class TestWeekView(TestCaseBase):
         current_week = date.today().isocalendar()[1]
         current_year = date.today().year
         # The "3" is the weekday (Wednesday)
-        d = f"{current_year}-{current_week}-3"
+        wednesday = f"{current_year}-{current_week}-3"
         # Dates used in Issue creating
-        in_store_date = datetime.strptime(d, "%G-%V-%u")
+        in_store_date = datetime.strptime(wednesday, "%G-%V-%u")
         cover_date = date.today()
 
         user = cls._create_user()
