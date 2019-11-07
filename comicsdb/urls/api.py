@@ -12,14 +12,14 @@ from comicsdb.views.viewsets import (
 )
 
 
-router = routers.DefaultRouter()
-router.register("arc", ArcViewSet)
-router.register("character", CharacterViewSet)
-router.register("creator", CreatorViewSet)
-router.register("issue", IssueViewSet)
-router.register("publisher", PublisherViewSet)
-router.register("series", SeriesViewSet)
-router.register("team", TeamViewSet)
+ROUTER = routers.DefaultRouter()
+ROUTER.register("arc", ArcViewSet)
+ROUTER.register("character", CharacterViewSet)
+ROUTER.register("creator", CreatorViewSet)
+ROUTER.register("issue", IssueViewSet)
+ROUTER.register("publisher", PublisherViewSet)
+ROUTER.register("series", SeriesViewSet)
+ROUTER.register("team", TeamViewSet)
 
 app_name = "api"
-urlpatterns = [path("", include(router.urls))]
+urlpatterns = [path("", include(ROUTER.urls))]
