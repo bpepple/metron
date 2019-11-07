@@ -14,7 +14,7 @@ class HomeViewTest(TestCaseBase):
         user = cls._create_user()
 
         cover_date = timezone.now().date()
-        dc = Publisher.objects.create(name="DC", slug="dc", edited_by=user)
+        dc_comics = Publisher.objects.create(name="DC", slug="dc", edited_by=user)
         Publisher.objects.create(name="Marvel", slug="marvel", edited_by=user)
         series_type = SeriesType.objects.create(name="Ongoing Series")
         batman = Series.objects.create(
@@ -22,7 +22,7 @@ class HomeViewTest(TestCaseBase):
             slug="batman",
             sort_name="Batman",
             year_began=2016,
-            publisher=dc,
+            publisher=dc_comics,
             volume="1",
             series_type=series_type,
             edited_by=user,
