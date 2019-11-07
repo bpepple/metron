@@ -41,7 +41,7 @@ class TeamSearchViewsTest(TestCaseBase):
         resp = self.client.get("/team/search?q=tea")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["team_list"]) == PAGINATE_DEFAULT_VAL)
 
     def test_lists_all_teams(self):
@@ -49,7 +49,7 @@ class TeamSearchViewsTest(TestCaseBase):
         resp = self.client.get("/team/search?page=2&q=tea")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["team_list"]) == PAGINATE_DIFF_VAL)
 
 
@@ -83,7 +83,7 @@ class TeamListViewTest(TestCaseBase):
         resp = self.client.get(reverse("team:list"))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["team_list"]) == PAGINATE_DEFAULT_VAL)
 
     def test_lists_second_page(self):
@@ -91,5 +91,5 @@ class TeamListViewTest(TestCaseBase):
         resp = self.client.get(reverse("team:list") + "?page=2")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["team_list"]) == PAGINATE_DIFF_VAL)

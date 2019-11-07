@@ -1,7 +1,7 @@
-from django.forms import ModelForm, inlineformset_factory, ModelChoiceField
-
-from comicsdb.models import Credits, Issue, Creator
 from dal import autocomplete
+from django.forms import ModelChoiceField, ModelForm, inlineformset_factory
+
+from comicsdb.models import Creator, Credits, Issue
 
 
 class CreditsForm(ModelForm):

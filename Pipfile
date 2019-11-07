@@ -23,6 +23,8 @@ django-autocomplete-light = "==3.3.5"
 [dev-packages]
 django-debug-toolbar = "*"
 coverage = "*"
+pylint = "*"
+pylint-django = "*"
 
 [requires]
 python_version = "3.6"
