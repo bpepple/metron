@@ -11,8 +11,8 @@ class StaticViewSitemap(Sitemap):
     def items(self):
         return ["home", "flatpage:contribute", "flatpage:editing-guidelines"]
 
-    def location(self, item):
-        return reverse(item)
+    def location(self, obj):
+        return reverse(obj)
 
 
 class ArcSitemap(Sitemap):
