@@ -51,7 +51,7 @@ class PublisherSearchViewsTest(TestCaseBase):
         resp = self.client.get("/publisher/search?page=2&q=pub")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["publisher_list"]) == PAGINATE_DIFF_VAL)
 
 
