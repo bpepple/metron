@@ -47,37 +47,37 @@ class SeriesDetail(DetailView):
         previous_series = None
 
         # Create the base queryset with all the series.
-        qs = Series.objects.all().order_by("name", "year_began")
+        qs = Series.objects.all().order_by("sort_name", "year_began")
 
         # Determine if there is more than 1 series with the same name
-        series_count = qs.filter(name__gte=series.name).count()
+        series_count = qs.filter(sort_name__gte=series.sort_name).count()
 
         # If there is more than one series with the same name
         # let's attempt to get the next and previous items
         if series_count > 1:
             try:
                 next_series = qs.filter(
-                    name=series.name, year_began__gt=series.year_began
+                    sort_name=series.sort_name, year_began__gt=series.year_began
                 ).first()
             except ObjectDoesNotExist:
                 next_series = None
 
             try:
                 previous_series = qs.filter(
-                    name=series.name, year_began__lt=series.year_began
+                    sort_name=series.sort_name, year_began__lt=series.year_began
                 ).last()
             except ObjectDoesNotExist:
                 previous_series = None
 
         if not next_series:
             try:
-                next_series = qs.filter(name__gt=series.name).first()
+                next_series = qs.filter(sort_name__gt=series.sort_name).first()
             except ObjectDoesNotExist:
                 next_series = None
 
         if not previous_series:
             try:
-                previous_series = qs.filter(name__lt=series.name).last()
+                previous_series = qs.filter(sort_name__lt=series.sort_name).last()
             except ObjectDoesNotExist:
                 previous_series = None
 
