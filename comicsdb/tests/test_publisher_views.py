@@ -43,7 +43,7 @@ class PublisherSearchViewsTest(TestCaseBase):
         resp = self.client.get("/publisher/search?q=pub")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["publisher_list"]) == PAGINATE_DEFAULT_VAL)
 
     def test_lists_all_publishers(self):
@@ -87,7 +87,7 @@ class PublisherListViewTest(TestCaseBase):
         resp = self.client.get(reverse("publisher:list"))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["publisher_list"]) == PAGINATE_DEFAULT_VAL)
 
     def test_lists_second_page(self):
@@ -95,5 +95,5 @@ class PublisherListViewTest(TestCaseBase):
         resp = self.client.get(reverse("publisher:list") + "?page=2")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["publisher_list"]) == PAGINATE_DIFF_VAL)
