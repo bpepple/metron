@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import logging.config
 import os
 
-from decouple import config
+import chartkick
+from decouple import Csv, config
 from django.utils.log import DEFAULT_LOGGING
 
 # Disable Django's logging setup
@@ -26,8 +27,9 @@ PUSHOVER_TOKEN = config("PUSHOVER_TOKEN")
 PUSHOVER_USER_KEY = config("PUSHOVER_USER_KEY")
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+DEBUG = config("DEBUG", default=False, cast=bool)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -115,6 +117,8 @@ DATABASES = {
     }
 }
 
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
+
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
@@ -201,3 +205,74 @@ USE_TZ = True
 
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+
+# E-mail settings
+EMAIL_BACKEND = config(
+    "EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
+)
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = 587
+EMAIL_HOST_USER = config("EMAIL_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_PASSWORD")
+EMAIL_USE_TLS = True
+
+if not DEBUG:
+    # Production Security
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = "DENY"
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 15778800
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
+    # Static files (CSS, JavaScript, Images)
+    # https://docs.djangoproject.com/en/2.1/howto/static-files/
+
+    AWS_ACCESS_KEY_ID = config("DO_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = config("DO_SECRET_ACCESS_KEY")
+
+    AWS_STORAGE_BUCKET_NAME = config("DO_STORAGE_BUCKET_NAME")
+    AWS_S3_ENDPOINT_URL = config("DO_S3_ENDPOINT_URL")
+    AWS_S3_CUSTOM_DOMAIN = config("DO_S3_CUSTOM_DOMAIN")
+    # Set the cache to 7 days. 86400 seconds/day * 7
+    AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=604800"}
+    AWS_LOCATION = "static"
+    AWS_DEFAULT_ACL = "public-read"
+
+    STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+    STATICFILES_DIRS = (chartkick.js(), os.path.join(BASE_DIR, "static"))
+    STATIC_URL = f"{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
+    STATIC_ROOT = config("STATIC_ROOT")
+
+    DEFAULT_FILE_STORAGE = "metron.storage_backends.MediaStorage"
+else:
+    STATIC_URL = "/static/"
+    STATICFILES_DIRS = (chartkick.js(), os.path.join(BASE_DIR, "static"))
+
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+    INTERNAL_IPS = ("127.0.0.1", "localhost")
+    MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
+
+    INSTALLED_APPS += ("debug_toolbar",)
+
+    DEBUG_TOOLBAR_PANELS = [
+        "debug_toolbar.panels.versions.VersionsPanel",
+        "debug_toolbar.panels.timer.TimerPanel",
+        "debug_toolbar.panels.settings.SettingsPanel",
+        "debug_toolbar.panels.headers.HeadersPanel",
+        "debug_toolbar.panels.request.RequestPanel",
+        "debug_toolbar.panels.sql.SQLPanel",
+        "debug_toolbar.panels.staticfiles.StaticFilesPanel",
+        "debug_toolbar.panels.templates.TemplatesPanel",
+        "debug_toolbar.panels.cache.CachePanel",
+        "debug_toolbar.panels.signals.SignalsPanel",
+        "debug_toolbar.panels.logging.LoggingPanel",
+        "debug_toolbar.panels.redirects.RedirectsPanel",
+    ]
+
+    DEBUG_TOOLBAR_CONFIG = {"INTERCEPT_REDIRECTS": False}
