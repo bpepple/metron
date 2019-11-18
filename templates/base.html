@@ -7,9 +7,10 @@
     {% block sitekeywords %}{% endblock %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="shortcut icon" type="image/png" href="{% static 'site/img/favicon.ico' %}"/>
+    <link rel="shortcut icon" type="image/png" href="{% static 'site/img/favicon.ico' %}" />
     {% bulma %}
     {% font_awesome %}
+    <link rel="stylesheet" href="{% static 'site/css/base.css' %}">
     {% block headscripts %}{% endblock %}
   </head>
   <body class="has-navbar-fixed-top">
@@ -25,32 +26,7 @@
     </section>
     {% endif %}
 
-    <footer class="footer">
-      <div class="content has-text-centered is-small">
-        <p>
-          <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
-            <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" />
-          </a>
-          <br />
-          This work is licensed under a 
-          <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
-            Creative Commons Attribution-ShareAlike 4.0 International License
-          </a>.
-        </p>
-        <p>
-          Icons made by
-          <a href="http://www.freepik.com" title="Freepik" target="_blank" rel="noopener noreferrer">Freepik</a>
-          from
-          <a href="https://www.flaticon.com/" title="Flaticon" target="_blank" rel="noopener noreferrer">
-            www.flaticon.com
-          </a>
-          is licensed by
-          <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" rel="noopener noreferrer">
-            CC 3.0 BY
-          </a>
-        </p>
-      </div>
-    </footer>
+    {% include "footer.html" %}
 
     {% block js %}{% endblock %}
   </body>
