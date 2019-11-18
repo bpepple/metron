@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "django_filters",
     "widget_tweaks",
     "sorl.thumbnail",
+    "django_simple_bulma",
     "chartkick",
     "comicsdb",
     "users",
@@ -216,6 +217,19 @@ EMAIL_HOST_USER = config("EMAIL_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_PASSWORD")
 EMAIL_USE_TLS = True
 
+STATICFILES_FINDERS = [
+    # First add the two default Finders, since this will overwrite the default.
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    # Now add our custom SimpleBulma one.
+    "django_simple_bulma.finders.SimpleBulmaFinder",
+]
+
+# Custom settings for django-simple-bulma
+BULMA_SETTINGS = {
+    "extensions": ["bulma-calendar", "bulma-fileupload", "bulma-navbar-burger",],
+}
+
 if not DEBUG:
     # Production Security
     CSRF_COOKIE_SECURE = True
@@ -250,8 +264,9 @@ if not DEBUG:
 
     DEFAULT_FILE_STORAGE = "metron.storage_backends.MediaStorage"
 else:
-    STATIC_URL = "/static/"
     STATICFILES_DIRS = (chartkick.js(), os.path.join(BASE_DIR, "static"))
+    STATIC_URL = "/static/"
+    STATIC_ROOT = config("STATIC_ROOT")
 
     MEDIA_URL = "/media/"
     MEDIA_ROOT = os.path.join(BASE_DIR, "media")
