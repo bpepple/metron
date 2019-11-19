@@ -1,3 +1,11 @@
+#navbar-banner {
+    background-color: transparent;
+}
+
+#navbar-banner img {
+    max-height: 3rem;
+}
+
 #bulma-logo {
     padding-left: 18px;
     height: 20px;
