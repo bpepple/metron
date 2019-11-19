@@ -1,19 +1,14 @@
-import datetime
-
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.forms import (
-    ModelForm,
-    TextInput,
-    Textarea,
-    Select,
-    SelectDateWidget,
     ClearableFileInput,
+    DateInput,
+    ModelForm,
+    Select,
+    Textarea,
+    TextInput,
 )
 
 from comicsdb.models import Issue
-
-
-YEARS = [(r) for r in range(1925, datetime.date.today().year + 2)]
 
 
 class IssueForm(ModelForm):
@@ -33,8 +28,8 @@ class IssueForm(ModelForm):
             "store_date",
             "desc",
             "characters",
-            "arcs",
             "teams",
+            "arcs",
             "image",
         )
         widgets = {
@@ -51,16 +46,8 @@ class IssueForm(ModelForm):
             "teams": FilteredSelectMultiple(
                 "Teams", attrs={"size": "6"}, is_stacked=False
             ),
-            "cover_date": SelectDateWidget(
-                attrs={"class": "input", "style": "width: 10%; display: inline-block;"},
-                empty_label=("Choose Year", "Choose Month", "Choose Day"),
-                years=YEARS,
-            ),
-            "store_date": SelectDateWidget(
-                attrs={"class": "input", "style": "width: 10%; display: inline-block;"},
-                empty_label=("Choose Year", "Choose Month", "Choose Day"),
-                years=YEARS,
-            ),
+            "cover_date": DateInput(attrs={"class": "input", "type": "date"},),
+            "store_date": DateInput(attrs={"class": "input", "type": "date"},),
             "desc": Textarea(attrs={"class": "textarea"}),
             "image": ClearableFileInput(),
         }
