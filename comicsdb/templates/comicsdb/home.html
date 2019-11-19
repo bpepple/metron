@@ -3,130 +3,130 @@
 {% load humanize %}
 {% load static %}
 
-{% block sitedesc %}<meta name="description" content="Metron is a comic book database. It aims to provide searchable data on comic books with a public REST API.">{% endblock %}
-{% block sitekeywords %}<meta name="keywords" content="Comics,Comic Book Database,API,REST">{% endblock %}
+{% block sitedesc %}<meta name="description" content="Metron is a comic book database. It aims to
+  provide searchable data on comic books with a public REST API.">{% endblock %}
+{% block sitekeywords %}
+<meta name="keywords" content="Comics,Comic Book Database,API,REST">
+{% endblock %}
 {% block title %}Metron{% endblock %}
 
 {% block content %}
-  <!-- hero -->
-  <section class="hero">
-    <div class="hero-body">
-      <div class="container has-text-centered">
-        <h1 class="title is-size-2">Metron</h1>
-        <h2 class="subtitle is-size-4">Comic Book Database</h2>
-      </div>
-    </div>
-  </section>
-  <!-- end hero -->
+<!-- information section -->
+<section>
+  <div class="container">
+    <div class="columns">
+      <!-- welcome column  -->
+      <div class="column">
+        <!-- info box -->
+        <div class="box">
+          <h1 class="title is-5">What?</h1>
+          <h2 class="subtitle is-6">
+            <strong>Metron</strong>
+            is a community-based site whose goal is to build an open database with a
+            <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a> API for
+            comics.
+          </h2>
+          <br />
+          <h1 class="title is-5">Why?</h1>
+          <h2 class="subtitle is-6">
+            Currently the only comic book database the provides a REST API for users is
+            <a href="https://comicvine.gamespot.com/">Comic Vine</a>.
+            Unfortunately, since it's a corporately-owned service, the community that uses it has no
+            control
+            over the amount of resources provided to maintain it or ensure it's continued
+            accessibility.
+          </h2>
+          <br />
+          <h1 class="title is-5">Want to join?</h1>
+          <h2 class="subtitle is-6">
+            Sign-up for an account and read the <a href="{% url 'flatpage:editing-guidelines' %}">Editing
+              Guidelines</a>
+            before adding information to the database. If you have any questions, please
+            <a href="{% url 'contact:email' %}">contact</a> me.
+          </h2>
+          <br />
+          <h1 class="title is-5">Need to tag your comic archives?</h1>
+          <h2 class="subtitle is-6">
+            If you wish to tag your comic archives with metadata from Metron, head over Github
+            and install <a href="https://github.com/bpepple/metron-tagger">Metron-Tagger</a>. <b>Note:</b>
+            you need an account on Metron to access the REST API.
+          </h2>
+          <br />
+          <h1 class="title is-5">Future Projects</h1>
+          <h2 class="subtitle is-6">
+            Initial work has started on a comic server, and with any luck I'll be moving it to a
+            public git repository once it's in
+            a functional state for public consumption. Most likely it will be late September or
+            October (dependent on the amount of free
+            time I have).
+          </h2>
+        </div>
+        <!-- end info box -->
 
-  <!-- information section --> 
-  <section>
-    <div class="container">
-      <div class="columns">
-        <!-- welcome column  -->
-        <div class="column">
-          <!-- info box -->
-          <div class="box">
-            <h1 class="title is-5">What?</h1>
-            <h2 class="subtitle is-6">
-              <strong>Metron</strong>
-              is a community-based site whose goal is to build an open database with a
-              <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a> API for comics.
-            </h2>
-            <br />
-            <h1 class="title is-5">Why?</h1>
-            <h2 class="subtitle is-6">
-              Currently the only comic book database the provides a REST API for users is
-              <a href="https://comicvine.gamespot.com/">Comic Vine</a>.
-              Unfortunately, since it's a corporately-owned service, the community that uses it has no control
-              over the amount of resources provided to maintain it or ensure it's continued accessibility.
-            </h2>
-            <br />
-            <h1 class="title is-5">Want to join?</h1>
-            <h2 class="subtitle is-6">
-              Sign-up for an account and read the <a href="{% url 'flatpage:editing-guidelines' %}">Editing Guidelines</a> 
-              before adding information to the database. If you have any questions, please 
-              <a href="{% url 'contact:email' %}">contact</a> me.
-            </h2>
-            <br />
-            <h1 class="title is-5">Need to tag your comic archives?</h1>
-            <h2 class="subtitle is-6">
-              If you wish to tag your comic archives with metadata from Metron, head over Github
-              and install <a href="https://github.com/bpepple/metron-tagger">Metron-Tagger</a>. <b>Note:</b>
-              you need an account on Metron to access the REST API.
-            </h2>   
-            <br />
-            <h1 class="title is-5">Future Projects</h1>
-            <h2 class="subtitle is-6">
-              Initial work has started on a comic server, and with any luck I'll be moving it to a public git repository once it's in 
-              a functional state for public consumption. Most likely it will be late September or October (dependent on the amount of free 
-              time I have).
-            </h2>
-          </div>
-          <!-- end info box -->
-
-          <!-- recently edited issues -->
-          <div class="box">
-            <h1 class="title is-5">Recently Edited Issues</h1>
-            <!-- issue columns -->
-            <div class="columns is-multiline">
-              {% for issue in recently_edited %}
-                <div class="column is-one-quarter">
-                  <!-- issue card-->
-                  <div class="card">
-                    <!-- card header -->
-                    <header class="card-header">
-                      <p class="card-header-title is-centered">{{ issue }}</p>
-                    </header>
-                    <!-- end card header -->
-                    <!-- card image -->
-                    <div class="card-image">
-                      <figure class="image is-2by3">
-                        {% if issue.image %}
-                          {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
-                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ issue }}">
-                          {% endthumbnail %}
-                        {% else %}
-                          <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ issue }}">
-                        {% endif %}
-                      </figure>
-                    </div>
-                    <!-- end card image -->
-                    <!-- card footer -->
-                    <footer class="card-footer">
-                      <p class="card-footer-item">{{ issue.cover_date|date:"M Y" }}</p>
-                      <a href="{% url 'issue:detail' issue.slug %}" class="card-footer-item">Info</a>
-                    </footer>
-                    <!-- end card footer -->
-                  </div>
-                  <!-- end issue card -->
+        <!-- recently edited issues -->
+        <div class="box">
+          <h1 class="title is-5">Recently Edited Issues</h1>
+          <!-- issue columns -->
+          <div class="columns is-multiline">
+            {% for issue in recently_edited %}
+            <div class="column is-one-quarter">
+              <!-- issue card-->
+              <div class="card">
+                <!-- card header -->
+                <header class="card-header">
+                  <p class="card-header-title is-centered">{{ issue }}</p>
+                </header>
+                <!-- end card header -->
+                <!-- card image -->
+                <div class="card-image">
+                  <figure class="image is-2by3">
+                    {% if issue.image %}
+                    {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
+                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{
+                      issue }}">
+                    {% endthumbnail %}
+                    {% else %}
+                    <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{
+                      issue }}">
+                    {% endif %}
+                  </figure>
                 </div>
-              {% endfor %}
+                <!-- end card image -->
+                <!-- card footer -->
+                <footer class="card-footer">
+                  <p class="card-footer-item">{{ issue.cover_date|date:"M Y" }}</p>
+                  <a href="{% url 'issue:detail' issue.slug %}" class="card-footer-item">Info</a>
+                </footer>
+                <!-- end card footer -->
+              </div>
+              <!-- end issue card -->
             </div>
-            <!-- end issue columns -->
+            {% endfor %}
           </div>
-          <!-- end recently edited issues -->
+          <!-- end issue columns -->
         </div>
-        <!-- end welcome column-->
-
-        <!-- stats column -->
-        <div class="column is-one-fifth">
-          <div class="box">
-            <h1 class="title is-5">Database Statistics</h1>
-            <ul>
-              <li>Publisher{{ publisher|pluralize }}: {{ publisher|intcomma }}</li>
-              <li>Series: {{ series|intcomma }}</li>
-              <li>Issue{{ issue|pluralize }}: {{ issue|intcomma }}</li>
-              <li>Creator{{ creator|pluralize }}: {{ creator|intcomma }}</li>
-              <li>Character{{ character|pluralize }}: {{ character|intcomma }}</li>
-              <li>Team{{ team|pluralize }}: {{ team|intcomma }}</li>
-              <li>Story Arc{{ arc|pluralize }}: {{ arc|intcomma }}</li>
-            </ul>
-          </div>
-        </div>
-        <!-- end stats column -->
+        <!-- end recently edited issues -->
       </div>
+      <!-- end welcome column-->
+
+      <!-- stats column -->
+      <div class="column is-one-fifth">
+        <div class="box">
+          <h1 class="title is-5">Database Statistics</h1>
+          <ul>
+            <li>Publisher{{ publisher|pluralize }}: {{ publisher|intcomma }}</li>
+            <li>Series: {{ series|intcomma }}</li>
+            <li>Issue{{ issue|pluralize }}: {{ issue|intcomma }}</li>
+            <li>Creator{{ creator|pluralize }}: {{ creator|intcomma }}</li>
+            <li>Character{{ character|pluralize }}: {{ character|intcomma }}</li>
+            <li>Team{{ team|pluralize }}: {{ team|intcomma }}</li>
+            <li>Story Arc{{ arc|pluralize }}: {{ arc|intcomma }}</li>
+          </ul>
+        </div>
+      </div>
+      <!-- end stats column -->
     </div>
-  </section>
-  <!-- end information section -->
+  </div>
+</section>
+<!-- end information section -->
 {% endblock %}

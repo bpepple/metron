@@ -1,0 +1,24 @@
+#navbar-banner {
+    background-color: transparent;
+}
+
+#navbar-banner img {
+    max-height: 3rem;
+}
+
+#django-logo {
+    padding-bottom: 2px;
+    background: url(https://static.djangoproject.com/img/logos/django-logo-negative.png) no-repeat center;
+    filter: grayscale(1) invert(0.02);
+    background-size: 52px 25.5px;
+    background-position: -1px -2px;
+    color: #00000000;
+}
+
+#bulma-logo {
+    padding-left: 18px;
+    height: 20px;
+    background: url(https://bulma.io/images/bulma-logo-white.png) no-repeat center;
+    background-size: 60px;
+    color: #00000000;
+}

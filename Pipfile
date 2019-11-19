@@ -19,6 +19,7 @@ django-storages = "*"
 python-decouple = "*"
 chartkick = "*"
 django-autocomplete-light = "==3.3.5"
+django-simple-bulma = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
