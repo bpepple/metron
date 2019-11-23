@@ -26,6 +26,7 @@ django-debug-toolbar = "*"
 coverage = "*"
 pylint = "*"
 pylint-django = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.6"
