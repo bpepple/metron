@@ -92,13 +92,22 @@ class CharacterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Character
-        fields = ("id", "name", "alias", "desc", "image", "creators", "teams")
+        fields = (
+            "id",
+            "name",
+            "alias",
+            "desc",
+            "wikipedia",
+            "image",
+            "creators",
+            "teams",
+        )
 
 
 class CreatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Creator
-        fields = ("id", "name", "birth", "death", "desc", "image")
+        fields = ("id", "name", "birth", "death", "desc", "wikipedia", "image")
 
 
 class CreditsSerializer(serializers.ModelSerializer):
@@ -143,7 +152,7 @@ class IssueSerializer(serializers.ModelSerializer):
 class PublisherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publisher
-        fields = ("id", "name", "founded", "desc", "image")
+        fields = ("id", "name", "founded", "desc", "wikipedia", "image")
 
 
 class SeriesImageSerializer(serializers.ModelSerializer):
@@ -192,4 +201,4 @@ class TeamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Team
-        fields = ("id", "name", "desc", "image", "creators")
+        fields = ("id", "name", "desc", "wikipedia", "image", "creators")
