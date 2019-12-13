@@ -12,10 +12,23 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from comicsdb.filters.issue import IssueFilter
 from comicsdb.forms.credits import CreditsFormSet
 from comicsdb.forms.issue import IssueForm
-from comicsdb.models import Creator, Credits, Issue
+from comicsdb.models import Creator, Credits, Issue, Series
 
 PAGINATE = 28
 LOGGER = logging.getLogger(__name__)
+
+
+class SeriesAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return Series.objects.none()
+
+        qs = Series.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__icontains=self.q)
+
+        return qs
 
 
 class CreatorAutocomplete(autocomplete.Select2QuerySetView):
@@ -28,8 +41,7 @@ class CreatorAutocomplete(autocomplete.Select2QuerySetView):
         if self.q:
             qs = qs.filter(
                 # Unaccent lookup won't work on alias array field.
-                Q(name__unaccent__icontains=self.q)
-                | Q(alias__icontains=self.q)
+                Q(name__unaccent__icontains=self.q) | Q(alias__icontains=self.q)
             )
 
         return qs

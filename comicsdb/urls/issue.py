@@ -1,16 +1,16 @@
 from django.urls import path, re_path
 
 from comicsdb.views.issue import (
-    IssueList,
-    IssueDetail,
-    SearchIssueList,
-    IssueCreate,
-    IssueUpdate,
-    IssueDelete,
     CreatorAutocomplete,
+    IssueCreate,
+    IssueDelete,
+    IssueDetail,
+    IssueList,
+    IssueUpdate,
+    SearchIssueList,
+    SeriesAutocomplete,
 )
 from comicsdb.views.variant import VariantCreate
-
 
 app_name = "issue"
 urlpatterns = [
@@ -24,6 +24,11 @@ urlpatterns = [
         r"^creator-autocomplete/?$",
         CreatorAutocomplete.as_view(),
         name="creator-autocomplete",
+    ),
+    re_path(
+        r"^series-autocomplete/?$",
+        SeriesAutocomplete.as_view(),
+        name="series-autocomplete",
     ),
     re_path(r"^search/?$", SearchIssueList.as_view(), name="search"),
 ]
