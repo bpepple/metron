@@ -23,7 +23,10 @@
         </div>
       {% endfor %}
     {% endif %}
-    {% for field in form %}
+    {% for field in form.hidden_fields %}
+      {{ field }}
+    {% endfor %}
+    {% for field in form.visible_fields %}
       <div class="field is-danger is-small">
         {{field.errors}}
       </div>
