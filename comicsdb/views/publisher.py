@@ -33,6 +33,11 @@ class PublisherSeriesList(ListView):
             "issue_set"
         )
 
+    def get_context_data(self, **kwargs):
+        context = super(PublisherSeriesList, self).get_context_data(**kwargs)
+        context["title"] = self.publisher
+        return context
+
 
 class PublisherDetail(DetailView):
     model = Publisher
