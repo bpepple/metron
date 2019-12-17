@@ -37,6 +37,11 @@ class CreatorIssueList(ListView):
         self.creator = get_object_or_404(Creator, slug=self.kwargs["slug"])
         return Issue.objects.select_related("series").filter(creators=self.creator)
 
+    def get_context_data(self, **kwargs):
+        context = super(CreatorIssueList, self).get_context_data(**kwargs)
+        context["title"] = self.creator
+        return context
+
 
 class CreatorList(ListView):
     model = Creator
@@ -109,9 +114,7 @@ class CreatorCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
-        LOGGER.info(
-            f"Creator: {form.instance.name} was created by {self.request.user}"
-        )
+        LOGGER.info(f"Creator: {form.instance.name} was created by {self.request.user}")
         return super().form_valid(form)
 
 
@@ -122,9 +125,7 @@ class CreatorUpdate(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
-        LOGGER.info(
-            f"Creator: {form.instance.name} was updated by {self.request.user}"
-        )
+        LOGGER.info(f"Creator: {form.instance.name} was updated by {self.request.user}")
         return super().form_valid(form)
 
 

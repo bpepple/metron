@@ -31,6 +31,11 @@ class TeamIssueList(ListView):
         self.team = get_object_or_404(Team, slug=self.kwargs["slug"])
         return Issue.objects.select_related("series").filter(teams=self.team)
 
+    def get_context_data(self, **kwargs):
+        context = super(TeamIssueList, self).get_context_data(**kwargs)
+        context["title"] = self.team
+        return context
+
 
 class TeamDetail(DetailView):
     model = Team

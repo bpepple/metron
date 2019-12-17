@@ -31,6 +31,11 @@ class SeriesIssueList(ListView):
         self.series = get_object_or_404(Series, slug=self.kwargs["slug"])
         return Issue.objects.select_related("series").filter(series=self.series)
 
+    def get_context_data(self, **kwargs):
+        context = super(SeriesIssueList, self).get_context_data(**kwargs)
+        context["title"] = self.series
+        return context
+
 
 class SeriesDetail(DetailView):
     model = Series

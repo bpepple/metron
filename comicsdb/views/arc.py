@@ -31,6 +31,11 @@ class ArcIssueList(ListView):
         self.arc = get_object_or_404(Arc, slug=self.kwargs["slug"])
         return Issue.objects.select_related("series").filter(arcs=self.arc)
 
+    def get_context_data(self, **kwargs):
+        context = super(ArcIssueList, self).get_context_data(**kwargs)
+        context["title"] = self.arc
+        return context
+
 
 class ArcDetail(DetailView):
     model = Arc
