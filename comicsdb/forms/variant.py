@@ -1,6 +1,6 @@
 from django.forms import ClearableFileInput, HiddenInput, ModelForm, TextInput
 
-from comicsdb.models import Issue, Variant
+from comicsdb.models import Variant
 
 
 class VariantForm(ModelForm):
@@ -12,13 +12,12 @@ class VariantForm(ModelForm):
         model = Variant
         fields = ("issue", "name", "image")
         widgets = {
+            "issue": HiddenInput(),
             "name": TextInput(attrs={"class": "input"}),
             "image": ClearableFileInput(),
         }
 
     def __init__(self, *args, **kwargs):
         super(VariantForm, self).__init__(*args, **kwargs)
-
-        issue = Issue.objects.get(slug=kwargs["initial"]["issue_slug"])
-        self.initial["issue"] = issue
-        self.fields["issue"].widget = HiddenInput()
+        # Set the issue
+        self.initial["issue"] = kwargs["initial"]["issue"]
