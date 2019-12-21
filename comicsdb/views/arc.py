@@ -83,6 +83,11 @@ class ArcCreate(LoginRequiredMixin, CreateView):
     form_class = ArcForm
     template_name = "comicsdb/model_with_image_form.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(ArcCreate, self).get_context_data(**kwargs)
+        context["title"] = "Add Story Arc"
+        return context
+
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
         LOGGER.info(f"Arc: {form.instance.name} was created by {self.request.user}")
@@ -93,6 +98,11 @@ class ArcUpdate(LoginRequiredMixin, UpdateView):
     model = Arc
     form_class = ArcForm
     template_name = "comicsdb/model_with_image_form.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(ArcUpdate, self).get_context_data(**kwargs)
+        context["title"] = f"Edit information for {context['arc']}"
+        return context
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
