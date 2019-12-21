@@ -121,6 +121,11 @@ class CharacterCreate(LoginRequiredMixin, CreateView):
     form_class = CharacterForm
     template_name = "comicsdb/model_with_image_form.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(CharacterCreate, self).get_context_data(**kwargs)
+        context["title"] = "Add Character"
+        return context
+
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
         LOGGER.info(
@@ -133,6 +138,11 @@ class CharacterUpdate(LoginRequiredMixin, UpdateView):
     model = Character
     form_class = CharacterForm
     template_name = "comicsdb/model_with_image_form.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(CharacterUpdate, self).get_context_data(**kwargs)
+        context["title"] = f"Edit information for {context['character']}"
+        return context
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user

@@ -78,6 +78,11 @@ class TeamCreate(LoginRequiredMixin, CreateView):
     form_class = TeamForm
     template_name = "comicsdb/model_with_image_form.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(TeamCreate, self).get_context_data(**kwargs)
+        context["title"] = "Add Team"
+        return context
+
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
         LOGGER.info(f"Team: {form.instance.name} was created by {self.request.user}")
@@ -88,6 +93,11 @@ class TeamUpdate(LoginRequiredMixin, UpdateView):
     model = Team
     form_class = TeamForm
     template_name = "comicsdb/model_with_image_form.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(TeamUpdate, self).get_context_data(**kwargs)
+        context["title"] = f"Edit information for {context['team']}"
+        return context
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
