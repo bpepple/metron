@@ -123,7 +123,7 @@ class CharacterCreate(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CharacterCreate, self).get_context_data(**kwargs)
-        context["title"] = "Add Character Form"
+        context["title"] = "Add Character"
         return context
 
     def form_valid(self, form):
