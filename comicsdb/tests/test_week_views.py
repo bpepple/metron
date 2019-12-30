@@ -17,10 +17,9 @@ class TestWeekView(TestCaseBase):
     @classmethod
     def setUpTestData(cls):
         # Create the store date for this week
-        current_week = date.today().isocalendar()[1]
-        current_year = date.today().year
+        year, week, _ = date.today().isocalendar()
         # The "3" is the weekday (Wednesday)
-        wednesday = f"{current_year}-{current_week}-3"
+        wednesday = f"{year}-{week}-3"
         # Dates used in Issue creating
         in_store_date = datetime.strptime(wednesday, "%G-%V-%u")
         cover_date = date.today()
