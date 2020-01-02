@@ -273,7 +273,7 @@ else:
     STATIC_ROOT = config("STATIC_ROOT")
 
     MEDIA_URL = "/media/"
-    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+    MEDIA_ROOT = config("MEDIA_ROOT")
     INTERNAL_IPS = ("127.0.0.1", "localhost")
     MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
 
