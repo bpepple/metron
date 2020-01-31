@@ -100,17 +100,7 @@ def remove_multiple_created_on_data(apps, schema_editor):
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("comicsdb", "0001_squashed_migrations"),
-        ("comicsdb", "0002_creator_alias"),
-        ("comicsdb", "0003_issue_created_on"),
-        ("comicsdb", "0004_add_created_on_fields"),
-        ("comicsdb", "0005_require_series_volume"),
-        ("comicsdb", "0006_auto_20190717_1550"),
-        ("comicsdb", "0007_fix_credits_ordering"),
-        ("comicsdb", "0008_add_sort_on_creator_name"),
-        ("comicsdb", "0009_actually_sort_by_creator_name"),
-    ]
+    replaces = []
 
     initial = True
 
