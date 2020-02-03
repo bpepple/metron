@@ -28,6 +28,7 @@ pylint = "*"
 pylint-django = "*"
 flake8 = "*"
 pytest-xdist = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.6"
