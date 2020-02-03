@@ -27,6 +27,7 @@ coverage = "*"
 pylint = "*"
 pylint-django = "*"
 flake8 = "*"
+pytest-xdist = "*"
 
 [requires]
 python_version = "3.6"
