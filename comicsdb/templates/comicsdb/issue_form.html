@@ -6,6 +6,7 @@
 
 {% block comic_content %}
   <h1 class="title">Issue Form</h1>
+  {{ form.media }}
   <form method="post" enctype="multipart/form-data">
     {%csrf_token%}
     <!-- main -->
@@ -97,7 +98,6 @@
 {% endblock %}
 
 {% block js %}
-{{ form.media }}
 <script src="{% static 'admin/js/vendor/xregexp/xregexp.min.js' %}"></script>
 <script src="{% static 'admin/js/urlify.js' %}"></script>
 <script src="{% static 'site/js/issue-slug.js' %}"></script>
