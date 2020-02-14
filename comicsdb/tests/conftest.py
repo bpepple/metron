@@ -11,6 +11,7 @@ from comicsdb.models import (
     Publisher,
     Series,
     SeriesType,
+    Team,
 )
 from users.models import CustomUser
 
@@ -90,6 +91,12 @@ def character_fixture(db, create_user):
 def publisher_fixture(db, create_user):
     user = create_user()
     return Publisher.objects.create(name="DC Comics", slug="dc-comics", edited_by=user)
+
+
+@pytest.fixture
+def team_fixture(db, create_user):
+    user = create_user()
+    return Team.objects.create(name="Teen Titans", slug="teen-titans", edited_by=user)
 
 
 @pytest.fixture
