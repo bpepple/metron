@@ -1,3 +1,4 @@
+import pytest
 from django.test import TestCase
 from django.utils import timezone
 from django.utils.text import slugify
@@ -19,121 +20,88 @@ from .case_base import TestCaseBase
 HTTP_200_OK = 200
 
 
-class TeamTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        cls.name = "Justice League"
-        cls.slug = slugify(cls.name)
-        cls.jl = Team.objects.create(name=cls.name, slug=cls.slug, edited_by=user)
-
-    def setUp(self):
-        self._client_login()
-
-    def test_test_creation(self):
-        self.assertTrue(isinstance(self.jl, Team))
-        self.assertEqual(str(self.jl), self.name)
-
-    def test_verbose_name_plural(self):
-        self.assertEqual(str(self.jl._meta.verbose_name_plural), "teams")
-
-    def test_absolute_url(self):
-        resp = self.client.get(self.jl.get_absolute_url())
-        self.assertEqual(resp.status_code, HTTP_200_OK)
+@pytest.mark.django_db
+def test_team_model_creation(team_fixture):
+    assert isinstance(team_fixture, Team)
+    assert str(team_fixture) == team_fixture.name
 
 
-class CharacterTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        cls.name = "Wonder Woman"
-        cls.slug = slugify(cls.name)
-        cls.ww = Character.objects.create(name=cls.name, slug=cls.slug, edited_by=user)
-
-    def setUp(self):
-        self._client_login()
-
-    def test_character_creation(self):
-        self.assertTrue(isinstance(self.ww, Character))
-        self.assertEqual(str(self.ww), self.name)
-
-    def test_verbose_name_plural(self):
-        self.assertEqual(str(self.ww._meta.verbose_name_plural), "characters")
-
-    def test_absolute_url(self):
-        resp = self.client.get(self.ww.get_absolute_url())
-        self.assertEqual(resp.status_code, HTTP_200_OK)
+@pytest.mark.django_db
+def test_team_model_verbose_name_plural(team_fixture):
+    assert str(team_fixture._meta.verbose_name_plural) == "teams"
 
 
-class ArcTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        cls.name = "The Last Age of Magic"
-        cls.slug = slugify(cls.name)
-
-        cls.arc = Arc.objects.create(name=cls.name, slug=cls.slug, edited_by=user)
-
-    def setUp(self):
-        self._client_login()
-
-    def test_arc_creation(self):
-        self.assertTrue(isinstance(self.arc, Arc))
-        self.assertEqual(str(self.arc), self.name)
-
-    def test_verbose_name_plural(self):
-        self.assertEqual(str(self.arc._meta.verbose_name_plural), "arcs")
-
-    def test_absolute_url(self):
-        resp = self.client.get(self.arc.get_absolute_url())
-        self.assertEqual(resp.status_code, HTTP_200_OK)
+@pytest.mark.django_db
+def test_team_model_absolute_url(api_client, team_fixture):
+    resp = api_client.get(team_fixture.get_absolute_url())
+    assert resp.status_code == HTTP_200_OK
 
 
-class CreatorTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        cls.name = "Walter Simonson"
-        cls.slug = "walter-simonson"
-        cls.creator = Creator.objects.create(
-            name=cls.name, slug=cls.slug, edited_by=user
-        )
-
-    def setUp(self):
-        self._client_login()
-
-    def test_creator_creation(self):
-        self.assertTrue(isinstance(self.creator, Creator))
-        self.assertEqual(str(self.creator), self.name)
-
-    def test_creator_get_full_name(self):
-        self.assertEqual(self.creator.name, self.name)
-
-    def test_verbose_name_plural(self):
-        self.assertEqual(str(self.creator._meta.verbose_name_plural), "creators")
-
-    def test_absolute_url(self):
-        resp = self.client.get(self.creator.get_absolute_url())
-        self.assertEqual(resp.status_code, HTTP_200_OK)
+@pytest.mark.django_db
+def test_character_creation(character_fixture):
+    assert isinstance(character_fixture, Character)
+    assert str(character_fixture) == character_fixture.name
 
 
-class RoleTest(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.name = "writer"
-        notes = "Writer of the issues story"
-        cls.role = Role.objects.create(name=cls.name, notes=notes, order=20)
+@pytest.mark.django_db
+def test_character_model_verbose_name_plural(character_fixture):
+    assert str(character_fixture._meta.verbose_name_plural) == "characters"
 
-    def test_role_creation(self):
-        self.assertTrue(isinstance(self.role, Role))
-        self.assertEqual(str(self.role), self.name)
 
-    def test_verbose_name_plural(self):
-        self.assertEqual(str(self.role._meta.verbose_name_plural), "roles")
+@pytest.mark.django_db
+def test_character_model_absolute_url(api_client, character_fixture):
+    resp = api_client.get(character_fixture.get_absolute_url())
+    assert resp.status_code == HTTP_200_OK
+
+
+@pytest.mark.django_db
+def test_arc_creation(arc_fixture):
+    assert isinstance(arc_fixture, Arc)
+    assert str(arc_fixture) == arc_fixture.name
+
+
+@pytest.mark.django_db
+def test_arc_model_verbose_name_plural(arc_fixture):
+    assert str(arc_fixture._meta.verbose_name_plural) == "arcs"
+
+
+@pytest.mark.django_db
+def test_arc_model_absolute_url(api_client, arc_fixture):
+    resp = api_client.get(arc_fixture.get_absolute_url())
+    assert resp.status_code == HTTP_200_OK
+
+
+@pytest.mark.django_db
+def test_creator_creation(creator_fixture):
+    assert isinstance(creator_fixture, Creator)
+    assert str(creator_fixture) == creator_fixture.name
+
+
+@pytest.mark.django_db
+def test_creator_get_full_name(creator_fixture):
+    assert creator_fixture.name == "Walter Simonson"
+
+
+@pytest.mark.django_db
+def test_creator_model_verbose_name_plural(creator_fixture):
+    assert str(creator_fixture._meta.verbose_name_plural) == "creators"
+
+
+@pytest.mark.django_db
+def test_creator_model_absolute_url(api_client, creator_fixture):
+    resp = api_client.get(creator_fixture.get_absolute_url())
+    assert resp.status_code == HTTP_200_OK
+
+
+@pytest.mark.django_db
+def test_role_creation(role_fixture):
+    assert isinstance(role_fixture, Role)
+    assert str(role_fixture) == "writer"
+
+
+@pytest.mark.django_db
+def test_role_model_verbose_name_plural(role_fixture):
+    assert str(role_fixture._meta.verbose_name_plural) == "roles"
 
 
 class PublisherTest(TestCaseBase):

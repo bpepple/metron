@@ -9,6 +9,7 @@ from comicsdb.models import (
     Creator,
     Issue,
     Publisher,
+    Role,
     Series,
     SeriesType,
     Team,
@@ -91,6 +92,13 @@ def character_fixture(db, create_user):
 def publisher_fixture(db, create_user):
     user = create_user()
     return Publisher.objects.create(name="DC Comics", slug="dc-comics", edited_by=user)
+
+
+@pytest.fixture
+def role_fixture(db):
+    name = "writer"
+    notes = "Writer of the issues story"
+    return Role.objects.create(name=name, notes=notes, order=20)
 
 
 @pytest.fixture
