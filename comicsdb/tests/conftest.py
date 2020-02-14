@@ -3,7 +3,15 @@ import uuid
 import pytest
 from django.utils import timezone
 
-from comicsdb.models import Arc, Creator, Issue, Publisher, Series, SeriesType
+from comicsdb.models import (
+    Arc,
+    Character,
+    Creator,
+    Issue,
+    Publisher,
+    Series,
+    SeriesType,
+)
 from users.models import CustomUser
 
 
@@ -70,6 +78,12 @@ def creator_fixture(db, create_user):
     return Creator.objects.create(
         name="Walter Simonson", slug="walter-simonson", edited_by=user
     )
+
+
+@pytest.fixture
+def character_fixture(db, create_user):
+    user = create_user()
+    return Character.objects.create(name="Superman", slug="superman", edited_by=user)
 
 
 @pytest.fixture
