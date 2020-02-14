@@ -71,10 +71,10 @@ def publisher_fixture(db, create_user):
 
 
 @pytest.fixture
-def issue_fixture(db, create_user, publisher_fixture):
+def series_fixture(db, create_user, publisher_fixture):
     user = create_user()
     series_type = SeriesType.objects.create(name="Cancelled")
-    series = Series.objects.create(
+    return Series.objects.create(
         name="Final Crisis",
         slug="final-crisis",
         publisher=publisher_fixture,
@@ -83,9 +83,14 @@ def issue_fixture(db, create_user, publisher_fixture):
         series_type=series_type,
         edited_by=user,
     )
+
+
+@pytest.fixture
+def issue_fixture(db, create_user, series_fixture):
+    user = create_user()
     arc = Arc.objects.create(name="Final Crisis", slug="final-crisis", edited_by=user)
     issue = Issue.objects.create(
-        series=series,
+        series=series_fixture,
         number="1",
         slug="final-crisis-1",
         cover_date=timezone.now().date(),

@@ -1,95 +1,58 @@
+import pytest
 from django.urls import reverse
-from django.utils import timezone
 from rest_framework import status
 
-from comicsdb.models import Issue, Publisher, Series, SeriesType
 from comicsdb.serializers import PublisherSerializer, SeriesListSerializer
 
-from .case_base import TestCaseBase
+
+@pytest.mark.django_db
+def test_view_url_accessible_by_name(api_client_with_credentials):
+    response = api_client_with_credentials.get(reverse("api:publisher-list"))
+    assert response.status_code == status.HTTP_200_OK
 
 
-class GetAllPublisherTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        Publisher.objects.create(name="DC Comics", slug="dc-comics", edited_by=user)
-        Publisher.objects.create(name="Marvel", slug="marvel", edited_by=user)
-
-    def setUp(self):
-        self._client_login()
-
-    def test_view_url_accessible_by_name(self):
-        resp = self.client.get(reverse("api:publisher-list"))
-        self.assertEqual(resp.status_code, status.HTTP_200_OK)
-
-    def test_unauthorized_view_url(self):
-        self.client.logout()
-        resp = self.client.get(reverse("api:publisher-list"))
-        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
+@pytest.mark.django_db
+def test_unauthorized_view_url(api_client):
+    response = api_client.get(reverse("api:publisher-list"))
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-class GetSinglePublisherTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
+@pytest.mark.django_db
+def test_get_valid_single_publisher(api_client_with_credentials, publisher_fixture):
+    response = api_client_with_credentials.get(
+        reverse("api:publisher-detail", kwargs={"pk": publisher_fixture.pk})
+    )
 
-        cls.dc = Publisher.objects.create(
-            name="DC Comics", slug="dc-comics", edited_by=user
-        )
-        cls.marvel = Publisher.objects.create(
-            name="Marvel", slug="marvel", edited_by=user
-        )
+    serializer = PublisherSerializer(publisher_fixture)
+    assert response.data == serializer.data
+    assert response.status_code == status.HTTP_200_OK
 
-        series_type_obj = SeriesType.objects.create(name="Cancelled")
-        cls.series_obj = Series.objects.create(
-            name="Final Crisis",
-            slug="final-crisis",
-            publisher=cls.dc,
-            volume="1",
-            year_began=1939,
-            series_type=series_type_obj,
-            edited_by=user,
-        )
-        Issue.objects.create(
-            series=cls.series_obj,
-            number="1",
-            slug="final-crisis-1",
-            image="issue/test.jpg",
-            cover_date=timezone.now().date(),
-            edited_by=user,
-        )
 
-    def setUp(self):
-        self._client_login()
+@pytest.mark.django_db
+def test_get_invalid_single_publisher(api_client_with_credentials):
+    response = api_client_with_credentials.get(
+        reverse("api:publisher-detail", kwargs={"pk": "10"})
+    )
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    def test_get_valid_single_publisher(self):
-        response = self.client.get(
-            reverse("api:publisher-detail", kwargs={"pk": self.dc.pk})
-        )
-        publisher = Publisher.objects.get(pk=self.dc.pk)
-        serializer = PublisherSerializer(publisher)
-        self.assertEqual(response.data, serializer.data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_get_invalid_single_publisher(self):
-        response = self.client.get(reverse("api:publisher-detail", kwargs={"pk": "10"}))
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+@pytest.mark.django_db
+def test_unauthorized_api_detail_view(api_client, publisher_fixture):
 
-    def test_unauthorized_view_url(self):
-        self.client.logout()
-        response = self.client.get(
-            reverse("api:publisher-detail", kwargs={"pk": self.dc.pk})
-        )
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    response = api_client.get(
+        reverse("api:publisher-detail", kwargs={"pk": publisher_fixture.pk})
+    )
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
-    def test_publisher_series_list_view(self):
-        response = self.client.get(
-            reverse("api:publisher-series-list", kwargs={"pk": self.dc.pk})
-        )
-        serializer = SeriesListSerializer(self.series_obj)
-        self.assertEqual(response.data["count"], 1)
-        self.assertEqual(response.data["next"], None)
-        self.assertEqual(response.data["previous"], None)
-        self.assertEqual(response.data["results"][0], serializer.data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+@pytest.mark.django_db
+def test_publisher_series_list_view(api_client_with_credentials, series_fixture):
+    response = api_client_with_credentials.get(
+        reverse("api:publisher-series-list", kwargs={"pk": series_fixture.publisher.pk})
+    )
+    serializer = SeriesListSerializer(series_fixture)
+    assert response.data["count"] == 1
+    assert response.data["next"] is None
+    assert response.data["previous"] is None
+    assert response.data["results"][0] == serializer.data
+    assert response.status_code == status.HTTP_200_OK
