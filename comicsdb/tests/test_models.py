@@ -21,86 +21,46 @@ HTTP_200_OK = 200
 
 
 @pytest.mark.django_db
-def test_team_model_creation(team_fixture):
+def test_team_model(api_client, team_fixture):
+    resp = api_client.get(team_fixture.get_absolute_url())
+    assert resp.status_code == HTTP_200_OK
+    assert str(team_fixture._meta.verbose_name_plural) == "teams"
     assert isinstance(team_fixture, Team)
     assert str(team_fixture) == team_fixture.name
 
 
 @pytest.mark.django_db
-def test_team_model_verbose_name_plural(team_fixture):
-    assert str(team_fixture._meta.verbose_name_plural) == "teams"
-
-
-@pytest.mark.django_db
-def test_team_model_absolute_url(api_client, team_fixture):
-    resp = api_client.get(team_fixture.get_absolute_url())
+def test_character_model(api_client, character_fixture):
+    resp = api_client.get(character_fixture.get_absolute_url())
     assert resp.status_code == HTTP_200_OK
-
-
-@pytest.mark.django_db
-def test_character_creation(character_fixture):
+    assert str(character_fixture._meta.verbose_name_plural) == "characters"
     assert isinstance(character_fixture, Character)
     assert str(character_fixture) == character_fixture.name
 
 
 @pytest.mark.django_db
-def test_character_model_verbose_name_plural(character_fixture):
-    assert str(character_fixture._meta.verbose_name_plural) == "characters"
-
-
-@pytest.mark.django_db
-def test_character_model_absolute_url(api_client, character_fixture):
-    resp = api_client.get(character_fixture.get_absolute_url())
+def test_arc_model(api_client, arc_fixture):
+    resp = api_client.get(arc_fixture.get_absolute_url())
     assert resp.status_code == HTTP_200_OK
-
-
-@pytest.mark.django_db
-def test_arc_creation(arc_fixture):
     assert isinstance(arc_fixture, Arc)
     assert str(arc_fixture) == arc_fixture.name
-
-
-@pytest.mark.django_db
-def test_arc_model_verbose_name_plural(arc_fixture):
     assert str(arc_fixture._meta.verbose_name_plural) == "arcs"
 
 
 @pytest.mark.django_db
-def test_arc_model_absolute_url(api_client, arc_fixture):
-    resp = api_client.get(arc_fixture.get_absolute_url())
+def test_creator_model(api_client, creator_fixture):
+    resp = api_client.get(creator_fixture.get_absolute_url())
     assert resp.status_code == HTTP_200_OK
-
-
-@pytest.mark.django_db
-def test_creator_creation(creator_fixture):
     assert isinstance(creator_fixture, Creator)
     assert str(creator_fixture) == creator_fixture.name
-
-
-@pytest.mark.django_db
-def test_creator_get_full_name(creator_fixture):
     assert creator_fixture.name == "Walter Simonson"
-
-
-@pytest.mark.django_db
-def test_creator_model_verbose_name_plural(creator_fixture):
     assert str(creator_fixture._meta.verbose_name_plural) == "creators"
 
 
 @pytest.mark.django_db
-def test_creator_model_absolute_url(api_client, creator_fixture):
-    resp = api_client.get(creator_fixture.get_absolute_url())
-    assert resp.status_code == HTTP_200_OK
-
-
-@pytest.mark.django_db
-def test_role_creation(role_fixture):
+def test_role_model(role_fixture):
     assert isinstance(role_fixture, Role)
     assert str(role_fixture) == "writer"
-
-
-@pytest.mark.django_db
-def test_role_model_verbose_name_plural(role_fixture):
     assert str(role_fixture._meta.verbose_name_plural) == "roles"
 
 
