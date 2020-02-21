@@ -1,73 +1,60 @@
 {% extends parent_template|default:"base.html" %}
 {% load thumbnail %}
+{% load range_tags %}
 {% load static %}
 
 {% block title %}New Comics{% endblock title %}
 
 {% block content %}
   {% if issue_list %}
-    <!-- hero -->
-    <section class="hero">
-      <div class="hero-body">
-        <div class="container has-text-centered">
-          <h1 class="title is-3">Comics released on {{ release_day|date:'F d, Y' }}</h1>
-        </div>
+  <!-- hero -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title is-3">Comic{{ issue_list.count|pluralize }} released on {{ release_day|date:'F d, Y' }}</h1>
       </div>
-    </section>
-    <!-- end hero -->
+    </div>
+  </section>
+  <!-- end hero -->
 
-    <!-- week list -->
-    <section>
-      <div class="container">
-        <!-- navigation -->
-        <nav class="level">
-          <!-- search box -->
-          <div class="level-left">
-            <div class="level-item">
-              <p class="subtitle is-5">
-                {% if page_obj.paginator %}
-                  <strong>{{ page_obj.paginator.count }}</strong> Issue{{ page_obj.paginator.count|pluralize }}
-                {% else %}
-                  <strong>{{ issue_list.count }}</strong> Issue{{ issue_list.count|pluralize }}
-                {% endif %}
-              </p>
+  <section>
+    <div class="container">
+      <div class="columns">
+        <!-- Main Column -->
+        <div class="column">
+          <!-- navigation -->
+          <nav class="level">
+            <div class="level-left">
+              <div class="level-item">
+                <p class="subtitle is-5">
+                  {% if page_obj.paginator %}
+                    <strong>{{ page_obj.paginator.count }}</strong> Issue{{ page_obj.paginator.count|pluralize }}
+                  {% else %}
+                    <strong>{{ issue_list.count }}</strong> Issue{{ issue_list.count|pluralize }}
+                  {% endif %}
+                </p>
+              </div>
             </div>
-            <div class="level-item">
-              <form action="{% url 'issue:search' %}" method="get" accept-charset="utf-8">
-                <div class="field has-addons">
-                  <p class="control">
-                    <input class="input" name="q" type="search" placeholder="Find an issue">
-                  </p>
-                  <p class="control">
-                    <button class="button">Search</button>
-                  </p>
-                </div>
-              </form>
-            </div>
-          </div>
-          <!-- end search box -->
-          <!-- add button -->
-          <div class="level-right">
-            <p class="level-item">
-              {% if user.is_authenticated %}
+            <div class="level-right">
+              <p class="level-item">
+                {% if user.is_authenticated %}
                 <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">
                   <span class="icon is-small">
                     <i class="fas fa-plus"></i>
                   </span>
                   <span>New</span>
                 </a>
-              {% endif %}
-            </p>
-          </div>
-          <!-- end add button -->
-        </nav>
-        <!-- end navigation -->
+                {% endif %}
+              </p>
+            </div>
+          </nav>
+          <!-- end navigation -->
 
-        <!-- week columns -->
-        <div class="columns is-multiline">
-          {% for issue in issue_list %}
-            <div class="column is-one-quarter">
-              <!-- week card -->
+          <!-- issue list -->
+          <div class="columns is-multiline">
+            {% for issue in issue_list %}
+            <div class="column is-one-quarter has-text-centered">
+              <!-- issue card -->
               <div class="card">
                 <!-- card header -->
                 <header class="card-header">
@@ -90,30 +77,103 @@
                 <!-- card footer -->
                 <footer class="card-footer">
                   <p class="card-footer-item">{{ issue.cover_date|date:"M Y" }}</p>
-                  <a href="{% url 'issue:detail' issue.slug %}" class="card-footer-item">Info</a>
+                  <a href="{% url 'issue:detail' issue.slug %}" class="card-footer-item">
+                    Info
+                  </a>
                 </footer>
                 <!-- end card footer -->
               </div>
-              <!-- end week card -->
+              <!-- end issue card -->
             </div>
-          {% endfor %}
+            {% endfor %}
+          </div>
+          <!-- end issue list-->
         </div>
-        <!-- end week columns -->
+        <!-- End Main Column-->
+
+        <!-- Search Column -->
+        <div class="column is-one-fifth">
+          <div class="box">
+            <h1 class="title is-5">Filter By:</h1>
+            <form action="{% url 'issue:search' %}" method="get" accept-charset="utf-8">
+              <div class="field">
+                <label class="label">Series Name</label>
+                <div class="control">
+                  <input class="input" type="text" name="series_name" placeholder="Enter Series Name">
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Series Volume Number</label>
+                <div class="control">
+                  <input class="input" type="text" name="series_volume" placeholder="Enter Series Volume">
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Issue Number</label>
+                <div class="control">
+                  <input class="input" type="text" name="number" placeholder="Enter Issue Number">
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Cover Year</label>
+                <div class="control">
+                  <div class="select">
+                    <select name="cover_year">
+                      <option value="">Select Cover Year</option>
+                      {% now "Y" as current_year %}
+                      {% for i in 1939|cover_year_range:current_year  %}
+                      <option value="{{ i }}">{{ i }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Cover Month</label>
+                <div class="control">
+                  <div class="select">
+                    <select name="cover_month">
+                      <option value="">Select Cover Month</option>
+                      <option value="1">January</option>
+                      <option value="2">February</option>
+                      <option value="3">March</option>
+                      <option value="4">April</option>
+                      <option value="5">May</option>
+                      <option value="6">June</option>
+                      <option value="7">July</option>
+                      <option value="8">August</option>
+                      <option value="9">September</option>
+                      <option value="10">October</option>
+                      <option value="11">November</option>
+                      <option value="12">December</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
+                  <button class="button is-link">Filter</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- End of Search Column -->
       </div>
-    </section>
-    <!-- end week list -->
+    </div>
+  </section>
   {% else %}
-    <section>
-      <div class="container">
-        <p>No Issues currently available. Do you want to add one?</p>
-        <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">
-          <span class="icon is-small">
-            <i class="fas fa-plus"></i>
-          </span>
-          <span>New</span>
-        </a>
-      </div>
-    </section>
+  <section>
+    <div class="container">
+      <p>No Issues currently available. Do you want to add one?</p>
+      <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">
+        <span class="icon is-small">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span>New</span>
+      </a>
+    </div>
+  </section>
   {% endif %}
 {% endblock %}
 
