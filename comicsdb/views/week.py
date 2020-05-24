@@ -20,8 +20,8 @@ class WeekList(ListView):
     )
 
     def get_context_data(self, **kwargs):
-        # The '3' in the format string gives the date for Wednesday
-        release_day = datetime.strptime(f"{self.year}-{self.week}-3", "%G-%V-%u")
+        # The '1' in the format string gives the date for Monday
+        release_day = datetime.strptime(f"{self.year}-{self.week}-1", "%G-%V-%u")
         context = super().get_context_data(**kwargs)
         context["release_day"] = release_day
         return context
