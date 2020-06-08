@@ -236,8 +236,10 @@ class Issue(models.Model):
 
     @property
     def is_past_created(self):
-        today = datetime.now().replace(tzinfo=pytz.UTC)
-        return today > self.created_on
+        fmt = "%Y-%m-%d"
+        today = datetime.now().replace(tzinfo=pytz.timezone("US/Eastern")).strftime(fmt)
+        created_on = self.created_on.strftime(fmt)
+        return today > created_on
 
     class Meta:
         unique_together = ["series", "number"]
