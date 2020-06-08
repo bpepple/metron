@@ -236,9 +236,8 @@ class Issue(models.Model):
 
     @property
     def is_past_created(self):
-        fmt = "%Y-%m-%d"
-        today = datetime.now().replace(tzinfo=pytz.timezone("US/Eastern")).strftime(fmt)
-        created_on = self.created_on.strftime(fmt)
+        today = datetime.now().replace(tzinfo=pytz.timezone("US/Eastern")).date()
+        created_on = self.created_on.date()
         return today > created_on
 
     class Meta:
