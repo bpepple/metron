@@ -236,8 +236,7 @@ class Issue(models.Model):
 
     @property
     def is_past_created(self):
-        utc = pytz.UTC
-        today = utc.localize(datetime.today())
+        today = datetime.now().replace(tzinfo=pytz.UTC)
         return today > self.created_on
 
     class Meta:
