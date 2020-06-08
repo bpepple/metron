@@ -1,3 +1,6 @@
+from datetime import datetime
+
+import pytz
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse
@@ -230,6 +233,11 @@ class Issue(models.Model):
 
     def __str__(self):
         return f"{self.series.name} #{self.number}"
+
+    @property
+    def is_past_created(self):
+        today = datetime.now().replace(tzinfo=pytz.UTC)
+        return today > self.created_on
 
     class Meta:
         unique_together = ["series", "number"]
