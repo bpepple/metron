@@ -110,3 +110,6 @@ ENV/
 
 # React files
 node_modules/
+
+# Ignore comic import script
+import_comics.py
