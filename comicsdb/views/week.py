@@ -20,8 +20,16 @@ class WeekList(ListView):
     )
 
     def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Get queryset of issues years
+        issue_years = Issue.objects.dates("cover_date", "year").order_by(
+            "-cover_date__year"
+        )
+        context["issue_years"] = issue_years
+
         # The '1' in the format string gives the date for Monday
         release_day = datetime.strptime(f"{self.year}-{self.week}-1", "%G-%V-%u")
-        context = super().get_context_data(**kwargs)
         context["release_day"] = release_day
+
         return context

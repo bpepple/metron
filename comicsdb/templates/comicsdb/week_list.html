@@ -124,9 +124,8 @@
                   <div class="select">
                     <select name="cover_year">
                       <option value="">Select Cover Year</option>
-                      {% now "Y" as current_year %}
-                      {% for i in 1939|cover_year_range:current_year  %}
-                      <option value="{{ i }}">{{ i }}</option>
+                      {% for year in issue_years %}
+                      <option value="{{ year|date:'Y' }}">{{ year|date:'Y' }}</option>
                       {% endfor %}
                     </select>
                   </div>
