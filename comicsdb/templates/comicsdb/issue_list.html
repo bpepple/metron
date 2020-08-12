@@ -1,6 +1,7 @@
 {% extends parent_template|default:"base.html" %}
 {% load thumbnail %}
 {% load range_tags %}
+{% load is_new %}
 {% load static %}
 
 {% block title %}Issues{% endblock title %}
@@ -58,11 +59,9 @@
               <div class="card">
                 <!-- card header -->
                 <header class="card-header">
-                {% if issue.is_past_created %}
-                  <p class="card-header-title is-centered">{{ issue }}</p>
-                {% else %}  
-                  <p class="card-header-title is is-centered">{{ issue }}&nbsp;<span class="tag is-primary is-rounded">New!</span></p>
-                {% endif %}
+                {% with issue.created_on|is_new as is_new %}
+                  <p class="card-header-title is is-centered">{{ issue }}{% if is_new %}&nbsp;<span class="tag is-primary is-rounded">New!</span>{% endif %}</p>
+                {% endwith %}
                 </header>
                 <!-- end card header -->
                 <!-- card image -->
