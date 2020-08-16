@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import logging.config
-import os
+from os import environ
+from pathlib import Path
 
 import chartkick
 from decouple import Csv, config
@@ -20,14 +21,14 @@ from django.utils.log import DEFAULT_LOGGING
 # Disable Django's logging setup
 LOGGING_CONFIG = None
 
-LOGLEVEL = os.environ.get("LOGLEVEL", "info").upper()
+LOGLEVEL = environ.get("LOGLEVEL", "info").upper()
 
 # Pushover Config
 PUSHOVER_TOKEN = config("PUSHOVER_TOKEN")
 PUSHOVER_USER_KEY = config("PUSHOVER_USER_KEY")
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve(strict=True).parents[1]
 
 DEBUG = config("DEBUG", default=False, cast=bool)
 
@@ -80,7 +81,7 @@ ROOT_URLCONF = "metron.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -260,13 +261,13 @@ if not DEBUG:
 
     STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
-    STATICFILES_DIRS = (chartkick.js(), os.path.join(BASE_DIR, "static"))
+    STATICFILES_DIRS = (chartkick.js(), BASE_DIR / "static")
     STATIC_URL = f"{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
     STATIC_ROOT = config("STATIC_ROOT")
 
     DEFAULT_FILE_STORAGE = "metron.storage_backends.MediaStorage"
 else:
-    STATICFILES_DIRS = (chartkick.js(), os.path.join(BASE_DIR, "static"))
+    STATICFILES_DIRS = (chartkick.js(), BASE_DIR / "static")
     STATIC_URL = "/static/"
     STATIC_ROOT = config("STATIC_ROOT")
 
