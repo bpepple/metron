@@ -255,9 +255,11 @@ if not DEBUG:
     AWS_S3_ENDPOINT_URL = config("DO_S3_ENDPOINT_URL")
     AWS_S3_CUSTOM_DOMAIN = config("DO_S3_CUSTOM_DOMAIN")
     # Set the cache to 7 days. 86400 seconds/day * 7
-    AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=604800"}
+    AWS_S3_OBJECT_PARAMETERS = {
+        "CacheControl": "max-age=604800",
+        "ACL": "public-read",
+    }
     AWS_LOCATION = "static"
-    AWS_DEFAULT_ACL = "public-read"
 
     STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
