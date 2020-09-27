@@ -3,6 +3,10 @@
 
 {% block title %}Sign Up{% endblock %}
 
+{% block headscripts %}
+<script src='https://www.google.com/recaptcha/api.js'></script>
+{% endblock %}
+
 {% block content %}
   <section class="section">
     <div class="container">
@@ -34,6 +38,9 @@
             {% endif %}
           </div>
         {% endfor %}
+        <div class="field">
+          <div class="g-recaptcha" data-sitekey="6Le4GdEZAAAAAGEkw8Jia1dDHs8-0lUBe_jwKupZ"></div>
+        </div>
         <div class="field">
           <div class="control">
             <button class="button is-link" type="submit">Sign up</button>

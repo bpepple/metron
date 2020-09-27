@@ -233,6 +233,8 @@ BULMA_SETTINGS = {
     "output_style": "compressed",
 }
 
+GOOGLE_RECAPTCHA_SECRET_KEY = config("GOOGLE_RECAPTCHA_SECRET_KEY")
+
 if not DEBUG:
     # Production Security
     CSRF_COOKIE_SECURE = True

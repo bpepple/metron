@@ -1,4 +1,6 @@
+import json
 import logging
+import urllib
 
 from django.contrib.auth import login
 from django.contrib.sites.shortcuts import get_current_site
@@ -6,6 +8,7 @@ from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from metron import settings
 
 from .forms import CustomUserCreationForm
 from .models import CustomUser
@@ -44,24 +47,38 @@ def signup(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False
-            user.save()
-            current_site = get_current_site(request)
-            subject = "Activate Your MySite Account"
-            message = render_to_string(
-                "users/account_activation_email.html",
-                {
-                    "user": user,
-                    "domain": current_site.domain,
-                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                    "token": account_activation_token.make_token(user),
-                },
-            )
-            user.email_user(subject, message)
-            # Let's send a pushover notice that a user requested an account.
-            send_pushover(f"{user} signed up for an account on Metron.")
-            logger.info(f"{user} signed up for an account on Metron")
+            """ Begin reCAPTCHA validation """
+            recaptcha_response = request.POST.get("g-recaptcha-response")
+            url = "https://www.google.com/recaptcha/api/siteverify"
+            values = {
+                "secret": settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+                "response": recaptcha_response,
+            }
+            data = urllib.parse.urlencode(values).encode()
+            req = urllib.request.Request(url, data=data)
+            response = urllib.request.urlopen(req)
+            result = json.loads(response.read().decode())
+            """ End reCAPTCHA validation """
+
+            if result["success"]:
+                user = form.save(commit=False)
+                user.is_active = False
+                user.save()
+                current_site = get_current_site(request)
+                subject = "Activate Your MySite Account"
+                message = render_to_string(
+                    "users/account_activation_email.html",
+                    {
+                        "user": user,
+                        "domain": current_site.domain,
+                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                        "token": account_activation_token.make_token(user),
+                    },
+                )
+                user.email_user(subject, message)
+                # Let's send a pushover notice that a user requested an account.
+                send_pushover(f"{user} signed up for an account on Metron.")
+                logger.info(f"{user} signed up for an account on Metron")
 
             return redirect("account_activation_sent")
     else:
