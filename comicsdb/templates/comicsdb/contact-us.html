@@ -2,6 +2,10 @@
 
 {% block title %}Contact Us Form{% endblock title %}
 
+{% block headscripts %}
+<script src='https://www.google.com/recaptcha/api.js'></script>
+{% endblock %}
+
 {% block comic_content %}
   <h1 class="title">Contact Us</h1>
   <form method="post">
@@ -31,6 +35,9 @@
         {% endif %}
       </div>
     {% endfor %}
+    <div class="field">
+      <div class="g-recaptcha" data-sitekey="6Le4GdEZAAAAAGEkw8Jia1dDHs8-0lUBe_jwKupZ"></div>
+    </div>
     <div class="field">
       <div class="control">
         <button class="button is-info" type="submit">Submit</button>
