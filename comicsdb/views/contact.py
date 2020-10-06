@@ -1,6 +1,4 @@
-import json
 import logging
-import urllib
 
 from comicsdb.forms.contact import ContactForm
 from django.contrib import messages
@@ -8,7 +6,7 @@ from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import get_template
-from metron import settings
+from metron.utils import get_recaptcha_auth
 
 LOGGER = logging.getLogger(__name__)
 
@@ -19,18 +17,7 @@ def email_view(request):
     else:
         form = ContactForm(request.POST)
         if form.is_valid():
-            """ Begin reCAPTCHA validation """
-            recaptcha_response = request.POST.get("g-recaptcha-response")
-            url = "https://www.google.com/recaptcha/api/siteverify"
-            values = {
-                "secret": settings.GOOGLE_RECAPTCHA_SECRET_KEY,
-                "response": recaptcha_response,
-            }
-            data = urllib.parse.urlencode(values).encode()
-            req = urllib.request.Request(url, data=data)
-            response = urllib.request.urlopen(req)
-            result = json.loads(response.read().decode())
-            """ End reCAPTCHA validation """
+            result = get_recaptcha_auth(request)
 
             if result["success"]:
                 email = form.cleaned_data["email"]
