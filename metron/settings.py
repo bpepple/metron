@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "django.forms",
     "rest_framework",
+    "drf_spectacular",
     "django_filters",
     "widget_tweaks",
     "sorl.thumbnail",
@@ -150,7 +151,7 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 28,
-    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 # Logging settings
@@ -217,6 +218,20 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = config("EMAIL_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_PASSWORD")
 EMAIL_USE_TLS = True
+
+# drf-spectacular settings
+SPECTACULAR_SETTINGS = {
+    "SERVE_PUBLIC": False,
+    "TITLE": "Metron Comicbook Database",
+    "DESCRIPTION": "API to retrieve comic book data",
+    "CONTACT": {"name": "API Support", "email": EMAIL_HOST_USER},
+    "VERSION": "1.0.0",
+    "LICENSE": {
+        "name": "Creative Commons License",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    },
+}
+
 
 STATICFILES_FINDERS = [
     # First add the two default Finders, since this will overwrite the default.

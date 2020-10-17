@@ -13,14 +13,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf import settings
-from django.conf.urls.static import static
-from django.contrib import admin
-from django.contrib.sitemaps.views import sitemap
-from django.urls import path, include
-from django.views.i18n import JavaScriptCatalog
-from rest_framework.documentation import include_docs_urls
-
 from comicsdb.sitemaps import (
     ArcSitemap,
     CharacterSitemap,
@@ -28,24 +20,28 @@ from comicsdb.sitemaps import (
     IssueSitemap,
     PublisherSitemap,
     SeriesSitemap,
-    TeamSitemap,
     StaticViewSitemap,
+    TeamSitemap,
 )
-from comicsdb.urls import (
-    api as api_urls,
-    arc as arc_urls,
-    character as character_urls,
-    contact as contact_urls,
-    creator as creator_urls,
-    flatpage as flatpage_urls,
-    home as home_urls,
-    issue as issue_urls,
-    publisher as publisher_urls,
-    series as series_urls,
-    team as team_urls,
-    week as week_urls,
-)
-
+from comicsdb.urls import api as api_urls
+from comicsdb.urls import arc as arc_urls
+from comicsdb.urls import character as character_urls
+from comicsdb.urls import contact as contact_urls
+from comicsdb.urls import creator as creator_urls
+from comicsdb.urls import flatpage as flatpage_urls
+from comicsdb.urls import home as home_urls
+from comicsdb.urls import issue as issue_urls
+from comicsdb.urls import publisher as publisher_urls
+from comicsdb.urls import series as series_urls
+from comicsdb.urls import team as team_urls
+from comicsdb.urls import week as week_urls
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
+from django.urls import include, path
+from django.views.i18n import JavaScriptCatalog
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 sitemaps = {
     "arc": ArcSitemap(),
@@ -66,7 +62,10 @@ urlpatterns = [
     path("character/", include(character_urls)),
     path("contact/", include(contact_urls)),
     path("creator/", include(creator_urls)),
-    path("docs/", include_docs_urls(title="Metron API", public=True)),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path(
+        "docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui",
+    ),
     path("", include(home_urls)),
     path("issue/", include(issue_urls)),
     path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),
