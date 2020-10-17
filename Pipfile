@@ -18,8 +18,9 @@ boto3 = "*"
 django-storages = "*"
 python-decouple = "*"
 chartkick = "*"
-django-autocomplete-light = "*"
+django-autocomplete-light = "==3.5.1"
 django-simple-bulma = "*"
+drf-spectacular = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
