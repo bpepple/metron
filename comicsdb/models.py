@@ -2,7 +2,6 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse
 from sorl.thumbnail import ImageField
-
 from users.models import CustomUser
 
 
@@ -22,7 +21,7 @@ class Arc(models.Model):
     def get_absolute_url(self):
         return reverse("arc:detail", args=[self.slug])
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     class Meta:
@@ -53,7 +52,7 @@ class Creator(models.Model):
     def get_absolute_url(self):
         return reverse("creator:detail", args=[self.slug])
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     class Meta:
@@ -78,7 +77,7 @@ class Team(models.Model):
     def issue_count(self):
         return self.issue_set.all().count()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     class Meta:
@@ -113,7 +112,7 @@ class Character(models.Model):
     def recent_appearances(self):
         return self.issue_set.order_by("-cover_date").all()[:5]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     class Meta:
@@ -138,7 +137,7 @@ class Publisher(models.Model):
     def series_count(self):
         return self.series_set.all().count()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     class Meta:
@@ -151,7 +150,7 @@ class Role(models.Model):
     notes = models.TextField(blank=True)
     modified = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     class Meta:
@@ -163,7 +162,7 @@ class SeriesType(models.Model):
     notes = models.TextField(blank=True)
     modified = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
     class Meta:
@@ -187,7 +186,7 @@ class Series(models.Model):
     def get_absolute_url(self):
         return reverse("series:detail", args=[self.slug])
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name} ({self.year_began})"
 
     def first_issue_cover(self):
@@ -197,7 +196,7 @@ class Series(models.Model):
             return None
 
     @property
-    def issue_count(self):
+    def issue_count(self) -> int:
         return self.issue_set.all().count()
 
     class Meta:
@@ -228,7 +227,7 @@ class Issue(models.Model):
     def get_absolute_url(self):
         return reverse("issue:detail", args=[self.slug])
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.series.name} #{self.number}"
 
     class Meta:
@@ -241,7 +240,7 @@ class Variant(models.Model):
     image = ImageField("Variant Cover", upload_to="variants/%Y/%m/%d/")
     name = models.CharField("Name", max_length=255, blank=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
