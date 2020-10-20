@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "==3.0.*"
+django = "*"
 pillow = "*"
 redis = "*"
 sorl-thumbnail = "*"
@@ -17,7 +17,7 @@ boto3 = "*"
 django-storages = "*"
 python-decouple = "*"
 chartkick = "*"
-django-autocomplete-light = "==3.5.1"
+django-autocomplete-light = "*"
 django-simple-bulma = "*"
 drf-spectacular = "*"
 
