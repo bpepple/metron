@@ -5,12 +5,11 @@
 {% block title %}Issue Form{% endblock title %}
 
 {% block headscripts %}
-
+{{ form.media }}
 {% endblock %}
 
 {% block comic_content %}
   <h1 class="title">Issue Form</h1>
-  {{ form.media }}
   <form method="post" enctype="multipart/form-data">
     {%csrf_token%}
     <!-- main -->
@@ -56,7 +55,7 @@
     <label class="label">Credits</label>
     {{ credits.management_form }}
     {{ credits.non_form_errors }}
-
+    
     {% for form in credits.forms %}
       <div class="field is-horizontal formset_row">
         <div class="field-body">
