@@ -62,7 +62,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
     form = IssueForm
     search_fields = ("series__name",)
     list_display = ("__str__",)
-    list_filter = ("cover_date", "store_date", "series__publisher")
+    list_filter = ("created_on", "store_date", "cover_date", "series__publisher")
     list_select_related = ("series",)
     date_hierarchy = "cover_date"
     # form view
