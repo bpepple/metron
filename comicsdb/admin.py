@@ -1,11 +1,13 @@
 from django.contrib import admin
 from sorl.thumbnail.admin import AdminImageMixin
 
+from comicsdb.forms.credits import CreditsForm
+from comicsdb.forms.issue import IssueForm
 from comicsdb.models import (
     Arc,
     Character,
-    Credits,
     Creator,
+    Credits,
     Issue,
     Publisher,
     Role,
@@ -14,9 +16,6 @@ from comicsdb.models import (
     Team,
     Variant,
 )
-
-from comicsdb.forms.issue import IssueForm
-from comicsdb.forms.credits import CreditsForm
 
 
 class CreditsInline(admin.TabularInline):
