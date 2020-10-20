@@ -77,6 +77,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
     list_filter = ("created_on", "store_date", "cover_date", "series__publisher")
     list_select_related = ("series",)
     date_hierarchy = "cover_date"
+    actions_on_top = True
     # form view
     fieldsets = (
         (
