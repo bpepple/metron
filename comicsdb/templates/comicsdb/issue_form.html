@@ -6,7 +6,6 @@
 
 {% block comic_content %}
   <h1 class="title">Issue Form</h1>
-  {{ form.media }}
   <form method="post" enctype="multipart/form-data">
     {%csrf_token%}
     <!-- main -->
@@ -52,7 +51,6 @@
     <label class="label">Credits</label>
     {{ credits.management_form }}
     {{ credits.non_form_errors }}
-    {{ credits.media }}
 
     {% for form in credits.forms %}
       <div class="field is-horizontal formset_row">
@@ -98,7 +96,10 @@
 {% endblock %}
 
 {% block js %}
+<script src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
 <script src="{% static 'admin/js/vendor/xregexp/xregexp.min.js' %}"></script>
+{{ form.media }}
+{{ credits.media }}
 <script src="{% static 'admin/js/urlify.js' %}"></script>
 <script src="{% static 'site/js/issue-slug.js' %}"></script>
 <script src="{% static 'site/js/jquery.formset.js' %}"></script>
