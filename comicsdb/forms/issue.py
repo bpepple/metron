@@ -1,30 +1,16 @@
-from dal import autocomplete
+from comicsdb.models import Issue
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.forms import (
     ClearableFileInput,
     DateInput,
-    ModelChoiceField,
     ModelForm,
     Select,
     Textarea,
     TextInput,
 )
 
-from comicsdb.models import Issue, Series
-
 
 class IssueForm(ModelForm):
-    series = ModelChoiceField(
-        queryset=Series.objects.all(),
-        widget=autocomplete.ModelSelect2(
-            url="issue:series-autocomplete",
-            attrs={
-                "data-placeholder": "Autocomplete...",
-                "data-minimum-input-length": 3,
-            },
-        ),
-    )
-
     class Media:
         css = {"all": ("admin/css/widgets.css",)}
         js = (("/jsi18n"),)
