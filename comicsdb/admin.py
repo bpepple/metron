@@ -42,7 +42,20 @@ class CharacterAdmin(AdminImageMixin, admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     # form view
     fieldsets = (
-        (None, {"fields": ("name", "slug", "desc", "wikipedia", "alias", "image")}),
+        (
+            None,
+            {
+                "fields": (
+                    "name",
+                    "slug",
+                    "desc",
+                    "wikipedia",
+                    "alias",
+                    "image",
+                    "edited_by",
+                )
+            },
+        ),
         ("Related", {"fields": ("creators", "teams")}),
     )
     filter_horizontal = ("creators", "teams")
@@ -78,6 +91,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
                     "slug",
                     "desc",
                     "image",
+                    "edited_by",
                 )
             },
         ),
@@ -92,7 +106,16 @@ class PublisherAdmin(AdminImageMixin, admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     list_display = ("name", "series_count")
     readonly_fields = ("modified",)
-    fields = ("name", "slug", "modified", "founded", "desc", "wikipedia", "image")
+    fields = (
+        "name",
+        "slug",
+        "modified",
+        "founded",
+        "desc",
+        "wikipedia",
+        "image",
+        "edited_by",
+    )
 
 
 @admin.register(Role)
@@ -118,6 +141,7 @@ class SeriesAdmin(admin.ModelAdmin):
         "year_end",
         "series_type",
         "desc",
+        "edited_by",
     )
 
 
@@ -132,7 +156,7 @@ class TeamAdmin(AdminImageMixin, admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     # form view
     fieldsets = (
-        (None, {"fields": ("name", "slug", "desc", "wikipedia", "image")}),
+        (None, {"fields": ("name", "slug", "desc", "wikipedia", "image", "edited_by")}),
         ("Related", {"fields": ("creators",)}),
     )
     filter_horizontal = ("creators",)
