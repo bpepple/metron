@@ -4,8 +4,13 @@
 
 {% block title %}Issue Form{% endblock title %}
 
+{% block headscripts %}
+<script src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+{% endblock %}
+
 {% block comic_content %}
   <h1 class="title">Issue Form</h1>
+  {{ form.media }}
   <form method="post" enctype="multipart/form-data">
     {%csrf_token%}
     <!-- main -->
@@ -96,10 +101,7 @@
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
 <script src="{% static 'admin/js/vendor/xregexp/xregexp.min.js' %}"></script>
-{{ form.media }}
-{{ credits.media }}
 <script src="{% static 'admin/js/urlify.js' %}"></script>
 <script src="{% static 'site/js/issue-slug.js' %}"></script>
 <script src="{% static 'site/js/jquery.formset.js' %}"></script>
