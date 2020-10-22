@@ -1,7 +1,6 @@
-from django.contrib.admin.widgets import FilteredSelectMultiple
-from django.forms import ModelForm, TextInput, Textarea, ClearableFileInput
-
 from comicsdb.models import Character
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.forms import ClearableFileInput, ModelForm, Textarea, TextInput
 
 
 class CharacterForm(ModelForm):
