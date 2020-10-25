@@ -73,8 +73,8 @@ urlpatterns = [
     path("publisher/", include(publisher_urls)),
     path("series/", include(series_urls)),
     path("team/", include(team_urls)),
-    path("users/", include("users.urls")),
-    path("users/", include("django.contrib.auth.urls")),
+    path("accounts/", include("users.urls")),
+    path("accounts/", include("django.contrib.auth.urls")),
     path("week/", include(week_urls)),
     path(
         "sitemap.xml",
