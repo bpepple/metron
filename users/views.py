@@ -16,6 +16,10 @@ from .utils import send_pushover
 logger = logging.getLogger(__name__)
 
 
+def is_activated(user, token):
+    return user is not None and account_activation_token.check_token(user, token)
+
+
 def account_activation_sent(request):
     return render(request, "registration/account_activation_sent.html")
 
@@ -27,7 +31,7 @@ def activate(request, uidb64, token):
     except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
         user = None
 
-    if user is not None and account_activation_token.check_token(user, token):
+    if is_activated(user, token):
         user.is_active = True
         user.email_confirmed = True
         user.save()
