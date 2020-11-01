@@ -114,3 +114,4 @@ node_modules/
 # Ignore comic import script
 import_comics.py
 mini.py
+hulk.py
