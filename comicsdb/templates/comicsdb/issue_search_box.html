@@ -26,7 +26,13 @@
         <div class="select">
           <select name="cover_year">
             <option value="">Select Cover Year</option>
+            {% now "m" as current_month %}
             {% now "Y" as current_year %}
+            {% if current_month >= '10' %}
+              {% with next_year=current_year|add:"1" %}
+                <option value="{{ next_year }}">{{ next_year }}</option>
+              {% endwith %}
+            {% endif %}
             {% for i in 1939|cover_year_range:current_year  %}
             <option value="{{ i }}">{{ i }}</option>
             {% endfor %}
