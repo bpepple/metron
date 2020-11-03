@@ -30,6 +30,8 @@ class Arc(models.Model):
 
 class Creator(models.Model):
     name = models.CharField(max_length=200)
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
     slug = models.SlugField(max_length=255, unique=True)
     desc = models.TextField("Description", blank=True)
     wikipedia = models.CharField("Wikipedia Slug", max_length=255, blank=True)
@@ -46,6 +48,13 @@ class Creator(models.Model):
         return self.credits_set.all().count()
 
     @property
+    def get_full_name(self):
+        if self.last_name:
+            return f"{self.first_name} {self.last_name}"
+        else:
+            return self.first_name
+
+    @property
     def recent_issues(self):
         return self.credits_set.order_by("-issue__cover_date").all()[:5]
 
@@ -53,10 +62,10 @@ class Creator(models.Model):
         return reverse("creator:detail", args=[self.slug])
 
     def __str__(self) -> str:
-        return self.name
+        return self.get_full_name()
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["last_name", "first_name"]
 
 
 class Team(models.Model):
