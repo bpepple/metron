@@ -29,7 +29,6 @@ class Arc(models.Model):
 
 
 class Creator(models.Model):
-    name = models.CharField(max_length=200)
     first_name = models.CharField(max_length=150, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
     slug = models.SlugField(max_length=255, unique=True)
@@ -62,7 +61,7 @@ class Creator(models.Model):
         return reverse("creator:detail", args=[self.slug])
 
     def __str__(self) -> str:
-        return self.get_full_name()
+        return self.get_full_name
 
     class Meta:
         ordering = ["last_name", "first_name"]
@@ -262,4 +261,4 @@ class Credits(models.Model):
     class Meta:
         verbose_name_plural = "Credits"
         unique_together = ["issue", "creator"]
-        ordering = ["issue", "creator__name"]
+        ordering = ["issue", "creator__last_name", "creator__first_name"]
