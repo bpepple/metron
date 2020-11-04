@@ -3,7 +3,7 @@
 {% load thumbnail %}
 {% load static %}
 
-{% block title %}{{ creator.name }}{% endblock title %}
+{% block title %}{{ creator.get_full_name }}{% endblock title %}
 
 {% block comic_content %}
   <!-- creator nav -->
@@ -52,7 +52,7 @@
     <div class="level-left">
       <div class="level-item">
         <div>
-          <p class="title">{{ creator.name }}</p>
+          <p class="title">{{ creator.get_full_name }}</p>
         </div>
       </div>
     </div>
@@ -106,10 +106,10 @@
         <figure class="image is-square">
           {% if creator.image %}
             {% thumbnail creator.image "256x256" crop="center" format="WEBP" as im %}
-              <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt = "{{ creator.name }}">
+              <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt = "{{ creator.get_full_name }}">
             {% endthumbnail %}
           {% else %}
-            <img src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ creator.name }}">
+            <img src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ creator.get_full_name }}">
           {% endif %}
         </figure>
       </div>

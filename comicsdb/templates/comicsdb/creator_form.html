@@ -1,0 +1,63 @@
+{% extends "comicsdb/comics_base.html" %}
+{% load static %}
+{% load bulma_tags %}
+
+{% block title %}{{ form.instance }} Form{% endblock title %}
+
+{% block comic_content %}
+  <h1 class="title">{{ title }}</h1>
+  {{ form.media }}
+  <form method="post" enctype="multipart/form-data">
+    {%csrf_token%}
+    {% if form.errors %}
+      {% for field in form %}
+        {% for error in field.errors %}
+          <div class="notification is-danger">
+            <strong>{{ error|escape }}</strong>
+          </div>
+        {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <div class="notification is-danger">
+          <strong>{{ error|escape }}</strong>
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% for field in form.hidden_fields %}
+      {{ field }}
+    {% endfor %}
+    {% for field in form.visible_fields %}
+      <div class="field is-danger is-small">
+        {{field.errors}}
+      </div>
+      <div class="field">
+        <label class="label">{{ field.label }}</label>
+        {% if field|is_select %}
+          <div class="control">
+            <div class="select {% if field|is_multiple_select %}is-multiple{% endif %}">
+              {{ field }}
+            </div>
+          </div>
+        {% else %}
+          <div class="control">{{ field }}</div>
+        {% endif %}
+        {% if field.help_text %}
+          <ul>
+            <li class="help">{{ field.help_text|safe }}</li>
+          </ul>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <div class="field">
+      <div class="control">
+        <button class="button is-info" type="submit">Submit</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'admin/js/vendor/xregexp/xregexp.min.js' %}"></script>
+<script src="{% static 'admin/js/urlify.js' %}"></script>
+<script src="{% static 'site/js/creator-slug.js' %}"></script>
+{% endblock %}

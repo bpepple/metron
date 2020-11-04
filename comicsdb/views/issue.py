@@ -1,5 +1,9 @@
 import logging
 
+from comicsdb.filters.issue import IssueFilter
+from comicsdb.forms.credits import CreditsFormSet
+from comicsdb.forms.issue import IssueForm
+from comicsdb.models import Creator, Credits, Issue, Series
 from dal import autocomplete
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
@@ -8,11 +12,6 @@ from django.db.models import Prefetch, Q
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
-
-from comicsdb.filters.issue import IssueFilter
-from comicsdb.forms.credits import CreditsFormSet
-from comicsdb.forms.issue import IssueForm
-from comicsdb.models import Creator, Credits, Issue, Series
 
 PAGINATE = 28
 LOGGER = logging.getLogger(__name__)
@@ -41,7 +40,9 @@ class CreatorAutocomplete(autocomplete.Select2QuerySetView):
         if self.q:
             qs = qs.filter(
                 # Unaccent lookup won't work on alias array field.
-                Q(name__unaccent__icontains=self.q) | Q(alias__icontains=self.q)
+                Q(first_name__unaccent__icontains=self.q)
+                | Q(last_name__unaccent__icontains=self.q)
+                | Q(alias__icontains=self.q)
             )
 
         return qs
@@ -60,8 +61,10 @@ class IssueDetail(DetailView):
     ).prefetch_related(
         Prefetch(
             "credits_set",
-            queryset=Credits.objects.order_by("creator__name")
-            .distinct("creator__name")
+            queryset=Credits.objects.order_by(
+                "creator__last_name", "creator__first_name"
+            )
+            .distinct("creator__last_name", "creator__first_name")
             .select_related("creator")
             .prefetch_related("role"),
         )

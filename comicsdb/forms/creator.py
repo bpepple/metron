@@ -1,13 +1,13 @@
-from django.forms import ClearableFileInput, DateInput, ModelForm, Textarea, TextInput
-
 from comicsdb.models import Creator
+from django.forms import ClearableFileInput, DateInput, ModelForm, Textarea, TextInput
 
 
 class CreatorForm(ModelForm):
     class Meta:
         model = Creator
         fields = (
-            "name",
+            "first_name",
+            "last_name",
             "slug",
             "desc",
             "wikipedia",
@@ -17,7 +17,8 @@ class CreatorForm(ModelForm):
             "image",
         )
         widgets = {
-            "name": TextInput(attrs={"class": "input"}),
+            "first_name": TextInput(attrs={"class": "input"}),
+            "last_name": TextInput(attrs={"class": "input"}),
             "slug": TextInput(attrs={"class": "input"}),
             "desc": Textarea(attrs={"class": "textarea"}),
             "wikipedia": TextInput(attrs={"class": "input"}),
@@ -27,6 +28,7 @@ class CreatorForm(ModelForm):
             "image": ClearableFileInput(),
         }
         help_texts = {
+            "first_name": "Include the middle name / initial in first name field, if commonly referred by it.",
             "wikipedia": "If the description is from wikipedia, please supply that pages slug so we can provide attribution to them.",
             "alias": "Separate multiple aliases by a comma",
         }
