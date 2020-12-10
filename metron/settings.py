@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     "django.contrib.flatpages",
     "django.contrib.humanize",
     "django.forms",
-    "corsheaders",
     "rest_framework",
     "drf_spectacular",
     "django_filters",
@@ -70,7 +69,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -98,11 +96,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "metron.wsgi.application"
-
-# CORS ALLOWED
-CORS_ALLOWED_ORIGINS = [
-    "https://cloudflareinsights.com",
-]
 
 # Custom User Model
 AUTH_USER_MODEL = "users.CustomUser"

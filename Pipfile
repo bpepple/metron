@@ -20,7 +20,6 @@ chartkick = "*"
 django-autocomplete-light = "*"
 django-simple-bulma = "*"
 drf-spectacular = "*"
-django-cors-headers = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
