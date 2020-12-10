@@ -1,41 +1,34 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    {% block sitedesc %}{% endblock %}
+    {% block sitekeywords %}{% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'site/img/favicon.ico' %}" />
+    {% load django_simple_bulma %}
+    {% bulma %}
+    {% font_awesome %}
+    <link rel="stylesheet" href="{% static 'site/css/base.css' %}">
+    {% block headscripts %}{% endblock %}
+  </head>
+  <body class="has-navbar-fixed-top">
+    {% include "navbar.html" %}
 
-<head>
-  <meta charset="utf-8">
-  {% block sitedesc %}{% endblock %}
-  {% block sitekeywords %}{% endblock %}
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}{% endblock %}</title>
-  <link rel="shortcut icon" type="image/png" href="{% static 'site/img/favicon.ico' %}" />
-  {% load django_simple_bulma %}
-  {% bulma %}
-  {% font_awesome %}
-  <link rel="stylesheet" href="{% static 'site/css/base.css' %}">
-  {% block headscripts %}{% endblock %}
-</head>
+    {% block content %}{% endblock %}
 
-<body class="has-navbar-fixed-top">
-  {% include "navbar.html" %}
+    {% if is_paginated %}
+    <section class="section">
+      <div class="container">
+        {% block pagination %}{% endblock %}
+      </div>
+    </section>
+    {% endif %}
 
-  {% block content %}{% endblock %}
+    {% include "footer.html" %}
 
-  {% if is_paginated %}
-  <section class="section">
-    <div class="container">
-      {% block pagination %}{% endblock %}
-    </div>
-  </section>
-  {% endif %}
-
-  {% include "footer.html" %}
-
-  {% block js %}{% endblock %}
-  <!-- Cloudflare Web Analytics -->
-  <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
-    data-cf-beacon='{"token": "3ecd296563e34f1a8212d4126de959db"}'></script>
-  <!-- End Cloudflare Web Analytics -->
-</body>
-
+    {% block js %}{% endblock %}
+  </body>
 </html>
