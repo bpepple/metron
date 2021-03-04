@@ -243,6 +243,9 @@ class Variant(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        ordering = ["issue"]
+
 
 class Credits(models.Model):
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
