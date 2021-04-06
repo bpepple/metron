@@ -1,11 +1,12 @@
+import copy
+
+from comicsdb.models import Issue, Publisher, Series, SeriesType
+from comicsdb.serializers import SeriesSerializer
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.test import APIRequestFactory
-
-from comicsdb.models import Issue, Publisher, Series, SeriesType
-from comicsdb.serializers import SeriesSerializer
 
 from .case_base import TestCaseBase
 
@@ -57,9 +58,7 @@ class GetSingleSeriesTest(TestCaseBase):
         user = cls._create_user()
 
         factory = APIRequestFactory()
-        request = factory.get("/")
-
-        cls.serializer_context = {"request": Request(request)}
+        cls.request = factory.get("/")
 
         publisher_obj = Publisher.objects.create(
             name="Marvel", slug="marvel", edited_by=user
@@ -86,11 +85,11 @@ class GetSingleSeriesTest(TestCaseBase):
         self._client_login()
 
     def test_get_valid_single_issue(self):
-        resp = self.client.get(
-            reverse("api:series-detail", kwargs={"pk": self.thor.pk})
-        )
-        series = Series.objects.get(pk=self.thor.pk)
-        serializer = SeriesSerializer(series, context=self.serializer_context)
+        test_context = {"request": Request(self.request)}
+        thor = copy.deepcopy(self.thor)
+        resp = self.client.get(reverse("api:series-detail", kwargs={"pk": thor.pk}))
+        series = Series.objects.get(pk=thor.pk)
+        serializer = SeriesSerializer(series, context=test_context)
         self.assertEqual(resp.data, serializer.data)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
 
