@@ -1,6 +1,5 @@
-from django.urls import reverse
-
 from comicsdb.models import Team
+from django.urls import reverse
 
 from .case_base import TestCaseBase
 

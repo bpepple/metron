@@ -1,8 +1,7 @@
 from datetime import date, datetime
 
-from django.urls import reverse
-
 from comicsdb.models import Issue, Publisher, Series, SeriesType
+from django.urls import reverse
 
 from .case_base import TestCaseBase
 
