@@ -134,6 +134,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
+# Define model primary keys
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
 # sorl-thumbnail settings
 THUMBNAIL_KVSTORE = "sorl.thumbnail.kvstores.redis_kvstore.KVStore"
 THUMBNAIL_REDIS_HOST = "localhost"  # default
