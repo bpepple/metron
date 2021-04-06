@@ -6,6 +6,7 @@ from comicsdb.signals import pre_delete_image
 
 class ComicsdbConfig(AppConfig):
     name = "comicsdb"
+    verbose_name = "Comics DB"
 
     def ready(self):
         arc = self.get_model("Arc")
