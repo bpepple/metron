@@ -1,7 +1,6 @@
+from comicsdb.models import Issue, Publisher, Series, SeriesType
 from django.urls import reverse
 from django.utils import timezone
-
-from comicsdb.models import Issue, Publisher, Series, SeriesType
 
 from .case_base import TestCaseBase
 

@@ -1,7 +1,6 @@
-from django.urls import reverse
-
 from comicsdb.forms.arc import ArcForm
 from comicsdb.models import Arc
+from django.urls import reverse
 
 from .case_base import TestCaseBase
 
@@ -42,7 +41,7 @@ class ArcSearchViewsTest(TestCaseBase):
         resp = self.client.get("/arc/search?q=arc")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["arc_list"]) == PAGINATE_DEFAULT_VAL)
 
     def test_lists_all_arcs(self):
@@ -50,7 +49,7 @@ class ArcSearchViewsTest(TestCaseBase):
         resp = self.client.get("/arc/search?page=2&q=arc")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["arc_list"]) == PAGINATE_DIFF_VAL)
 
 
@@ -84,7 +83,7 @@ class ArcListViewTest(TestCaseBase):
         resp = self.client.get(reverse("arc:list"))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["arc_list"]) == PAGINATE_DEFAULT_VAL)
 
     def test_lists_second_page(self):
@@ -92,7 +91,7 @@ class ArcListViewTest(TestCaseBase):
         resp = self.client.get(reverse("arc:list") + "?page=2")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["arc_list"]) == PAGINATE_DIFF_VAL)
 
 

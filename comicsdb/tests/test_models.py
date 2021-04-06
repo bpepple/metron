@@ -1,7 +1,3 @@
-from django.test import TestCase
-from django.utils import timezone
-from django.utils.text import slugify
-
 from comicsdb.models import (
     Arc,
     Character,
@@ -13,6 +9,9 @@ from comicsdb.models import (
     SeriesType,
     Team,
 )
+from django.test import TestCase
+from django.utils import timezone
+from django.utils.text import slugify
 
 from .case_base import TestCaseBase
 

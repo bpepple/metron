@@ -1,7 +1,6 @@
+from comicsdb.models import Creator
 from django.template.defaultfilters import slugify
 from django.urls import reverse
-
-from comicsdb.models import Creator
 
 from .case_base import TestCaseBase
 
@@ -84,7 +83,7 @@ class CreatorSearchViewsTest(TestCaseBase):
         resp = self.client.get("/creator/search?q=smith")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["creator_list"]) == PAGINATE_DEFAULT_VAL)
 
     def test_lists_all_creators(self):
@@ -92,7 +91,7 @@ class CreatorSearchViewsTest(TestCaseBase):
         resp = self.client.get("/creator/search?page=2&q=smith")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["creator_list"]) == PAGINATE_DIFF_VAL)
 
 
@@ -128,7 +127,7 @@ class CreatorListViewTest(TestCaseBase):
         resp = self.client.get(reverse("creator:list"))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["creator_list"]) == PAGINATE_DEFAULT_VAL)
 
     def test_lists_second_page(self):
@@ -136,5 +135,5 @@ class CreatorListViewTest(TestCaseBase):
         resp = self.client.get(reverse("creator:list") + "?page=2")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["creator_list"]) == PAGINATE_DIFF_VAL)

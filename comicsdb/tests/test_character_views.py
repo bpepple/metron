@@ -1,7 +1,6 @@
-from django.urls import reverse
-
 from comicsdb.forms.character import CharacterForm
 from comicsdb.models import Character
+from django.urls import reverse
 
 from .case_base import TestCaseBase
 
@@ -44,7 +43,7 @@ class CharacterSearchViewsTest(TestCaseBase):
         resp = self.client.get("/character/search?q=char")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["character_list"]) == PAGINATE_DEFAULT_VAL)
 
     def test_lists_all_characters(self):
@@ -52,7 +51,7 @@ class CharacterSearchViewsTest(TestCaseBase):
         resp = self.client.get("/character/search?page=2&q=char")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["character_list"]) == PAGINATE_DIFF_VAL)
 
 
@@ -88,7 +87,7 @@ class CharacterListViewTest(TestCaseBase):
         resp = self.client.get(reverse("character:list"))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["character_list"]) == PAGINATE_DEFAULT_VAL)
 
     def test_lists_second_page(self):
@@ -96,7 +95,7 @@ class CharacterListViewTest(TestCaseBase):
         resp = self.client.get(reverse("character:list") + "?page=2")
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"] == True)
+        self.assertTrue(resp.context["is_paginated"])
         self.assertTrue(len(resp.context["character_list"]) == PAGINATE_DIFF_VAL)
 
 
