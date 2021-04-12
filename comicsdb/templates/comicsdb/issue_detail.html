@@ -171,7 +171,7 @@
         {% if issue.desc %}
           <p>{{ issue.desc|linebreaksbr }}</p>
         {% else %}
-           <p class="title is-5">No information available.</p>
+           <p>No summary available.</p>
         {% endif %}
         <br/>
         <div class="content is-small is-italic">Last edited on {{ issue.modified }} by {{ issue.edited_by.username }}</div>
