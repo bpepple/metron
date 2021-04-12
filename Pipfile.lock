@@ -80,11 +80,11 @@
         },
         "django-simple-bulma": {
             "hashes": [
-                "sha256:048d957a4c2a3c37c461082d07c473e72abef2f706a619bc069a78bef98c84ac",
-                "sha256:0894e247b7f6e88432894f10e7c051fba867df5cd645e42de2b94892dacaeeba"
+                "sha256:38530d787b2b6a091b480f7cbb8841a3b3709733ebfa5e543ae339c3d8fece03",
+                "sha256:dfc34839e050d5e4749498806ed7ee8c77794021efa54ab224a2de925c644fea"
             ],
             "index": "pypi",
-            "version": "==2.1.0"
+            "version": "==2.2.0"
         },
         "django-storages": {
             "hashes": [
