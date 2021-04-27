@@ -40,3 +40,23 @@ def clean_shortboxed_data(lst):
     lst = _remove_duplicate_titles(lst)
 
     return lst
+
+
+def _print_series_choices(series_list):
+    for (counter, series_name) in enumerate(series_list, start=1):
+        print(f"{counter}. {series_name}")
+
+
+def select_series_choice(series_list):
+    _print_series_choices(series_list)
+
+    while True:
+        i = input("Choose a series #, or 's' to skip: ")
+        if (i.isdigit() and int(i) in range(1, len(series_list) + 1)) or i == "s":
+            break
+
+    if i != "s":
+        i = int(i) - 1
+        return series_list[i]
+    else:
+        return None
