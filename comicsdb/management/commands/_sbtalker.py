@@ -35,5 +35,5 @@ class ShortBoxedTalker:
         url = f"{self.api_base_url}/comics/v1/query?release_date={release_date}&publisher={publisher.lower()}"
         return self.fetch_response(url)
 
-    def conver_json_to_list(self, results):
+    def convert_json_to_list(self, results):
         return results["comics"]
