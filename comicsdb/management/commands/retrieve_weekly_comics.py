@@ -6,7 +6,7 @@ from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 
 from ._sbtalker import ShortBoxedTalker
-from ._utils import clean_shortboxed_data, select_series_choice
+from ._utils import clean_description, clean_shortboxed_data, select_series_choice
 
 
 def get_query_values(item):
@@ -19,6 +19,7 @@ def format_string_to_date(date_str):
 
 
 def determine_cover_date(release_date):
+    # TODO: Handle cover date based on Publisher.
     new_date = release_date + dateutil.relativedelta.relativedelta(months=2)
     return new_date.replace(day=1)
 
@@ -26,12 +27,13 @@ def determine_cover_date(release_date):
 def add_issue_to_database(series_obj, issue_number, sb_data):
     release_date = format_string_to_date(sb_data["release_date"])
     cover_date = determine_cover_date(release_date)
+    clean_desc = clean_description(sb_data["description"])
 
     c, _ = Issue.objects.get_or_create(
         series=series_obj,
         number=issue_number,
         slug=slugify(series_obj.slug + " " + issue_number),
-        desc=sb_data["description"].strip(),
+        desc=clean_desc.strip(),
         store_date=release_date,
         cover_date=cover_date,
     )
