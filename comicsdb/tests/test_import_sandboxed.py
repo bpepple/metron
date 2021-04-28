@@ -1,6 +1,6 @@
 import datetime
 
-from comicsdb.management.commands.retrieve_weekly_comics import (
+from comicsdb.management.commands.import_sandboxed import (
     determine_cover_date,
     format_string_to_date,
 )
@@ -8,7 +8,7 @@ from comicsdb.management.commands.retrieve_weekly_comics import (
 from .case_base import TestCaseBase
 
 
-class TestCommands(TestCaseBase):
+class TestSandBoxedCommands(TestCaseBase):
     def test_release_date(self):
         test_str = "2021-04-12"
         expected_result = datetime.date(2021, 4, 12)
