@@ -30,9 +30,21 @@ class ShortBoxedTalker:
         else:
             return json.loads(content.read().decode("utf-8"))
 
-    def fetch_query_request(self, release_date: str, publisher: str):
+    def fetch_query_request(self, release_date, publisher):
         """ release_date should be in iso8601 format (ie: 2016-02-17) """
-        url = f"{self.api_base_url}/comics/v1/query?release_date={release_date}&publisher={publisher.lower()}"
+        url = f"{self.api_base_url}/comics/v1/query"
+        if release_date or publisher:
+            url += "?"
+        if release_date:
+            url += f"release_date={release_date}"
+        if release_date and publisher:
+            url += "&"
+        if publisher:
+            url += f"publisher={publisher.lower()}"
+        return self.fetch_response(url)
+
+    def fetch_available_releases(self):
+        url = f"{self.api_base_url}/comics/v1/releases/available"
         return self.fetch_response(url)
 
     def convert_json_to_list(self, results):

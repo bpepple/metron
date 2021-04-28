@@ -37,6 +37,12 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
+            "-w", "--weeks", action="store_true", help="Show available release dates"
+        )
+        parser.add_argument(
+            "-q", "--query", action="store_true", help="Query Shortboxed for release"
+        )
+        parser.add_argument(
             "-p", "--publisher", type=str, help="The publisher to query"
         )
         parser.add_argument(
@@ -44,34 +50,48 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        if not options["date"] or not options["publisher"]:
-            self.stdout.write(
-                self.style.ERROR("Missing publisher or date query values.")
-            )
+        if not options["weeks"] and not options["query"]:
+            self.stdout.write(self.style.NOTICE("No action requested. Exiting..."))
             exit(0)
 
-        publisher = options["publisher"]
-        release_date = options["date"]
+        if options["weeks"]:
+            number_of_weeks = 5
+            sb = ShortBoxedTalker()
+            results = sb.fetch_available_releases()
+            self.stdout.write(f"Last {number_of_weeks} release dates:")
+            for i in results["dates"][-number_of_weeks:]:
+                self.stdout.write(i)
 
-        sb = ShortBoxedTalker()
-        sb_results = sb.fetch_query_request(release_date, publisher)
-        if not sb_results:
-            self.stdout.write(self.style.ERROR("No results were available."))
-            exit(0)
+        if options["query"]:
+            publisher = release_date = None
+            if options["publisher"]:
+                publisher = options["publisher"]
+            if options["date"]:
+                release_date = options["date"]
 
-        comics_list = sb.convert_json_to_list(sb_results)
-        new_list = clean_shortboxed_data(comics_list)
+            sb = ShortBoxedTalker()
+            sb_results = sb.fetch_query_request(release_date, publisher)
+            if not sb_results:
+                self.stdout.write(self.style.ERROR("No results were available."))
+                exit(0)
 
-        # Query the series name
-        for item in new_list:
-            series_name, issue_number = get_query_values(item)
-            self.stdout.write(f"Searching database for {item['title']}")
-            results = Series.objects.filter(name__icontains=series_name)
-            if results:
-                correct_series = select_series_choice(results)
-                if correct_series:
-                    self.add_issue_to_database(correct_series, issue_number, item)
+            comics_list = sb.convert_json_to_list(sb_results)
+            new_list = clean_shortboxed_data(comics_list)
+
+            # Query the series name
+            for item in new_list:
+                series_name, issue_number = get_query_values(item)
+                self.stdout.write(f"Searching database for {item['title']}")
+                results = Series.objects.filter(name__icontains=series_name)
+                if results:
+                    correct_series = select_series_choice(results)
+                    if correct_series:
+                        self.add_issue_to_database(correct_series, issue_number, item)
+                    else:
+                        self.stdout.write(
+                            self.style.NOTICE(
+                                f"Not adding {item['title']} to database.\n\n"
+                            )
+                        )
                 else:
-                    self.stdout.write(self.style.NOTICE(f"Not adding {item['title']} to database.\n\n"))
-            else:
-                self.stdout.write(f"No series in database for {series_name}\n\n")
+                    self.stdout.write(f"No series in database for {series_name}\n\n")
