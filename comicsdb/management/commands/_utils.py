@@ -31,6 +31,13 @@ def _remove_duplicate_titles(lst):
     return result
 
 
+def clean_description(text):
+    result = text.rstrip("Rated T+")
+    result = result.rstrip("Rated T")
+    result = result.rstrip("Parental Advisory")
+    return result
+
+
 def clean_shortboxed_data(lst):
     """ Clean up the title data from Shortboxed so we can query the db """
     for i in lst:
