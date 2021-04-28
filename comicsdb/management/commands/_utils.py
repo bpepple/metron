@@ -1,5 +1,9 @@
 """ Some utility function to cleanup data from Shortboxed """
 
+from datetime import datetime
+
+import dateutil.relativedelta
+
 
 def _remove_trade_paperbacks(lst):
     """ Remove any comic that doesn't have an issue number """
@@ -55,6 +59,7 @@ def _print_series_choices(series_list):
 
 
 def select_series_choice(series_list):
+    print("Multiple series found:")
     _print_series_choices(series_list)
 
     while True:
@@ -67,3 +72,20 @@ def select_series_choice(series_list):
         return series_list[i]
     else:
         return None
+
+
+def format_string_to_date(date_str):
+    return datetime.strptime(date_str, "%Y-%m-%d").date()
+
+
+def determine_cover_date(release_date, publisher):
+    if publisher.upper() != "MARVEL COMICS":
+        return release_date.replace(day=1)
+
+    new_date = release_date + dateutil.relativedelta.relativedelta(months=2)
+    return new_date.replace(day=1)
+
+
+def get_query_values(item):
+    name = item["title"].split("#")
+    return name[0].strip(), name[1]

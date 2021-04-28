@@ -1,48 +1,39 @@
-from datetime import datetime
-
-import dateutil.relativedelta
 from comicsdb.models import Issue, Series
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 
 from ._sbtalker import ShortBoxedTalker
-from ._utils import clean_description, clean_shortboxed_data, select_series_choice
-
-
-def get_query_values(item):
-    name = item["title"].split("#")
-    return name[0].strip(), name[1]
-
-
-def format_string_to_date(date_str):
-    return datetime.strptime(date_str, "%Y-%m-%d").date()
-
-
-def determine_cover_date(release_date):
-    # TODO: Handle cover date based on Publisher.
-    new_date = release_date + dateutil.relativedelta.relativedelta(months=2)
-    return new_date.replace(day=1)
-
-
-def add_issue_to_database(series_obj, issue_number, sb_data):
-    release_date = format_string_to_date(sb_data["release_date"])
-    cover_date = determine_cover_date(release_date)
-    clean_desc = clean_description(sb_data["description"])
-
-    c, _ = Issue.objects.get_or_create(
-        series=series_obj,
-        number=issue_number,
-        slug=slugify(series_obj.slug + " " + issue_number),
-        desc=clean_desc.strip(),
-        store_date=release_date,
-        cover_date=cover_date,
-    )
-
-    return c
+from ._utils import (
+    clean_description,
+    clean_shortboxed_data,
+    determine_cover_date,
+    format_string_to_date,
+    get_query_values,
+    select_series_choice,
+)
 
 
 class Command(BaseCommand):
     help = "Retrieve weekly comics from Shortboxed.com"
+
+    def add_issue_to_database(self, series_obj, issue_number, sb_data):
+        release_date = format_string_to_date(sb_data["release_date"])
+        cover_date = determine_cover_date(release_date, sb_data["publisher"])
+        clean_desc = clean_description(sb_data["description"])
+
+        issue, create = Issue.objects.get_or_create(
+            series=series_obj,
+            number=issue_number,
+            slug=slugify(series_obj.slug + " " + issue_number),
+            desc=clean_desc.strip(),
+            store_date=release_date,
+            cover_date=cover_date,
+        )
+
+        if create:
+            self.stdout.write(self.style.SUCCESS(f"Added {issue} to database.\n\n"))
+        else:
+            self.stdout.write(self.style.WARNING(f"{issue} already exists...\n\n"))
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -74,16 +65,13 @@ class Command(BaseCommand):
         # Query the series name
         for item in new_list:
             series_name, issue_number = get_query_values(item)
-            self.stdout.write(f"Searching database for {series_name}")
+            self.stdout.write(f"Searching database for {item['title']}")
             results = Series.objects.filter(name__icontains=series_name)
             if results:
                 correct_series = select_series_choice(results)
                 if correct_series:
-                    issue = add_issue_to_database(correct_series, issue_number, item)
-                    self.stdout.write(f"Add {issue} to database.")
+                    self.add_issue_to_database(correct_series, issue_number, item)
                 else:
-                    self.stdout.write(
-                        f"No correct series in databaser for {series_name}"
-                    )
+                    self.stdout.write(self.style.NOTICE(f"Not adding {item['title']} to database.\n\n"))
             else:
-                self.stdout.write(f"No record found for '{series_name}'")
+                self.stdout.write(f"No series in database for {series_name}\n\n")
