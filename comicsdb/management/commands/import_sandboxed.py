@@ -55,11 +55,11 @@ class Command(BaseCommand):
             exit(0)
 
         if options["weeks"]:
-            number_of_weeks = 5
+            NUMBER_OF_WEEKS = 5
             sb = ShortBoxedTalker()
             results = sb.fetch_available_releases()
-            self.stdout.write(f"Last {number_of_weeks} release dates:")
-            for i in results["dates"][-number_of_weeks:]:
+            self.stdout.write(f"Last {NUMBER_OF_WEEKS} release dates:")
+            for i in results["dates"][-NUMBER_OF_WEEKS:]:
                 self.stdout.write(i)
 
         if options["query"]:
