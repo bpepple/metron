@@ -1,16 +1,12 @@
 from comicsdb.models import Issue, Series
 from django.core.management.base import BaseCommand
+from django.db import IntegrityError
 from django.utils.text import slugify
 
 from ._sbtalker import ShortBoxedTalker
-from ._utils import (
-    clean_description,
-    clean_shortboxed_data,
-    determine_cover_date,
-    format_string_to_date,
-    get_query_values,
-    select_series_choice,
-)
+from ._utils import (clean_description, clean_shortboxed_data,
+                     determine_cover_date, format_string_to_date,
+                     get_query_values, select_series_choice)
 
 
 class Command(BaseCommand):
@@ -21,19 +17,26 @@ class Command(BaseCommand):
         cover_date = determine_cover_date(release_date, sb_data["publisher"])
         clean_desc = clean_description(sb_data["description"])
 
-        issue, create = Issue.objects.get_or_create(
-            series=series_obj,
-            number=issue_number,
-            slug=slugify(series_obj.slug + " " + issue_number),
-            desc=clean_desc.strip(),
-            store_date=release_date,
-            cover_date=cover_date,
-        )
+        try:
+            issue, create = Issue.objects.get_or_create(
+                series=series_obj,
+                number=issue_number,
+                slug=slugify(series_obj.slug + " " + issue_number),
+                desc=clean_desc.strip(),
+                store_date=release_date,
+                cover_date=cover_date,
+            )
 
-        if create:
-            self.stdout.write(self.style.SUCCESS(f"Added {issue} to database.\n\n"))
-        else:
-            self.stdout.write(self.style.WARNING(f"{issue} already exists...\n\n"))
+            if create:
+                self.stdout.write(self.style.SUCCESS(f"Added {issue} to database.\n\n"))
+            else:
+                self.stdout.write(self.style.WARNING(f"{issue} already exists...\n\n"))
+        except IntegrityError:
+            self.stdout.write(
+                self.style.WARNING(
+                    f"{series_obj} #{issue_number} already existing in the database.\n\n"
+                )
+            )
 
     def add_arguments(self, parser):
         parser.add_argument(
