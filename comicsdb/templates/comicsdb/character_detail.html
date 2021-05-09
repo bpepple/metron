@@ -120,8 +120,8 @@
     <div class="column">
       <!-- desc -->
       <div class="box">
+        <h1 class="title is-5">Summary</h1>
         {% if character.desc %}
-          <h1 class="title is-5">Summary</h1>
           <p>{{ character.desc|linebreaksbr }}</p>
           {% if character.wikipedia %}
               <br/>
@@ -139,7 +139,7 @@
           <br/>
           {% endif %}
         {% else %}
-           <h1 class="title is-5">No information available.</h1>
+           <p>No information available.</p><br />
         {% endif %}
         <div class="content is-small is-italic">Last edited on {{ character.modified }} by {{ character.edited_by.username }}</div>
       </div>
