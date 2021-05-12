@@ -31,18 +31,18 @@ def activate(request, uidb64, token):
     except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
         user = None
 
-    if is_activated(user, token):
-        user.is_active = True
-        user.email_confirmed = True
-        user.save()
-        login(request, user)
-        # Send pushover notification tha user activated account
-        send_pushover(f"{user} activated their account on Metron.")
-        logger.info(f"{user} activated their account on Metron")
-
-        return redirect("home")
-    else:
+    if not is_activated(user, token):
         return render(request, "registration/account_activation_invalid.html")
+
+    user.is_active = True
+    user.email_confirmed = True
+    user.save()
+    login(request, user)
+    # Send pushover notification tha user activated account
+    send_pushover(f"{user} activated their account on Metron.")
+    logger.info(f"{user} activated their account on Metron")
+
+    return redirect("home")
 
 
 def signup(request):
