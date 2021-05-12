@@ -6,6 +6,7 @@ from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.views.generic import DetailView
 from metron.utils import get_recaptcha_auth
 
 from .forms import CustomUserCreationForm
@@ -75,3 +76,7 @@ def signup(request):
     else:
         form = CustomUserCreationForm()
     return render(request, "signup.html", {"form": form})
+
+
+class UserProfile(DetailView):
+    model = CustomUser
