@@ -113,13 +113,26 @@
     </div>
     <div class="navbar-end">
       {% if user.is_authenticated %}
-      <div class="navbar-item">
-        <a class="button is-light" href="{% url 'logout' %}">
-          <span class="icon">
-            <i class="fas fa-sign-out-alt"></i>
-          </span>
-          <span>Log out</span>
-        </a>
+      <div class="navbar-item has-dropdown is-hoverable">
+        {% if user.get_full_name %}
+          <a class="navbar-link">{{ user.get_full_name }}</a>
+        {% else %}
+          <a class="navbar-link">{{ user.username }}</a>
+        {% endif%}
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="">
+            <span class="icon">
+              <i class="fas fa-user-cog"></i>
+            </span>
+            <span>Settings</span>
+          </a>
+          <a class="navbar-item" href="{% url 'logout' %}">
+            <span class="icon">
+              <i class="fas fa-sign-out-alt"></i>
+            </span>
+            <span>Log out</span>
+          </a>
+        </div>
       </div>
       {% else %}
       <div class="navbar-item">

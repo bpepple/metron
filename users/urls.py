@@ -15,5 +15,5 @@ urlpatterns = [
         views.activate,
         name="activate",
     ),
-    path("<int:pk>/", views.UserProfile.as_view(), name="detail"),
+    path("<int:pk>/", views.UserProfile.as_view(), name="user-detail"),
 ]
