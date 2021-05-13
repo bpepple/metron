@@ -1,14 +1,17 @@
 import logging
 
-from django.contrib.auth import login
+from django.contrib import messages
+from django.contrib.auth import login, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.views.generic import DetailView
 from metron.utils import get_recaptcha_auth
 
-from .forms import CustomUserCreationForm
+from .forms import CustomUserChangeForm, CustomUserCreationForm
 from .models import CustomUser
 from .tokens import account_activation_token
 from .utils import send_pushover
@@ -31,18 +34,18 @@ def activate(request, uidb64, token):
     except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
         user = None
 
-    if is_activated(user, token):
-        user.is_active = True
-        user.email_confirmed = True
-        user.save()
-        login(request, user)
-        # Send pushover notification tha user activated account
-        send_pushover(f"{user} activated their account on Metron.")
-        logger.info(f"{user} activated their account on Metron")
-
-        return redirect("home")
-    else:
+    if not is_activated(user, token):
         return render(request, "registration/account_activation_invalid.html")
+
+    user.is_active = True
+    user.email_confirmed = True
+    user.save()
+    login(request, user)
+    # Send pushover notification tha user activated account
+    send_pushover(f"{user} activated their account on Metron.")
+    logger.info(f"{user} activated their account on Metron")
+
+    return redirect("home")
 
 
 def signup(request):
@@ -75,3 +78,37 @@ def signup(request):
     else:
         form = CustomUserCreationForm()
     return render(request, "signup.html", {"form": form})
+
+
+def change_password(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, "Your password was successfully updated!")
+            return redirect("change_password")
+        else:
+            messages.error(request, "Please correct the error below.")
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, "change_password.html", {"form": form})
+
+
+def change_profile(request):
+    if request.method == "POST":
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, "Your profile was successfully updated!")
+            return redirect("change_profile")
+        else:
+            messages.error(request, "Please correct the error below.")
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    return render(request, "change_profile.html", {"form": form})
+
+
+class UserProfile(DetailView):
+    model = CustomUser

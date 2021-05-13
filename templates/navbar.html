@@ -1,4 +1,5 @@
 {% load static %}
+{% load thumbnail %}
 {% load flatpages %}
 <nav class="navbar is-link is-fixed-top" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
@@ -113,13 +114,37 @@
     </div>
     <div class="navbar-end">
       {% if user.is_authenticated %}
-      <div class="navbar-item">
-        <a class="button is-light" href="{% url 'logout' %}">
-          <span class="icon">
-            <i class="fas fa-sign-out-alt"></i>
-          </span>
-          <span>Log out</span>
-        </a>
+      <div class="navbar-item has-dropdown is-hoverable">
+        {% if user.image %}
+          <a class="navbar-link">
+            {% thumbnail user.image "32x32" crop="center" format="WEBP" as im %}
+            <figure class="image is-32x32">
+              <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ user.username }}">
+            </figure>
+            {% endthumbnail %}
+            {% if user.get_full_name %}
+              <span>&nbsp;&nbsp;{{ user.get_full_name }}</span>
+            {% else %}
+              <span>&nbsp;&nbsp;{{ user.username }}</span>
+            {% endif %}
+          </a>
+        {% else %}
+          <a class="navbar-link">{{ user.username }}</a>
+        {% endif%}
+        <div class="navbar-dropdown is-right">
+          <a class="navbar-item" href="{% url 'change_profile' %}">
+            <span class="icon">
+              <i class="fas fa-user-cog"></i>
+            </span>
+            <span>Edit Profile</span>
+          </a>
+          <a class="navbar-item" href="{% url 'logout' %}">
+            <span class="icon">
+              <i class="fas fa-sign-out-alt"></i>
+            </span>
+            <span>Log out</span>
+          </a>
+        </div>
       </div>
       {% else %}
       <div class="navbar-item">
