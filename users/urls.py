@@ -2,7 +2,6 @@ from django.urls import path
 
 from . import views
 
-
 urlpatterns = [
     path("signup/", views.signup, name="signup"),
     path(
@@ -15,5 +14,6 @@ urlpatterns = [
         views.activate,
         name="activate",
     ),
+    path("password/", views.change_password, name="change_password"),
     path("<int:pk>/", views.UserProfile.as_view(), name="user-detail"),
 ]
