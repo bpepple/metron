@@ -11,7 +11,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views.generic import DetailView
 from metron.utils import get_recaptcha_auth
 
-from .forms import CustomUserCreationForm
+from .forms import CustomUserChangeForm, CustomUserCreationForm
 from .models import CustomUser
 from .tokens import account_activation_token
 from .utils import send_pushover
@@ -93,6 +93,21 @@ def change_password(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, "change_password.html", {"form": form})
+
+
+def change_profile(request):
+    if request.method == "POST":
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, "Your profile was successfully updated!")
+            return redirect("change_profile")
+        else:
+            messages.error(request, "Please correct the error below.")
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    return render(request, "change_profile.html", {"form": form})
 
 
 class UserProfile(DetailView):

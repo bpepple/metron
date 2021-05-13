@@ -132,11 +132,11 @@
           <a class="navbar-link">{{ user.username }}</a>
         {% endif%}
         <div class="navbar-dropdown is-right">
-          <a class="navbar-item" href="">
+          <a class="navbar-item" href="{% url 'change_profile' %}">
             <span class="icon">
               <i class="fas fa-user-cog"></i>
             </span>
-            <span>Settings</span>
+            <span>Edit Profile</span>
           </a>
           <a class="navbar-item" href="{% url 'logout' %}">
             <span class="icon">
