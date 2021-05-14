@@ -1,3 +1,4 @@
+from users.forms import CustomUserChangeForm
 from django.urls import reverse
 from users.tests.case_base import TestCaseBase
 
@@ -5,7 +6,7 @@ HTML_REDIRECT_CODE = 301
 HTML_OK_CODE = 200
 
 
-class ProfileViewTest(TestCaseBase):
+class UserViewTest(TestCaseBase):
     @classmethod
     def setUpTestData(cls) -> None:
         cls.user = cls._create_user()
@@ -65,3 +66,36 @@ class ProfileViewTest(TestCaseBase):
         resp = self.client.get(reverse("signup"))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTemplateUsed(resp, "signup.html")
+
+
+class TestProfileForm(TestCaseBase):
+    @classmethod
+    def setUpTestData(cls):
+        cls._create_user()
+
+    def setUp(self):
+        self._client_login()
+
+    def test_valid_form(self):
+        form = CustomUserChangeForm(
+            data={
+                "username": "wsimonson",
+                "first_name": "Walter",
+                "last_name": "Simonson",
+                "email": "wsimonson@test.com",
+                "image": "user/walter.jpg",
+            }
+        )
+        self.assertTrue(form.is_valid())
+
+    def test_form_invalid(self):
+        form = CustomUserChangeForm(
+            data={
+                "username": "",
+                "first_name": "bad-data",
+                "last_name": "",
+                "email": "",
+                "image": "",
+            }
+        )
+        self.assertFalse(form.is_valid())
