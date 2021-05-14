@@ -135,7 +135,9 @@
           <p>No information available.</p>
         {% endif %}
         <br/>
-        <div class="content is-small is-italic">Last edited on {{ series.modified }} by {{ series.edited_by.username }}</div>
+        <div class="content is-small is-italic">
+          Last edited on {{ series.modified }} by <a href="{% url 'user-detail' series.edited_by.id %}">{{ series.edited_by.username }}</a>
+        </div>
       </div>
     </div>
     <!-- end of series summary -->

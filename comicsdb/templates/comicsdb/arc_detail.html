@@ -125,7 +125,9 @@
         <p>No information available.</p>
         {% endif %}
         <br/>
-        <div class="content is-small is-italic">Last edited on {{ arc.modified }} by {{ arc.edited_by.username }}</div>
+        <div class="content is-small is-italic">
+          Last edited on {{ arc.modified }} by <a href="{% url 'user-detail' arc.edited_by.id %}">{{ arc.edited_by.username }}</a>
+        </div>
       </div>
       {% with issues=arc.issue_set.all %}
         {% if issues %}

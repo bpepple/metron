@@ -142,7 +142,9 @@
            <p>No information available.<p>
            <br/>
         {% endif %}
-        <div class="content is-small is-italic">Last edited on {{ creator.modified }} by {{ creator.edited_by.username }}</div>
+        <div class="content is-small is-italic">
+          Last edited on {{ creator.modified }} by <a href="{% url 'user-detail' creator.edited_by.id %}">{{ creator.edited_by.username }}</a>
+        </div>
       </div>
       <!-- end of summary -->
       <!-- series -->

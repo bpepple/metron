@@ -141,7 +141,9 @@
         {% else %}
            <p>No information available.</p><br />
         {% endif %}
-        <div class="content is-small is-italic">Last edited on {{ character.modified }} by {{ character.edited_by.username }}</div>
+        <div class="content is-small is-italic">
+          Last edited on {{ character.modified }} by <a href="{% url 'user-detail' character.edited_by.id %}">{{ character.edited_by.username }}</a>
+        </div>
       </div>
       <!-- end desc -->
 

@@ -140,7 +140,9 @@
         {% else %}
            <p>No information available.</p>
         {% endif %}
-        <div class="content is-small is-italic">Last edited on {{ team.modified }} by {{ team.edited_by.username }}</div>
+        <div class="content is-small is-italic">
+          Last edited on {{ team.modified }} by <a href="{% url 'user-detail' team.edited_by.id %}">{{ team.edited_by.username }}</a>
+        </div>
       </div>
       <!-- end summary -->
 

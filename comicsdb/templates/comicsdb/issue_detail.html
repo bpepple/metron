@@ -174,7 +174,9 @@
            <p>No summary available.</p>
         {% endif %}
         <br/>
-        <div class="content is-small is-italic">Last edited on {{ issue.modified }} by {{ issue.edited_by.username }}</div>
+        <div class="content is-small is-italic">
+          Last edited on {{ issue.modified }} by <a href="{% url 'user-detail' issue.edited_by.id %}">{{ issue.edited_by.username }}</a>
+        </div>
       </div>
       <!-- end of issue summary -->
 
