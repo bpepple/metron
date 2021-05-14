@@ -48,3 +48,20 @@ class ProfileViewTest(TestCaseBase):
         resp = self.client.get(reverse("change_password"))
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTemplateUsed(resp, "change_password.html")
+
+    def test_signup_view_url_exists_at_desired_location(self):
+        resp = self.client.get("/accounts/signup/")
+        self.assertEqual(resp.status_code, HTML_OK_CODE)
+
+    def test_signup_view_url_exists_at_desired_location_redirected(self):
+        resp = self.client.get("/accounts/signup")
+        self.assertEqual(resp.status_code, HTML_REDIRECT_CODE)
+
+    def test_signup_view_url_accessible_by_name(self):
+        resp = self.client.get(reverse("signup"))
+        self.assertEqual(resp.status_code, HTML_OK_CODE)
+
+    def test_signup_view_uses_correct_template(self):
+        resp = self.client.get(reverse("signup"))
+        self.assertEqual(resp.status_code, HTML_OK_CODE)
+        self.assertTemplateUsed(resp, "signup.html")
