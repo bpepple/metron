@@ -97,7 +97,7 @@ def change_password(request):
 
 def change_profile(request):
     if request.method == "POST":
-        form = CustomUserChangeForm(request.POST, instance=request.user)
+        form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!

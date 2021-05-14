@@ -15,7 +15,7 @@
 <section class="section">
   <div class="container">
     <h1 class="title">Change Profile Form</h1>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {% if form.errors %}
         {% for field in form %}
