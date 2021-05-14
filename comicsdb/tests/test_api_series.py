@@ -1,4 +1,5 @@
 import copy
+import logging
 
 from comicsdb.models import Issue, Publisher, Series, SeriesType
 from comicsdb.serializers import SeriesSerializer
@@ -39,7 +40,11 @@ class GetAllSeriesTest(TestCaseBase):
         )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_view_url_accessible_by_name(self):
         resp = self.client.get(reverse("api:series-list"))
@@ -81,7 +86,11 @@ class GetSingleSeriesTest(TestCaseBase):
         )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_get_valid_single_issue(self):
         test_context = {"request": Request(self.request)}

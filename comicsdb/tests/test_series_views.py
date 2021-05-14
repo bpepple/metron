@@ -1,3 +1,5 @@
+import logging
+
 from comicsdb.forms.series import SeriesForm
 from comicsdb.models import Publisher, Series, SeriesType
 from django.urls import reverse
@@ -30,7 +32,11 @@ class SeriesSearchViewsTest(TestCaseBase):
             )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get("/series/search")
@@ -81,7 +87,11 @@ class SeriesListViewTest(TestCaseBase):
             )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get("/series/")
@@ -121,7 +131,11 @@ class TestSeriesForm(TestCaseBase):
         cls.publisher = Publisher.objects.create(name="DC", slug="dc", edited_by=user)
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_valid_form(self):
         form = SeriesForm(
@@ -164,7 +178,11 @@ class TestSeriesCreate(TestCaseBase):
         cls.publisher = Publisher.objects.create(name="DC", slug="dc", edited_by=user)
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_create_series_view(self):
         response = self.client.get(reverse("series:create"))
@@ -213,7 +231,11 @@ class TestSeriesUpdate(TestCaseBase):
         )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_series_update_view(self):
         k = {"slug": self.slug}

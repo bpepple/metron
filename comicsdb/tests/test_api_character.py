@@ -1,3 +1,5 @@
+import logging
+
 from comicsdb.models import Character
 from comicsdb.serializers import CharacterSerializer
 from django.urls import reverse
@@ -14,7 +16,11 @@ class GetAllCharactersTest(TestCaseBase):
         Character.objects.create(name="Batman", slug="batman", edited_by=user)
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_view_url_accessible_by_name(self):
         resp = self.client.get(reverse("api:character-list"))
@@ -35,7 +41,11 @@ class GetSingleCharacterTest(TestCaseBase):
         Character.objects.create(name="Thor", slug="thor", edited_by=user)
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_get_valid_single_character(self):
         response = self.client.get(

@@ -1,3 +1,5 @@
+import logging
+
 from comicsdb.models import Creator
 from django.template.defaultfilters import slugify
 from django.urls import reverse
@@ -22,7 +24,11 @@ class CreatorViewsTest(TestCaseBase):
         )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_update_view_url_accessible_by_name(self):
         resp = self.client.get(reverse("creator:update", kwargs={"slug": self.slug}))
@@ -63,7 +69,11 @@ class CreatorSearchViewsTest(TestCaseBase):
             )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get("/creator/search")
@@ -107,7 +117,11 @@ class CreatorListViewTest(TestCaseBase):
             )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get("/creator/")

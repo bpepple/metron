@@ -1,3 +1,5 @@
+import logging
+
 from comicsdb.models import Arc, Issue, Publisher, Series, SeriesType
 from comicsdb.serializers import ArcSerializer, IssueListSerializer
 from django.urls import reverse
@@ -15,7 +17,11 @@ class GetAllArcsTest(TestCaseBase):
         Arc.objects.create(name="Final Crisis", slug="final-crisis", edited_by=user)
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_view_url_accessible_by_name(self):
         resp = self.client.get(reverse("api:arc-list"))
@@ -61,7 +67,11 @@ class GetSingleArcTest(TestCaseBase):
         cls.issue_obj.arcs.add(cls.crisis)
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_get_valid_single_arc(self):
         response = self.client.get(

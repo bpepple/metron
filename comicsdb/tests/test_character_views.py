@@ -1,3 +1,5 @@
+import logging
+
 from comicsdb.forms.character import CharacterForm
 from comicsdb.models import Character
 from django.urls import reverse
@@ -23,7 +25,11 @@ class CharacterSearchViewsTest(TestCaseBase):
             )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get("/character/search")
@@ -67,7 +73,11 @@ class CharacterListViewTest(TestCaseBase):
             )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get("/character/")
@@ -104,7 +114,11 @@ class TestCharacterForm(TestCaseBase):
         cls._create_user()
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_valid_form(self):
         form = CharacterForm(
@@ -143,7 +157,11 @@ class TestCharacterCreate(TestCaseBase):
         cls._create_user()
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_create_character_view(self):
         response = self.client.get(reverse("character:create"))
@@ -183,7 +201,11 @@ class TestCharacterUpdate(TestCaseBase):
         )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_character_update_view(self):
         k = {"slug": self.slug}

@@ -1,3 +1,5 @@
+import logging
+
 from comicsdb.models import Team
 from comicsdb.serializers import TeamSerializer
 from django.urls import reverse
@@ -14,7 +16,11 @@ class GetAllTeamsTest(TestCaseBase):
         Team.objects.create(name="The Avengers", slug="the-avengers", edited_by=user)
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_view_url_accessible_by_name(self):
         resp = self.client.get(reverse("api:team-list"))
@@ -39,7 +45,11 @@ class GetSingleTeamTest(TestCaseBase):
         )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_get_valid_single_team(self):
         response = self.client.get(

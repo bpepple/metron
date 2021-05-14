@@ -1,3 +1,5 @@
+import logging
+
 from comicsdb.forms.arc import ArcForm
 from comicsdb.models import Arc
 from django.urls import reverse
@@ -21,7 +23,11 @@ class ArcSearchViewsTest(TestCaseBase):
             )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get("/arc/search")
@@ -63,7 +69,11 @@ class ArcListViewTest(TestCaseBase):
             )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_view_url_exists_at_desired_location(self):
         resp = self.client.get("/arc/")
@@ -100,7 +110,11 @@ class TestArcForm(TestCaseBase):
         cls._create_user()
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_valid_form(self):
         form = ArcForm(
@@ -124,7 +138,11 @@ class TestArcCreate(TestCaseBase):
         cls._create_user()
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_create_arc_view(self):
         response = self.client.get(reverse("arc:create"))
@@ -158,7 +176,11 @@ class TestArcUpdate(TestCaseBase):
         )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_arc_update_view(self):
         k = {"slug": self.slug}

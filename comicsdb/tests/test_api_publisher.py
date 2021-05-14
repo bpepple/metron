@@ -1,3 +1,5 @@
+import logging
+
 from comicsdb.models import Issue, Publisher, Series, SeriesType
 from comicsdb.serializers import PublisherSerializer, SeriesListSerializer
 from django.urls import reverse
@@ -15,7 +17,11 @@ class GetAllPublisherTest(TestCaseBase):
         Publisher.objects.create(name="Marvel", slug="marvel", edited_by=user)
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_view_url_accessible_by_name(self):
         resp = self.client.get(reverse("api:publisher-list"))
@@ -59,7 +65,11 @@ class GetSinglePublisherTest(TestCaseBase):
         )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_get_valid_single_publisher(self):
         response = self.client.get(

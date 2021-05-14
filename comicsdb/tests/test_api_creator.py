@@ -1,3 +1,5 @@
+import logging
+
 from comicsdb.models import Creator
 from comicsdb.serializers import CreatorSerializer
 from django.urls import reverse
@@ -16,7 +18,11 @@ class GetAllCreatorsTest(TestCaseBase):
         )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_view_url_accessible_by_name(self):
         resp = self.client.get(reverse("api:creator-list"))
@@ -39,7 +45,11 @@ class GetSingleCreatorTest(TestCaseBase):
         Creator.objects.create(name="Steve Ditko", slug="steve-ditko", edited_by=user)
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_get_valid_single_creator(self):
         response = self.client.get(

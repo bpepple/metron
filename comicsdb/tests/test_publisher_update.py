@@ -1,3 +1,5 @@
+import logging
+
 from comicsdb.models import Publisher
 from django.urls import reverse
 from users.tests.case_base import TestCaseBase
@@ -12,7 +14,11 @@ class PublisherUpdateTest(TestCaseBase):
         )
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         self._client_login()
+
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
 
     def test_publisher_update(self):
         resp = self.client.post(
