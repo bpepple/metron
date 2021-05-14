@@ -67,6 +67,23 @@ class UserViewTest(TestCaseBase):
         self.assertEqual(resp.status_code, HTML_OK_CODE)
         self.assertTemplateUsed(resp, "signup.html")
 
+    def test_profile_view_url_exists_at_desired_location(self):
+        resp = self.client.get(f"/accounts/{self.user.pk}/")
+        self.assertEqual(resp.status_code, HTML_OK_CODE)
+
+    def test_profile_view_url_exists_at_desired_location_redirected(self):
+        resp = self.client.get(f"/accounts/{self.user.pk}")
+        self.assertEqual(resp.status_code, HTML_REDIRECT_CODE)
+
+    def test_profile_view_url_accessible_by_name(self):
+        resp = self.client.get(reverse("user-detail", kwargs={"pk": self.user.pk}))
+        self.assertEqual(resp.status_code, HTML_OK_CODE)
+
+    def test_profile_view_uses_correct_template(self):
+        resp = self.client.get(reverse("user-detail", kwargs={"pk": self.user.pk}))
+        self.assertEqual(resp.status_code, HTML_OK_CODE)
+        self.assertTemplateUsed(resp, "users/customuser_detail.html")
+
 
 class TestProfileForm(TestCaseBase):
     @classmethod

@@ -27,14 +27,17 @@
         <div class="media-content">
           <div class="content">
             {% if customuser.get_full_name %}
-              <p class="title is-3">{{ customuser.get_full_name }}</p>
+              <h3 class="title is-3">{{ customuser.get_full_name }}</h3>
             {% else %}
-              <p class="title is -3">{{ customuser.username }}</p>
+              <h3 class="title is-3">{{ customuser.username }}</h3>
+            {% endif %}
+            {% if customuser.is_superuser %}
+            <span class="tag is-primary">Admin</span>
             {% endif %}
             {% for groups in customuser.groups.all %}
-              {% if groups.name == "Editors" %}<p class="subtitle is-5">Editor</p>{% endif %}<br \>
+              {% if groups.name == "Editors" %}<span class="tag is-info">Editor</span>{% endif %}
             {% endfor %}
-            <p>Joined: {{ customuser.created_on|date:"DATE_FORMAT" }}</p>
+            <p><strong>Joined:</strong> {{ customuser.date_joined|date:"DATE_FORMAT" }}</p>
           </div>
         </div>
         <!-- End User detail -->
