@@ -1,9 +1,7 @@
-from django.urls import reverse
-
 from comicsdb.forms.series import SeriesForm
 from comicsdb.models import Publisher, Series, SeriesType
-
-from .case_base import TestCaseBase
+from django.urls import reverse
+from users.tests.case_base import TestCaseBase
 
 HTML_OK_CODE = 200
 

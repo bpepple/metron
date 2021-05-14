@@ -1,11 +1,9 @@
+from comicsdb.models import Arc, Issue, Publisher, Series, SeriesType
+from comicsdb.serializers import ArcSerializer, IssueListSerializer
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework import status
-
-from comicsdb.models import Arc, Issue, Publisher, Series, SeriesType
-from comicsdb.serializers import ArcSerializer, IssueListSerializer
-
-from .case_base import TestCaseBase
+from users.tests.case_base import TestCaseBase
 
 
 class GetAllArcsTest(TestCaseBase):

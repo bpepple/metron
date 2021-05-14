@@ -1,8 +1,7 @@
 from comicsdb.models import Issue, Publisher, Series, SeriesType
 from django.urls import reverse
 from django.utils import timezone
-
-from .case_base import TestCaseBase
+from users.tests.case_base import TestCaseBase
 
 HTML_OK_CODE = 200
 

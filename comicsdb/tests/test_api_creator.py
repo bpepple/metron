@@ -1,10 +1,8 @@
-from django.urls import reverse
-from rest_framework import status
-
 from comicsdb.models import Creator
 from comicsdb.serializers import CreatorSerializer
-
-from .case_base import TestCaseBase
+from django.urls import reverse
+from rest_framework import status
+from users.tests.case_base import TestCaseBase
 
 
 class GetAllCreatorsTest(TestCaseBase):

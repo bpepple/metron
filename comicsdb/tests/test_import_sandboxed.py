@@ -4,8 +4,7 @@ from comicsdb.management.commands.import_sandboxed import (
     determine_cover_date,
     format_string_to_date,
 )
-
-from .case_base import TestCaseBase
+from users.tests.case_base import TestCaseBase
 
 
 class TestSandBoxedCommands(TestCaseBase):

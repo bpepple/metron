@@ -1,10 +1,8 @@
-from django.urls import reverse
-from rest_framework import status
-
 from comicsdb.models import Character
 from comicsdb.serializers import CharacterSerializer
-
-from .case_base import TestCaseBase
+from django.urls import reverse
+from rest_framework import status
+from users.tests.case_base import TestCaseBase
 
 
 class GetAllCharactersTest(TestCaseBase):

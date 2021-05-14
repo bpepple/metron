@@ -1,8 +1,7 @@
 from comicsdb.forms.character import CharacterForm
 from comicsdb.models import Character
 from django.urls import reverse
-
-from .case_base import TestCaseBase
+from users.tests.case_base import TestCaseBase
 
 HTML_OK_CODE = 200
 

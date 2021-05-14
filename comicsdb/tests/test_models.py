@@ -12,8 +12,7 @@ from comicsdb.models import (
 from django.test import TestCase
 from django.utils import timezone
 from django.utils.text import slugify
-
-from .case_base import TestCaseBase
+from users.tests.case_base import TestCaseBase
 
 HTTP_200_OK = 200
 

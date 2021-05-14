@@ -2,8 +2,7 @@ from datetime import date, datetime
 
 from comicsdb.models import Issue, Publisher, Series, SeriesType
 from django.urls import reverse
-
-from .case_base import TestCaseBase
+from users.tests.case_base import TestCaseBase
 
 HTML_OK_CODE = 200
 

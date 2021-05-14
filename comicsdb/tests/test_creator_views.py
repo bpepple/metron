@@ -1,8 +1,7 @@
 from comicsdb.models import Creator
 from django.template.defaultfilters import slugify
 from django.urls import reverse
-
-from .case_base import TestCaseBase
+from users.tests.case_base import TestCaseBase
 
 HTML_OK_CODE = 200
 HTML_REDIRECT_CODE = 302

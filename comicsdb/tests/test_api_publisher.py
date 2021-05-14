@@ -1,11 +1,9 @@
+from comicsdb.models import Issue, Publisher, Series, SeriesType
+from comicsdb.serializers import PublisherSerializer, SeriesListSerializer
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework import status
-
-from comicsdb.models import Issue, Publisher, Series, SeriesType
-from comicsdb.serializers import PublisherSerializer, SeriesListSerializer
-
-from .case_base import TestCaseBase
+from users.tests.case_base import TestCaseBase
 
 
 class GetAllPublisherTest(TestCaseBase):

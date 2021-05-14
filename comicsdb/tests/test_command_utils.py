@@ -1,6 +1,5 @@
 from comicsdb.management.commands._utils import clean_description
-
-from .case_base import TestCaseBase
+from users.tests.case_base import TestCaseBase
 
 
 class TestCommandUtils(TestCaseBase):

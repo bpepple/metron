@@ -7,8 +7,7 @@ from django.utils import timezone
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.test import APIRequestFactory
-
-from .case_base import TestCaseBase
+from users.tests.case_base import TestCaseBase
 
 
 class GetAllSeriesTest(TestCaseBase):
