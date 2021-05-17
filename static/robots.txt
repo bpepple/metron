@@ -6,15 +6,17 @@
 
 ### Version Information #
 ###################################################
-### Version: V4.2020.06.2078
-### Updated: Wed Jun 10 22:57:58 SAST 2020
-### Bad Bot Count: 573
+### Version: V4.2021.05.2352
+### Updated: Mon May 17 01:44:46 SAST 2021
+### Bad Bot Count: 608
 ###################################################
 ### Version Information ##
 
 User-agent: *
 Disallow: /wp-admin/
-Disallow: /wp-admin/admin-ajax.php
+Allow: /wp-admin/admin-ajax.php
+User-agent: 01h4x.com
+Disallow:/
 User-agent: 360Spider
 Disallow:/
 User-agent: 404checker
@@ -53,7 +55,13 @@ User-agent: AlphaBot
 Disallow:/
 User-agent: Anarchie
 Disallow:/
+User-agent: Anarchy
+Disallow:/
+User-agent: Anarchy99
+Disallow:/
 User-agent: Ankit
+Disallow:/
+User-agent: Anthill
 Disallow:/
 User-agent: Apexoo
 Disallow:/
@@ -133,6 +141,8 @@ User-agent: Brandprotect
 Disallow:/
 User-agent: Brandwatch
 Disallow:/
+User-agent: Buck
+Disallow:/
 User-agent: Buddy
 Disallow:/
 User-agent: BuiltBotTough
@@ -155,6 +165,10 @@ User-agent: CCBot
 Disallow:/
 User-agent: Cegbfeieh
 Disallow:/
+User-agent: CensysInspect
+Disallow:/
+User-agent: check1.exe
+Disallow:/
 User-agent: CheeseBot
 Disallow:/
 User-agent: CherryPicker
@@ -172,6 +186,10 @@ Disallow:/
 User-agent: Cloud mapping
 Disallow:/
 User-agent: coccocbot-web
+Disallow:/
+User-agent: Cocolyzebot
+Disallow:/
+User-agent: CODE87
 Disallow:/
 User-agent: Cogentbot
 Disallow:/
@@ -208,6 +226,8 @@ Disallow:/
 User-agent: Curious
 Disallow:/
 User-agent: Custo
+Disallow:/
+User-agent: CyotekWebCopy
 Disallow:/
 User-agent: DatabaseDriverMysqli
 Disallow:/
@@ -254,6 +274,8 @@ Disallow:/
 User-agent: domainsproject.org
 Disallow:/
 User-agent: DomainStatsBot
+Disallow:/
+User-agent: DomCopBot
 Disallow:/
 User-agent: Dotbot
 Disallow:/
@@ -327,6 +349,8 @@ User-agent: Freeuploader
 Disallow:/
 User-agent: FrontPage
 Disallow:/
+User-agent: Fuzz
+Disallow:/
 User-agent: FyberSpider
 Disallow:/
 User-agent: Fyrebot
@@ -350,6 +374,8 @@ Disallow:/
 User-agent: G-i-g-a-b-o-t
 Disallow:/
 User-agent: Go-Ahead-Got-It
+Disallow:/
+User-agent: gopher
 Disallow:/
 User-agent: Gotit
 Disallow:/
@@ -403,6 +429,8 @@ User-agent: Iblog
 Disallow:/
 User-agent: IDBot
 Disallow:/
+User-agent: IDBTE4M
+Disallow:/
 User-agent: Id-search
 Disallow:/
 User-agent: IlseBot
@@ -436,6 +464,8 @@ Disallow:/
 User-agent: Iria
 Disallow:/
 User-agent: IRLbot
+Disallow:/
+User-agent: isitwp.com
 Disallow:/
 User-agent: Iskanie
 Disallow:/
@@ -492,6 +522,8 @@ Disallow:/
 User-agent: Lightspeedsystems
 Disallow:/
 User-agent: Likse
+Disallow:/
+User-agent: Linkbot
 Disallow:/
 User-agent: Linkdexbot
 Disallow:/
@@ -593,6 +625,8 @@ User-agent: Mojolicious
 Disallow:/
 User-agent: Morfeus Fucking Scanner
 Disallow:/
+User-agent: Mozlila
+Disallow:/
 User-agent: MQQBrowser
 Disallow:/
 User-agent: Mr.4x3
@@ -602,6 +636,8 @@ Disallow:/
 User-agent: MSIECrawler
 Disallow:/
 User-agent: Msrabot
+Disallow:/
+User-agent: MTRobot
 Disallow:/
 User-agent: muhstik-scan
 Disallow:/
@@ -659,6 +695,8 @@ User-agent: Nmap
 Disallow:/
 User-agent: NPbot
 Disallow:/
+User-agent: Nuclei
+Disallow:/
 User-agent: Nutch
 Disallow:/
 User-agent: oBot
@@ -699,6 +737,8 @@ User-agent: page scorer
 Disallow:/
 User-agent: PageScorer
 Disallow:/
+User-agent: PageThing.com
+Disallow:/
 User-agent: Pandalytics
 Disallow:/
 User-agent: Panscient
@@ -713,6 +753,8 @@ User-agent: PECL::HTTP
 Disallow:/
 User-agent: PeoplePal
 Disallow:/
+User-agent: Petalbot
+Disallow:/
 User-agent: PHPCrawl
 Disallow:/
 User-agent: Picscout
@@ -720,6 +762,8 @@ Disallow:/
 User-agent: Picsearch
 Disallow:/
 User-agent: PictureFinder
+Disallow:/
+User-agent: Piepmatz
 Disallow:/
 User-agent: Pimonster
 Disallow:/
@@ -737,6 +781,8 @@ User-agent: POE-Component-Client-HTTP
 Disallow:/
 User-agent: polaris version
 Disallow:/
+User-agent: probe-image-size
+Disallow:/
 User-agent: Probethenet
 Disallow:/
 User-agent: ProPowerBot
@@ -744,6 +790,8 @@ Disallow:/
 User-agent: ProWebWalker
 Disallow:/
 User-agent: Psbot
+Disallow:/
+User-agent: Pu_iN
 Disallow:/
 User-agent: Pump
 Disallow:/
@@ -783,7 +831,11 @@ User-agent: ReGet
 Disallow:/
 User-agent: RepoMonkey
 Disallow:/
+User-agent: Re-re
+Disallow:/
 User-agent: Ripper
+Disallow:/
+User-agent: ripz
 Disallow:/
 User-agent: RocketCrawler
 Disallow:/
@@ -795,7 +847,11 @@ User-agent: s1z.ru
 Disallow:/
 User-agent: SalesIntelligent
 Disallow:/
+User-agent: satoristudio.net
+Disallow:/
 User-agent: SBIder
+Disallow:/
+User-agent: scalaj-http
 Disallow:/
 User-agent: ScanAlert
 Disallow:/
@@ -818,6 +874,8 @@ Disallow:/
 User-agent: Semrush
 Disallow:/
 User-agent: SemrushBot
+Disallow:/
+User-agent: SentiBot
 Disallow:/
 User-agent: SEOkicks
 Disallow:/
@@ -847,11 +905,17 @@ User-agent: SISTRIX
 Disallow:/
 User-agent: Sitebeam
 Disallow:/
+User-agent: SiteCheckerBotCrawler
+Disallow:/
+User-agent: sitechecker.pro
+Disallow:/
 User-agent: SiteExplorer
 Disallow:/
 User-agent: Siteimprove
 Disallow:/
 User-agent: SiteLockSpider
+Disallow:/
+User-agent: siteripz
 Disallow:/
 User-agent: SiteSnagger
 Disallow:/
@@ -1002,6 +1066,8 @@ Disallow:/
 User-agent: VB Project
 Disallow:/
 User-agent: VCI
+Disallow:/
+User-agent: VelenPublicWebCrawler
 Disallow:/
 User-agent: VeriCiteCrawler
 Disallow:/
@@ -1157,9 +1223,11 @@ User-agent: Zitebot
 Disallow:/
 User-agent: ZmEu
 Disallow:/
+User-agent: ZoomBot
+Disallow:/
+User-agent: ZoominfoBot
+Disallow:/
 User-agent: ZumBot
 Disallow:/
 User-agent: ZyBorg
 Disallow:/
-User-agent: PetalBot
-Disallow: /
