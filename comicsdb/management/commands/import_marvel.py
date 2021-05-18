@@ -129,7 +129,8 @@ class Command(BaseCommand):
             "-d",
             "--date",
             type=str,
-            help="The date period to query. Values: 'nextMonth' or 'thisMonth'",
+            default="nextWeek",
+            help="The date period to query.",
         )
 
     def handle(self, *args, **options):
