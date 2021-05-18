@@ -35,6 +35,7 @@ class Command(BaseCommand):
         return f"issue/{now:%Y/%m/%d}/"
 
     def _upload_image(self, image):
+        # TODO: Should probably use Storage to upload image instead of boto directly
         media_storage = MediaStorage()
         upload_file = (
             f"{media_storage.location}/{self.get_upload_image_path}{image.name}"
@@ -94,6 +95,12 @@ class Command(BaseCommand):
 
                 self.stdout.write(self.style.SUCCESS(f"Added {issue} to database.\n\n"))
             else:
+                if not issue.image:
+                    fn = self._download_image(marvel_data.images[0])
+                    issue.image = f"{self.get_upload_image_path}{fn.name}"
+                    issue.save()
+                    self._upload_image(fn)
+                    fn.unlink()
                 self.stdout.write(self.style.WARNING(f"{issue} already exists...\n\n"))
         except IntegrityError:
             self.stdout.write(
@@ -133,7 +140,7 @@ class Command(BaseCommand):
         fnp = FileNameParser()
         for comic in pulls:
             fnp.parse_filename(comic.title)
-            self.stdout.write(f"Searching database for {fnp.series}")
+            self.stdout.write(f"Searching database for {fnp.series} #{fnp.issue}")
             results = Series.objects.filter(
                 name__icontains=fnp.series, year_began=int(fnp.year)
             )
