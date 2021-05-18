@@ -109,6 +109,21 @@ class Command(BaseCommand):
                 )
             )
 
+    def _get_data_from_marvel(self, options):
+        m = marvelous.api(MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY)
+        return sorted(
+            m.comics(
+                {
+                    "format": "comic",
+                    "formatType": "comic",
+                    "noVariants": True,
+                    "dateDescriptor": options["date"],
+                    "limit": 100,
+                }
+            ),
+            key=lambda comic: comic.title,
+        )
+
     def add_arguments(self, parser):
         parser.add_argument(
             "-d",
@@ -122,20 +137,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.NOTICE("No month requested. Exiting..."))
             exit(0)
 
-        m = marvelous.api(MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY)
-
-        pulls = sorted(
-            m.comics(
-                {
-                    "format": "comic",
-                    "formatType": "comic",
-                    "noVariants": True,
-                    "dateDescriptor": options["date"],
-                    "limit": 100,
-                }
-            ),
-            key=lambda comic: comic.title,
-        )
+        pulls = self._get_data_from_marvel(options)
 
         fnp = FileNameParser()
         for comic in pulls:
