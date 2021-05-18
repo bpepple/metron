@@ -36,7 +36,9 @@ class Command(BaseCommand):
 
     def _upload_image(self, image):
         media_storage = MediaStorage()
-        upload_file = f"{media_storage.location}/{self.get_upload_image_path}{image.name}"
+        upload_file = (
+            f"{media_storage.location}/{self.get_upload_image_path}{image.name}"
+        )
 
         sesh = session.Session()
         client = sesh.client(
@@ -100,7 +102,19 @@ class Command(BaseCommand):
                 )
             )
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "-d",
+            "--date",
+            type=str,
+            help="The date period to query. Values: 'nextMonth' or 'thisMonth'",
+        )
+
     def handle(self, *args, **options):
+        if not options["date"]:
+            self.stdout.write(self.style.NOTICE("No month requested. Exiting..."))
+            exit(0)
+
         m = marvelous.api(MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY)
 
         pulls = sorted(
@@ -109,7 +123,7 @@ class Command(BaseCommand):
                     "format": "comic",
                     "formatType": "comic",
                     "noVariants": True,
-                    "dateDescriptor": "nextMonth",
+                    "dateDescriptor": options["date"],
                     "limit": 100,
                 }
             ),
