@@ -85,7 +85,7 @@ class Command(BaseCommand):
             if create:
                 if not DEBUG:
                     fn = self._download_image(marvel_data.images[0])
-                    issue.image = fn.name
+                    issue.image = f"{self.get_upload_image_path}{fn.name}"
                     issue.save()
                     self._upload_image(fn)
                     fn.unlink()
