@@ -4,9 +4,14 @@ from django.db import IntegrityError
 from django.utils.text import slugify
 
 from ._sbtalker import ShortBoxedTalker
-from ._utils import (clean_description, clean_shortboxed_data,
-                     determine_cover_date, format_string_to_date,
-                     get_query_values, select_series_choice)
+from ._utils import (
+    clean_description,
+    clean_shortboxed_data,
+    determine_cover_date,
+    format_string_to_date,
+    get_query_values,
+    select_series_choice,
+)
 
 
 class Command(BaseCommand):
@@ -30,7 +35,17 @@ class Command(BaseCommand):
             if create:
                 self.stdout.write(self.style.SUCCESS(f"Added {issue} to database.\n\n"))
             else:
-                self.stdout.write(self.style.WARNING(f"{issue} already exists...\n\n"))
+                # If an issue already exist and doesn't have a description, let's add one.
+                if not issue.desc and clean_desc:
+                    issue.desc = clean_desc.strip()
+                    issue.save()
+                    self.stdout.write(
+                        self.style.SUCCESS(f"Adding description to {issue}")
+                    )
+                else:
+                    self.stdout.write(
+                        self.style.WARNING(f"{issue} already exists...\n\n")
+                    )
         except IntegrityError:
             self.stdout.write(
                 self.style.WARNING(
