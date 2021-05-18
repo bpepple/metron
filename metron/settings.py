@@ -27,6 +27,10 @@ LOGLEVEL = environ.get("LOGLEVEL", "info").upper()
 PUSHOVER_TOKEN = config("PUSHOVER_TOKEN")
 PUSHOVER_USER_KEY = config("PUSHOVER_USER_KEY")
 
+# Marvel API Keys
+MARVEL_PUBLIC_KEY = config("MARVEL_PUBLIC_KEY")
+MARVEL_PRIVATE_KEY = config("MARVEL_PRIVATE_KEY")
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parents[1]
 
