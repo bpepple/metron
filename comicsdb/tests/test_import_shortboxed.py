@@ -1,6 +1,6 @@
 import datetime
 
-from comicsdb.management.commands.import_sandboxed import (
+from comicsdb.management.commands.import_shortboxed import (
     determine_cover_date,
     format_string_to_date,
 )
