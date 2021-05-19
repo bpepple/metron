@@ -18,29 +18,30 @@ class Command(BaseCommand):
     help = "Retrieve weekly comics from Shortboxed.com"
 
     def add_issue_to_database(self, series_obj, issue_number, sb_data):
-        release_date = format_string_to_date(sb_data["release_date"])
-        cover_date = determine_cover_date(release_date, sb_data["publisher"])
-        clean_desc = clean_description(sb_data["description"])
-
         try:
             issue, create = Issue.objects.get_or_create(
                 series=series_obj,
                 number=issue_number,
                 slug=slugify(series_obj.slug + " " + issue_number),
-                desc=clean_desc.strip(),
-                store_date=release_date,
-                cover_date=cover_date,
             )
 
+            clean_desc = clean_description(sb_data["description"])
             if create:
+                release_date = format_string_to_date(sb_data["release_date"])
+                cover_date = determine_cover_date(release_date, sb_data["publisher"])
+
+                issue.desc = clean_desc.strip()
+                issue.store_date = release_date
+                issue.cover_date = cover_date
+                issue.save()
                 self.stdout.write(self.style.SUCCESS(f"Added {issue} to database.\n\n"))
             else:
-                # If an issue already exist and doesn't have a description, let's add one.
+                # If an issue already exists and doesn't have a description, let's add one.
                 if not issue.desc and clean_desc:
                     issue.desc = clean_desc.strip()
                     issue.save()
                     self.stdout.write(
-                        self.style.SUCCESS(f"Adding description to {issue}")
+                        self.style.SUCCESS(f"Adding description to {issue}\n\n")
                     )
                 else:
                     self.stdout.write(
@@ -49,7 +50,7 @@ class Command(BaseCommand):
         except IntegrityError:
             self.stdout.write(
                 self.style.WARNING(
-                    f"{series_obj} #{issue_number} already existing in the database.\n\n"
+                    f"Integrity Error: {series_obj} #{issue_number} already existing in the database.\n\n"
                 )
             )
 
