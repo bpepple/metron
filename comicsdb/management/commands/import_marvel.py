@@ -1,6 +1,7 @@
-from os import fspath
+import shutil
 import tempfile
 from datetime import datetime
+from os import fspath
 from pathlib import Path
 from urllib.request import urlopen
 
@@ -8,13 +9,12 @@ import dateutil.relativedelta
 import marvelous
 from boto3 import session
 from boto3.s3.transfer import S3Transfer
-from comicsdb.models import Issue, Series
+from comicsdb.models import Creator, Credits, Issue, Role, Series
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from django.utils.text import slugify
 from metron.settings import DEBUG, MARVEL_PRIVATE_KEY, MARVEL_PUBLIC_KEY, MEDIA_ROOT
 from metron.storage_backends import MediaStorage
-import shutil
 
 from ._parse_title import FileNameParser
 from ._utils import select_series_choice
@@ -61,6 +61,17 @@ class Command(BaseCommand):
         )
         print(f"Uploaded {image.name} to DigitalOcean.")
 
+    def _add_eic_credit(self, issue_obj):
+        cb = Creator.objects.get(slug="c-b-cebulski")
+        cr, create = Credits.objects.get_or_create(issue=issue_obj, creator=cb)
+        self.stdout.write(self.style.SUCCESS(f"Added credit for {cb} to {issue_obj}."))
+        if create:
+            eic = Role.objects.get(name__iexact="editor in chief")
+            cr.role.add(eic)
+            self.stdout.write(
+                self.style.SUCCESS(f"Added '{eic}' role for {cb} to {issue_obj}.")
+            )
+
     def _download_image(self, url):
         url_path = Path(url)
         save_path = Path(tempfile.gettempdir()) / url_path.name
@@ -91,6 +102,7 @@ class Command(BaseCommand):
             if not DEBUG:
                 if create:
                     self._get_cover(marvel_data, issue)
+                    self._add_eic_credit(issue)
                     self.stdout.write(
                         self.style.SUCCESS(f"Added {issue} to database.\n\n")
                     )
@@ -103,6 +115,7 @@ class Command(BaseCommand):
             else:
                 if create:
                     self._get_cover_debug(marvel_data, issue)
+                    self._add_eic_credit(issue)
                     self.stdout.write(
                         self.style.SUCCESS(f"Added {issue} to database.\n\n")
                     )
