@@ -1,3 +1,4 @@
+from os import fspath
 import tempfile
 from datetime import datetime
 from pathlib import Path
@@ -11,8 +12,9 @@ from comicsdb.models import Issue, Series
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from django.utils.text import slugify
-from metron.settings import DEBUG, MARVEL_PRIVATE_KEY, MARVEL_PUBLIC_KEY
+from metron.settings import DEBUG, MARVEL_PRIVATE_KEY, MARVEL_PUBLIC_KEY, MEDIA_ROOT
 from metron.storage_backends import MediaStorage
+import shutil
 
 from ._parse_title import FileNameParser
 from ._utils import select_series_choice
@@ -57,6 +59,7 @@ class Command(BaseCommand):
             upload_file,
             extra_args={"CacheControl": "max-age=604800", "ACL": "public-read"},
         )
+        print(f"Uploaded {image.name} to DigitalOcean.")
 
     def _download_image(self, url):
         url_path = Path(url)
@@ -85,29 +88,58 @@ class Command(BaseCommand):
                 issue.desc = marvel_data.description
                 issue.save()
 
-            if create:
-                if not DEBUG:
-                    fn = self._download_image(marvel_data.images[0])
-                    issue.image = f"{self.get_upload_image_path}{fn.name}"
-                    issue.save()
-                    self._upload_image(fn)
-                    fn.unlink()
-
-                self.stdout.write(self.style.SUCCESS(f"Added {issue} to database.\n\n"))
+            if not DEBUG:
+                if create:
+                    self._get_cover(marvel_data, issue)
+                    self.stdout.write(
+                        self.style.SUCCESS(f"Added {issue} to database.\n\n")
+                    )
+                else:
+                    if not issue.image:
+                        self._get_cover(marvel_data, issue)
+                    self.stdout.write(
+                        self.style.WARNING(f"{issue} already exists...\n\n")
+                    )
             else:
-                if not issue.image:
-                    fn = self._download_image(marvel_data.images[0])
-                    issue.image = f"{self.get_upload_image_path}{fn.name}"
-                    issue.save()
-                    self._upload_image(fn)
-                    fn.unlink()
-                self.stdout.write(self.style.WARNING(f"{issue} already exists...\n\n"))
+                if create:
+                    self._get_cover_debug(marvel_data, issue)
+                    self.stdout.write(
+                        self.style.SUCCESS(f"Added {issue} to database.\n\n")
+                    )
+                else:
+                    if not issue.image:
+                        self._get_cover_debug(marvel_data, issue)
+                        self.stdout.write(
+                            self.style.SUCCESS(f"Added image to {issue}\n")
+                        )
+                    else:
+                        self.stdout.write(
+                            self.style.WARNING(f"{issue} already exists...\n\n")
+                        )
+
         except IntegrityError:
             self.stdout.write(
                 self.style.WARNING(
                     f"{series_obj} #{fnp.issue} already existing in the database.\n\n"
                 )
             )
+
+    def _get_cover_debug(self, marvel_data, issue):
+        fn = self._download_image(marvel_data.images[0])
+        issue.image = f"{self.get_upload_image_path}{fn.name}"
+        issue.save()
+
+        dest = Path(MEDIA_ROOT) / f"{self.get_upload_image_path}"
+        if not dest.is_dir():
+            dest.mkdir(parents=True)
+        shutil.move(fspath(fn), fspath(dest))
+
+    def _get_cover(self, marvel_data, issue):
+        fn = self._download_image(marvel_data.images[0])
+        issue.image = f"{self.get_upload_image_path}{fn.name}"
+        issue.save()
+        self._upload_image(fn)
+        fn.unlink()
 
     def _get_data_from_marvel(self, options):
         m = marvelous.api(MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY)
