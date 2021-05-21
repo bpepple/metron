@@ -18,21 +18,19 @@ class Command(BaseCommand):
     help = "Retrieve weekly comics from Shortboxed.com"
 
     def add_issue_to_database(self, series_obj, issue_number, sb_data):
+        release_date = format_string_to_date(sb_data["release_date"])
+        cover_date = determine_cover_date(release_date, sb_data["publisher"])
         try:
             issue, create = Issue.objects.get_or_create(
                 series=series_obj,
                 number=issue_number,
                 slug=slugify(series_obj.slug + " " + issue_number),
+                store_date=release_date,
+                cover_date=cover_date,
             )
-
             clean_desc = clean_description(sb_data["description"])
             if create:
-                release_date = format_string_to_date(sb_data["release_date"])
-                cover_date = determine_cover_date(release_date, sb_data["publisher"])
-
                 issue.desc = clean_desc.strip()
-                issue.store_date = release_date
-                issue.cover_date = cover_date
                 issue.save()
                 self.stdout.write(self.style.SUCCESS(f"Added {issue} to database.\n\n"))
             else:
