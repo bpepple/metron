@@ -13,7 +13,7 @@ from comicsdb.models import Creator, Credits, Issue, Role, Series
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from django.utils.text import slugify
-from metron.settings import DEBUG, MARVEL_PRIVATE_KEY, MARVEL_PUBLIC_KEY, MEDIA_ROOT
+from metron.settings import DEBUG, MARVEL_PRIVATE_KEY, MARVEL_PUBLIC_KEY
 from metron.storage_backends import MediaStorage
 
 from ._parse_title import FileNameParser
@@ -26,6 +26,8 @@ if not DEBUG:
         AWS_SECRET_ACCESS_KEY,
         AWS_STORAGE_BUCKET_NAME,
     )
+else:
+    from metron.settings import MEDIA_ROOT
 
 
 class Command(BaseCommand):
