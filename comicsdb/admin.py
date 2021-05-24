@@ -1,4 +1,8 @@
+import datetime
+from typing import Any, List, Optional, Tuple
+
 from django.contrib import admin
+from django.db.models.query import QuerySet
 from sorl.thumbnail.admin import AdminImageMixin
 
 from comicsdb.forms.credits import CreditsForm
@@ -16,6 +20,25 @@ from comicsdb.models import (
     Team,
     Variant,
 )
+
+
+class FutureStoreDateListFilter(admin.SimpleListFilter):
+    title = "future store week"
+
+    parameter_name = "store_date"
+
+    def lookups(self, request: Any, model_admin: Any) -> List[Tuple[Any, str]]:
+        return (("thisWeek", "This week"), ("nextWeek", "Next week"))
+
+    def queryset(self, request: Any, queryset: QuerySet) -> Optional[QuerySet]:
+        today = datetime.date.today()
+        year, week, _ = today.isocalendar()
+
+        if self.value() == "thisWeek":
+            return queryset.filter(store_date__week=week, store_date__year=year)
+
+        if self.value() == "nextWeek":
+            return queryset.filter(store_date__week=week + 1, store_date__year=year)
 
 
 class CreditsInline(admin.TabularInline):
@@ -74,7 +97,13 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
     form = IssueForm
     search_fields = ("series__name",)
     list_display = ("__str__", "cover_date")
-    list_filter = ("created_on", "store_date", "cover_date", "series__publisher")
+    list_filter = (
+        FutureStoreDateListFilter,
+        "created_on",
+        "store_date",
+        "cover_date",
+        "series__publisher",
+    )
     list_select_related = ("series",)
     date_hierarchy = "cover_date"
     actions_on_top = True
