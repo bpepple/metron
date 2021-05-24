@@ -63,6 +63,27 @@ class Command(BaseCommand):
         )
         print(f"Uploaded {image.name} to DigitalOcean.")
 
+    def _fix_role(self, role):
+        if role == "penciler":
+            return "penciller"
+        elif "cover" in role:
+            return "cover"
+        else:
+            return role
+
+    def _add_creators(self, marvel_data, issue_obj):
+        for creator in marvel_data.creators:
+            try:
+                c = Creator.objects.get(name__iexact=creator.name)
+                r = self._fix_role(creator.role)
+                role = Role.objects.get(name__iexact=r)
+                credits = Credits.objects.create(issue=issue_obj, creator=c)
+                credits.role.add(role)
+                self.stdout.write(self.style.SUCCESS(f"Add {c} as a {role} to {issue_obj}"))
+            except Creator.DoesNotExist:
+                self.stdout.write(self.style.WARNING(f"Unable to find {creator.name}. Skipping..."))
+                continue
+
     def _add_eic_credit(self, issue_obj):
         cb = Creator.objects.get(slug="c-b-cebulski")
         cr, create = Credits.objects.get_or_create(issue=issue_obj, creator=cb)
@@ -105,6 +126,7 @@ class Command(BaseCommand):
                 if create:
                     self._get_cover(marvel_data, issue)
                     self._add_eic_credit(issue)
+                    self._add_creators(marvel_data, issue)
                     self.stdout.write(
                         self.style.SUCCESS(f"Added {issue} to database.\n\n")
                     )
@@ -118,6 +140,7 @@ class Command(BaseCommand):
                 if create:
                     self._get_cover_debug(marvel_data, issue)
                     self._add_eic_credit(issue)
+                    self._add_creators(marvel_data, issue)
                     self.stdout.write(
                         self.style.SUCCESS(f"Added {issue} to database.\n\n")
                     )
