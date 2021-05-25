@@ -9,7 +9,7 @@ import dateutil.relativedelta
 import marvelous
 from boto3 import session
 from boto3.s3.transfer import S3Transfer
-from comicsdb.models import Creator, Credits, Issue, Role, Series
+from comicsdb.models import Character, Creator, Credits, Issue, Role, Series
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from django.utils.text import slugify
@@ -61,7 +61,7 @@ class Command(BaseCommand):
             upload_file,
             extra_args={"CacheControl": "max-age=604800", "ACL": "public-read"},
         )
-        print(f"Uploaded {image.name} to DigitalOcean.")
+        self.stdout.write(self.style.SUCCESS(f"Uploaded {image.name} to DigitalOcean."))
 
     def _fix_role(self, role):
         if role == "penciler":
@@ -71,6 +71,19 @@ class Command(BaseCommand):
         else:
             return role
 
+    def _add_characters(self, marvel_data, issue_obj):
+        for character in marvel_data.characters:
+            try:
+                c = Character.objects.get(name__iexact=character.name)
+                issue_obj.characters.add(c)
+            except Character.DoesNotExist:
+                self.stdout.write(
+                    self.style.WARNING(
+                        f"Unable to find '{character.name}'. Skipping..."
+                    )
+                )
+                continue
+
     def _add_creators(self, marvel_data, issue_obj):
         for creator in marvel_data.creators:
             try:
@@ -79,9 +92,13 @@ class Command(BaseCommand):
                 role = Role.objects.get(name__iexact=r)
                 credits = Credits.objects.create(issue=issue_obj, creator=c)
                 credits.role.add(role)
-                self.stdout.write(self.style.SUCCESS(f"Add {c} as a {role} to {issue_obj}"))
+                self.stdout.write(
+                    self.style.SUCCESS(f"Add {c} as a {role} to {issue_obj}")
+                )
             except Creator.DoesNotExist:
-                self.stdout.write(self.style.WARNING(f"Unable to find {creator.name}. Skipping..."))
+                self.stdout.write(
+                    self.style.WARNING(f"Unable to find {creator.name}. Skipping...")
+                )
                 continue
 
     def _add_eic_credit(self, issue_obj):
@@ -126,7 +143,10 @@ class Command(BaseCommand):
                 if create:
                     self._get_cover(marvel_data, issue)
                     self._add_eic_credit(issue)
-                    self._add_creators(marvel_data, issue)
+                    if marvel_data.creators:
+                        self._add_creators(marvel_data, issue)
+                    if marvel_data.characters:
+                        self._add_characters(marvel_data, issue)
                     self.stdout.write(
                         self.style.SUCCESS(f"Added {issue} to database.\n\n")
                     )
@@ -140,7 +160,10 @@ class Command(BaseCommand):
                 if create:
                     self._get_cover_debug(marvel_data, issue)
                     self._add_eic_credit(issue)
-                    self._add_creators(marvel_data, issue)
+                    if marvel_data.creators:
+                        self._add_creators(marvel_data, issue)
+                    if marvel_data.characters:
+                        self._add_characters(marvel_data, issue)
                     self.stdout.write(
                         self.style.SUCCESS(f"Added {issue} to database.\n\n")
                     )
