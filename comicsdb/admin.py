@@ -52,6 +52,33 @@ class VariantInline(admin.TabularInline):
     extra = 1
 
 
+def add_dc_credits(modeladmin, request, queryset):
+    jim = Creator.objects.get(slug="jim-lee")
+    marie = Creator.objects.get(slug="marie-javins")
+    eic = Role.objects.get(name__iexact="editor in chief")
+    pub = Role.objects.get(name__iexact="publisher")
+    chief = Role.objects.get(name__iexact="Chief Creative Officer")
+    for i in queryset:
+        jc = Credits.objects.create(issue=i, creator=jim)
+        jc.role.add(pub, chief)
+        mc = Credits.objects.create(issue=i, creator=marie)
+        mc.role.add(eic)
+
+
+add_dc_credits.short_description = "Add current DC executive credits"
+
+
+def add_marvel_credits(modeladmin, request, queryset):
+    marie = Creator.objects.get(slug="c-b-cebulski")
+    eic = Role.objects.get(name__iexact="editor in chief")
+    for i in queryset:
+        mc = Credits.objects.create(issue=i, creator=marie)
+        mc.role.add(eic)
+
+
+add_marvel_credits.short_description = "Add current Marvel EIC"
+
+
 @admin.register(Arc)
 class ArcAdmin(AdminImageMixin, admin.ModelAdmin):
     search_fields = ("name",)
@@ -106,6 +133,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
     )
     list_select_related = ("series",)
     date_hierarchy = "cover_date"
+    actions = [add_dc_credits, add_marvel_credits]
     actions_on_top = True
     # form view
     fieldsets = (
