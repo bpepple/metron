@@ -148,12 +148,6 @@ class IssueSerializer(serializers.ModelSerializer):
             "teams",
         )
 
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        if not data["store_date"]:
-            data["store_date"] = ""
-        return data
-
 
 class PublisherSerializer(serializers.ModelSerializer):
     class Meta:
