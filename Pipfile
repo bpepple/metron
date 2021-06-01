@@ -21,6 +21,7 @@ django-autocomplete-light = "*"
 django-simple-bulma = "*"
 drf-spectacular = "*"
 marvelous = "*"
+django-simple-history = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
