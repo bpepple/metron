@@ -1,6 +1,7 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse
+from simple_history.models import HistoricalRecords
 from sorl.thumbnail import ImageField
 from users.models import CustomUser
 
@@ -13,6 +14,7 @@ class Arc(models.Model):
     modified = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    history = HistoricalRecords()
 
     @property
     def issue_count(self):
@@ -40,6 +42,7 @@ class Creator(models.Model):
     modified = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    history = HistoricalRecords()
 
     @property
     def issue_count(self):
@@ -69,6 +72,7 @@ class Team(models.Model):
     modified = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    history = HistoricalRecords()
 
     def get_absolute_url(self):
         return reverse("team:detail", args=[self.slug])
@@ -96,6 +100,7 @@ class Character(models.Model):
     modified = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    history = HistoricalRecords()
 
     def get_absolute_url(self):
         return reverse("character:detail", args=[self.slug])
@@ -129,6 +134,7 @@ class Publisher(models.Model):
     modified = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    history = HistoricalRecords()
 
     def get_absolute_url(self):
         return reverse("publisher:detail", args=[self.slug])
@@ -182,6 +188,7 @@ class Series(models.Model):
     modified = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    history = HistoricalRecords()
 
     def get_absolute_url(self):
         return reverse("series:detail", args=[self.slug])
@@ -223,6 +230,7 @@ class Issue(models.Model):
     modified = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    history = HistoricalRecords()
 
     def get_absolute_url(self):
         return reverse("issue:detail", args=[self.slug])

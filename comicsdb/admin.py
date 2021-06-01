@@ -3,6 +3,7 @@ from typing import Any, List, Optional, Tuple
 
 from django.contrib import admin
 from django.db.models.query import QuerySet
+from simple_history.admin import SimpleHistoryAdmin
 from sorl.thumbnail.admin import AdminImageMixin
 
 from comicsdb.forms.credits import CreditsForm
@@ -80,14 +81,14 @@ add_marvel_credits.short_description = "Add current Marvel EIC"
 
 
 @admin.register(Arc)
-class ArcAdmin(AdminImageMixin, admin.ModelAdmin):
+class ArcAdmin(AdminImageMixin, SimpleHistoryAdmin):
     search_fields = ("name",)
     prepopulated_fields = {"slug": ("name",)}
     field = ("name", "slug", "desc", "image")
 
 
 @admin.register(Character)
-class CharacterAdmin(AdminImageMixin, admin.ModelAdmin):
+class CharacterAdmin(AdminImageMixin, SimpleHistoryAdmin):
     search_fields = ("name",)
     prepopulated_fields = {"slug": ("name",)}
     # form view
@@ -112,7 +113,7 @@ class CharacterAdmin(AdminImageMixin, admin.ModelAdmin):
 
 
 @admin.register(Creator)
-class CreatorAdmin(AdminImageMixin, admin.ModelAdmin):
+class CreatorAdmin(AdminImageMixin, SimpleHistoryAdmin):
     search_fields = ("name",)
     prepopulated_fields = {"slug": ("name",)}
     readonly_fields = ("modified",)
@@ -120,7 +121,7 @@ class CreatorAdmin(AdminImageMixin, admin.ModelAdmin):
 
 
 @admin.register(Issue)
-class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
+class IssueAdmin(AdminImageMixin, SimpleHistoryAdmin):
     form = IssueForm
     search_fields = ("series__name",)
     list_display = ("__str__", "cover_date")
@@ -160,7 +161,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
 
 
 @admin.register(Publisher)
-class PublisherAdmin(AdminImageMixin, admin.ModelAdmin):
+class PublisherAdmin(AdminImageMixin, SimpleHistoryAdmin):
     prepopulated_fields = {"slug": ("name",)}
     list_display = ("name", "series_count")
     readonly_fields = ("modified",)
@@ -184,7 +185,7 @@ class RoleAdmin(admin.ModelAdmin):
 
 
 @admin.register(Series)
-class SeriesAdmin(admin.ModelAdmin):
+class SeriesAdmin(SimpleHistoryAdmin):
     search_fields = ("name",)
     list_display = ("name", "year_began")
     list_filter = ("publisher",)
@@ -209,7 +210,7 @@ class SeriesTypeAdmin(admin.ModelAdmin):
 
 
 @admin.register(Team)
-class TeamAdmin(AdminImageMixin, admin.ModelAdmin):
+class TeamAdmin(AdminImageMixin, SimpleHistoryAdmin):
     search_fields = ("name",)
     prepopulated_fields = {"slug": ("name",)}
     # form view
