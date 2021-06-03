@@ -296,7 +296,6 @@ if not DEBUG:
 
     STATICFILES_DIRS = (chartkick.js(), BASE_DIR / "static")
     STATIC_URL = f"{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
-    STATIC_ROOT = config("STATIC_ROOT")
 
     DEFAULT_FILE_STORAGE = "metron.storage_backends.MediaStorage"
 else:
