@@ -15,6 +15,7 @@ from django.db import IntegrityError
 from django.utils.text import slugify
 from metron.settings import DEBUG, MARVEL_PRIVATE_KEY, MARVEL_PUBLIC_KEY
 from metron.storage_backends import MediaStorage
+from simple_history.utils import update_change_reason
 
 from ._parse_title import FileNameParser
 from ._utils import select_series_choice
@@ -123,7 +124,9 @@ class Command(BaseCommand):
         new_date = release_date + dateutil.relativedelta.relativedelta(months=2)
         return new_date.replace(day=1)
 
-    def add_issue_to_database(self, series_obj, fnp: FileNameParser, marvel_data):
+    def add_issue_to_database(
+        self, series_obj, fnp: FileNameParser, marvel_data, cover: bool
+    ):
         cover_date = self._determine_cover_date(marvel_data.dates.on_sale)
         slug = slugify(series_obj.slug + " " + fnp.issue)
 
@@ -139,44 +142,40 @@ class Command(BaseCommand):
                 issue.desc = marvel_data.description
                 issue.save()
 
-            if not DEBUG:
-                if create:
-                    self._get_cover(marvel_data, issue)
-                    self._add_eic_credit(issue)
-                    if marvel_data.creators:
-                        self._add_creators(marvel_data, issue)
-                    if marvel_data.characters:
-                        self._add_characters(marvel_data, issue)
-                    self.stdout.write(
-                        self.style.SUCCESS(f"Added {issue} to database.\n\n")
-                    )
-                else:
-                    if not issue.image:
+            if create:
+                if cover:
+                    if not DEBUG:
                         self._get_cover(marvel_data, issue)
-                    self.stdout.write(
-                        self.style.WARNING(f"{issue} already exists...\n\n")
-                    )
-            else:
-                if create:
-                    self._get_cover_debug(marvel_data, issue)
-                    self._add_eic_credit(issue)
-                    if marvel_data.creators:
-                        self._add_creators(marvel_data, issue)
-                    if marvel_data.characters:
-                        self._add_characters(marvel_data, issue)
-                    self.stdout.write(
-                        self.style.SUCCESS(f"Added {issue} to database.\n\n")
-                    )
-                else:
-                    if not issue.image:
+                    else:
                         self._get_cover_debug(marvel_data, issue)
+                self._add_eic_credit(issue)
+                if marvel_data.creators:
+                    self._add_creators(marvel_data, issue)
+                if marvel_data.characters:
+                    self._add_characters(marvel_data, issue)
+                # Save the change reason
+                update_change_reason(issue, "Marvel import")
+                self.stdout.write(self.style.SUCCESS(f"Added {issue} to database.\n\n"))
+            else:
+                if cover:
+                    if not issue.image:
+                        if not DEBUG:
+                            self._get_cover(marvel_data, issue)
+                        else:
+                            self._get_cover_debug(marvel_data, issue)
                         self.stdout.write(
                             self.style.SUCCESS(f"Added image to {issue}\n")
                         )
+                        # Save the change reason
+                        update_change_reason(issue, "Imported")
                     else:
                         self.stdout.write(
                             self.style.WARNING(f"{issue} already exists...\n\n")
                         )
+                else:
+                    self.stdout.write(
+                        self.style.WARNING(f"{issue} already exists...\n\n")
+                    )
 
         except IntegrityError:
             self.stdout.write(
@@ -225,6 +224,13 @@ class Command(BaseCommand):
             default="nextWeek",
             help="The date period to query.",
         )
+        parser.add_argument(
+            "-c",
+            "--cover",
+            help="Retrieve issue covers from Marvel.",
+            action="store_true",
+            default=False,
+        )
 
     def handle(self, *args, **options):
         if not options["date"]:
@@ -243,7 +249,9 @@ class Command(BaseCommand):
             if results:
                 correct_series = select_series_choice(results)
                 if correct_series:
-                    self.add_issue_to_database(correct_series, fnp, comic)
+                    self.add_issue_to_database(
+                        correct_series, fnp, comic, options["cover"]
+                    )
                 else:
                     self.stdout.write(
                         self.style.NOTICE(
