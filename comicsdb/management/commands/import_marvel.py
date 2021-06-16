@@ -156,27 +156,20 @@ class Command(BaseCommand):
                 # Save the change reason
                 update_change_reason(issue, "Marvel import")
                 self.stdout.write(self.style.SUCCESS(f"Added {issue} to database.\n\n"))
-            else:
-                if cover:
-                    if not issue.image:
-                        if not DEBUG:
-                            self._get_cover(marvel_data, issue)
-                        else:
-                            self._get_cover_debug(marvel_data, issue)
-                        self.stdout.write(
-                            self.style.SUCCESS(f"Added image to {issue}\n")
-                        )
-                        # Save the change reason
-                        update_change_reason(issue, "Imported")
-                    else:
-                        self.stdout.write(
-                            self.style.WARNING(f"{issue} already exists...\n\n")
-                        )
+            elif cover and not issue.image:
+                if not DEBUG:
+                    self._get_cover(marvel_data, issue)
                 else:
-                    self.stdout.write(
-                        self.style.WARNING(f"{issue} already exists...\n\n")
-                    )
-
+                    self._get_cover_debug(marvel_data, issue)
+                self.stdout.write(
+                    self.style.SUCCESS(f"Added image to {issue}\n")
+                )
+                # Save the change reason
+                update_change_reason(issue, "Imported")
+            else:
+                self.stdout.write(
+                    self.style.WARNING(f"{issue} already exists...\n\n")
+                )
         except IntegrityError:
             self.stdout.write(
                 self.style.WARNING(
