@@ -36,20 +36,19 @@ class Command(BaseCommand):
                 # Save the change reason
                 update_change_reason(issue, "Shortboxed import")
                 self.stdout.write(self.style.SUCCESS(f"Added {issue} to database.\n\n"))
-            else:
+            elif not issue.desc and clean_desc:
                 # If an issue already exists and doesn't have a description, let's add one.
-                if not issue.desc and clean_desc:
-                    issue.desc = clean_desc.strip()
-                    issue.save()
-                    # Save the change reason
-                    update_change_reason(issue, "Shortboxed import")
-                    self.stdout.write(
-                        self.style.SUCCESS(f"Adding description to {issue}\n\n")
-                    )
-                else:
-                    self.stdout.write(
-                        self.style.WARNING(f"{issue} already exists...\n\n")
-                    )
+                issue.desc = clean_desc.strip()
+                issue.save()
+                # Save the change reason
+                update_change_reason(issue, "Shortboxed import")
+                self.stdout.write(
+                    self.style.SUCCESS(f"Adding description to {issue}\n\n")
+                )
+            else:
+                self.stdout.write(
+                    self.style.WARNING(f"{issue} already exists...\n\n")
+                )
         except IntegrityError:
             self.stdout.write(
                 self.style.WARNING(
