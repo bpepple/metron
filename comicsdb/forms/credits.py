@@ -21,4 +21,6 @@ class CreditsForm(ModelForm):
         fields = "__all__"
 
 
-CreditsFormSet = inlineformset_factory(Issue, Credits, form=CreditsForm, extra=1)
+CreditsFormSet = inlineformset_factory(
+    Issue, Credits, form=CreditsForm, extra=1, can_delete=True
+)
