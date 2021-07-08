@@ -74,7 +74,9 @@
                 {{ hidden }}
               {% endfor %}
             {% endif %}
-            {{ field.errors.as_ul }}
+            {% for error in field.errors %}
+            <strong class="has-text-danger">{{ error }}</strong>
+            {% endfor %}
             <div class="field">
               {% if field|is_select %}
                 <div class="control is-expanded">
