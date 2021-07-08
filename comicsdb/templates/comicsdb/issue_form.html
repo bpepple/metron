@@ -53,14 +53,20 @@
     <!-- end main -->
 
     <!-- credits -->
-    <label class="label">Credits</label>
     {{ credits.management_form }}
-    {{ credits.non_form_errors }}
-    
-    {% for form in credits.forms %}
-      <div class="field is-horizontal formset_row">
-        <div class="field-body">
+    {{ credits.non_form_errors }}    
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          <th>Creator</th>
+          <th>Role</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      {% for form in credits.forms %}
+        <tr class="formset_row">
           {% for field in form.visible_fields %}
+          <td>
             {# Include the hidden fields in the form #}
             {% if forloop.first %}
               {% for hidden in form.hidden_fields %}
@@ -71,7 +77,7 @@
             <div class="field">
               {% if field|is_select %}
                 <div class="control is-expanded">
-                  <div class="select is-fullwidth {% if field|is_multiple_select %}is-multiple{% endif %}">
+                  <div class="select {% if field|is_multiple_select %}is-multiple{% endif %}">
                     {{ field }}
                   </div>
                 </div>
@@ -84,10 +90,11 @@
                 </ul>
               {% endif %}
             </div>
+          </td>
           {% endfor %}
-        </div>
-      </div>
+        </tr>
     {% endfor %}
+    </table>
     <!-- end credits -->
 
     <!-- submit -->
