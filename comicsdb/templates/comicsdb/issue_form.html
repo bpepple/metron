@@ -11,7 +11,7 @@
 
 {% block comic_content %}
   <h1 class="title">Issue Form</h1>
-  <form method="post" enctype="multipart/form-data">
+  <form method="post" enctype="multipart/form-data" id="issueForm">
     {%csrf_token%}
     <!-- main -->
     {% if form.errors %}
@@ -64,9 +64,10 @@
         </tr>
       </thead>
       {% for form in credits.forms %}
-        <tr class="formset_row">
+        <tr>
           {% for field in form.visible_fields %}
           <td>
+            {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
             {# Include the hidden fields in the form #}
             {% if forloop.first %}
               {% for hidden in form.hidden_fields %}
@@ -113,10 +114,12 @@
 <script src="{% static 'site/js/issue-slug.js' %}"></script>
 <script src="{% static 'site/js/jquery.formset.js' %}"></script>
 <script type="text/javascript">
-    $('.formset_row').formset({
-        addText: 'Add another creator credit',
-        deleteText: 'Remove?',
-        prefix: 'credits_set'
-    });
+    $(function() {
+        $('#issueForm tbody tr').formset({
+            prefix: '{{ credits.prefix }}',
+            deleteText: 'Remove?',
+            addText: 'Add another creator credit',
+        });
+    })
 </script>
 {% endblock %}
