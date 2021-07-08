@@ -41,7 +41,8 @@ class CreatorAutocomplete(autocomplete.Select2QuerySetView):
         if self.q:
             qs = qs.filter(
                 # Unaccent lookup won't work on alias array field.
-                Q(name__unaccent__icontains=self.q) | Q(alias__icontains=self.q)
+                Q(name__unaccent__icontains=self.q)
+                | Q(alias__icontains=self.q)
             )
 
         return qs
@@ -100,12 +101,12 @@ class IssueCreate(LoginRequiredMixin, CreateView):
     form_class = IssueForm
 
     def get_context_data(self, **kwargs):
-        data = super(IssueCreate, self).get_context_data(**kwargs)
+        context = super(IssueCreate, self).get_context_data(**kwargs)
         if self.request.POST:
-            data["credits"] = CreditsFormSet(self.request.POST)
+            context["credits"] = CreditsFormSet(self.request.POST)
         else:
-            data["credits"] = CreditsFormSet()
-        return data
+            context["credits"] = CreditsFormSet()
+        return context
 
     def form_valid(self, form):
         context = self.get_context_data()
@@ -129,23 +130,24 @@ class IssueUpdate(LoginRequiredMixin, UpdateView):
     form_class = IssueForm
 
     def get_context_data(self, **kwargs):
-        data = super(IssueUpdate, self).get_context_data(**kwargs)
+        context = super(IssueUpdate, self).get_context_data(**kwargs)
         if self.request.POST:
-            data["credits"] = CreditsFormSet(
+            context["credits"] = CreditsFormSet(
                 self.request.POST,
                 instance=self.object,
                 queryset=(
                     Credits.objects.filter(issue=self.object).prefetch_related("role")
                 ),
             )
+            context["credits"].full_clean()
         else:
-            data["credits"] = CreditsFormSet(
+            context["credits"] = CreditsFormSet(
                 instance=self.object,
                 queryset=(
                     Credits.objects.filter(issue=self.object).prefetch_related("role")
                 ),
             )
-        return data
+        return context
 
     def form_valid(self, form):
         context = self.get_context_data()
@@ -157,6 +159,8 @@ class IssueUpdate(LoginRequiredMixin, UpdateView):
             if credits_form.is_valid():
                 credits_form.instance = self.object
                 credits_form.save()
+            else:
+                return super().form_invalid(form)
 
             LOGGER.info(
                 f"Issue: {form.instance.series} #{form.instance.number} was updated by {self.request.user}"
