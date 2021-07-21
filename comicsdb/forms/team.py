@@ -1,7 +1,6 @@
-from django.forms import ModelForm, TextInput, Textarea, ClearableFileInput
-from django.contrib.admin.widgets import FilteredSelectMultiple
-
 from comicsdb.models import Team
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.forms import ClearableFileInput, ModelForm, Textarea, TextInput
 
 
 class TeamForm(ModelForm):
@@ -11,10 +10,9 @@ class TeamForm(ModelForm):
 
     class Meta:
         model = Team
-        fields = ("name", "slug", "desc", "wikipedia", "creators", "image")
+        fields = ("name", "desc", "wikipedia", "creators", "image")
         widgets = {
             "name": TextInput(attrs={"class": "input"}),
-            "slug": TextInput(attrs={"class": "input"}),
             "desc": Textarea(attrs={"class": "textarea"}),
             "wikipedia": TextInput(attrs={"class": "input"}),
             "creators": FilteredSelectMultiple(
