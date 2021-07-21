@@ -1,15 +1,13 @@
-from django.forms import ModelForm, TextInput, Textarea, Select
-
 from comicsdb.models import Series
+from django.forms import ModelForm, Select, Textarea, TextInput
 
 
 class SeriesForm(ModelForm):
     class Meta:
         model = Series
-        exclude = ("edited_by",)
+        exclude = ("edited_by", "slug")
         widgets = {
             "name": TextInput(attrs={"class": "input"}),
-            "slug": TextInput(attrs={"class": "input"}),
             "sort_name": TextInput(attrs={"class": "input"}),
             "volume": TextInput(attrs={"class": "input"}),
             "year_began": TextInput(attrs={"class": "input"}),

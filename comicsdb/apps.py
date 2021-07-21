@@ -1,7 +1,11 @@
 from django.apps import AppConfig
 from django.db.models.signals import pre_delete, pre_save
 
-from comicsdb.signals import pre_delete_image, pre_save_slug_from_name
+from comicsdb.signals import (
+    pre_delete_image,
+    pre_save_series_slug,
+    pre_save_slug_from_name,
+)
 
 
 class ComicsdbConfig(AppConfig):
@@ -42,6 +46,11 @@ class ComicsdbConfig(AppConfig):
         )
         pre_save.connect(
             pre_save_slug_from_name, sender=publisher, dispatch_uid="pre_save_publisher"
+        )
+
+        series = self.get_model("Series")
+        pre_save.connect(
+            pre_save_series_slug, sender=series, dispatch_uid="pre_save_series"
         )
 
         team = self.get_model("Team")
