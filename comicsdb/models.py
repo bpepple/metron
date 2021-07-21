@@ -1,9 +1,29 @@
+import itertools
+
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from django.db.models.signals import pre_save
 from django.urls import reverse
+from django.utils.text import slugify
 from simple_history.models import HistoricalRecords
 from sorl.thumbnail import ImageField
 from users.models import CustomUser
+
+
+def generate_slug_from_name(instance):
+    slug_candidate = slug_original = slugify(instance.name)
+    Klass = instance.__class__
+    for i in itertools.count(1):
+        if not Klass.objects.filter(slug=slug_candidate).exists():
+            break
+        slug_candidate = f"{slug_original}-{i}"
+
+    return slug_candidate
+
+
+def pre_save_slug(sender, instance, **kwargs):
+    if not instance.slug:
+        instance.slug = generate_slug_from_name(instance)
 
 
 class Arc(models.Model):
@@ -28,6 +48,9 @@ class Arc(models.Model):
 
     class Meta:
         ordering = ["name"]
+
+
+pre_save.connect(pre_save_slug, sender=Arc, dispatch_uid="pre_save_arc")
 
 
 class Creator(models.Model):
@@ -62,6 +85,9 @@ class Creator(models.Model):
         ordering = ["name"]
 
 
+pre_save.connect(pre_save_slug, sender=Creator, dispatch_uid="pre_save_creator")
+
+
 class Team(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=255, unique=True)
@@ -86,6 +112,9 @@ class Team(models.Model):
 
     class Meta:
         ordering = ["name"]
+
+
+pre_save.connect(pre_save_slug, sender=Team, dispatch_uid="pre_save_team")
 
 
 class Character(models.Model):
@@ -124,6 +153,9 @@ class Character(models.Model):
         ordering = ["name"]
 
 
+pre_save.connect(pre_save_slug, sender=Character, dispatch_uid="pre_save_character")
+
+
 class Publisher(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
@@ -148,6 +180,9 @@ class Publisher(models.Model):
 
     class Meta:
         ordering = ["name"]
+
+
+pre_save.connect(pre_save_slug, sender=Publisher, dispatch_uid="pre_save_publisher")
 
 
 class Role(models.Model):
@@ -212,6 +247,25 @@ class Series(models.Model):
         ordering = ["sort_name", "year_began"]
 
 
+def generate_series_slug(instance):
+    slug_candidate = slug_original = slugify(f"{instance.name}-{instance.year_began}")
+    Klass = instance.__class__
+    for i in itertools.count(1):
+        if not Klass.objects.filter(slug=slug_candidate).exists():
+            break
+        slug_candidate = f"{slug_original}-{i}"
+
+    return slug_candidate
+
+
+def pre_save_series_slug(sender, instance, **kwargs):
+    if not instance.slug:
+        instance.slug = generate_series_slug(instance)
+
+
+pre_save.connect(pre_save_series_slug, sender=Series, dispatch_uid="pre_save_series")
+
+
 class Issue(models.Model):
     series = models.ForeignKey(Series, on_delete=models.CASCADE)
     name = ArrayField(
@@ -241,6 +295,24 @@ class Issue(models.Model):
     class Meta:
         unique_together = ["series", "number"]
         ordering = ["series__sort_name", "cover_date", "store_date", "number"]
+
+
+def generate_issue_slug(issue):
+    slug_candidate = slug_original = slugify(f"{issue.series.slug}-{issue.number}")
+    for i in itertools.count(1):
+        if not Issue.objects.filter(slug=slug_candidate).exists():
+            break
+        slug_candidate = f"{slug_original}-{i}"
+
+    return slug_candidate
+
+
+def pre_save_issue_slug(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = generate_issue_slug(instance)
+
+
+pre_save.connect(pre_save_issue_slug, sender=Issue)
 
 
 class Variant(models.Model):
