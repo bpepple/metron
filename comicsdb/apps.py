@@ -40,6 +40,9 @@ class ComicsdbConfig(AppConfig):
         pre_delete.connect(
             pre_delete_image, sender=publisher, dispatch_uid="pre_delete_publisher"
         )
+        pre_save.connect(
+            pre_save_slug_from_name, sender=publisher, dispatch_uid="pre_save_publisher"
+        )
 
         team = self.get_model("Team")
         pre_delete.connect(
