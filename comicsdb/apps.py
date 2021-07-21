@@ -11,6 +11,9 @@ class ComicsdbConfig(AppConfig):
     def ready(self):
         arc = self.get_model("Arc")
         pre_delete.connect(pre_delete_image, sender=arc, dispatch_uid="pre_delete_arc")
+        pre_save.connect(
+            pre_save_slug_from_name, sender=arc, dispatch_uid="pre_save_arc"
+        )
 
         character = self.get_model("Character")
         pre_delete.connect(
