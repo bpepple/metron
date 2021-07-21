@@ -12,7 +12,6 @@ class CharacterForm(ModelForm):
         model = Character
         fields = (
             "name",
-            "slug",
             "desc",
             "wikipedia",
             "alias",
@@ -22,7 +21,6 @@ class CharacterForm(ModelForm):
         )
         widgets = {
             "name": TextInput(attrs={"class": "input"}),
-            "slug": TextInput(attrs={"class": "input"}),
             "desc": Textarea(attrs={"class": "textarea"}),
             "wikipedia": TextInput(attrs={"class": "input"}),
             "alias": TextInput(attrs={"class": "input"}),
