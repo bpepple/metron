@@ -1,6 +1,9 @@
+import itertools
+
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse
+from django.utils.text import slugify
 from simple_history.models import HistoricalRecords
 from sorl.thumbnail import ImageField
 from users.models import CustomUser
@@ -57,6 +60,22 @@ class Creator(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    def _generate_slug(self):
+        value = self.name
+        slug_candidate = slug_original = slugify(value, allow_unicode=True)
+        for i in itertools.count(1):
+            if not Creator.objects.filter(slug=slug_candidate).exists():
+                break
+            slug_candidate = f"{slug_original}-{i}"
+
+        self.slug = slug_candidate
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self._generate_slug()
+
+        return super().save(*args, **kwargs)
 
     class Meta:
         ordering = ["name"]

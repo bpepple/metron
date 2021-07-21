@@ -22,7 +22,7 @@ urlpatterns = [
     path("<slug:slug>/add/variant/", VariantCreate.as_view(), name="variant"),
     re_path(
         r"^creator-autocomplete/?$",
-        CreatorAutocomplete.as_view(),
+        CreatorAutocomplete.as_view(create_field="name"),
         name="creator-autocomplete",
     ),
     re_path(
