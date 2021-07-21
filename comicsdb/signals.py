@@ -5,7 +5,7 @@ from sorl.thumbnail import delete
 
 
 def generate_slug_from_name(instance):
-    slug_candidate = slug_original = slugify(instance.name, allow_unicode=True)
+    slug_candidate = slug_original = slugify(instance.name)
     Klass = instance.__class__
     for i in itertools.count(1):
         if not Klass.objects.filter(slug=slug_candidate).exists():
