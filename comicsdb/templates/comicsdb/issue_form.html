@@ -53,9 +53,9 @@
     <!-- end main -->
 
     <!-- credits -->
-    {{ credits.management_form }}
-    {{ credits.non_form_errors }}    
     <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+      {{ credits.management_form }}
+      {{ credits.non_form_errors }}
       <thead>
         <tr>
           <th>Creator</th>
@@ -74,8 +74,15 @@
                 {{ hidden }}
               {% endfor %}
             {% endif %}
+            {# Show error for any formset errors #}
+            {% if forloop.first %}
+              {% for error in form.non_field_errors %}
+                <strong class="has-text-danger">{{error}}</strong>
+              {% endfor %}
+            {% endif %}
+            {# Show errors for any fields #}
             {% for error in field.errors %}
-            <strong class="has-text-danger">{{ error }}</strong>
+              <strong class="has-text-danger">{{ error }}</strong>
             {% endfor %}
             <div class="field">
               {% if field|is_select %}
