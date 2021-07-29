@@ -7,7 +7,7 @@ HTML_OK_CODE = 200
 
 class TestCaseBase(TestCase):
     @classmethod
-    def _create_user(self):
+    def _create_user(cls):
         user = CustomUser.objects.create(username="brian", email="brian@test.com")
         user.set_password("1234")
         user.save()
