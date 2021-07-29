@@ -1,5 +1,6 @@
 import json
-import urllib
+import urllib.parse
+import urllib.request
 
 from metron import settings
 
