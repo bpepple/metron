@@ -262,7 +262,7 @@ BULMA_SETTINGS = {
     "output_style": "compressed",
 }
 
-GOOGLE_RECAPTCHA_SECRET_KEY = config("GOOGLE_RECAPTCHA_SECRET_KEY")
+HCAPTCHA_SECRET_KEY = config("HCAPTCHA_SECRET_KEY")
 
 if not DEBUG:
     # Production Security
