@@ -9,11 +9,17 @@ class IssueFilter(django_filters.FilterSet):
     cover_month = django_filters.NumberFilter(
         field_name="cover_date", lookup_expr="month"
     )
-    publisher = django_filters.filters.CharFilter(
+    publisher_name = django_filters.filters.CharFilter(
         field_name="series__publisher__name", lookup_expr="icontains"
+    )
+    publisher_id = django_filters.filters.NumberFilter(
+        field_name="series__publisher__id", lookup_expr="exact"
     )
     series_name = django_filters.CharFilter(
         field_name="series__name", lookup_expr="icontains"
+    )
+    series_id = django_filters.filters.NumberFilter(
+        field_name="series__id", lookup_expr="exact"
     )
     series_volume = django_filters.NumberFilter(
         field_name="series__volume", lookup_expr="exact"
