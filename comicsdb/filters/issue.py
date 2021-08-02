@@ -19,6 +19,9 @@ class IssueFilter(django_filters.FilterSet):
         field_name="series__volume", lookup_expr="exact"
     )
     store_date_range = django_filters.filters.DateFromToRangeFilter("store_date")
+    series_year_began = django_filters.filters.NumberFilter(
+        field_name="series__year_began", lookup_expr="exact"
+    )
 
     class Meta:
         model = Issue
