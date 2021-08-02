@@ -1,9 +1,3 @@
-from django.db.models import Prefetch
-from django.http import Http404
-from rest_framework import viewsets
-from rest_framework.decorators import action
-from rest_framework.throttling import UserRateThrottle
-
 from comicsdb.filters.issue import IssueFilter
 from comicsdb.models import (
     Arc,
@@ -31,6 +25,11 @@ from comicsdb.serializers import (
     TeamListSerializer,
     TeamSerializer,
 )
+from django.db.models import Prefetch
+from django.http import Http404
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.throttling import UserRateThrottle
 
 
 class ArcViewSet(viewsets.ReadOnlyModelViewSet):
@@ -187,7 +186,7 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Series.objects.select_related("series_type", "publisher")
     serializer_class = SeriesSerializer
-    filterset_fields = ("name", "year_began")
+    filterset_fields = ("name", "publisher_id", "volume", "year_began", "year_end")
     throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
