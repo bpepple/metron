@@ -1,4 +1,5 @@
 from comicsdb.filters.issue import IssueFilter
+from comicsdb.filters.series import SeriesFilter
 from comicsdb.models import (
     Arc,
     Character,
@@ -186,7 +187,7 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Series.objects.select_related("series_type", "publisher")
     serializer_class = SeriesSerializer
-    filterset_fields = ("name", "publisher_id", "volume", "year_began", "year_end")
+    filterset_class = SeriesFilter
     throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
