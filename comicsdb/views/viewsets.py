@@ -1,4 +1,5 @@
 from comicsdb.filters.issue import IssueFilter
+from comicsdb.filters.name import NameFilter
 from comicsdb.filters.series import SeriesFilter
 from comicsdb.models import (
     Arc,
@@ -42,7 +43,7 @@ class ArcViewSet(viewsets.ReadOnlyModelViewSet):
     """
 
     queryset = Arc.objects.all()
-    filterset_fields = ("name",)
+    filterset_class = NameFilter
     throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
@@ -80,7 +81,7 @@ class CharacterViewSet(viewsets.ReadOnlyModelViewSet):
     """
 
     queryset = Character.objects.all()
-    filterset_fields = ("name",)
+    filterset_class = NameFilter
     throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
@@ -100,7 +101,7 @@ class CreatorViewSet(viewsets.ReadOnlyModelViewSet):
     """
 
     queryset = Creator.objects.all()
-    filterset_fields = ("name",)
+    filterset_class = NameFilter
     throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
@@ -148,7 +149,7 @@ class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
     """
 
     queryset = Publisher.objects.prefetch_related("series_set")
-    filterset_fields = ("name",)
+    filterset_class = NameFilter
     throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
@@ -223,7 +224,7 @@ class TeamViewSet(viewsets.ReadOnlyModelViewSet):
     """
 
     queryset = Team.objects.all()
-    filterset_fields = ("name",)
+    filterset_class = NameFilter
     throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
