@@ -195,7 +195,7 @@
                         <div class="media-left">
                           <figure class="image is-64x64">
                           {% if credit.creator.image %}
-                            {% thumbnail credit.creator.image "64x64" crop="center" format="WEBP" as im %}
+                            {% thumbnail credit.creator.image "64x64" crop="top" format="WEBP" as im %}
                             <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"  alt="{{ credit.creator }}">
                             {% endthumbnail %}
                           {% else %}
@@ -243,7 +243,7 @@
                     <div class="media-left">
                       <figure class="image is-64x64">
                       {% if character.image %}
-                        {% thumbnail character.image "64x64" crop="center" format="WEBP" as im %}
+                        {% thumbnail character.image "64x64" crop="top" format="WEBP" as im %}
                         <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ character }}">
                         {% endthumbnail %}
                       {% else %}
