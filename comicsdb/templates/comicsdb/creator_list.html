@@ -75,7 +75,7 @@
                 <div class="card-image">
                   <figure class="image is-square">
                     {% if creator.image %}
-                      {% thumbnail creator.image "256x256" crop="center" format="WEBP" as im %}
+                      {% thumbnail creator.image "256x256" crop="top" format="WEBP" as im %}
                         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt = "{{ creator.name }}">
                       {% endthumbnail %}
                     {% else %}
