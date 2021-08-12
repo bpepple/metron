@@ -53,23 +53,27 @@ def clean_shortboxed_data(lst):
     return lst
 
 
-def _print_series_choices(series_list):
-    for (counter, series_name) in enumerate(series_list, start=1):
+def _print_list_choices(results_list):
+    for (counter, series_name) in enumerate(results_list, start=1):
         print(f"{counter}. {series_name}")
 
 
-def select_series_choice(series_list):
-    print("Multiple series found:")
-    _print_series_choices(series_list)
+def select_list_choice(results_list):
+    if len(results_list) > 1:
+        print("Multiple results found:")
+    else:
+        print("One record found:")
+
+    _print_list_choices(results_list)
 
     while True:
-        i = input("Choose a series #, or 's' to skip: ")
-        if (i.isdigit() and int(i) in range(1, len(series_list) + 1)) or i == "s":
+        i = input("Choose a item #, or 's' to skip: ")
+        if (i.isdigit() and int(i) in range(1, len(results_list) + 1)) or i == "s":
             break
 
     if i != "s":
         i = int(i) - 1
-        return series_list[i]
+        return results_list[i]
     else:
         return None
 

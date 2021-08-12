@@ -18,7 +18,7 @@ from metron.storage_backends import MediaStorage
 from simple_history.utils import update_change_reason
 
 from ._parse_title import FileNameParser
-from ._utils import select_series_choice
+from ._utils import select_list_choice
 
 if not DEBUG:
     from metron.settings import (
@@ -80,7 +80,7 @@ class Command(BaseCommand):
             except Character.DoesNotExist:
                 self.stdout.write(
                     self.style.WARNING(
-                        f"Unable to find '{character.name}'. Skipping..."
+                        f"Unable to find '{character.name}'. Skipping...\n"
                     )
                 )
                 continue
@@ -88,17 +88,41 @@ class Command(BaseCommand):
     def _add_creators(self, marvel_data, issue_obj):
         for creator in marvel_data.creators:
             try:
-                c = Creator.objects.get(name__iexact=creator.name)
-                r = self._fix_role(creator.role)
-                role = Role.objects.get(name__iexact=r)
-                credits = Credits.objects.create(issue=issue_obj, creator=c)
-                credits.role.add(role)
-                self.stdout.write(
-                    self.style.SUCCESS(f"Add {c} as a {role} to {issue_obj}")
-                )
+                self.stdout.write(f"Searching database for {creator.name}...")
+                results = Creator.objects.filter(name__unaccent__icontains=creator.name)
+                if not results:
+                    first, *_, last_name = creator.name.split()
+                    results = Creator.objects.filter(
+                        name__unaccent__icontains=last_name
+                    )
+                    # If results are more than 15 let's try narrowing the results.
+                    if len(results) > 15:
+                        new_results = results.filter(name__unaccent__icontains=first)
+                        if new_results:
+                            results = new_results
+
+                if results:
+                    correct_creator = select_list_choice(results)
+                    r = self._fix_role(creator.role)
+                    role = Role.objects.get(name__iexact=r)
+                    credits = Credits.objects.create(
+                        issue=issue_obj, creator=correct_creator
+                    )
+                    credits.role.add(role)
+                    self.stdout.write(
+                        self.style.SUCCESS(
+                            f"Added {correct_creator} as a {role} to {issue_obj}\n"
+                        )
+                    )
+                else:
+                    self.stdout.write(
+                        self.style.WARNING(
+                            f"Unable to find {creator.name}. Skipping...\n"
+                        )
+                    )
             except Creator.DoesNotExist:
                 self.stdout.write(
-                    self.style.WARNING(f"Unable to find {creator.name}. Skipping...")
+                    self.style.WARNING(f"Unable to find {creator.name}. Skipping...\n")
                 )
                 continue
 
@@ -110,7 +134,7 @@ class Command(BaseCommand):
             eic = Role.objects.get(name__iexact="editor in chief")
             cr.role.add(eic)
             self.stdout.write(
-                self.style.SUCCESS(f"Added '{eic}' role for {cb} to {issue_obj}.")
+                self.style.SUCCESS(f"Added '{eic}' role for {cb} to {issue_obj}.\n")
             )
 
     def _download_image(self, url):
@@ -233,7 +257,7 @@ class Command(BaseCommand):
             fnp.parse_filename(comic.title)
             self.stdout.write(f"Searching database for {fnp.series} #{fnp.issue}")
             results = Series.objects.filter(name__icontains=fnp.series)
-            # If results are more than 10 let's try narrowing the results.
+            # If results are more than 15 let's try narrowing the results.
             if len(results) > 15:
                 new_results = Series.objects.filter(
                     name__icontains=fnp.series, year_began=int(fnp.year)
@@ -242,7 +266,7 @@ class Command(BaseCommand):
                     results = new_results
 
             if results:
-                correct_series = select_series_choice(results)
+                correct_series = select_list_choice(results)
                 if correct_series:
                     self.add_issue_to_database(
                         correct_series, fnp, comic, options["cover"]

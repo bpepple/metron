@@ -11,7 +11,7 @@ from ._utils import (
     determine_cover_date,
     format_string_to_date,
     get_query_values,
-    select_series_choice,
+    select_list_choice,
 )
 
 
@@ -105,7 +105,7 @@ class Command(BaseCommand):
                 self.stdout.write(f"Searching database for {item['title']}")
                 results = Series.objects.filter(name__icontains=series_name)
                 if results:
-                    correct_series = select_series_choice(results)
+                    correct_series = select_list_choice(results)
                     if correct_series:
                         self.add_issue_to_database(correct_series, issue_number, item)
                     else:
