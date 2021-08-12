@@ -53,17 +53,24 @@ class Command(BaseCommand):
 
                 if results:
                     correct_creator = select_list_choice(results)
-                    r = self._fix_role(creator.role)
-                    role = Role.objects.get(name__iexact=r)
-                    credits = Credits.objects.create(
-                        issue=issue_obj, creator=correct_creator
-                    )
-                    credits.role.add(role)
-                    self.stdout.write(
-                        self.style.SUCCESS(
-                            f"Added {correct_creator} as a {role} to {issue_obj}\n"
+                    if correct_creator:
+                        r = self._fix_role(creator.role)
+                        role = Role.objects.get(name__iexact=r)
+                        credits = Credits.objects.create(
+                            issue=issue_obj, creator=correct_creator
                         )
-                    )
+                        credits.role.add(role)
+                        self.stdout.write(
+                            self.style.SUCCESS(
+                                f"Added {correct_creator} as a {role} to {issue_obj}\n"
+                            )
+                        )
+                    else:
+                        self.stdout.write(
+                            self.style.WARNING(
+                                f"Unable to find {creator.name}. Skipping...\n"
+                            )
+                        )
                 else:
                     self.stdout.write(
                         self.style.WARNING(
