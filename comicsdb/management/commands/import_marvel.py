@@ -161,15 +161,11 @@ class Command(BaseCommand):
                     self._get_cover(marvel_data, issue)
                 else:
                     self._get_cover_debug(marvel_data, issue)
-                self.stdout.write(
-                    self.style.SUCCESS(f"Added image to {issue}\n")
-                )
+                self.stdout.write(self.style.SUCCESS(f"Added image to {issue}\n"))
                 # Save the change reason
                 update_change_reason(issue, "Imported")
             else:
-                self.stdout.write(
-                    self.style.WARNING(f"{issue} already exists...\n\n")
-                )
+                self.stdout.write(self.style.WARNING(f"{issue} already exists...\n\n"))
         except IntegrityError:
             self.stdout.write(
                 self.style.WARNING(
@@ -236,9 +232,15 @@ class Command(BaseCommand):
         for comic in pulls:
             fnp.parse_filename(comic.title)
             self.stdout.write(f"Searching database for {fnp.series} #{fnp.issue}")
-            results = Series.objects.filter(
-                name__icontains=fnp.series, year_began=int(fnp.year)
-            )
+            results = Series.objects.filter(name__icontains=fnp.series)
+            # If results are more than 10 let's try narrowing the results.
+            if len(results) > 15:
+                new_results = Series.objects.filter(
+                    name__icontains=fnp.series, year_began=int(fnp.year)
+                )
+                if new_results:
+                    results = new_results
+
             if results:
                 correct_series = select_series_choice(results)
                 if correct_series:
