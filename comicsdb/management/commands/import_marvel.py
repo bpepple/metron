@@ -46,7 +46,7 @@ class Command(BaseCommand):
                         name__unaccent__icontains=last_name
                     )
                     # If results are more than 15 let's try narrowing the results.
-                    if len(results) > 15:
+                    if results.count() > 15:
                         new_results = results.filter(name__unaccent__icontains=first)
                         if new_results:
                             results = new_results
@@ -169,7 +169,7 @@ class Command(BaseCommand):
             self.stdout.write(f"Searching database for {fnp.series} #{fnp.issue}")
             results = Series.objects.filter(name__icontains=fnp.series)
             # If results are more than 15 let's try narrowing the results.
-            if len(results) > 15:
+            if results.count() > 15:
                 new_results = Series.objects.filter(
                     name__icontains=fnp.series, year_began=int(fnp.year)
                 )
