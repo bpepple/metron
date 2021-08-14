@@ -21,7 +21,17 @@
   </div>
   <!-- end issue cover modal -->
 
-  <!-- series issue nav -->
+  <!-- issue title -->
+  <nav class="level">
+    <div class="level-left">
+      <div class="level-item">
+        <p class="title">{{ issue }}</p>
+      </div>
+    </div>
+  </nav>
+  <!--  end series issue title -->
+
+  <!-- issue navigation -->
   <nav class="level">
     <div class="level-left">
       <div class="level-item">
@@ -47,18 +57,6 @@
               <i class="fas fa-arrow-right"></i>
             </span>
           </a>
-      </div>
-    </div>
-  </nav>
-  <!--  end series issue nav -->
-
-  <!-- page header -->
-  <nav class="level">
-    <div class="level-left">
-      <div class="level-item">
-        <div>
-          <p class="title">{{ issue }}</p>
-        </div>
       </div>
     </div>
     <div class="level-right">
@@ -104,7 +102,7 @@
     {% endif %}
     </div>
   </nav>
-  <!-- end of page header -->
+  <!-- end of issue navigation -->
 
   <!-- main page content -->
   <div class="columns">
