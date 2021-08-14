@@ -5,6 +5,16 @@
 {% block title %}{{ arc.name }}{% endblock title %}
 
 {% block comic_content %}
+  <!-- arc title -->
+  <nav class="level">
+    <div class="level-left">
+      <div class="level-item">
+        <p class="title">{{ arc }}</p>
+      </div>
+    </div>
+  </nav>
+  <!--  end arc title -->
+
   <!-- arc nav -->
   <nav class="level">
     <div class="level-left">
@@ -41,18 +51,6 @@
             </span>
           </a>
         {% endif %}
-      </div>
-    </div>
-  </nav>
-  <!--  end arc nav -->
-
-  <!-- page header -->
-  <nav class="level">
-    <div class="level-left">
-      <div class="level-item">
-        <div>
-          <p class="title">{{ arc }}</p>
-        </div>
       </div>
     </div>
     <div class="level-right">
@@ -95,7 +93,7 @@
     {% endif %}
     </div>
   </nav>
-  <!-- end of page header -->
+  <!-- end of arc nav -->
 
   <!-- main page content -->
   <div class="columns">
