@@ -5,6 +5,16 @@
 {% block title %}{{ series.name }}{% endblock title %}
 
 {% block comic_content %}
+  <!-- series title -->
+  <nav class="level">
+    <div class="level-left">
+      <div class="level-item">
+        <p class="title">{{ series }}</p>
+      </div>
+    </div>
+  </nav>
+  <!--  end series title -->
+
   <!-- series nav -->
   <nav class="level">
     <div class="level-left">
@@ -41,18 +51,6 @@
             </span>
           </a>
         {% endif %}
-      </div>
-    </div>
-  </nav>
-  <!--  end series nav -->
-
-  <!-- page header -->
-  <nav class="level">
-    <div class="level-left">
-      <div class="level-item">
-        <div>
-          <p class="title">{{ series }}</p>
-        </div>
       </div>
     </div>
     <div class="level-right">
@@ -103,7 +101,7 @@
       {% endif %}
     </div>
   </nav>
-  <!-- end of page header -->
+  <!-- end of series nav -->
 
   <!-- main page content -->
   <div class="columns">
