@@ -6,6 +6,16 @@
 {% block title %}{{ character.name }}{% endblock title %}
 
 {% block comic_content %}
+  <!-- character title -->
+  <nav class="level">
+    <div class="level-left">
+      <div class="level-item">
+        <p class="title">{{ character }}</p>
+      </div>
+    </div>
+  </nav>
+  <!--  end character title -->
+
   <!-- character nav -->
   <nav class="level">
     <div class="level-left">
@@ -42,18 +52,6 @@
             </span>
           </a>
         {% endif %}
-      </div>
-    </div>
-  </nav>
-  <!--  end character nav -->
-
-  <!-- page header -->
-  <nav class="level">
-    <div class="level-left">
-      <div class="level-item">
-        <div>
-          <p class="title">{{ character }}</p>
-        </div>
       </div>
     </div>
     <div class="level-right">
@@ -96,7 +94,7 @@
     {% endif %}
     </div>
   </nav>
-  <!-- end of page header -->
+  <!-- end of character nav -->
 
   <!-- main page content -->
   <div class="columns">
