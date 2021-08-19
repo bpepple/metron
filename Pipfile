@@ -22,6 +22,7 @@ django-simple-bulma = "*"
 drf-spectacular = "*"
 marvelous = "*"
 django-simple-history = "*"
+serifan = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
