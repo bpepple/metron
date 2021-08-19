@@ -1,13 +1,10 @@
 """ Some utility function to cleanup data from Shortboxed """
-
-from datetime import datetime
-
 import dateutil.relativedelta
 
 
 def _remove_trade_paperbacks(lst):
     """ Remove any comic that doesn't have an issue number """
-    return [i for i in lst if "#" in i["title"]]
+    return [i for i in lst if "#" in i.title]
 
 
 def _cleanup_title(str):
@@ -28,8 +25,8 @@ def _remove_duplicate_titles(lst):
     seen = set()
     result = []
     for item in lst:
-        if item["title"] not in seen:
-            seen.add(item["title"])
+        if item.title not in seen:
+            seen.add(item.title)
             result.append(item)
 
     return result
@@ -45,7 +42,7 @@ def clean_description(text):
 def clean_shortboxed_data(lst):
     """ Clean up the title data from Shortboxed so we can query the db """
     for i in lst:
-        i["title"] = _cleanup_title(i["title"])
+        i.title = _cleanup_title(i.title)
 
     lst = _remove_trade_paperbacks(lst)
     lst = _remove_duplicate_titles(lst)
@@ -78,10 +75,6 @@ def select_list_choice(results_list):
         return None
 
 
-def format_string_to_date(date_str):
-    return datetime.strptime(date_str, "%Y-%m-%d").date()
-
-
 def determine_cover_date(release_date, publisher):
     if publisher.upper() != "MARVEL COMICS":
         return release_date.replace(day=1)
@@ -91,5 +84,5 @@ def determine_cover_date(release_date, publisher):
 
 
 def get_query_values(item):
-    name = item["title"].split("#")
+    name = item.title.split("#")
     return name[0].strip(), name[1]
