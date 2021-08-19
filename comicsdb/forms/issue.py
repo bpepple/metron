@@ -6,6 +6,7 @@ from django.forms import (
     DateInput,
     ModelChoiceField,
     ModelForm,
+    NumberInput,
     Select,
     Textarea,
     TextInput,
@@ -37,6 +38,8 @@ class IssueForm(ModelForm):
             "name",
             "cover_date",
             "store_date",
+            "price",
+            "sku",
             "desc",
             "characters",
             "teams",
@@ -62,10 +65,15 @@ class IssueForm(ModelForm):
             "store_date": DateInput(
                 attrs={"class": "input", "type": "date"},
             ),
+            "price": NumberInput(attrs={"class": "input"}),
+            "sku": TextInput(attrs={"class": "input"}),
             "desc": Textarea(attrs={"class": "textarea"}),
             "image": ClearableFileInput(),
         }
-        help_texts = {"name": "Separate multiple story titles by a semicolon"}
+        help_texts = {
+            "name": "Separate multiple story titles by a semicolon",
+            "price": "In United States currency",
+        }
         labels = {"name": "Story Title"}
 
     def __init__(self, *args, **kwargs):
