@@ -140,6 +140,8 @@ class IssueSerializer(serializers.ModelSerializer):
             "name",
             "cover_date",
             "store_date",
+            "price",
+            "sku",
             "desc",
             "image",
             "arcs",
