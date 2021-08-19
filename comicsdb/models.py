@@ -276,6 +276,10 @@ class Issue(models.Model):
     arcs = models.ManyToManyField(Arc, blank=True)
     cover_date = models.DateField("Cover Date")
     store_date = models.DateField("In Store Date", null=True, blank=True)
+    price = models.DecimalField(
+        "Cover Price", max_digits=5, decimal_places=2, null=True, blank=True
+    )
+    sku = models.CharField("Distributor SKU", max_length=9, blank=True)
     desc = models.TextField("Description", blank=True)
     image = ImageField("Cover", upload_to="issue/%Y/%m/%d/", blank=True)
     creators = models.ManyToManyField(Creator, through="Credits", blank=True)
