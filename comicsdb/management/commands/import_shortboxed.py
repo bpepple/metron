@@ -86,13 +86,11 @@ class Command(BaseCommand):
             exit(0)
 
         if options["weeks"]:
-            print("Not yet implemented")
-            # NUMBER_OF_WEEKS = 5
-            # sb = ShortBoxedTalker()
-            # results = sb.fetch_available_releases()
-            # self.stdout.write(f"Last {NUMBER_OF_WEEKS} release dates:")
-            # for i in results["dates"][-NUMBER_OF_WEEKS:]:
-            #     self.stdout.write(i)
+            NUMBER_OF_WEEKS = 5
+            results = self.talker.available_release_dates()
+            self.stdout.write(f"Last {NUMBER_OF_WEEKS} release dates:")
+            for i in results[-NUMBER_OF_WEEKS:]:
+                self.stdout.write(f"{i}")
 
         if options["query"]:
             publisher = release_date = None
