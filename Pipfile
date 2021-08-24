@@ -32,6 +32,13 @@ pylint-django = "*"
 flake8 = "*"
 pytest-xdist = "*"
 pytest-cov = "*"
+black = "*"
+pre-commit = "*"
+isort = "*"
+seed-isort-config = "*"
 
 [requires]
 python_version = "3.8"
+
+[pipenv]
+allow_prereleases = true
