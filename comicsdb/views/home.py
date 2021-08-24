@@ -1,6 +1,6 @@
 from django.views.generic.base import TemplateView
 
-from comicsdb.models import Publisher, Series, Issue, Character, Creator, Team, Arc
+from comicsdb.models import Arc, Character, Creator, Issue, Publisher, Series, Team
 
 
 class HomePageView(TemplateView):

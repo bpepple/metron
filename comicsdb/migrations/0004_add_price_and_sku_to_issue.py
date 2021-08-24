@@ -24,9 +24,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="historicalissue",
             name="sku",
-            field=models.CharField(
-                blank=True, max_length=9, verbose_name="Distributor SKU"
-            ),
+            field=models.CharField(blank=True, max_length=9, verbose_name="Distributor SKU"),
         ),
         migrations.AddField(
             model_name="issue",
@@ -42,8 +40,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="issue",
             name="sku",
-            field=models.CharField(
-                blank=True, max_length=9, verbose_name="Distributor SKU"
-            ),
+            field=models.CharField(blank=True, max_length=9, verbose_name="Distributor SKU"),
         ),
     ]

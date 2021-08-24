@@ -1,4 +1,3 @@
-from comicsdb.models import Issue, Series
 from dal import autocomplete
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.forms import (
@@ -11,6 +10,8 @@ from django.forms import (
     Textarea,
     TextInput,
 )
+
+from comicsdb.models import Issue, Series
 
 
 class IssueForm(ModelForm):
@@ -56,9 +57,7 @@ class IssueForm(ModelForm):
             "characters": FilteredSelectMultiple(
                 "Characters", attrs={"size": "6"}, is_stacked=False
             ),
-            "teams": FilteredSelectMultiple(
-                "Teams", attrs={"size": "6"}, is_stacked=False
-            ),
+            "teams": FilteredSelectMultiple("Teams", attrs={"size": "6"}, is_stacked=False),
             "cover_date": DateInput(
                 attrs={"class": "input", "type": "date"},
             ),

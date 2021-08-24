@@ -1,6 +1,7 @@
-from comicsdb.models import Character
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.forms import ClearableFileInput, ModelForm, Textarea, TextInput
+
+from comicsdb.models import Character
 
 
 class CharacterForm(ModelForm):
@@ -27,9 +28,7 @@ class CharacterForm(ModelForm):
             "creators": FilteredSelectMultiple(
                 "Creators", attrs={"size": "6"}, is_stacked=False
             ),
-            "teams": FilteredSelectMultiple(
-                "Teams", attrs={"size": "6"}, is_stacked=False
-            ),
+            "teams": FilteredSelectMultiple("Teams", attrs={"size": "6"}, is_stacked=False),
             "image": ClearableFileInput(),
         }
         help_texts = {

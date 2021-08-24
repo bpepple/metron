@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from simple_history.models import HistoricalRecords
 from sorl.thumbnail import ImageField
+
 from users.models import CustomUser
 
 
@@ -268,9 +269,7 @@ pre_save.connect(pre_save_series_slug, sender=Series, dispatch_uid="pre_save_ser
 
 class Issue(models.Model):
     series = models.ForeignKey(Series, on_delete=models.CASCADE)
-    name = ArrayField(
-        models.CharField("Story Title", max_length=150), null=True, blank=True
-    )
+    name = ArrayField(models.CharField("Story Title", max_length=150), null=True, blank=True)
     slug = models.SlugField(max_length=255, unique=True)
     number = models.CharField(max_length=25)
     arcs = models.ManyToManyField(Arc, blank=True)

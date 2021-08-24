@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import include, path
 from rest_framework import routers
 
 from comicsdb.views.viewsets import (
@@ -10,7 +10,6 @@ from comicsdb.views.viewsets import (
     SeriesViewSet,
     TeamViewSet,
 )
-
 
 ROUTER = routers.DefaultRouter()
 ROUTER.register("arc", ArcViewSet)

@@ -1,7 +1,8 @@
 from datetime import date, datetime
 
-from comicsdb.models import Issue, Publisher, Series, SeriesType
 from django.urls import reverse
+
+from comicsdb.models import Issue, Publisher, Series, SeriesType
 from users.tests.case_base import TestCaseBase
 
 HTML_OK_CODE = 200
@@ -24,9 +25,7 @@ class TestWeekView(TestCaseBase):
 
         user = cls._create_user()
 
-        publisher = Publisher.objects.create(
-            name="Marvel", slug="marvel", edited_by=user
-        )
+        publisher = Publisher.objects.create(name="Marvel", slug="marvel", edited_by=user)
         series_type = SeriesType.objects.create(name="Ongoing Series")
         superman = Series.objects.create(
             name="Hukj",

@@ -56,9 +56,7 @@ class IssueList(ListView):
 
 class IssueDetail(DetailView):
     model = Issue
-    queryset = Issue.objects.select_related(
-        "series", "series__publisher"
-    ).prefetch_related(
+    queryset = Issue.objects.select_related("series", "series__publisher").prefetch_related(
         Prefetch(
             "credits_set",
             queryset=Credits.objects.order_by("creator__name")
@@ -135,17 +133,13 @@ class IssueUpdate(LoginRequiredMixin, UpdateView):
             context["credits"] = CreditsFormSet(
                 self.request.POST,
                 instance=self.object,
-                queryset=(
-                    Credits.objects.filter(issue=self.object).prefetch_related("role")
-                ),
+                queryset=(Credits.objects.filter(issue=self.object).prefetch_related("role")),
             )
             context["credits"].full_clean()
         else:
             context["credits"] = CreditsFormSet(
                 instance=self.object,
-                queryset=(
-                    Credits.objects.filter(issue=self.object).prefetch_related("role")
-                ),
+                queryset=(Credits.objects.filter(issue=self.object).prefetch_related("role")),
             )
         return context
 

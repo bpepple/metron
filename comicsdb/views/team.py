@@ -50,9 +50,7 @@ class TeamDetail(DetailView):
             next_team = None
 
         try:
-            previous_team = (
-                Team.objects.filter(name__lt=team.name).order_by("name").last()
-            )
+            previous_team = Team.objects.filter(name__lt=team.name).order_by("name").last()
         except ObjectDoesNotExist:
             previous_team = None
 

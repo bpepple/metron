@@ -1,10 +1,11 @@
 import logging
 
-from comicsdb.models import Issue, Publisher, Series, SeriesType
-from comicsdb.serializers import PublisherSerializer, SeriesListSerializer
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework import status
+
+from comicsdb.models import Issue, Publisher, Series, SeriesType
+from comicsdb.serializers import PublisherSerializer, SeriesListSerializer
 from users.tests.case_base import TestCaseBase
 
 
@@ -38,12 +39,8 @@ class GetSinglePublisherTest(TestCaseBase):
     def setUpTestData(cls):
         user = cls._create_user()
 
-        cls.dc = Publisher.objects.create(
-            name="DC Comics", slug="dc-comics", edited_by=user
-        )
-        cls.marvel = Publisher.objects.create(
-            name="Marvel", slug="marvel", edited_by=user
-        )
+        cls.dc = Publisher.objects.create(name="DC Comics", slug="dc-comics", edited_by=user)
+        cls.marvel = Publisher.objects.create(name="Marvel", slug="marvel", edited_by=user)
 
         series_type_obj = SeriesType.objects.create(name="Cancelled")
         cls.series_obj = Series.objects.create(
@@ -72,9 +69,7 @@ class GetSinglePublisherTest(TestCaseBase):
         logging.disable(logging.NOTSET)
 
     def test_get_valid_single_publisher(self):
-        response = self.client.get(
-            reverse("api:publisher-detail", kwargs={"pk": self.dc.pk})
-        )
+        response = self.client.get(reverse("api:publisher-detail", kwargs={"pk": self.dc.pk}))
         publisher = Publisher.objects.get(pk=self.dc.pk)
         serializer = PublisherSerializer(publisher)
         self.assertEqual(response.data, serializer.data)
@@ -86,9 +81,7 @@ class GetSinglePublisherTest(TestCaseBase):
 
     def test_unauthorized_view_url(self):
         self.client.logout()
-        response = self.client.get(
-            reverse("api:publisher-detail", kwargs={"pk": self.dc.pk})
-        )
+        response = self.client.get(reverse("api:publisher-detail", kwargs={"pk": self.dc.pk}))
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_publisher_series_list_view(self):

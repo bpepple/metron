@@ -1,9 +1,10 @@
 import logging
 
-from comicsdb.models import Creator
-from comicsdb.serializers import CreatorSerializer
 from django.urls import reverse
 from rest_framework import status
+
+from comicsdb.models import Creator
+from comicsdb.serializers import CreatorSerializer
 from users.tests.case_base import TestCaseBase
 
 
@@ -13,9 +14,7 @@ class GetAllCreatorsTest(TestCaseBase):
         user = cls._create_user()
 
         Creator.objects.create(name="John Byrne", slug="john-byrne", edited_by=user)
-        Creator.objects.create(
-            name="Walter Simonson", slug="walter-simonson", edited_by=user
-        )
+        Creator.objects.create(name="Walter Simonson", slug="walter-simonson", edited_by=user)
 
     def setUp(self):
         logging.disable(logging.CRITICAL)
@@ -39,9 +38,7 @@ class GetSingleCreatorTest(TestCaseBase):
     def setUpTestData(cls):
         user = cls._create_user()
 
-        cls.jack = Creator.objects.create(
-            name="Jack Kirby", slug="jack-kirby", edited_by=user
-        )
+        cls.jack = Creator.objects.create(name="Jack Kirby", slug="jack-kirby", edited_by=user)
         Creator.objects.create(name="Steve Ditko", slug="steve-ditko", edited_by=user)
 
     def setUp(self):
@@ -52,9 +49,7 @@ class GetSingleCreatorTest(TestCaseBase):
         logging.disable(logging.NOTSET)
 
     def test_get_valid_single_creator(self):
-        response = self.client.get(
-            reverse("api:creator-detail", kwargs={"pk": self.jack.pk})
-        )
+        response = self.client.get(reverse("api:creator-detail", kwargs={"pk": self.jack.pk}))
         creator = Creator.objects.get(pk=self.jack.pk)
         serializer = CreatorSerializer(creator)
         self.assertEqual(response.data, serializer.data)
@@ -66,7 +61,5 @@ class GetSingleCreatorTest(TestCaseBase):
 
     def test_unauthorized_view_url(self):
         self.client.logout()
-        response = self.client.get(
-            reverse("api:creator-detail", kwargs={"pk": self.jack.pk})
-        )
+        response = self.client.get(reverse("api:creator-detail", kwargs={"pk": self.jack.pk}))
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

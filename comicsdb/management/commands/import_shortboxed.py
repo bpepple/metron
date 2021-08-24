@@ -1,11 +1,12 @@
 from decimal import Decimal
 
 import serifan
-from comicsdb.models import Issue, Series
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from django.utils.text import slugify
 from simple_history.utils import update_change_reason
+
+from comicsdb.models import Issue, Series
 
 from ._utils import (
     clean_description,
@@ -54,9 +55,7 @@ class Command(BaseCommand):
                 issue.save()
                 # Save the change reason
                 update_change_reason(issue, "Shortboxed import")
-                self.stdout.write(
-                    self.style.SUCCESS(f"Adding description to {issue}\n\n")
-                )
+                self.stdout.write(self.style.SUCCESS(f"Adding description to {issue}\n\n"))
             else:
                 self.stdout.write(self.style.WARNING(f"{issue} already exists...\n\n"))
         except IntegrityError:
@@ -73,9 +72,7 @@ class Command(BaseCommand):
         parser.add_argument(
             "-q", "--query", action="store_true", help="Query Shortboxed for release"
         )
-        parser.add_argument(
-            "-p", "--publisher", type=str, help="The publisher to query"
-        )
+        parser.add_argument("-p", "--publisher", type=str, help="The publisher to query")
         parser.add_argument(
             "-d", "--date", type=str, help="Enter a release date in YYYY-MM-DD format"
         )
@@ -117,9 +114,7 @@ class Command(BaseCommand):
                         self.add_issue_to_database(correct_series, issue_number, item)
                     else:
                         self.stdout.write(
-                            self.style.NOTICE(
-                                f"Not adding {item.title} to database.\n\n"
-                            )
+                            self.style.NOTICE(f"Not adding {item.title} to database.\n\n")
                         )
                 else:
                     self.stdout.write(f"No series in database for {series_name}\n\n")

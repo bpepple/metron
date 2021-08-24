@@ -132,9 +132,7 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
@@ -169,9 +167,7 @@ logging.config.dictConfig(
         "version": 1,
         "disable_existing_loggers": False,
         "formatters": {
-            "default": {
-                "format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"
-            },
+            "default": {"format": "%(asctime)s %(name)-12s %(levelname)-8s %(message)s"},
             "django.server": DEFAULT_LOGGING["formatters"]["django.server"],
         },
         "handlers": {
@@ -219,9 +215,7 @@ LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 
 # E-mail settings
-EMAIL_BACKEND = config(
-    "EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
-)
+EMAIL_BACKEND = config("EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend")
 EMAIL_HOST = config("EMAIL_HOST")
 EMAIL_PORT = 587
 EMAIL_HOST_USER = config("EMAIL_USER")

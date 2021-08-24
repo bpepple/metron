@@ -1,9 +1,10 @@
 import logging
 
-from comicsdb.models import Team
-from comicsdb.serializers import TeamSerializer
 from django.urls import reverse
 from rest_framework import status
+
+from comicsdb.models import Team
+from comicsdb.serializers import TeamSerializer
 from users.tests.case_base import TestCaseBase
 
 
@@ -52,9 +53,7 @@ class GetSingleTeamTest(TestCaseBase):
         logging.disable(logging.NOTSET)
 
     def test_get_valid_single_team(self):
-        response = self.client.get(
-            reverse("api:team-detail", kwargs={"pk": self.avengers.pk})
-        )
+        response = self.client.get(reverse("api:team-detail", kwargs={"pk": self.avengers.pk}))
         team = Team.objects.get(pk=self.avengers.pk)
         serializer = TeamSerializer(team)
         self.assertEqual(response.data, serializer.data)
@@ -66,7 +65,5 @@ class GetSingleTeamTest(TestCaseBase):
 
     def test_unauthorized_view_url(self):
         self.client.logout()
-        response = self.client.get(
-            reverse("api:team-detail", kwargs={"pk": self.avengers.pk})
-        )
+        response = self.client.get(reverse("api:team-detail", kwargs={"pk": self.avengers.pk}))
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

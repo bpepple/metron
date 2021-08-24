@@ -1,8 +1,9 @@
 import logging
 
-from comicsdb.models import Creator
 from django.template.defaultfilters import slugify
 from django.urls import reverse
+
+from comicsdb.models import Creator
 from users.tests.case_base import TestCaseBase
 
 HTML_OK_CODE = 200
@@ -19,9 +20,7 @@ class CreatorViewsTest(TestCaseBase):
         cls.user = cls._create_user()
         name = "John Smith"
         cls.slug = slugify(name)
-        cls.creator = Creator.objects.create(
-            name=name, slug=cls.slug, edited_by=cls.user
-        )
+        cls.creator = Creator.objects.create(name=name, slug=cls.slug, edited_by=cls.user)
 
     def setUp(self):
         logging.disable(logging.CRITICAL)

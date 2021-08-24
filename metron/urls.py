@@ -13,6 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
+from django.urls import include, path
+from django.views.i18n import JavaScriptCatalog
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+
 from comicsdb.sitemaps import (
     ArcSitemap,
     CharacterSitemap,
@@ -35,13 +43,6 @@ from comicsdb.urls import publisher as publisher_urls
 from comicsdb.urls import series as series_urls
 from comicsdb.urls import team as team_urls
 from comicsdb.urls import week as week_urls
-from django.conf import settings
-from django.conf.urls.static import static
-from django.contrib import admin
-from django.contrib.sitemaps.views import sitemap
-from django.urls import include, path
-from django.views.i18n import JavaScriptCatalog
-from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 sitemaps = {
     "arc": ArcSitemap(),
@@ -64,7 +65,9 @@ urlpatterns = [
     path("creator/", include(creator_urls)),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
-        "docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui",
+        "docs/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
     ),
     path("", include(home_urls)),
     path("issue/", include(issue_urls)),

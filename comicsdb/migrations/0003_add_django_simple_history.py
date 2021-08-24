@@ -259,9 +259,7 @@ class Migration(migrations.Migration):
                 ("cover_date", models.DateField(verbose_name="Cover Date")),
                 (
                     "store_date",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="In Store Date"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="In Store Date"),
                 ),
                 ("desc", models.TextField(blank=True, verbose_name="Description")),
                 (
@@ -340,15 +338,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "birth",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Date of Birth"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Date of Birth"),
                 ),
                 (
                     "death",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Date of Death"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Date of Death"),
                 ),
                 ("image", models.TextField(blank=True, max_length=100)),
                 (

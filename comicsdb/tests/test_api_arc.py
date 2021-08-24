@@ -1,10 +1,11 @@
 import logging
 
-from comicsdb.models import Arc, Issue, Publisher, Series, SeriesType
-from comicsdb.serializers import ArcSerializer, IssueListSerializer
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework import status
+
+from comicsdb.models import Arc, Issue, Publisher, Series, SeriesType
+from comicsdb.serializers import ArcSerializer, IssueListSerializer
 from users.tests.case_base import TestCaseBase
 
 
@@ -74,9 +75,7 @@ class GetSingleArcTest(TestCaseBase):
         logging.disable(logging.NOTSET)
 
     def test_get_valid_single_arc(self):
-        response = self.client.get(
-            reverse("api:arc-detail", kwargs={"pk": self.hulk.pk})
-        )
+        response = self.client.get(reverse("api:arc-detail", kwargs={"pk": self.hulk.pk}))
         arc = Arc.objects.get(pk=self.hulk.pk)
         serializer = ArcSerializer(arc)
         self.assertEqual(response.data, serializer.data)
@@ -88,9 +87,7 @@ class GetSingleArcTest(TestCaseBase):
 
     def test_unauthorized_view_url(self):
         self.client.logout()
-        response = self.client.get(
-            reverse("api:arc-detail", kwargs={"pk": self.hulk.pk})
-        )
+        response = self.client.get(reverse("api:arc-detail", kwargs={"pk": self.hulk.pk}))
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_arc_issue_list_view(self):

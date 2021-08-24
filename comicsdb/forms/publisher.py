@@ -1,5 +1,6 @@
-from comicsdb.models import Publisher
 from django.forms import ClearableFileInput, ModelForm, Textarea, TextInput
+
+from comicsdb.models import Publisher
 
 
 class PublisherForm(ModelForm):

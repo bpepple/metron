@@ -1,11 +1,12 @@
 import dateutil.relativedelta
 import marvelous
-from comicsdb.models import Character, Creator, Credits, Issue, Role, Series
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from django.utils.text import slugify
-from metron.settings import MARVEL_PRIVATE_KEY, MARVEL_PUBLIC_KEY
 from simple_history.utils import update_change_reason
+
+from comicsdb.models import Character, Creator, Credits, Issue, Role, Series
+from metron.settings import MARVEL_PRIVATE_KEY, MARVEL_PUBLIC_KEY
 
 from ._parse_title import FileNameParser
 from ._utils import select_list_choice
@@ -29,9 +30,7 @@ class Command(BaseCommand):
                 issue_obj.characters.add(c)
             except Character.DoesNotExist:
                 self.stdout.write(
-                    self.style.WARNING(
-                        f"Unable to find '{character.name}'. Skipping...\n"
-                    )
+                    self.style.WARNING(f"Unable to find '{character.name}'. Skipping...\n")
                 )
                 continue
 
@@ -42,9 +41,7 @@ class Command(BaseCommand):
                 results = Creator.objects.filter(name__unaccent__icontains=creator.name)
                 if not results:
                     first, *_, last_name = creator.name.split()
-                    results = Creator.objects.filter(
-                        name__unaccent__icontains=last_name
-                    )
+                    results = Creator.objects.filter(name__unaccent__icontains=last_name)
                     # If results are more than 15 let's try narrowing the results.
                     if results.count() > 15:
                         new_results = results.filter(name__unaccent__icontains=first)
@@ -67,15 +64,11 @@ class Command(BaseCommand):
                         )
                     else:
                         self.stdout.write(
-                            self.style.WARNING(
-                                f"Unable to find {creator.name}. Skipping...\n"
-                            )
+                            self.style.WARNING(f"Unable to find {creator.name}. Skipping...\n")
                         )
                 else:
                     self.stdout.write(
-                        self.style.WARNING(
-                            f"Unable to find {creator.name}. Skipping...\n"
-                        )
+                        self.style.WARNING(f"Unable to find {creator.name}. Skipping...\n")
                     )
             except Creator.DoesNotExist:
                 self.stdout.write(

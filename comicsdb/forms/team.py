@@ -1,6 +1,7 @@
-from comicsdb.models import Team
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.forms import ClearableFileInput, ModelForm, Textarea, TextInput
+
+from comicsdb.models import Team
 
 
 class TeamForm(ModelForm):

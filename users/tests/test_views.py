@@ -1,5 +1,6 @@
-from users.forms import CustomUserChangeForm
 from django.urls import reverse
+
+from users.forms import CustomUserChangeForm
 from users.tests.case_base import TestCaseBase
 
 HTML_REDIRECT_CODE = 301

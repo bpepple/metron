@@ -20,8 +20,12 @@ class CreatorForm(ModelForm):
             "desc": Textarea(attrs={"class": "textarea"}),
             "wikipedia": TextInput(attrs={"class": "input"}),
             "alias": TextInput(attrs={"class": "input"}),
-            "birth": DateInput(attrs={"class": "input", "type": "date"},),
-            "death": DateInput(attrs={"class": "input", "type": "date"},),
+            "birth": DateInput(
+                attrs={"class": "input", "type": "date"},
+            ),
+            "death": DateInput(
+                attrs={"class": "input", "type": "date"},
+            ),
             "image": ClearableFileInput(),
         }
         help_texts = {

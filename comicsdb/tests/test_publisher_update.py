@@ -1,7 +1,8 @@
 import logging
 
-from comicsdb.models import Publisher
 from django.urls import reverse
+
+from comicsdb.models import Publisher
 from users.tests.case_base import TestCaseBase
 
 
@@ -9,9 +10,7 @@ class PublisherUpdateTest(TestCaseBase):
     @classmethod
     def setUpTestData(cls):
         user = cls._create_user()
-        cls.dc = Publisher.objects.create(
-            name="DC Comics", slug="dc-comics", edited_by=user
-        )
+        cls.dc = Publisher.objects.create(name="DC Comics", slug="dc-comics", edited_by=user)
 
     def setUp(self):
         logging.disable(logging.CRITICAL)

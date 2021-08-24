@@ -29,9 +29,7 @@ class PublisherSeriesList(ListView):
 
     def get_queryset(self):
         self.publisher = get_object_or_404(Publisher, slug=self.kwargs["slug"])
-        return Series.objects.filter(publisher=self.publisher).prefetch_related(
-            "issue_set"
-        )
+        return Series.objects.filter(publisher=self.publisher).prefetch_related("issue_set")
 
     def get_context_data(self, **kwargs):
         context = super(PublisherSeriesList, self).get_context_data(**kwargs)
@@ -41,27 +39,21 @@ class PublisherSeriesList(ListView):
 
 class PublisherDetail(DetailView):
     model = Publisher
-    queryset = Publisher.objects.select_related("edited_by").prefetch_related(
-        "series_set"
-    )
+    queryset = Publisher.objects.select_related("edited_by").prefetch_related("series_set")
 
     def get_context_data(self, **kwargs):
         context = super(PublisherDetail, self).get_context_data(**kwargs)
         publisher = self.get_object()
         try:
             next_publisher = (
-                Publisher.objects.order_by("name")
-                .filter(name__gt=publisher.name)
-                .first()
+                Publisher.objects.order_by("name").filter(name__gt=publisher.name).first()
             )
         except ObjectDoesNotExist:
             next_publisher = None
 
         try:
             previous_publisher = (
-                Publisher.objects.order_by("name")
-                .filter(name__lt=publisher.name)
-                .last()
+                Publisher.objects.order_by("name").filter(name__lt=publisher.name).last()
             )
         except ObjectDoesNotExist:
             previous_publisher = None
@@ -98,9 +90,7 @@ class PublisherCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
-        LOGGER.info(
-            f"Publisher: {form.instance.name} was created by {self.request.user}"
-        )
+        LOGGER.info(f"Publisher: {form.instance.name} was created by {self.request.user}")
         return super().form_valid(form)
 
 
@@ -116,9 +106,7 @@ class PublisherUpdate(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.edited_by = self.request.user
-        LOGGER.info(
-            f"Publisher: {form.instance.name} was updated by {self.request.user}"
-        )
+        LOGGER.info(f"Publisher: {form.instance.name} was updated by {self.request.user}")
         return super().form_valid(form)
 
 

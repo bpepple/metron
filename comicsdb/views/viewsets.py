@@ -1,16 +1,13 @@
+from django.db.models import Prefetch
+from django.http import Http404
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.throttling import UserRateThrottle
+
 from comicsdb.filters.issue import IssueFilter
 from comicsdb.filters.name import NameFilter
 from comicsdb.filters.series import SeriesFilter
-from comicsdb.models import (
-    Arc,
-    Character,
-    Creator,
-    Credits,
-    Issue,
-    Publisher,
-    Series,
-    Team,
-)
+from comicsdb.models import Arc, Character, Creator, Credits, Issue, Publisher, Series, Team
 from comicsdb.serializers import (
     ArcListSerializer,
     ArcSerializer,
@@ -27,11 +24,6 @@ from comicsdb.serializers import (
     TeamListSerializer,
     TeamSerializer,
 )
-from django.db.models import Prefetch
-from django.http import Http404
-from rest_framework import viewsets
-from rest_framework.decorators import action
-from rest_framework.throttling import UserRateThrottle
 
 
 class ArcViewSet(viewsets.ReadOnlyModelViewSet):
@@ -64,9 +56,7 @@ class ArcViewSet(viewsets.ReadOnlyModelViewSet):
         )
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = IssueListSerializer(
-                page, many=True, context={"request": request}
-            )
+            serializer = IssueListSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
         else:
             raise Http404()
@@ -170,9 +160,7 @@ class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
         )
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = SeriesListSerializer(
-                page, many=True, context={"request": request}
-            )
+            serializer = SeriesListSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
         else:
             raise Http404()
@@ -207,9 +195,7 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
         queryset = series.issue_set.all()
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = IssueListSerializer(
-                page, many=True, context={"request": request}
-            )
+            serializer = IssueListSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
         else:
             raise Http404()

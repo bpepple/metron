@@ -1,5 +1,6 @@
-from comicsdb.models import Arc
 from django.forms import ClearableFileInput, ModelForm, Textarea, TextInput
+
+from comicsdb.models import Arc
 
 
 class ArcForm(ModelForm):

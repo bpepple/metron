@@ -126,9 +126,7 @@ class Migration(migrations.Migration):
                 ("desc", models.TextField(blank=True, verbose_name="Description")),
                 (
                     "image",
-                    sorl.thumbnail.fields.ImageField(
-                        blank=True, upload_to="arc/%Y/%m/%d/"
-                    ),
+                    sorl.thumbnail.fields.ImageField(blank=True, upload_to="arc/%Y/%m/%d/"),
                 ),
                 ("modified", models.DateTimeField(auto_now=True)),
             ],
@@ -197,15 +195,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "birth",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Date of Birth"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Date of Birth"),
                 ),
                 (
                     "death",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Date of Death"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Date of Death"),
                 ),
                 (
                     "image",
@@ -268,9 +262,7 @@ class Migration(migrations.Migration):
                 ("cover_date", models.DateField(verbose_name="Cover Date")),
                 (
                     "store_date",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="In Store Date"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="In Store Date"),
                 ),
                 ("desc", models.TextField(blank=True, verbose_name="Description")),
                 (
@@ -391,9 +383,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "image",
-                    sorl.thumbnail.fields.ImageField(
-                        blank=True, upload_to="team/%Y/%m/%d/"
-                    ),
+                    sorl.thumbnail.fields.ImageField(blank=True, upload_to="team/%Y/%m/%d/"),
                 ),
                 ("modified", models.DateTimeField(auto_now=True)),
                 ("creators", models.ManyToManyField(blank=True, to="comicsdb.Creator")),
@@ -513,10 +503,12 @@ class Migration(migrations.Migration):
             field=models.ManyToManyField(blank=True, to="comicsdb.Team"),
         ),
         migrations.AlterUniqueTogether(
-            name="issue", unique_together={("series", "number")},
+            name="issue",
+            unique_together={("series", "number")},
         ),
         migrations.AlterUniqueTogether(
-            name="credits", unique_together={("issue", "creator")},
+            name="credits",
+            unique_together={("issue", "creator")},
         ),
         django.contrib.postgres.operations.UnaccentExtension(),
         django.contrib.postgres.operations.TrigramExtension(),
@@ -583,7 +575,10 @@ class Migration(migrations.Migration):
                 to=settings.AUTH_USER_MODEL,
             ),
         ),
-        migrations.AlterModelOptions(name="creator", options={"ordering": ["name"]},),
+        migrations.AlterModelOptions(
+            name="creator",
+            options={"ordering": ["name"]},
+        ),
         migrations.AddField(
             model_name="creator",
             name="alias",
@@ -597,13 +592,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="issue",
             name="created_on",
-            field=models.DateTimeField(
-                auto_now_add=True, default=django.utils.timezone.now
-            ),
+            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.RunPython(
-            code=add_issue_created_on_data, reverse_code=remove_issue_created_on_data,
+            code=add_issue_created_on_data,
+            reverse_code=remove_issue_created_on_data,
         ),
         migrations.AlterField(
             model_name="issue",
@@ -613,49 +607,37 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="arc",
             name="created_on",
-            field=models.DateTimeField(
-                auto_now_add=True, default=django.utils.timezone.now
-            ),
+            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name="character",
             name="created_on",
-            field=models.DateTimeField(
-                auto_now_add=True, default=django.utils.timezone.now
-            ),
+            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name="creator",
             name="created_on",
-            field=models.DateTimeField(
-                auto_now_add=True, default=django.utils.timezone.now
-            ),
+            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name="publisher",
             name="created_on",
-            field=models.DateTimeField(
-                auto_now_add=True, default=django.utils.timezone.now
-            ),
+            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name="series",
             name="created_on",
-            field=models.DateTimeField(
-                auto_now_add=True, default=django.utils.timezone.now
-            ),
+            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name="team",
             name="created_on",
-            field=models.DateTimeField(
-                auto_now_add=True, default=django.utils.timezone.now
-            ),
+            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.RunPython(
@@ -693,7 +675,8 @@ class Migration(migrations.Migration):
             field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.RunPython(
-            code=add_series_created_on_data, reverse_code=remove_series_created_on_data,
+            code=add_series_created_on_data,
+            reverse_code=remove_series_created_on_data,
         ),
         migrations.AlterField(
             model_name="series",
@@ -701,13 +684,12 @@ class Migration(migrations.Migration):
             field=models.PositiveSmallIntegerField(verbose_name="Volume Number"),
         ),
         migrations.AlterUniqueTogether(
-            name="series", unique_together={("publisher", "name", "volume")},
+            name="series",
+            unique_together={("publisher", "name", "volume")},
         ),
         migrations.AlterModelOptions(
             name="issue",
-            options={
-                "ordering": ["series__sort_name", "cover_date", "store_date", "number"]
-            },
+            options={"ordering": ["series__sort_name", "cover_date", "store_date", "number"]},
         ),
         migrations.AlterModelOptions(
             name="credits",

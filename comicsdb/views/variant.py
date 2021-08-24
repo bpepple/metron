@@ -22,7 +22,7 @@ class VariantCreate(LoginRequiredMixin, CreateView):
         return context
 
     def get_initial(self):
-        """Calculate Initial Data for the form, validate ownership of issue """
+        """Calculate Initial Data for the form, validate ownership of issue"""
         slug = self.kwargs.get("slug", self.request.POST.get("slug"))
         self.issue = Issue.objects.select_related("series").get(slug=slug)
 

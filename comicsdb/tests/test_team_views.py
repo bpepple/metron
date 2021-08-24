@@ -1,5 +1,6 @@
-from comicsdb.models import Team
 from django.urls import reverse
+
+from comicsdb.models import Team
 from users.tests.case_base import TestCaseBase
 
 HTML_OK_CODE = 200

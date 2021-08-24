@@ -19,8 +19,6 @@ urlpatterns = [
     path("<slug:slug>/update/", CharacterUpdate.as_view(), name="update"),
     path("<slug:slug>/delete/", CharacterDelete.as_view(), name="delete"),
     path("<slug:slug>/issue_list/", CharacterIssueList.as_view(), name="issue"),
-    path(
-        "<slug:character>/<slug:series>/", CharacterSeriesList.as_view(), name="series"
-    ),
+    path("<slug:character>/<slug:series>/", CharacterSeriesList.as_view(), name="series"),
     re_path(r"^search/?$", SearchCharacterList.as_view(), name="search"),
 ]

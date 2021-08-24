@@ -1,15 +1,14 @@
 from django.urls import path, re_path
 
 from comicsdb.views.series import (
-    SeriesList,
-    SeriesDetail,
     SearchSeriesList,
     SeriesCreate,
-    SeriesUpdate,
     SeriesDelete,
+    SeriesDetail,
     SeriesIssueList,
+    SeriesList,
+    SeriesUpdate,
 )
-
 
 app_name = "series"
 urlpatterns = [

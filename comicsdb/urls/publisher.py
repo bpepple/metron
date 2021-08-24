@@ -1,15 +1,14 @@
 from django.urls import path, re_path
 
 from comicsdb.views.publisher import (
-    PublisherList,
-    PublisherDetail,
-    SearchPublisherList,
     PublisherCreate,
-    PublisherUpdate,
     PublisherDelete,
+    PublisherDetail,
+    PublisherList,
     PublisherSeriesList,
+    PublisherUpdate,
+    SearchPublisherList,
 )
-
 
 app_name = "publisher"
 urlpatterns = [

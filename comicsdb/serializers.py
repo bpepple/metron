@@ -189,7 +189,7 @@ class SeriesSerializer(serializers.ModelSerializer):
         )
 
     def to_representation(self, instance):
-        """ Move image field from Issue to Series representation. """
+        """Move image field from Issue to Series representation."""
         representation = super().to_representation(instance)
         issue_representation = representation.pop("image")
         for key in issue_representation:

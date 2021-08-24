@@ -1,3 +1,7 @@
+from django.test import TestCase
+from django.utils import timezone
+from django.utils.text import slugify
+
 from comicsdb.models import (
     Arc,
     Character,
@@ -9,9 +13,6 @@ from comicsdb.models import (
     SeriesType,
     Team,
 )
-from django.test import TestCase
-from django.utils import timezone
-from django.utils.text import slugify
 from users.tests.case_base import TestCaseBase
 
 HTTP_200_OK = 200
@@ -97,9 +98,7 @@ class CreatorTest(TestCaseBase):
 
         cls.name = "Walter Simonson"
         cls.slug = "walter-simonson"
-        cls.creator = Creator.objects.create(
-            name=cls.name, slug=cls.slug, edited_by=user
-        )
+        cls.creator = Creator.objects.create(name=cls.name, slug=cls.slug, edited_by=user)
 
     def setUp(self):
         self._client_login()

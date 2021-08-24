@@ -1,8 +1,9 @@
 import logging
 
+from django.urls import reverse
+
 from comicsdb.forms.arc import ArcForm
 from comicsdb.models import Arc
-from django.urls import reverse
 from users.tests.case_base import TestCaseBase
 
 HTML_OK_CODE = 200

@@ -41,9 +41,7 @@ class FileNameParser:
         tmpstr: str = self.fix_spaces(filename)
         found: bool = False
 
-        match: Optional[Match[str]] = re.search(
-            r"(?<=\sof\s)\d+(?=\s)", tmpstr, re.IGNORECASE
-        )
+        match: Optional[Match[str]] = re.search(r"(?<=\sof\s)\d+(?=\s)", tmpstr, re.IGNORECASE)
         if match:
             count = match.group()
             found = True

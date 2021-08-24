@@ -1,4 +1,5 @@
 import django_filters
+
 from comicsdb.models import Series
 
 

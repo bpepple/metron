@@ -1,5 +1,6 @@
-from comicsdb.models import Series
 from django.forms import ModelForm, Select, Textarea, TextInput
+
+from comicsdb.models import Series
 
 
 class SeriesForm(ModelForm):

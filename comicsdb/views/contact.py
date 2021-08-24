@@ -1,11 +1,12 @@
 import logging
 
-from comicsdb.forms.contact import ContactForm
 from django.contrib import messages
 from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import get_template
+
+from comicsdb.forms.contact import ContactForm
 from metron.utils import get_recaptcha_auth
 
 LOGGER = logging.getLogger(__name__)

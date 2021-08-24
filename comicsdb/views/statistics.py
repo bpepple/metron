@@ -1,7 +1,8 @@
-from comicsdb.models import Character, Creator, Issue, Publisher
 from django.db.models import Count
 from django.db.models.functions import TruncDate, TruncMonth, TruncYear
 from django.views.generic.base import TemplateView
+
+from comicsdb.models import Character, Creator, Issue, Publisher
 
 
 class StatisticsView(TemplateView):
@@ -10,9 +11,9 @@ class StatisticsView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(StatisticsView, self).get_context_data(**kwargs)
         # Publisher Issue Counts
-        publishers = Publisher.objects.annotate(
-            num_issues=Count("series__issue")
-        ).values("name", "num_issues")
+        publishers = Publisher.objects.annotate(num_issues=Count("series__issue")).values(
+            "name", "num_issues"
+        )
 
         publisher_dict = {}
         for publisher in publishers:
