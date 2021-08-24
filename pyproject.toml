@@ -1,0 +1,17 @@
+[tool.black]
+line-length = 95
+target-version = [ "py38",]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 95
+default_section = "THIRDPARTY"
+known_first_party = []
+known_third_party = ["chartkick", "dal", "dateutil", "decouple", "django", "django_filters", "drf_spectacular", "marvelous", "rest_framework", "serifan", "simple_history", "sorl", "storages"]
+
+[tool.coverage.run]
+source = ["comicsdb", "users", "metron"]
+
+[tool.coverage.report]
+show_missing = true
