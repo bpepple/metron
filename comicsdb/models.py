@@ -279,7 +279,7 @@ class Issue(models.Model):
         "Cover Price", max_digits=5, decimal_places=2, null=True, blank=True
     )
     sku = models.CharField("Distributor SKU", max_length=9, blank=True)
-    upc = models.CharField("UPC Code", max_length=14, blank=True)
+    upc = models.CharField("UPC Code", max_length=20, blank=True)
     desc = models.TextField("Description", blank=True)
     image = ImageField("Cover", upload_to="issue/%Y/%m/%d/", blank=True)
     creators = models.ManyToManyField(Creator, through="Credits", blank=True)

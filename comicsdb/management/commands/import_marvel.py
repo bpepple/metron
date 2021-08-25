@@ -105,6 +105,13 @@ class Command(BaseCommand):
             )
             if marvel_data.description:
                 issue.desc = marvel_data.description
+
+            if marvel_data.upc:
+                print(f"UPC length: {len(marvel_data.upc)}")
+                print(f"UPC = {marvel_data.upc}")
+                issue.upc = marvel_data.upc
+
+            if marvel_data.upc or marvel_data.description:
                 issue.save()
 
             if create:
