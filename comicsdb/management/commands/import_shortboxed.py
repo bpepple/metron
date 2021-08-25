@@ -30,7 +30,6 @@ class Command(BaseCommand):
 
     def add_issue_to_database(self, series_obj, issue_number, sb_data):
         cover_date = determine_cover_date(sb_data.release_date, sb_data.publisher)
-        price = self._fix_price(sb_data.price)
         try:
             issue, create = Issue.objects.get_or_create(
                 series=series_obj,
@@ -38,24 +37,28 @@ class Command(BaseCommand):
                 slug=slugify(series_obj.slug + " " + issue_number),
                 store_date=sb_data.release_date,
                 cover_date=cover_date,
-                price=price,
-                sku=sb_data.diamond_id,
             )
-            clean_desc = clean_description(sb_data.description)
+
+            modified = False
+            if not issue.sku:
+                issue.sku = sb_data.diamond_id
+                modified = True
+
+            if not issue.desc:
+                clean_desc = clean_description(sb_data.description)
+                issue.desc = clean_desc.strip()
+                modified = True
+
+            if not issue.price:
+                issue.price = self._fix_price(sb_data.price)
+                modified = True
+
+            if modified:
+                issue.save()
 
             if create:
-                issue.desc = clean_desc.strip()
-                issue.save()
-                # Save the change reason
                 update_change_reason(issue, "Shortboxed import")
                 self.stdout.write(self.style.SUCCESS(f"Added {issue} to database.\n\n"))
-            elif not issue.desc and clean_desc:
-                # If an issue already exists and doesn't have a description, let's add one.
-                issue.desc = clean_desc.strip()
-                issue.save()
-                # Save the change reason
-                update_change_reason(issue, "Shortboxed import")
-                self.stdout.write(self.style.SUCCESS(f"Adding description to {issue}\n\n"))
             else:
                 self.stdout.write(self.style.WARNING(f"{issue} already exists...\n\n"))
         except IntegrityError:

@@ -150,6 +150,7 @@ class IssueAdmin(AdminImageMixin, SimpleHistoryAdmin):
                     "store_date",
                     "price",
                     "sku",
+                    "upc",
                     "desc",
                     "image",
                     "edited_by",

@@ -316,6 +316,15 @@
         {% if issue.store_date %}
           <p><b>In Store Date:</b> {{ issue.store_date|date:"SHORT_DATE_FORMAT" }}</p>
         {% endif %}
+        {% if issue.price %}
+          <p><b>Cover Price:</b> ${{ issue.price }}</p>
+        {% endif %}
+        {% if issue.sku %}
+          <p><b>Distributor SKU:</b> {{ issue.sku }}</p>
+        {% endif %}
+        {% if issue.upc %}
+          <p><b>UPC:</b> {{ issue.upc }}</p>
+        {% endif %}
         {% with arcs=issue.arcs.all %}
           {% if arcs %}
             <br>
@@ -329,12 +338,6 @@
             </div>
           {% endif %}
         {% endwith %}
-        {% if issue.price %}
-          <p><b>Cover Price:</b> ${{ issue.price }}</p>
-        {% endif %}
-        {% if issue.sku %}
-          <p><b>Distributor SKU:</b> {{ issue.sku }}</p>
-        {% endif %}
         <br />
         <p><b>Metron ID:</b> {{ issue.id }}</p>
       </div>
