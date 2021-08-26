@@ -42,15 +42,22 @@ class Command(BaseCommand):
             modified = False
             if not issue.sku:
                 issue.sku = sb_data.diamond_id
+                self.stdout.write(
+                    self.style.SUCCESS(f"Added sku of '{sb_data.diamond_id}' to {issue}.")
+                )
                 modified = True
 
             if not issue.desc:
                 clean_desc = clean_description(sb_data.description)
                 issue.desc = clean_desc.strip()
+                self.stdout.write(self.style.SUCCESS(f"Added description to {issue}."))
                 modified = True
 
             if not issue.price:
                 issue.price = self._fix_price(sb_data.price)
+                self.stdout.write(
+                    self.style.SUCCESS(f"Added price of ${issue.price} to {issue}.")
+                )
                 modified = True
 
             if modified:
