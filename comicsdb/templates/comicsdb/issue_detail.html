@@ -122,7 +122,8 @@
           {% endif %}
         </figure>
         {% if issue.image %}
-        <p class="has-text-centered">Click cover to view larger version</p>
+        <br/>
+        <p class="subtitle is-6 has-text-centered">Click cover to view larger version</p>
         {% endif %}
       </div>
       <!-- end of main cover -->
@@ -142,7 +143,10 @@
                 {% endif %}
               </figure>
               <br/>
-              <p class="has-text-centered"><strong>{{ variant.name }}</strong></p>
+              <p class="title is-6 has-text-centered"><strong>{{ variant.name }}</strong></p>
+              {% if variant.sku %}
+              <p class="subtitle is-6 has-text-centered">Distributor SKU: {{ variant.sku }}</p>
+              {% endif %}
             </div>
           {% endfor %}
         {% endif %}
