@@ -11,6 +11,7 @@ from comicsdb.models import (
     Series,
     SeriesType,
     Team,
+    Variant,
 )
 
 
@@ -120,7 +121,14 @@ class CreditsSerializer(serializers.ModelSerializer):
         fields = ("id", "creator", "role")
 
 
+class VariantsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Variant
+        fields = ("name", "sku", "image")
+
+
 class IssueSerializer(serializers.ModelSerializer):
+    variants = VariantsSerializer(source="variant_set", many=True, read_only=True)
     credits = CreditsSerializer(source="credits_set", many=True, read_only=True)
     arcs = ArcListSerializer(many=True, read_only=True)
     characters = CharacterListSerializer(many=True, read_only=True)
@@ -149,6 +157,7 @@ class IssueSerializer(serializers.ModelSerializer):
             "credits",
             "characters",
             "teams",
+            "variants",
         )
 
 
