@@ -1,5 +1,5 @@
 import datetime
-from typing import Any, List, Optional, Tuple
+from typing import Any, Optional
 
 from django.contrib import admin
 from django.db.models.query import QuerySet
@@ -28,7 +28,7 @@ class FutureStoreDateListFilter(admin.SimpleListFilter):
 
     parameter_name = "store_date"
 
-    def lookups(self, request: Any, model_admin: Any) -> List[Tuple[Any, str]]:
+    def lookups(self, request: Any, model_admin: Any):
         return (("thisWeek", "This week"), ("nextWeek", "Next week"))
 
     def queryset(self, request: Any, queryset: QuerySet) -> Optional[QuerySet]:
@@ -60,21 +60,24 @@ def add_dc_credits(modeladmin, request, queryset):
     pub = Role.objects.get(name__iexact="publisher")
     chief = Role.objects.get(name__iexact="Chief Creative Officer")
     for i in queryset:
-        jc = Credits.objects.create(issue=i, creator=jim)
-        jc.role.add(pub, chief)
-        mc = Credits.objects.create(issue=i, creator=marie)
-        mc.role.add(eic)
+        jc, create = Credits.objects.get_or_create(issue=i, creator=jim)
+        if create:
+            jc.role.add(pub, chief)
+        mc, create = Credits.objects.get_or_create(issue=i, creator=marie)
+        if create:
+            mc.role.add(eic)
 
 
 add_dc_credits.short_description = "Add current DC executive credits"
 
 
 def add_marvel_credits(modeladmin, request, queryset):
-    marie = Creator.objects.get(slug="c-b-cebulski")
+    cb = Creator.objects.get(slug="c-b-cebulski")
     eic = Role.objects.get(name__iexact="editor in chief")
     for i in queryset:
-        mc = Credits.objects.create(issue=i, creator=marie)
-        mc.role.add(eic)
+        cred, create = Credits.objects.get_or_create(issue=i, creator=cb)
+        if create:
+            cred.role.add(eic)
 
 
 add_marvel_credits.short_description = "Add current Marvel EIC"
