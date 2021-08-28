@@ -101,15 +101,7 @@ def remove_multiple_created_on_data(apps, schema_editor):
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("comicsdb", "0001_new_squash"),
-        ("comicsdb", "0002_sort_variants"),
-        ("comicsdb", "0003_add_django_simple_history"),
-        ("comicsdb", "0004_add_price_and_sku_to_issue"),
-        ("comicsdb", "0005_add_upc_to_issue"),
-        ("comicsdb", "0006_increase_upc_field_length"),
-        ("comicsdb", "0007_variant_sku"),
-    ]
+    replaces = []
 
     initial = True
 
