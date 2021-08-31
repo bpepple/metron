@@ -91,7 +91,9 @@ class Command(BaseCommand):
         new_date = release_date + dateutil.relativedelta.relativedelta(months=2)
         return new_date.replace(day=1)
 
-    def add_issue_to_database(self, series_obj, fnp: FileNameParser, marvel_data):
+    def add_issue_to_database(
+        self, series_obj, fnp: FileNameParser, marvel_data, add_creator: bool
+    ):
         cover_date = self._determine_cover_date(marvel_data.dates.on_sale)
         slug = slugify(series_obj.slug + " " + fnp.issue)
 
@@ -114,8 +116,9 @@ class Command(BaseCommand):
 
             if create:
                 self._add_eic_credit(issue)
-                if marvel_data.creators:
-                    self._add_creators(marvel_data, issue)
+                if add_creator:
+                    if marvel_data.creators:
+                        self._add_creators(marvel_data, issue)
                 if marvel_data.characters:
                     self._add_characters(marvel_data, issue)
                 # Save the change reason
@@ -153,6 +156,9 @@ class Command(BaseCommand):
             default="nextWeek",
             help="The date period to query.",
         )
+        parser.add_argument(
+            "-c", "--creators", action="store_true", help="Add creators to issue."
+        )
 
     def handle(self, *args, **options):
         if not options["date"]:
@@ -177,7 +183,7 @@ class Command(BaseCommand):
             if results:
                 correct_series = select_list_choice(results)
                 if correct_series:
-                    self.add_issue_to_database(correct_series, fnp, comic)
+                    self.add_issue_to_database(correct_series, fnp, comic, options["creators"])
                 else:
                     self.stdout.write(
                         self.style.NOTICE(
