@@ -107,9 +107,13 @@ class Command(BaseCommand):
             )
             if marvel_data.description:
                 issue.desc = marvel_data.description
+                self.stdout.write(self.style.SUCCESS(f"Added description to {issue}."))
 
             if marvel_data.upc:
                 issue.upc = marvel_data.upc
+                self.stdout.write(
+                    self.style.SUCCESS(f"Added UPC of '{marvel_data.upc}' to {issue}.")
+                )
 
             if marvel_data.upc or marvel_data.description:
                 issue.save()
