@@ -105,11 +105,11 @@ class Command(BaseCommand):
                 store_date=marvel_data.dates.on_sale,
                 cover_date=cover_date,
             )
-            if marvel_data.description:
+            if not issue.desc and marvel_data.description:
                 issue.desc = marvel_data.description
                 self.stdout.write(self.style.SUCCESS(f"Added description to {issue}."))
 
-            if marvel_data.upc:
+            if not issue.upc and marvel_data.upc:
                 issue.upc = marvel_data.upc
                 self.stdout.write(
                     self.style.SUCCESS(f"Added UPC of '{marvel_data.upc}' to {issue}.")
