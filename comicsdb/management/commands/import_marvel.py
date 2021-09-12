@@ -138,33 +138,48 @@ class Command(BaseCommand):
 
     def _get_data_from_marvel(self, options):
         m = marvelous.api(MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY)
-        return sorted(
-            m.comics(
-                {
-                    "format": "comic",
-                    "formatType": "comic",
-                    "noVariants": True,
-                    "dateDescriptor": options["date"],
-                    "limit": 100,
-                }
-            ),
-            key=lambda comic: comic.title,
-        )
+        if options["date"]:
+            return sorted(
+                m.comics(
+                    {
+                        "format": "comic",
+                        "formatType": "comic",
+                        "noVariants": True,
+                        "dateDescriptor": options["date"],
+                        "limit": 100,
+                    }
+                ),
+                key=lambda comic: comic.title,
+            )
+        else:
+            return sorted(
+                m.comics(
+                    {
+                        "format": "comic",
+                        "formatType": "comic",
+                        "noVariants": True,
+                        "dateRange": options["range"],
+                    }
+                ),
+                key=lambda comic: comic.title,
+            )
 
     def add_arguments(self, parser):
         parser.add_argument(
             "-d",
             "--date",
             type=str,
-            default="nextWeek",
             help="The date period to query.",
+        )
+        parser.add_argument(
+            "--range", type=str, help="Date range to query (e.g. 2013-01-01,2013-01-02)."
         )
         parser.add_argument(
             "-c", "--creators", action="store_true", help="Add creators to issue."
         )
 
     def handle(self, *args, **options):
-        if not options["date"]:
+        if not options["date"] and not options["range"]:
             self.stdout.write(self.style.NOTICE("No month requested. Exiting..."))
             exit(0)
 
