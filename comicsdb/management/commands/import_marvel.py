@@ -116,9 +116,8 @@ class Command(BaseCommand):
 
             if create:
                 self._add_eic_credit(issue)
-                if add_creator:
-                    if marvel_data.creators:
-                        self._add_creators(marvel_data, issue)
+                if add_creator and marvel_data.creators:
+                    self._add_creators(marvel_data, issue)
                 if marvel_data.characters:
                     self._add_characters(marvel_data, issue)
                 # Save the change reason
