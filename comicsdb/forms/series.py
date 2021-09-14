@@ -18,3 +18,9 @@ class SeriesForm(ModelForm):
             "short_desc": TextInput(attrs={"class": "input"}),
             "desc": Textarea(attrs={"class": "textarea"}),
         }
+        help_texts = {
+            "sort_name": """Most of the time it will be the same as the series name,
+            but if the title starts with an article like 'The' it might be remove so
+            that it is listed with like named series.""",
+            "year_end": "Leave blank if a One-Shot, Annual, or Ongoing Series.",
+        }
