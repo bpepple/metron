@@ -131,6 +131,7 @@ class IssueAdmin(AdminImageMixin, SimpleHistoryAdmin):
     list_filter = (
         FutureStoreDateListFilter,
         "created_on",
+        "modified",
         "store_date",
         "cover_date",
         "series__publisher",
@@ -194,7 +195,7 @@ class RoleAdmin(admin.ModelAdmin):
 class SeriesAdmin(SimpleHistoryAdmin):
     search_fields = ("name",)
     list_display = ("name", "year_began")
-    list_filter = ("publisher",)
+    list_filter = ("modified", "publisher")
     prepopulated_fields = {"slug": ("name", "year_began")}
     fields = (
         "name",
