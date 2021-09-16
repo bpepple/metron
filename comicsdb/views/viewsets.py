@@ -30,6 +30,7 @@ class ArcViewSet(viewsets.ReadOnlyModelViewSet):
     """
     list:
     Returns a list of all the story arcs.
+
     retrieve:
     Returns the information of an individual story arc.
     """
@@ -66,6 +67,7 @@ class CharacterViewSet(viewsets.ReadOnlyModelViewSet):
     """
     list:
     Return a list of all the characters.
+
     retrieve:
     Returns the information of an individual character.
     """
@@ -86,6 +88,7 @@ class CreatorViewSet(viewsets.ReadOnlyModelViewSet):
     """
     list:
     Return a list of all the creators.
+
     retrieve:
     Returns the information of an individual creator.
     """
@@ -106,6 +109,7 @@ class IssueViewSet(viewsets.ReadOnlyModelViewSet):
     """
     list:
     Return a list of all the issues.
+
     retrieve:
     Returns the information of an individual issue.
     """
@@ -134,6 +138,7 @@ class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
     """
     list:
     Returns a list of all publishers.
+
     retrieve:
     Returns the information of an individual publisher.
     """
@@ -170,6 +175,7 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
     """
     list:
     Returns a list of all the comic series.
+
     retrieve:
     Returns the information of an individual comic series.
     """
@@ -205,6 +211,7 @@ class TeamViewSet(viewsets.ReadOnlyModelViewSet):
     """
     list:
     Return a list of all the teams.
+
     retrieve:
     Returns the information of an individual team.
     """
