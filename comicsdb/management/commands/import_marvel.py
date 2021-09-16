@@ -105,17 +105,26 @@ class Command(BaseCommand):
                 store_date=marvel_data.dates.on_sale,
                 cover_date=cover_date,
             )
+
+            modified = False
             if not issue.desc and marvel_data.description:
                 issue.desc = marvel_data.description
                 self.stdout.write(self.style.SUCCESS(f"Added description to {issue}."))
+                modified = True
 
             if not issue.upc and marvel_data.upc:
                 issue.upc = marvel_data.upc
                 self.stdout.write(
                     self.style.SUCCESS(f"Added UPC of '{marvel_data.upc}' to {issue}.")
                 )
+                modified = True
 
-            if marvel_data.upc or marvel_data.description:
+            if not issue.page and marvel_data.page_count:
+                issue.page = marvel_data.page_count
+                self.stdout.write(self.style.SUCCESS(f"Added page count to {issue}."))
+                modified = True
+
+            if modified:
                 issue.save()
 
             if create:
