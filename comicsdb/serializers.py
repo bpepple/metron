@@ -151,6 +151,7 @@ class IssueSerializer(serializers.ModelSerializer):
             "price",
             "sku",
             "upc",
+            "page",
             "desc",
             "image",
             "arcs",

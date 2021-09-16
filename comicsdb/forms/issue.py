@@ -42,6 +42,7 @@ class IssueForm(ModelForm):
             "price",
             "sku",
             "upc",
+            "page",
             "desc",
             "characters",
             "teams",
@@ -68,6 +69,7 @@ class IssueForm(ModelForm):
             "price": NumberInput(attrs={"class": "input"}),
             "sku": TextInput(attrs={"class": "input"}),
             "upc": TextInput(attrs={"class": "input"}),
+            "page": TextInput(attrs={"class": "input"}),
             "desc": Textarea(attrs={"class": "textarea"}),
             "image": ClearableFileInput(),
         }

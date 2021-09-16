@@ -59,6 +59,7 @@ class GetSinglePublisherTest(TestCaseBase):
             image="issue/test.jpg",
             cover_date=timezone.now().date(),
             edited_by=user,
+            created_by=user,
         )
 
     def setUp(self):

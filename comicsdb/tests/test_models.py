@@ -240,6 +240,7 @@ class IssueTest(TestCaseBase):
             slug="superman-1939-1",
             cover_date=issue_date,
             edited_by=user,
+            created_by=user,
         )
 
     def setUp(self):

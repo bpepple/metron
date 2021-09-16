@@ -32,6 +32,7 @@ class TestCommandUtils(TestCaseBase):
             slug=f"specialman-2020-{5}",
             cover_date=cover_date,
             edited_by=user,
+            created_by=user,
         )
         cls.cb = Creator.objects.create(
             name="C.B. Cebulski", slug="c-b-cebulski", edited_by=user

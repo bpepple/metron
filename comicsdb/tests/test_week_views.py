@@ -45,6 +45,7 @@ class TestWeekView(TestCaseBase):
                 cover_date=cover_date,
                 store_date=in_store_date,
                 edited_by=user,
+                created_by=user,
             )
 
     def setUp(self):

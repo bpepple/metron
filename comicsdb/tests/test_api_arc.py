@@ -58,6 +58,7 @@ class GetSingleArcTest(TestCaseBase):
             slug="final-crisis-1",
             cover_date=timezone.now().date(),
             edited_by=user,
+            created_by=user,
         )
         cls.hulk = Arc.objects.create(
             name="World War Hulk", slug="world-war-hulk", edited_by=user

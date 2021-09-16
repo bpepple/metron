@@ -82,6 +82,7 @@ class GetSingleSeriesTest(TestCaseBase):
             number="1",
             series=cls.thor,
             edited_by=user,
+            created_by=user,
         )
 
     def setUp(self):

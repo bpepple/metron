@@ -110,6 +110,7 @@ class IssueCreate(LoginRequiredMixin, CreateView):
         context = self.get_context_data()
         credits_form = context["credits"]
         with transaction.atomic():
+            form.instance.created_by = self.request.user
             form.instance.edited_by = self.request.user
             self.object = form.save()
 

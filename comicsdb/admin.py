@@ -155,8 +155,10 @@ class IssueAdmin(AdminImageMixin, SimpleHistoryAdmin):
                     "price",
                     "sku",
                     "upc",
+                    "page",
                     "desc",
                     "image",
+                    "created_by",
                     "edited_by",
                 )
             },

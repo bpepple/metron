@@ -34,6 +34,7 @@ class HomeViewTest(TestCaseBase):
                 slug=f"batman-2016-{i_num}",
                 cover_date=cover_date,
                 edited_by=user,
+                created_by=user,
             )
 
     def setUp(self):
