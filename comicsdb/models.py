@@ -280,14 +280,18 @@ class Issue(models.Model):
     )
     sku = models.CharField("Distributor SKU", max_length=9, blank=True)
     upc = models.CharField("UPC Code", max_length=20, blank=True)
+    page = models.PositiveSmallIntegerField("Page Count", null=True, blank=True)
     desc = models.TextField("Description", blank=True)
     image = ImageField("Cover", upload_to="issue/%Y/%m/%d/", blank=True)
     creators = models.ManyToManyField(Creator, through="Credits", blank=True)
     characters = models.ManyToManyField(Character, blank=True)
     teams = models.ManyToManyField(Team, blank=True)
-    modified = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
-    edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    created_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    modified = models.DateTimeField(auto_now=True)
+    edited_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="editor"
+    )
     history = HistoricalRecords()
 
     def get_absolute_url(self):
