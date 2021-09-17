@@ -6,6 +6,17 @@
     {% block sitedesc %}{% endblock %}
     {% block sitekeywords %}{% endblock %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@MetronDB" />
+    <meta name="twitter:title" content="Metron Comic Book Database" />
+    <meta name="twitter:description" content="A community-based comic book database." />
+    <meta name="twitter:image" content="https://metron-static.nyc3.digitaloceanspaces.com/misc/metron-twitter-card.jpg" />
+    <meta name="twitter:image:alt" content="A image of the New God Metron seated and pondering the universe." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Metron Comic Book Database" />
+    <meta property="og:description" content="A community-based comic book database." />
+    <meta property="og:url" content="https://metron.cloud/" />
+    <meta property="og:image" content="https://metron-static.nyc3.digitaloceanspaces.com/misc/metron-twitter-card.jpg" />
     <title>{% block title %}{% endblock %}</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'site/img/favicon.ico' %}" />
     {% load django_simple_bulma %}
