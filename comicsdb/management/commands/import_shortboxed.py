@@ -1,5 +1,3 @@
-from decimal import Decimal
-
 import serifan
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
@@ -23,10 +21,6 @@ class Command(BaseCommand):
     def __init__(self) -> None:
         super().__init__()
         self.talker = serifan.api()
-
-    def _fix_price(self, price):
-        fixed = price.strip("$")
-        return Decimal(fixed)
 
     def add_issue_to_database(self, series_obj, issue_number, sb_data):
         cover_date = determine_cover_date(sb_data.release_date, sb_data.publisher)
@@ -54,7 +48,7 @@ class Command(BaseCommand):
                 modified = True
 
             if not issue.price and sb_data.price:
-                issue.price = self._fix_price(sb_data.price)
+                issue.price = sb_data.price
                 self.stdout.write(
                     self.style.SUCCESS(f"Added price of ${issue.price} to {issue}.")
                 )
