@@ -123,6 +123,7 @@
         </figure>
         {% if issue.image %}
         <br/>
+        <p class="title is-6 has-text-centered"><strong>Main Cover</strong></p>
         <p class="subtitle is-6 has-text-centered">Click cover to view larger version</p>
         {% endif %}
       </div>
@@ -144,8 +145,12 @@
               </figure>
               <br/>
               <p class="title is-6 has-text-centered"><strong>{{ variant.name }}</strong></p>
-              {% if variant.sku %}
-              <p class="subtitle is-6 has-text-centered">Distributor SKU: {{ variant.sku }}</p>
+              {% if variant.sku or variant.upc %}
+              <p class="subtitle is-6 has-text-centered">
+                {% if variant.sku %}Distributor SKU: {{ variant.sku }}{% endif %}
+                {% if variant.sku and variant.upc %}<br />{% endif %}
+                {% if variant.upc %}UPC Code: {{ variant.upc }}{% endif %}
+              </p>
               {% endif %}
             </div>
           {% endfor %}
