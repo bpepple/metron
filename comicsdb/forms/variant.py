@@ -10,11 +10,12 @@ class VariantForm(ModelForm):
 
     class Meta:
         model = Variant
-        fields = ("issue", "name", "sku", "image")
+        fields = ("issue", "name", "sku", "upc", "image")
         widgets = {
             "issue": HiddenInput(),
             "name": TextInput(attrs={"class": "input"}),
             "sku": TextInput(attrs={"class": "input"}),
+            "upc": TextInput(attrs={"class": "input"}),
             "image": ClearableFileInput(),
         }
 

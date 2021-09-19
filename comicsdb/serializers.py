@@ -124,7 +124,7 @@ class CreditsSerializer(serializers.ModelSerializer):
 class VariantsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Variant
-        fields = ("name", "sku", "image")
+        fields = ("name", "sku", "upc", "image")
 
 
 class IssueSerializer(serializers.ModelSerializer):
