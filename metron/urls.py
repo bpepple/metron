@@ -34,7 +34,6 @@ from comicsdb.sitemaps import (
 from comicsdb.urls import api as api_urls
 from comicsdb.urls import arc as arc_urls
 from comicsdb.urls import character as character_urls
-from comicsdb.urls import contact as contact_urls
 from comicsdb.urls import creator as creator_urls
 from comicsdb.urls import flatpage as flatpage_urls
 from comicsdb.urls import home as home_urls
@@ -61,7 +60,6 @@ urlpatterns = [
     path("api-auth/", include("rest_framework.urls")),
     path("arc/", include(arc_urls)),
     path("character/", include(character_urls)),
-    path("contact/", include(contact_urls)),
     path("creator/", include(creator_urls)),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
