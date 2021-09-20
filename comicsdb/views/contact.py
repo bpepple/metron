@@ -7,6 +7,7 @@ from django.shortcuts import redirect, render
 from django.template.loader import get_template
 
 from comicsdb.forms.contact import ContactForm
+from metron.settings import EMAIL_HOST_USER
 from metron.utils import get_recaptcha_auth
 
 LOGGER = logging.getLogger(__name__)
@@ -25,7 +26,7 @@ def email_view(request):
                 subject = form.cleaned_data["subject"]
                 message = form.cleaned_data["message"]
                 try:
-                    send_mail(subject, message, email, ["brian@pepple.info"])
+                    send_mail(subject, message, email, [f"{EMAIL_HOST_USER}"])
                 except BadHeaderError:
                     return HttpResponse("Invalid header found.")
 
