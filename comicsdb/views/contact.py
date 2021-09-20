@@ -25,7 +25,7 @@ def email_view(request):
                 subject = form.cleaned_data["subject"]
                 message = form.cleaned_data["message"]
                 try:
-                    send_mail(subject, message, email, ["bpepple@metron.cloud"])
+                    send_mail(subject, message, email, ["brian@pepple.info"])
                 except BadHeaderError:
                     return HttpResponse("Invalid header found.")
 
