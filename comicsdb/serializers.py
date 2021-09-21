@@ -30,31 +30,31 @@ class IssueSeriesSerializer(serializers.ModelSerializer):
 class ArcListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Arc
-        fields = ("id", "name")
+        fields = ("id", "name", "modified")
 
 
 class CharacterListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Character
-        fields = ("id", "name")
+        fields = ("id", "name", "modified")
 
 
 class CreatorListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Creator
-        fields = ("id", "name")
+        fields = ("id", "name", "modified")
 
 
 class IssueListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
-        fields = ("id", "__str__", "cover_date")
+        fields = ("id", "__str__", "cover_date", "modified")
 
 
 class PublisherListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publisher
-        fields = ("id", "name")
+        fields = ("id", "name", "modified")
 
 
 class RoleSerializer(serializers.ModelSerializer):
@@ -66,7 +66,7 @@ class RoleSerializer(serializers.ModelSerializer):
 class SeriesListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Series
-        fields = ("id", "__str__")
+        fields = ("id", "__str__", "modified")
 
 
 class SeriesTypeSerializer(serializers.ModelSerializer):
@@ -78,13 +78,13 @@ class SeriesTypeSerializer(serializers.ModelSerializer):
 class TeamListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
-        fields = ("id", "name")
+        fields = ("id", "name", "modified")
 
 
 class ArcSerializer(serializers.ModelSerializer):
     class Meta:
         model = Arc
-        fields = ("id", "name", "desc", "image")
+        fields = ("id", "name", "desc", "image", "modified")
 
 
 class CharacterSerializer(serializers.ModelSerializer):
@@ -102,13 +102,14 @@ class CharacterSerializer(serializers.ModelSerializer):
             "image",
             "creators",
             "teams",
+            "modified",
         )
 
 
 class CreatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Creator
-        fields = ("id", "name", "birth", "death", "desc", "wikipedia", "image")
+        fields = ("id", "name", "birth", "death", "desc", "wikipedia", "image", "modified")
 
 
 class CreditsSerializer(serializers.ModelSerializer):
@@ -159,13 +160,14 @@ class IssueSerializer(serializers.ModelSerializer):
             "characters",
             "teams",
             "variants",
+            "modified",
         )
 
 
 class PublisherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publisher
-        fields = ("id", "name", "founded", "desc", "wikipedia", "image")
+        fields = ("id", "name", "founded", "desc", "wikipedia", "image", "modified")
 
 
 class SeriesImageSerializer(serializers.ModelSerializer):
@@ -197,6 +199,7 @@ class SeriesSerializer(serializers.ModelSerializer):
             "desc",
             "issue_count",
             "image",
+            "modified",
         )
 
     def to_representation(self, instance):
@@ -214,4 +217,4 @@ class TeamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Team
-        fields = ("id", "name", "desc", "wikipedia", "image", "creators")
+        fields = ("id", "name", "desc", "wikipedia", "image", "creators", "modified")
