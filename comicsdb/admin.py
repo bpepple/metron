@@ -127,7 +127,7 @@ class CreatorAdmin(AdminImageMixin, SimpleHistoryAdmin):
 class IssueAdmin(AdminImageMixin, SimpleHistoryAdmin):
     form = IssueForm
     search_fields = ("series__name",)
-    list_display = ("__str__", "cover_date")
+    list_display = ("__str__", "cover_date", "store_date")
     list_filter = (
         FutureStoreDateListFilter,
         "created_on",
