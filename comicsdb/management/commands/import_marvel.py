@@ -94,7 +94,9 @@ class Command(BaseCommand):
     def add_issue_to_database(
         self, series_obj, fnp: FileNameParser, marvel_data, add_creator: bool
     ):
-        cover_date = self._determine_cover_date(marvel_data.dates.on_sale)
+        # Marvel store date is in datetime format.
+        store_date = marvel_data.dates.on_sale.date()
+        cover_date = self._determine_cover_date(store_date)
         slug = slugify(series_obj.slug + " " + fnp.issue)
 
         try:
@@ -102,7 +104,7 @@ class Command(BaseCommand):
                 series=series_obj,
                 number=fnp.issue,
                 slug=slug,
-                store_date=marvel_data.dates.on_sale,
+                store_date=store_date,
                 cover_date=cover_date,
             )
 
