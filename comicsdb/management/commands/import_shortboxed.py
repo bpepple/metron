@@ -1,7 +1,8 @@
-import serifan
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from django.utils.text import slugify
+from serifan import api
+from serifan import exceptions as sb_err
 from simple_history.utils import update_change_reason
 
 from comicsdb.models import Issue, Series
@@ -20,7 +21,7 @@ class Command(BaseCommand):
 
     def __init__(self) -> None:
         super().__init__()
-        self.talker = serifan.api()
+        self.talker = api()
 
     def add_issue_to_database(self, series_obj, issue_number, sb_data):
         cover_date = determine_cover_date(sb_data.release_date, sb_data.publisher)
@@ -100,7 +101,12 @@ class Command(BaseCommand):
             if options["date"]:
                 release_date = options["date"]
 
-            res = self.talker.query(publisher, None, None, release_date)
+            try:
+                res = self.talker.query(publisher, None, None, release_date)
+            except sb_err.ApiError as e:
+                print(f"{e}")
+                exit(0)
+
             if not res:
                 self.stdout.write(self.style.ERROR("No results were available."))
                 exit(0)
