@@ -1,5 +1,7 @@
+from decimal import Decimal
+
 import dateutil.relativedelta
-import marvelous
+import esak
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from django.utils.text import slugify
@@ -114,6 +116,13 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(f"Added description to {issue}."))
                 modified = True
 
+            if marvel_data.prices.print > Decimal("0.00"):
+                issue.price = marvel_data.prices.print
+                self.stdout.write(
+                    self.style.SUCCESS(f"Add price of '{marvel_data.prices.print}' to {issue}")
+                )
+                modified = True
+
             if not issue.upc and marvel_data.upc:
                 issue.upc = marvel_data.upc
                 self.stdout.write(
@@ -148,10 +157,10 @@ class Command(BaseCommand):
             )
 
     def _get_data_from_marvel(self, options):
-        m = marvelous.api(MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY)
+        m = esak.api(MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY)
         if options["date"]:
             return sorted(
-                m.comics(
+                m.comics_list(
                     {
                         "format": "comic",
                         "formatType": "comic",
@@ -164,7 +173,7 @@ class Command(BaseCommand):
             )
         else:
             return sorted(
-                m.comics(
+                m.comics_list(
                     {
                         "format": "comic",
                         "formatType": "comic",
