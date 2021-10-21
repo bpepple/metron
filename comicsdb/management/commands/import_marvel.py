@@ -116,7 +116,7 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(f"Added description to {issue}."))
                 modified = True
 
-            if marvel_data.prices.print > Decimal("0.00"):
+            if not issue.price and marvel_data.prices.print > Decimal("0.00"):
                 issue.price = marvel_data.prices.print
                 self.stdout.write(
                     self.style.SUCCESS(f"Add price of '{marvel_data.prices.print}' to {issue}")
