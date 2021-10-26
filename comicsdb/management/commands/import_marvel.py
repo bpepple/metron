@@ -7,7 +7,7 @@ from django.db import IntegrityError
 from django.utils.text import slugify
 from simple_history.utils import update_change_reason
 
-from comicsdb.models import Character, Creator, Credits, Issue, Role, Series
+from comicsdb.models import Arc, Character, Creator, Credits, Issue, Role, Series
 from metron.settings import MARVEL_PRIVATE_KEY, MARVEL_PUBLIC_KEY
 
 from ._parse_title import FileNameParser
@@ -25,19 +25,57 @@ class Command(BaseCommand):
         else:
             return role
 
-    def _add_characters(self, marvel_data, issue_obj):
-        for character in marvel_data.characters:
+    def _add_characters(self, characters, issue_obj):
+        for character in characters:
             try:
-                c = Character.objects.get(name__iexact=character.name)
-                issue_obj.characters.add(c)
+                self.stdout.write(f"Searching database for {character.name}...")
+                results = Character.objects.filter(name__unaccent__icontains=character.name)
+                if not results:
+                    words = character.name.split()
+                    results = Character.objects.filter(name__unaccent__icontains=words[0])
+                    # If results are more than 15 let's try narrowing the results.
+                    if results.count() > 15:
+                        new_results = results.filter(name__unaccent__icontains=words[-1])
+                        if new_results:
+                            results = new_results
+
+                if results:
+                    correct_character = select_list_choice(results)
+                    if correct_character:
+                        issue_obj.characters.add(correct_character)
+                        self.stdout.write(
+                            self.style.WARNING(f"Added {character.name} to {issue_obj}\n")
+                        )
             except Character.DoesNotExist:
                 self.stdout.write(
                     self.style.WARNING(f"Unable to find '{character.name}'. Skipping...\n")
                 )
                 continue
 
-    def _add_creators(self, marvel_data, issue_obj):
-        for creator in marvel_data.creators:
+    def _add_arcs(self, events, issue_obj):
+        for e in events:
+            try:
+                self.stdout.write(f"Searching database for {e.name}...")
+                results = Arc.objects.filter(name__icontains=e.name)
+                if results:
+                    correct_arc = select_list_choice(results)
+                    if correct_arc:
+                        issue_obj.arcs.add(correct_arc)
+                        self.stdout.write(
+                            self.style.WARNING(f"Added {e.name} to {issue_obj}\n")
+                        )
+                else:
+                    self.stdout.write(
+                        self.style.WARNING(f"Unable to find {e.name}. Skipping...\n")
+                    )
+            except Creator.DoesNotExist:
+                self.stdout.write(
+                    self.style.WARNING(f"Unable to find {e.name}. Skipping...\n")
+                )
+                continue
+
+    def _add_creators(self, creators, issue_obj):
+        for creator in creators:
             try:
                 self.stdout.write(f"Searching database for {creator.name}...")
                 results = Creator.objects.filter(name__unaccent__icontains=creator.name)
@@ -93,11 +131,18 @@ class Command(BaseCommand):
         new_date = release_date + dateutil.relativedelta.relativedelta(months=2)
         return new_date.replace(day=1)
 
+    def _add_stories(self, stories):
+        return [
+            s.name
+            for s in stories
+            if s.type == "interiorStory" and not s.name.__contains__("story from")
+        ]
+
     def add_issue_to_database(
         self, series_obj, fnp: FileNameParser, marvel_data, add_creator: bool
     ):
         # Marvel store date is in datetime format.
-        store_date = marvel_data.dates.on_sale.date()
+        store_date = marvel_data.dates.on_sale
         cover_date = self._determine_cover_date(store_date)
         slug = slugify(series_obj.slug + " " + fnp.issue)
 
@@ -135,15 +180,28 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(f"Added page count to {issue}."))
                 modified = True
 
+            if not issue.name and marvel_data.stories:
+                stories = self._add_stories(marvel_data.stories)
+                if stories:
+                    issue.name = stories
+                    self.stdout.write(self.style.SUCCESS(f"Add titles to {issue}"))
+                    modified = True
+
+            if marvel_data.events:
+                self._add_arcs(marvel_data.events, issue)
+
             if modified:
                 issue.save()
 
             if create:
                 self._add_eic_credit(issue)
+
                 if add_creator and marvel_data.creators:
-                    self._add_creators(marvel_data, issue)
+                    self._add_creators(marvel_data.creators, issue)
+
                 if marvel_data.characters:
-                    self._add_characters(marvel_data, issue)
+                    self._add_characters(marvel_data.characters, issue)
+
                 # Save the change reason
                 update_change_reason(issue, "Marvel import")
                 self.stdout.write(self.style.SUCCESS(f"Added {issue} to database.\n\n"))
