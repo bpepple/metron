@@ -44,7 +44,7 @@ class Command(BaseCommand):
                     if correct_character:
                         issue_obj.characters.add(correct_character)
                         self.stdout.write(
-                            self.style.WARNING(f"Added {character.name} to {issue_obj}\n")
+                            self.style.SUCCESS(f"Added {character.name} to {issue_obj}\n")
                         )
             except Character.DoesNotExist:
                 self.stdout.write(
@@ -59,11 +59,18 @@ class Command(BaseCommand):
                 results = Arc.objects.filter(name__icontains=e.name)
                 if results:
                     correct_arc = select_list_choice(results)
-                    if correct_arc:
+                    if correct_arc and correct_arc not in issue_obj.arcs.all():
                         issue_obj.arcs.add(correct_arc)
                         self.stdout.write(
-                            self.style.WARNING(f"Added {e.name} to {issue_obj}\n")
+                            self.style.SUCCESS(f"Added {e.name} to {issue_obj}\n")
                         )
+                    else:
+                        self.stdout.write(
+                            self.style.WARNING(
+                                f"{e.name} already added to {issue_obj}. Skipping...\n"
+                            )
+                        )
+
                 else:
                     self.stdout.write(
                         self.style.WARNING(f"Unable to find {e.name}. Skipping...\n")
