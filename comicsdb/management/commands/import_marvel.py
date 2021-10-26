@@ -142,7 +142,9 @@ class Command(BaseCommand):
         return [
             s.name
             for s in stories
-            if s.type == "interiorStory" and not s.name.__contains__("story from")
+            if s.type == "interiorStory"
+            and not s.name.__contains__("story from")
+            and not s.name.__contains__("interior to")
         ]
 
     def add_issue_to_database(
