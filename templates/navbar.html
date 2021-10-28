@@ -14,12 +14,23 @@
   </div>
   <div id="navMenu" class="navbar-menu">
     <div class="navbar-start">
-      <a class="navbar-item" href="{% url 'week:list' %}">
-        <span class="icon">
-          <i class="fas fa-star"></i>
-        </span>
-        <span>New Comics</span>
-      </a>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">Releases</a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="{% url 'issue:thisweek' %}">
+            <span class="icon">
+              <i class="fas fa-star"></i>
+            </span>
+            <span>This Weeks</span>
+          </a>
+          <a class="navbar-item" href="{% url 'issue:nextweek' %}">
+            <span class="icon">
+              <i class="fas fa-bolt"></i>
+            </span>
+            <span>Next Weeks</span>
+          </a>
+        </div>
+      </div>
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">Browse</a>
         <div class="navbar-dropdown">

@@ -7,8 +7,10 @@ from comicsdb.views.issue import (
     IssueDetail,
     IssueList,
     IssueUpdate,
+    NextWeekList,
     SearchIssueList,
     SeriesAutocomplete,
+    WeekList,
 )
 from comicsdb.views.variant import VariantCreate
 
@@ -20,6 +22,8 @@ urlpatterns = [
     path("<slug:slug>/update/", IssueUpdate.as_view(), name="update"),
     path("<slug:slug>/delete/", IssueDelete.as_view(), name="delete"),
     path("<slug:slug>/add/variant/", VariantCreate.as_view(), name="variant"),
+    path("thisweek", WeekList.as_view(), name="thisweek"),
+    path("nextweek", NextWeekList.as_view(), name="nextweek"),
     re_path(
         r"^creator-autocomplete/?$",
         CreatorAutocomplete.as_view(create_field="name"),

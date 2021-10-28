@@ -1,4 +1,5 @@
 import logging
+from datetime import date, datetime
 
 from dal import autocomplete
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -168,3 +169,49 @@ class IssueDelete(PermissionRequiredMixin, DeleteView):
     template_name = "comicsdb/confirm_delete.html"
     permission_required = "comicsdb.delete_issue"
     success_url = reverse_lazy("issue:list")
+
+
+class WeekList(ListView):
+    year, week, _ = date.today().isocalendar()
+
+    model = Issue
+    paginate_by = PAGINATE
+    template_name = "comicsdb/week_list.html"
+    queryset = (
+        Issue.objects.filter(store_date__week=week)
+        .filter(store_date__year=year)
+        .prefetch_related("series")
+    )
+
+    def get_context_data(self, **kwargs):
+        # The '1' in the format string gives the date for Monday
+        release_day = datetime.strptime(f"{self.year}-{self.week}-1", "%G-%V-%u")
+        context = super().get_context_data(**kwargs)
+        context["release_day"] = release_day
+        return context
+
+
+class NextWeekList(ListView):
+    year, week, _ = date.today().isocalendar()
+    # Check if we're at the last week of the year.
+    if week == 52:
+        year += 1
+
+    # Next week
+    week += 1
+
+    model = Issue
+    paginate_by = PAGINATE
+    template_name = "comicsdb/week_list.html"
+    queryset = (
+        Issue.objects.filter(store_date__week=week)
+        .filter(store_date__year=year)
+        .prefetch_related("series")
+    )
+
+    def get_context_data(self, **kwargs):
+        # The '1' in the format string gives the date for Monday
+        release_day = datetime.strptime(f"{self.year}-{self.week}-1", "%G-%V-%u")
+        context = super().get_context_data(**kwargs)
+        context["release_day"] = release_day
+        return context

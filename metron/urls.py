@@ -41,7 +41,6 @@ from comicsdb.urls import issue as issue_urls
 from comicsdb.urls import publisher as publisher_urls
 from comicsdb.urls import series as series_urls
 from comicsdb.urls import team as team_urls
-from comicsdb.urls import week as week_urls
 
 sitemaps = {
     "arc": ArcSitemap(),
@@ -76,7 +75,6 @@ urlpatterns = [
     path("team/", include(team_urls)),
     path("accounts/", include("users.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
-    path("week/", include(week_urls)),
     path(
         "sitemap.xml",
         sitemap,
