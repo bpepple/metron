@@ -4,7 +4,7 @@ from functools import reduce
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
@@ -86,10 +86,19 @@ class SeriesDetail(DetailView):
             except ObjectDoesNotExist:
                 previous_series = None
 
+        # Top 10 creator counts for series.
+        creators = (
+            series.issue_set.values("creators__name", "creators__image", "creators__slug")
+            .order_by("creators")
+            .annotate(count=Count("creators"))
+            .order_by("-count")[:10]
+        )
+
         context["navigation"] = {
             "next_series": next_series,
             "previous_series": previous_series,
         }
+        context["creators"] = creators
         return context
 
 
