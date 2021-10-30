@@ -86,11 +86,21 @@ class SeriesDetail(DetailView):
             except ObjectDoesNotExist:
                 previous_series = None
 
-        # Top 10 creator counts for series.
+        # Top 10 creator credits for series. Might be worthwhile to exclude editors, etc.
         creators = (
             series.issue_set.values("creators__name", "creators__image", "creators__slug")
             .order_by("creators")
             .annotate(count=Count("creators"))
+            .order_by("-count")[:10]
+        )
+
+        # Top 10 character appearances for series.
+        characters = (
+            series.issue_set.values(
+                "characters__name", "characters__image", "characters__slug"
+            )
+            .order_by("characters")
+            .annotate(count=Count("characters"))
             .order_by("-count")[:10]
         )
 
@@ -99,6 +109,7 @@ class SeriesDetail(DetailView):
             "previous_series": previous_series,
         }
         context["creators"] = creators
+        context["characters"] = characters
         return context
 
 

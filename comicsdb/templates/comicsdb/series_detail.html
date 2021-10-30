@@ -178,6 +178,44 @@
       {% endif %}
       <!-- end creator counts -->
 
+      <!-- characters counts-->
+      {% if characters %}
+      <div class="box">
+        <div class="columns">
+          <div class="column">
+            <h1 class="title is-5">Top Character Appearance{{ characters|pluralize }}</h1>
+            <div class="columns is-multiline">
+              {% for i in characters%}
+              <div class="column is-4">
+                <article class="media">
+                  <div class="media-left">
+                    <figure class="image is-64x64">
+                    {% if i.characters__image %}
+                      {% thumbnail i.characters__image "64x64" crop="top" format="WEBP" as im %}
+                      <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"  alt="{{ i.characters_name }}">
+                      {% endthumbnail %}
+                    {% else %}
+                      <img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ i.characters_name }}">
+                    {% endif %}
+                    </figure>
+                  </div>
+                  <div class="media-content">
+                    <div class="content">
+                      <a href="{% url 'character:detail' i.characters__slug %}">{{ i.characters__name }}</a>
+                      <br/>
+                      <small><em>{{ i.count }} issue{{ i.count|pluralize }}</em></small>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      <!-- end characters counts -->
+
     </div>
     <!-- end series main info -->
 
