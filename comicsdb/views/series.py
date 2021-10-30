@@ -91,7 +91,8 @@ class SeriesDetail(DetailView):
             series.issue_set.values("creators__name", "creators__image", "creators__slug")
             .order_by("creators")
             .annotate(count=Count("creators"))
-            .order_by("-count")[:10]
+            .order_by("-count")
+            .filter(count__gt=1)[:10]
         )
 
         # Top 10 character appearances for series.
@@ -101,7 +102,8 @@ class SeriesDetail(DetailView):
             )
             .order_by("characters")
             .annotate(count=Count("characters"))
-            .order_by("-count")[:10]
+            .order_by("-count")
+            .filter(count__gt=1)[:10]
         )
 
         context["navigation"] = {
