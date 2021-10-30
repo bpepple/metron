@@ -91,7 +91,7 @@ class SeriesDetail(DetailView):
             series.issue_set.values("creators__name", "creators__image", "creators__slug")
             .order_by("creators")
             .annotate(count=Count("creators"))
-            .order_by("-count")
+            .order_by("-count", "creators__name")
             .filter(count__gte=1)[:10]
         )
 
@@ -102,7 +102,7 @@ class SeriesDetail(DetailView):
             )
             .order_by("characters")
             .annotate(count=Count("characters"))
-            .order_by("-count")
+            .order_by("-count", "characters__name")
             .filter(count__gte=1)[:10]
         )
 
