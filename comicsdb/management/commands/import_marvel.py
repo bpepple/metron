@@ -25,6 +25,12 @@ class Command(BaseCommand):
         else:
             return role
 
+    def _check_for_solicit_txt(self, text_objects):
+        for i in text_objects:
+            if i.type == "issue_solicit_text":
+                return i.text
+        return None
+
     def _add_characters(self, characters, issue_obj):
         for character in characters:
             try:
@@ -165,10 +171,13 @@ class Command(BaseCommand):
             )
 
             modified = False
-            if not issue.desc and marvel_data.description:
-                issue.desc = marvel_data.description
-                self.stdout.write(self.style.SUCCESS(f"Added description to {issue}."))
-                modified = True
+
+            if not issue.desc and marvel_data.text_objects:
+                solicit = self._check_for_solicit_txt(marvel_data.text_objects)
+                if solicit:
+                    issue.desc = solicit
+                    self.stdout.write(self.style.SUCCESS(f"Added description to {issue}."))
+                    modified = True
 
             if not issue.price and marvel_data.prices.print > Decimal("0.00"):
                 issue.price = marvel_data.prices.print
