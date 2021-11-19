@@ -27,13 +27,20 @@ def pre_save_slug(sender, instance, **kwargs):
         instance.slug = generate_slug_from_name(instance)
 
 
-class Arc(models.Model):
-    name = models.CharField(max_length=200)
+class CommonInfo(models.Model):
+    name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
     desc = models.TextField("Description", blank=True)
-    image = ImageField(upload_to="arc/%Y/%m/%d/", blank=True)
     modified = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        abstract = True
+        ordering = ["name"]
+
+
+class Arc(CommonInfo):
+    image = ImageField(upload_to="arc/%Y/%m/%d/", blank=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
     history = HistoricalRecords()
 
@@ -47,24 +54,16 @@ class Arc(models.Model):
     def __str__(self) -> str:
         return self.name
 
-    class Meta:
-        ordering = ["name"]
-
 
 pre_save.connect(pre_save_slug, sender=Arc, dispatch_uid="pre_save_arc")
 
 
-class Creator(models.Model):
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=255, unique=True)
-    desc = models.TextField("Description", blank=True)
+class Creator(CommonInfo):
     wikipedia = models.CharField("Wikipedia Slug", max_length=255, blank=True)
     birth = models.DateField("Date of Birth", null=True, blank=True)
     death = models.DateField("Date of Death", null=True, blank=True)
     image = ImageField(upload_to="creator/%Y/%m/%d/", blank=True)
     alias = ArrayField(models.CharField(max_length=100), null=True, blank=True)
-    modified = models.DateTimeField(auto_now=True)
-    created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
     history = HistoricalRecords()
 
@@ -82,22 +81,14 @@ class Creator(models.Model):
     def __str__(self) -> str:
         return self.name
 
-    class Meta:
-        ordering = ["name"]
-
 
 pre_save.connect(pre_save_slug, sender=Creator, dispatch_uid="pre_save_creator")
 
 
-class Team(models.Model):
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=255, unique=True)
-    desc = models.TextField("Description", blank=True)
+class Team(CommonInfo):
     wikipedia = models.CharField("Wikipedia Slug", max_length=255, blank=True)
     image = ImageField(upload_to="team/%Y/%m/%d/", blank=True)
     creators = models.ManyToManyField(Creator, blank=True)
-    modified = models.DateTimeField(auto_now=True)
-    created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
     history = HistoricalRecords()
 
@@ -111,24 +102,16 @@ class Team(models.Model):
     def __str__(self) -> str:
         return self.name
 
-    class Meta:
-        ordering = ["name"]
-
 
 pre_save.connect(pre_save_slug, sender=Team, dispatch_uid="pre_save_team")
 
 
-class Character(models.Model):
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=255, unique=True)
-    desc = models.TextField("Description", blank=True)
+class Character(CommonInfo):
     wikipedia = models.CharField("Wikipedia Slug", max_length=255, blank=True)
     image = ImageField(upload_to="character/%Y/%m/%d/", blank=True)
     alias = ArrayField(models.CharField(max_length=100), null=True, blank=True)
     creators = models.ManyToManyField(Creator, blank=True)
     teams = models.ManyToManyField(Team, blank=True)
-    modified = models.DateTimeField(auto_now=True)
-    created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
     history = HistoricalRecords()
 
@@ -150,22 +133,14 @@ class Character(models.Model):
     def __str__(self) -> str:
         return self.name
 
-    class Meta:
-        ordering = ["name"]
-
 
 pre_save.connect(pre_save_slug, sender=Character, dispatch_uid="pre_save_character")
 
 
-class Publisher(models.Model):
-    name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True)
+class Publisher(CommonInfo):
     founded = models.PositiveSmallIntegerField("Year Founded", null=True, blank=True)
-    desc = models.TextField("Description", blank=True)
     wikipedia = models.CharField("Wikipedia Slug", max_length=255, blank=True)
     image = ImageField("Logo", upload_to="publisher/%Y/%m/%d/", blank=True)
-    modified = models.DateTimeField(auto_now=True)
-    created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
     history = HistoricalRecords()
 
@@ -178,9 +153,6 @@ class Publisher(models.Model):
 
     def __str__(self) -> str:
         return self.name
-
-    class Meta:
-        ordering = ["name"]
 
 
 pre_save.connect(pre_save_slug, sender=Publisher, dispatch_uid="pre_save_publisher")
@@ -211,18 +183,13 @@ class SeriesType(models.Model):
         ordering = ["name"]
 
 
-class Series(models.Model):
-    name = models.CharField(max_length=255)
+class Series(CommonInfo):
     sort_name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True)
     volume = models.PositiveSmallIntegerField("Volume Number")
     year_began = models.PositiveSmallIntegerField("Year Began")
     year_end = models.PositiveSmallIntegerField("Year Ended", null=True, blank=True)
     series_type = models.ForeignKey(SeriesType, on_delete=models.CASCADE)
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
-    desc = models.TextField("Description", blank=True)
-    modified = models.DateTimeField(auto_now=True)
-    created_on = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
     history = HistoricalRecords()
 
@@ -267,10 +234,9 @@ def pre_save_series_slug(sender, instance, **kwargs):
 pre_save.connect(pre_save_series_slug, sender=Series, dispatch_uid="pre_save_series")
 
 
-class Issue(models.Model):
+class Issue(CommonInfo):
     series = models.ForeignKey(Series, on_delete=models.CASCADE)
     name = ArrayField(models.CharField("Story Title", max_length=150), null=True, blank=True)
-    slug = models.SlugField(max_length=255, unique=True)
     number = models.CharField(max_length=25)
     arcs = models.ManyToManyField(Arc, blank=True)
     cover_date = models.DateField("Cover Date")
@@ -281,14 +247,11 @@ class Issue(models.Model):
     sku = models.CharField("Distributor SKU", max_length=9, blank=True)
     upc = models.CharField("UPC Code", max_length=20, blank=True)
     page = models.PositiveSmallIntegerField("Page Count", null=True, blank=True)
-    desc = models.TextField("Description", blank=True)
     image = ImageField("Cover", upload_to="issue/%Y/%m/%d/", blank=True)
     creators = models.ManyToManyField(Creator, through="Credits", blank=True)
     characters = models.ManyToManyField(Character, blank=True)
     teams = models.ManyToManyField(Team, blank=True)
-    created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
-    modified = models.DateTimeField(auto_now=True)
     edited_by = models.ForeignKey(
         CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="editor"
     )
