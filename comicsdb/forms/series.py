@@ -15,7 +15,6 @@ class SeriesForm(ModelForm):
             "year_end": TextInput(attrs={"class": "input"}),
             "series_type": Select(),
             "publisher": Select(),
-            "short_desc": TextInput(attrs={"class": "input"}),
             "desc": Textarea(attrs={"class": "textarea"}),
         }
         help_texts = {
@@ -24,3 +23,14 @@ class SeriesForm(ModelForm):
             that it is listed with like named series.""",
             "year_end": "Leave blank if a One-Shot, Annual, or Ongoing Series.",
         }
+
+    field_order = [
+        "name",
+        "sort_name",
+        "volume",
+        "year_began",
+        "year_end",
+        "series_type",
+        "publisher",
+        "desc",
+    ]

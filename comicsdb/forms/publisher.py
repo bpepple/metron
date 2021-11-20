@@ -9,7 +9,6 @@ class PublisherForm(ModelForm):
         exclude = ("edited_by", "slug")
         widgets = {
             "name": TextInput(attrs={"class": "input"}),
-            "short_desc": TextInput(attrs={"class": "input"}),
             "desc": Textarea(attrs={"class": "textarea"}),
             "wikipedia": TextInput(attrs={"class": "input"}),
             "founded": TextInput(attrs={"class": "input"}),
@@ -19,3 +18,5 @@ class PublisherForm(ModelForm):
             "wikipedia": "If the description is from wikipedia, please supply that pages slug"
             + " so we can provide attribution to them."
         }
+
+    field_order = ["name", "desc", "wikipedia", "founded", "image"]
