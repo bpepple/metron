@@ -6,7 +6,7 @@ from comicsdb.models import Series
 class SeriesForm(ModelForm):
     class Meta:
         model = Series
-        exclude = ("edited_by", "slug")
+        exclude = ("edited_by", "slug", "series")
         widgets = {
             "name": TextInput(attrs={"class": "input"}),
             "sort_name": TextInput(attrs={"class": "input"}),
