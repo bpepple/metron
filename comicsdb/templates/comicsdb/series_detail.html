@@ -221,6 +221,7 @@
 
     <!-- misc info -->
     <div class="column is-one-fifth">
+      <!-- series detail info -->
       <div class="box">
         <h1 class="title is-6">Series Details</h1>
         <p><b>Publisher:</b> <a href="{% url 'publisher:detail' series.publisher.slug %}">{{ series.publisher }}</p></a>
@@ -236,6 +237,22 @@
           <p><b>Number of Issues:</b> {{ series.issue_count }}</p>
         {% endif %}
       </div>
+      <!-- end series detail info -->
+
+      <!-- associated series -->
+      {% with assoc=series.series.all %}
+        {% if assoc %}
+          <div class="box">
+            <h1 class="title is-6">Associated Series</h1>
+              <dl>
+              {% for a in assoc %}
+                <li><a href="{% url 'series:detail' a.slug %}">{{ a}}</a></li>
+              {% endfor %}
+              </dl>
+          </div>
+        {% endif %}
+      {% endwith %}
+       <!-- end associated series -->
     </div>
     <!-- end misc info -->
   </div>
