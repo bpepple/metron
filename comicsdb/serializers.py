@@ -180,10 +180,17 @@ class SeriesImageSerializer(serializers.ModelSerializer):
         fields = ("image",)
 
 
+class AssociatedSeriesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Series
+        fields = ("id", "name")
+
+
 class SeriesSerializer(serializers.ModelSerializer):
     issue_count = serializers.ReadOnlyField
     image = SeriesImageSerializer(source="issue_set.first", many=False)
     series_type = SeriesTypeSerializer(read_only=True)
+    associated = AssociatedSeriesSerializer(many=True, read_only=True)
 
     class Meta:
         model = Series
@@ -199,6 +206,7 @@ class SeriesSerializer(serializers.ModelSerializer):
             "desc",
             "issue_count",
             "image",
+            "associated",
             "modified",
         )
 
