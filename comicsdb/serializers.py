@@ -183,7 +183,7 @@ class SeriesImageSerializer(serializers.ModelSerializer):
 class AssociatedSeriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Series
-        fields = ("id", "name")
+        fields = ("id", "__str__")
 
 
 class SeriesSerializer(serializers.ModelSerializer):
