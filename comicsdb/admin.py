@@ -207,7 +207,7 @@ class SeriesAdminForm(ModelForm):
             "year_began": TextInput(attrs={"class": "input"}),
             "year_end": TextInput(attrs={"class": "input"}),
             "series_type": Select(),
-            "series": SearchableSelect(
+            "associated": SearchableSelect(
                 model="comicsdb.Series", search_field="name", many=True, limit=200
             ),
             "publisher": Select(),
@@ -218,9 +218,9 @@ class SeriesAdminForm(ModelForm):
             but if the title starts with an article like 'The' it might be remove so
             that it is listed with like named series.""",
             "year_end": "Leave blank if a One-Shot, Annual, or Ongoing Series.",
-            "series": "Associate a series with another. For example an annual with it's primary series.",
+            "associated": "Associate a series with another. For example an annual with it's primary series.",
         }
-        labels = {"series": "Associated Series"}
+        labels = {"associated": "Associated Series"}
 
 
 @admin.register(Series)
@@ -239,7 +239,7 @@ class SeriesAdmin(SimpleHistoryAdmin):
         "year_began",
         "year_end",
         "series_type",
-        "series",
+        "associated",
         "desc",
         "edited_by",
     )
