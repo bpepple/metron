@@ -235,6 +235,11 @@ def pre_save_series_slug(sender, instance, **kwargs):
 pre_save.connect(pre_save_series_slug, sender=Series, dispatch_uid="pre_save_series")
 
 
+class GraphicNovelManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(series__series_type__name="Graphic Novel")
+
+
 class Issue(CommonInfo):
     series = models.ForeignKey(Series, on_delete=models.CASCADE)
     name = ArrayField(models.CharField("Story Title", max_length=150), null=True, blank=True)
@@ -257,6 +262,9 @@ class Issue(CommonInfo):
         CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="editor"
     )
     history = HistoricalRecords()
+
+    objects = models.Manager()
+    graphic_novels = GraphicNovelManager()
 
     def get_absolute_url(self):
         return reverse("issue:detail", args=[self.slug])
