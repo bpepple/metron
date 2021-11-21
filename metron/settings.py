@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     "django_simple_bulma",
     "chartkick",
     "simple_history",
+    "searchableselect",
     "comicsdb",
     "users",
 ]

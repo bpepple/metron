@@ -81,6 +81,7 @@ urlpatterns = [
         {"sitemaps": sitemaps},
         name="django.contrib.sitemaps.views.sitemap",
     ),
+    path("searchableselect/", include("searchableselect.urls")),
 ]
 
 if settings.DEBUG:
