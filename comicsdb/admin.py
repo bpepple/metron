@@ -220,6 +220,7 @@ class SeriesAdminForm(ModelForm):
             "year_end": "Leave blank if a One-Shot, Annual, or Ongoing Series.",
             "series": "Associate a series with another. For example an annual with it's primary series.",
         }
+        labels = {"series": "Associated Series"}
 
 
 @admin.register(Series)
