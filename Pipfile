@@ -23,6 +23,7 @@ drf-spectacular = "*"
 django-simple-history = "*"
 serifan = "*"
 esak = "*"
+django-searchable-select = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
