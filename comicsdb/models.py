@@ -190,6 +190,7 @@ class Series(CommonInfo):
     year_end = models.PositiveSmallIntegerField("Year Ended", null=True, blank=True)
     series_type = models.ForeignKey(SeriesType, on_delete=models.CASCADE)
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+    series = models.ManyToManyField("self", blank=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
     history = HistoricalRecords()
 
