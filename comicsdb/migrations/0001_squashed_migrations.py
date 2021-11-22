@@ -101,14 +101,7 @@ def remove_multiple_created_on_data(apps, schema_editor):
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("comicsdb", "0001_squashed_0007_variant_sku"),
-        ("comicsdb", "0002_add_issue_page_and_created_by"),
-        ("comicsdb", "0003_add_upc_to_variant_model"),
-        ("comicsdb", "0004_abstract_commoninfo"),
-        ("comicsdb", "0005_series_series"),
-        ("comicsdb", "0006_auto_20211121_1134"),
-    ]
+    replaces = []
 
     initial = True
 
