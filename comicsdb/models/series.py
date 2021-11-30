@@ -53,7 +53,7 @@ class Series(CommonInfo):
 
     class Meta:
         verbose_name_plural = "Series"
-        unique_together = ["publisher", "name", "volume"]
+        unique_together = ["publisher", "name", "volume", "series_type"]
         ordering = ["sort_name", "year_began"]
 
 
