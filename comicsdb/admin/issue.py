@@ -3,11 +3,19 @@ from typing import Any, Optional
 
 from django.contrib import admin
 from django.db.models.query import QuerySet
+from django.forms import ModelForm
+from django.forms.widgets import (
+    ClearableFileInput,
+    DateInput,
+    NumberInput,
+    Textarea,
+    TextInput,
+)
+from searchableselect.widgets import SearchableSelect
 from simple_history.admin import SimpleHistoryAdmin
 from sorl.thumbnail.admin.current import AdminImageMixin
 
 from comicsdb.forms.credits import CreditsForm
-from comicsdb.forms.issue import IssueForm
 from comicsdb.models import Creator, Credits, Issue, Role, Variant
 
 
@@ -71,9 +79,70 @@ class VariantInline(admin.TabularInline):
     extra = 1
 
 
+class IssueAdminForm(ModelForm):
+    class Meta:
+        model = Issue
+        # exclude 'creators' field
+        fields = (
+            "series",
+            "number",
+            "slug",
+            "name",
+            "cover_date",
+            "store_date",
+            "price",
+            "sku",
+            "upc",
+            "page",
+            "desc",
+            "characters",
+            "teams",
+            "arcs",
+            "image",
+        )
+        widgets = {
+            "series": SearchableSelect(
+                model="comicsdb.Series", search_field="name", many=False, limit=200
+            ),
+            "number": TextInput(attrs={"class": "input"}),
+            "slug": TextInput(attrs={"class": "input"}),
+            "name": TextInput(attrs={"class": "input"}),
+            "arcs": SearchableSelect(
+                model="comicsdb.Arc", search_field="name", many=True, limit=50
+            ),
+            "characters": SearchableSelect(
+                model="comicsdb.Character", search_field="name", many=True, limit=200
+            ),
+            "teams": SearchableSelect(
+                model="comicsdb.Team", search_field="name", many=True, limit=50
+            ),
+            "cover_date": DateInput(
+                attrs={"class": "input", "type": "date"},
+            ),
+            "store_date": DateInput(
+                attrs={"class": "input", "type": "date"},
+            ),
+            "price": NumberInput(attrs={"class": "input"}),
+            "sku": TextInput(attrs={"class": "input"}),
+            "upc": TextInput(attrs={"class": "input"}),
+            "page": TextInput(attrs={"class": "input"}),
+            "desc": Textarea(attrs={"class": "textarea"}),
+            "image": ClearableFileInput(),
+        }
+        help_texts = {
+            "name": "Separate multiple story titles by a semicolon",
+            "price": "In United States currency",
+        }
+        labels = {"name": "Story Title"}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["name"].delimiter = ";"
+
+
 @admin.register(Issue)
 class IssueAdmin(AdminImageMixin, SimpleHistoryAdmin):
-    form = IssueForm
+    form = IssueAdminForm
     search_fields = ("series__name",)
     list_display = ("__str__", "cover_date", "store_date")
     list_filter = (
@@ -96,8 +165,8 @@ class IssueAdmin(AdminImageMixin, SimpleHistoryAdmin):
                 "fields": (
                     "series",
                     "number",
-                    "name",
                     "slug",
+                    "name",
                     "cover_date",
                     "store_date",
                     "price",
