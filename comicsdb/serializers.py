@@ -84,7 +84,25 @@ class TeamListSerializer(serializers.ModelSerializer):
 class ArcSerializer(serializers.ModelSerializer):
     class Meta:
         model = Arc
-        fields = ("id", "name", "desc", "image", "modified")
+        fields = ("id", "name", "desc", "modified")
+        read_only_field = ("image",)
+
+    # TODO: Need to handle uploading of ImageField.
+
+    def create(self, validated_data):
+        """
+        Create and return a new `Arc` instance, given the validated data.
+        """
+        return Arc.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        """
+        Update and return an existing `Arc` instance, given the validated data.
+        """
+        instance.name = validated_data.get("name", instance.name)
+        instance.desc = validated_data.get("desc", instance.desc)
+        instance.save()
+        return instance
 
 
 class CharacterSerializer(serializers.ModelSerializer):

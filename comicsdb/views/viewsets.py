@@ -8,6 +8,7 @@ from comicsdb.filters.issue import IssueFilter
 from comicsdb.filters.name import NameFilter
 from comicsdb.filters.series import SeriesFilter
 from comicsdb.models import Arc, Character, Creator, Credits, Issue, Publisher, Series, Team
+from comicsdb.permission import IsEditor, IsEditorOrContributor
 from comicsdb.serializers import (
     ArcListSerializer,
     ArcSerializer,
@@ -26,7 +27,7 @@ from comicsdb.serializers import (
 )
 
 
-class ArcViewSet(viewsets.ReadOnlyModelViewSet):
+class ArcViewSet(viewsets.ModelViewSet):
     """
     list:
     Returns a list of all the story arcs.
@@ -42,9 +43,15 @@ class ArcViewSet(viewsets.ReadOnlyModelViewSet):
     def get_serializer_class(self):
         if self.action == "list":
             return ArcListSerializer
-        if self.action == "retrieve":
-            return ArcSerializer
-        return ArcListSerializer
+        return ArcSerializer
+
+    def get_permissions(self):
+        permission_classes = []
+        if self.action in ["create", "update", "partial_update", "destroy"]:
+            permission_classes = [IsEditor]
+        elif self.action in ["retrieve", "list"]:
+            permission_classes = [IsEditorOrContributor]
+        return [permission() for permission in permission_classes]
 
     @action(detail=True)
     def issue_list(self, request, pk=None):
