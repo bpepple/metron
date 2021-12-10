@@ -70,7 +70,7 @@ class ArcViewSet(viewsets.ModelViewSet):
             raise Http404()
 
 
-class CharacterViewSet(viewsets.ReadOnlyModelViewSet):
+class CharacterViewSet(viewsets.ModelViewSet):
     """
     list:
     Return a list of all the characters.
@@ -86,9 +86,15 @@ class CharacterViewSet(viewsets.ReadOnlyModelViewSet):
     def get_serializer_class(self):
         if self.action == "list":
             return CharacterListSerializer
-        if self.action == "retrieve":
-            return CharacterSerializer
-        return CharacterListSerializer
+        return CharacterSerializer
+
+    def get_permissions(self):
+        permission_classes = []
+        if self.action in ["create", "update", "partial_update", "destroy"]:
+            permission_classes = [IsEditor]
+        elif self.action in ["retrieve", "list"]:
+            permission_classes = [IsEditorOrContributor]
+        return [permission() for permission in permission_classes]
 
 
 class CreatorViewSet(viewsets.ReadOnlyModelViewSet):
