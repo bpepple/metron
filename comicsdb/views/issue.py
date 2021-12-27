@@ -194,11 +194,11 @@ class WeekList(ListView):
 class NextWeekList(ListView):
     year, week, _ = date.today().isocalendar()
     # Check if we're at the last week of the year.
-    if week == 52:
+    if week != 52:
+        week += 1
+    else:
         year += 1
-
-    # Next week
-    week += 1
+        week = 1
 
     model = Issue
     paginate_by = PAGINATE
