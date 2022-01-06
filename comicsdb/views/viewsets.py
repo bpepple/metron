@@ -7,7 +7,6 @@ from rest_framework.throttling import UserRateThrottle
 from comicsdb.filters.issue import IssueFilter
 from comicsdb.filters.name import NameFilter
 from comicsdb.filters.series import SeriesFilter
-from comicsdb.permission import IsEditor, IsEditorOrContributor
 from comicsdb.models import (
     Arc,
     Character,
@@ -38,7 +37,7 @@ from comicsdb.serializers import (
 )
 
 
-class ArcViewSet(viewsets.ModelViewSet):
+class ArcViewSet(viewsets.ReadOnlyModelViewSet):
     """
     list:
     Returns a list of all the story arcs.
@@ -54,15 +53,9 @@ class ArcViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "list":
             return ArcListSerializer
-        return ArcSerializer
-
-    def get_permissions(self):
-        permission_classes = []
-        if self.action in ["create", "update", "partial_update", "destroy"]:
-            permission_classes = [IsEditor]
-        elif self.action in ["retrieve", "list"]:
-            permission_classes = [IsEditorOrContributor]
-        return [permission() for permission in permission_classes]
+        if self.action == "retrieve":
+            return ArcSerializer
+        return ArcListSerializer
 
     @action(detail=True)
     def issue_list(self, request, pk=None):
@@ -81,7 +74,7 @@ class ArcViewSet(viewsets.ModelViewSet):
             raise Http404()
 
 
-class CharacterViewSet(viewsets.ModelViewSet):
+class CharacterViewSet(viewsets.ReadOnlyModelViewSet):
     """
     list:
     Return a list of all the characters.
@@ -97,15 +90,9 @@ class CharacterViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "list":
             return CharacterListSerializer
-        return CharacterSerializer
-
-    def get_permissions(self):
-        permission_classes = []
-        if self.action in ["create", "update", "partial_update", "destroy"]:
-            permission_classes = [IsEditor]
-        elif self.action in ["retrieve", "list"]:
-            permission_classes = [IsEditorOrContributor]
-        return [permission() for permission in permission_classes]
+        if self.action == "retrieve":
+            return CharacterSerializer
+        return CharacterListSerializer
 
 
 class CreatorViewSet(viewsets.ReadOnlyModelViewSet):
