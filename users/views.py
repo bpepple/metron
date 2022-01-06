@@ -3,7 +3,6 @@ import logging
 from django.contrib import messages
 from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.models import Group
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
@@ -42,11 +41,6 @@ def activate(request, uidb64, token):
     user.is_active = True
     user.email_confirmed = True
     user.save()
-
-    # Add the user to the contributor group.
-    contributor_group = Group.objects.get(name="contributor")
-    user.groups.add(contributor_group)
-
     login(request, user)
     # Send pushover notification tha user activated account
     send_pushover(f"{user} activated their account on Metron.")
