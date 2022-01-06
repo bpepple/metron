@@ -224,6 +224,7 @@ class AssociatedSeriesSerializer(serializers.ModelSerializer):
 
 
 class SeriesSerializer(serializers.ModelSerializer):
+    publisher = IssuePublisherSerializer(read_only=True)
     issue_count = serializers.ReadOnlyField
     image = SeriesImageSerializer(source="issue_set.first", many=False)
     series_type = SeriesTypeSerializer(read_only=True)

@@ -1,14 +1,24 @@
 from django.db.models import Prefetch
 from django.http import Http404
-from rest_framework import viewsets
+from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.throttling import UserRateThrottle
 
 from comicsdb.filters.issue import IssueFilter
 from comicsdb.filters.name import NameFilter
 from comicsdb.filters.series import SeriesFilter
-from comicsdb.models import Arc, Character, Creator, Credits, Issue, Publisher, Series, Team
 from comicsdb.permission import IsEditor, IsEditorOrContributor
+from comicsdb.models import (
+    Arc,
+    Character,
+    Creator,
+    Credits,
+    Issue,
+    Publisher,
+    Role,
+    Series,
+    Team,
+)
 from comicsdb.serializers import (
     ArcListSerializer,
     ArcSerializer,
@@ -20,6 +30,7 @@ from comicsdb.serializers import (
     IssueSerializer,
     PublisherListSerializer,
     PublisherSerializer,
+    RoleSerializer,
     SeriesListSerializer,
     SeriesSerializer,
     TeamListSerializer,
@@ -182,6 +193,18 @@ class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
             return self.get_paginated_response(serializer.data)
         else:
             raise Http404()
+
+
+class RoleViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """
+    list:
+    Returns a list of all the creator roles.
+    """
+
+    queryset = Role.objects.all()
+    serializer_class = RoleSerializer
+    filterset_class = NameFilter
+    throttle_classes = (UserRateThrottle,)
 
 
 class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
