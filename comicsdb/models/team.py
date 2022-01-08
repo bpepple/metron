@@ -1,7 +1,6 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
-from simple_history.models import HistoricalRecords
 from sorl.thumbnail import ImageField
 
 from users.models import CustomUser
@@ -15,7 +14,6 @@ class Team(CommonInfo):
     image = ImageField(upload_to="team/%Y/%m/%d/", blank=True)
     creators = models.ManyToManyField(Creator, blank=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
-    history = HistoricalRecords()
 
     def get_absolute_url(self):
         return reverse("team:detail", args=[self.slug])

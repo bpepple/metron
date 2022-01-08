@@ -1,7 +1,6 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
-from simple_history.models import HistoricalRecords
 from sorl.thumbnail import ImageField
 
 from users.models import CustomUser
@@ -14,7 +13,6 @@ class Publisher(CommonInfo):
     wikipedia = models.CharField("Wikipedia Slug", max_length=255, blank=True)
     image = ImageField("Logo", upload_to="publisher/%Y/%m/%d/", blank=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
-    history = HistoricalRecords()
 
     def get_absolute_url(self):
         return reverse("publisher:detail", args=[self.slug])

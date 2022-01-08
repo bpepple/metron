@@ -4,7 +4,6 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
 from django.utils.text import slugify
-from simple_history.models import HistoricalRecords
 
 from users.models import CustomUser
 
@@ -33,7 +32,6 @@ class Series(CommonInfo):
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
     associated = models.ManyToManyField("self", blank=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
-    history = HistoricalRecords()
 
     def get_absolute_url(self):
         return reverse("series:detail", args=[self.slug])

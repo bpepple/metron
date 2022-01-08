@@ -2,7 +2,6 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
-from simple_history.models import HistoricalRecords
 from sorl.thumbnail import ImageField
 
 from users.models import CustomUser
@@ -17,7 +16,6 @@ class Creator(CommonInfo):
     image = ImageField(upload_to="creator/%Y/%m/%d/", blank=True)
     alias = ArrayField(models.CharField(max_length=100), null=True, blank=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
-    history = HistoricalRecords()
 
     @property
     def issue_count(self):

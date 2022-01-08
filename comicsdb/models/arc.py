@@ -1,7 +1,6 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
-from simple_history.models import HistoricalRecords
 from sorl.thumbnail import ImageField
 
 from users.models import CustomUser
@@ -12,7 +11,6 @@ from .common import CommonInfo, pre_save_slug
 class Arc(CommonInfo):
     image = ImageField(upload_to="arc/%Y/%m/%d/", blank=True)
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
-    history = HistoricalRecords()
 
     @property
     def issue_count(self):

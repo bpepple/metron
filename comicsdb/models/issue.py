@@ -5,7 +5,6 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
 from django.utils.text import slugify
-from simple_history.models import HistoricalRecords
 from sorl.thumbnail import ImageField
 
 from users.models import CustomUser
@@ -44,7 +43,6 @@ class Issue(CommonInfo):
     edited_by = models.ForeignKey(
         CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="editor"
     )
-    history = HistoricalRecords()
 
     objects = models.Manager()
     graphic_novels = GraphicNovelManager()
