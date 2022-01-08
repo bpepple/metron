@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     "sorl.thumbnail",
     "django_simple_bulma",
     "chartkick",
-    "simple_history",
     "searchableselect",
     "comicsdb",
     "users",
@@ -81,7 +80,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.contrib.flatpages.middleware.FlatpageFallbackMiddleware",
-    "simple_history.middleware.HistoryRequestMiddleware",
 ]
 
 ROOT_URLCONF = "metron.urls"
