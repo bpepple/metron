@@ -12,7 +12,6 @@ from django.forms.widgets import (
     TextInput,
 )
 from searchableselect.widgets import SearchableSelect
-from simple_history.admin import SimpleHistoryAdmin
 from sorl.thumbnail.admin.current import AdminImageMixin
 
 from comicsdb.forms.credits import CreditsForm
@@ -141,7 +140,7 @@ class IssueAdminForm(ModelForm):
 
 
 @admin.register(Issue)
-class IssueAdmin(AdminImageMixin, SimpleHistoryAdmin):
+class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
     form = IssueAdminForm
     search_fields = ("series__name",)
     list_display = ("__str__", "cover_date", "store_date")

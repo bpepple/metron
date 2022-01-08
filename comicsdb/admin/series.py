@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.forms.models import ModelForm
 from django.forms.widgets import Select, Textarea, TextInput
 from searchableselect.widgets import SearchableSelect
-from simple_history.admin import SimpleHistoryAdmin
 
 from comicsdb.models import Series, SeriesType
 
@@ -35,7 +34,7 @@ class SeriesAdminForm(ModelForm):
 
 
 @admin.register(Series)
-class SeriesAdmin(SimpleHistoryAdmin):
+class SeriesAdmin(admin.ModelAdmin):
     form = SeriesAdminForm
     search_fields = ("name",)
     list_display = ("name", "year_began")
