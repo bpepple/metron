@@ -8,7 +8,6 @@ import requests
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from django.utils.text import slugify
-from simple_history.utils import update_change_reason
 
 from comicsdb.models.issue import Issue
 from comicsdb.models.series import Series
@@ -72,7 +71,6 @@ class Command(BaseCommand):
                 issue.save()
 
             if create:
-                update_change_reason(issue, "Previews import")
                 self.stdout.write(self.style.SUCCESS(f"Added {issue} to database.\n\n"))
             else:
                 self.stdout.write(self.style.WARNING(f"{issue} already exists...\n\n"))
