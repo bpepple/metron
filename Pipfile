@@ -20,10 +20,10 @@ chartkick = "*"
 django-autocomplete-light = "*"
 django-simple-bulma = "*"
 drf-spectacular = "*"
-django-simple-history = "*"
 serifan = "*"
 esak = "*"
 django-searchable-select = "*"
+django-simple-history = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
