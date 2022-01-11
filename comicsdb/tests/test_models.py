@@ -1,7 +1,3 @@
-from django.test import TestCase
-from django.utils import timezone
-from django.utils.text import slugify
-
 from comicsdb.models import (
     Arc,
     Character,
@@ -13,264 +9,131 @@ from comicsdb.models import (
     SeriesType,
     Team,
 )
-from users.tests.case_base import TestCaseBase
 
 HTTP_200_OK = 200
 
 
-class TeamTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        cls.name = "Justice League"
-        cls.slug = slugify(cls.name)
-        cls.jl = Team.objects.create(name=cls.name, slug=cls.slug, edited_by=user)
-
-    def setUp(self):
-        self._client_login()
-
-    def test_test_creation(self):
-        self.assertTrue(isinstance(self.jl, Team))
-        self.assertEqual(str(self.jl), self.name)
-
-    def test_verbose_name_plural(self):
-        self.assertEqual(str(self.jl._meta.verbose_name_plural), "teams")
-
-    def test_absolute_url(self):
-        resp = self.client.get(self.jl.get_absolute_url())
-        self.assertEqual(resp.status_code, HTTP_200_OK)
+def test_team_creation(avengers):
+    assert isinstance(avengers, Team) is True
+    assert str(avengers) == avengers.name
 
 
-class CharacterTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        cls.name = "Wonder Woman"
-        cls.slug = slugify(cls.name)
-        cls.ww = Character.objects.create(name=cls.name, slug=cls.slug, edited_by=user)
-
-    def setUp(self):
-        self._client_login()
-
-    def test_character_creation(self):
-        self.assertTrue(isinstance(self.ww, Character))
-        self.assertEqual(str(self.ww), self.name)
-
-    def test_verbose_name_plural(self):
-        self.assertEqual(str(self.ww._meta.verbose_name_plural), "characters")
-
-    def test_absolute_url(self):
-        resp = self.client.get(self.ww.get_absolute_url())
-        self.assertEqual(resp.status_code, HTTP_200_OK)
+def test_team_verbose_name_plural(avengers):
+    assert str(avengers._meta.verbose_name_plural) == "teams"
 
 
-class ArcTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        cls.name = "The Last Age of Magic"
-        cls.slug = slugify(cls.name)
-
-        cls.arc = Arc.objects.create(name=cls.name, slug=cls.slug, edited_by=user)
-
-    def setUp(self):
-        self._client_login()
-
-    def test_arc_creation(self):
-        self.assertTrue(isinstance(self.arc, Arc))
-        self.assertEqual(str(self.arc), self.name)
-
-    def test_verbose_name_plural(self):
-        self.assertEqual(str(self.arc._meta.verbose_name_plural), "arcs")
-
-    def test_absolute_url(self):
-        resp = self.client.get(self.arc.get_absolute_url())
-        self.assertEqual(resp.status_code, HTTP_200_OK)
+def test_team_absolute_url(client, avengers):
+    resp = client.get(avengers.get_absolute_url())
+    assert resp.status_code == HTTP_200_OK
 
 
-class CreatorTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        cls.name = "Walter Simonson"
-        cls.slug = "walter-simonson"
-        cls.creator = Creator.objects.create(name=cls.name, slug=cls.slug, edited_by=user)
-
-    def setUp(self):
-        self._client_login()
-
-    def test_creator_creation(self):
-        self.assertTrue(isinstance(self.creator, Creator))
-        self.assertEqual(str(self.creator), self.name)
-
-    def test_creator_get_full_name(self):
-        self.assertEqual(self.creator.name, self.name)
-
-    def test_verbose_name_plural(self):
-        self.assertEqual(str(self.creator._meta.verbose_name_plural), "creators")
-
-    def test_absolute_url(self):
-        resp = self.client.get(self.creator.get_absolute_url())
-        self.assertEqual(resp.status_code, HTTP_200_OK)
+def test_character_creation(batman):
+    assert isinstance(batman, Character) is True
+    assert str(batman) == batman.name
 
 
-class RoleTest(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.name = "writer"
-        notes = "Writer of the issues story"
-        cls.role = Role.objects.create(name=cls.name, notes=notes, order=20)
-
-    def test_role_creation(self):
-        self.assertTrue(isinstance(self.role, Role))
-        self.assertEqual(str(self.role), self.name)
-
-    def test_verbose_name_plural(self):
-        self.assertEqual(str(self.role._meta.verbose_name_plural), "roles")
+def test_character_verbose_name_plural(batman):
+    assert str(batman._meta.verbose_name_plural) == "characters"
 
 
-class PublisherTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        cls.name = "DC Comics"
-        cls.slug = slugify(cls.name)
-
-        cls.publisher = Publisher.objects.create(
-            name=cls.name, slug=cls.slug, founded=1934, edited_by=user
-        )
-
-        on_going_series = SeriesType.objects.create(name="Ongoing Series")
-
-        Series.objects.create(
-            name="Superman",
-            slug="superman",
-            sort_name="Superman",
-            series_type=on_going_series,
-            publisher=cls.publisher,
-            volume=1,
-            year_began=1939,
-            edited_by=user,
-        )
-
-    def setUp(self):
-        self._client_login()
-
-    def test_series_count(self):
-        self.assertEqual(self.publisher.series_count, 1)
-
-    def test_publisher_creation(self):
-        self.assertTrue(isinstance(self.publisher, Publisher))
-        self.assertEqual(str(self.publisher), self.name)
-
-    def test_verbose_name_plural(self):
-        self.assertEqual(str(self.publisher._meta.verbose_name_plural), "publishers")
-
-    def test_absolute_url(self):
-        resp = self.client.get(self.publisher.get_absolute_url())
-        self.assertEqual(resp.status_code, HTTP_200_OK)
+def test_character_absolute_url(client, batman):
+    resp = client.get(batman.get_absolute_url())
+    assert resp.status_code == HTTP_200_OK
 
 
-class SeriesTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        publisher = Publisher.objects.create(
-            name="DC Comics", slug="dc-comics", edited_by=user
-        )
-        series_type = SeriesType.objects.create(name="Ongoing Series")
-        cls.name = "Superman"
-        cls.superman = Series.objects.create(
-            name=cls.name,
-            slug=slugify(cls.name),
-            sort_name=cls.name,
-            series_type=series_type,
-            publisher=publisher,
-            volume=1,
-            year_began=1939,
-            edited_by=user,
-        )
-
-    def setUp(self):
-        self._client_login()
-
-    def test_series_creation(self):
-        self.assertTrue(isinstance(self.superman, Series))
-        self.assertEqual(str(self.superman), "Superman (1939)")
-
-    def test_verbose_name_plural(self):
-        self.assertEqual(str(self.superman._meta.verbose_name_plural), "Series")
-
-    def test_absolute_url(self):
-        resp = self.client.get(self.superman.get_absolute_url())
-        self.assertEqual(resp.status_code, HTTP_200_OK)
+def test_arc_creation(wwh_arc):
+    assert isinstance(wwh_arc, Arc) is True
+    assert str(wwh_arc) == wwh_arc.name
 
 
-class IssueTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        issue_date = timezone.now().date()
-        publisher = Publisher.objects.create(
-            name="DC Comics", slug="dc-comics", edited_by=user
-        )
-        series_type = SeriesType.objects.create(name="Ongoing Series")
-        cls.series_name = "Superman"
-        cls.superman = Series.objects.create(
-            name=cls.series_name,
-            slug=slugify(cls.series_name),
-            sort_name=cls.series_name,
-            series_type=series_type,
-            publisher=publisher,
-            volume=1,
-            year_began=1939,
-            edited_by=user,
-        )
-
-        cls.issue = Issue.objects.create(
-            series=cls.superman,
-            number="1",
-            slug="superman-1939-1",
-            cover_date=issue_date,
-            edited_by=user,
-            created_by=user,
-        )
-
-    def setUp(self):
-        self._client_login()
-
-    def test_issue_creation(self):
-        self.assertTrue(isinstance(self.issue, Issue))
-        self.assertEqual(str(self.issue), "Superman #1")
-
-    def test_verbose_name_plural(self):
-        self.assertEqual(str(self.issue._meta.verbose_name_plural), "issues")
-
-    def test_absolute_url(self):
-        resp = self.client.get(self.issue.get_absolute_url())
-        self.assertEqual(resp.status_code, HTTP_200_OK)
-
-    # This test should be in the SeriesTest but for now let's leave this here.
-    def test_issue_count(self):
-        issue_count = self.superman.issue_count
-        self.assertEqual(issue_count, 1)
+def test_arc_verbose_name_plural(wwh_arc):
+    assert str(wwh_arc._meta.verbose_name_plural) == "arcs"
 
 
-class SeriesTypeTest(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.name = "Mini-Series"
-        cls.notes = "A short series typically four issues"
+def test_arc_absolute_url(client, wwh_arc):
+    resp = client.get(wwh_arc.get_absolute_url())
+    assert resp.status_code == HTTP_200_OK
 
-        cls.series_type = SeriesType.objects.create(name=cls.name, notes=cls.notes)
 
-    def test_seriestype_creation(self):
-        self.assertTrue(isinstance(self.series_type, SeriesType))
-        self.assertEqual(str(self.series_type), self.name)
+def test_creator_creation(john_byrne):
+    assert isinstance(john_byrne, Creator) is True
+    assert str(john_byrne) == john_byrne.name
+
+
+def test_creator_get_full_name(john_byrne):
+    assert john_byrne.name == john_byrne.name
+
+
+def test_creator_verbose_name_plural(john_byrne):
+    assert str(john_byrne._meta.verbose_name_plural) == "creators"
+
+
+def test_creator_absolute_url(client, john_byrne):
+    resp = client.get(john_byrne.get_absolute_url())
+    assert resp.status_code == HTTP_200_OK
+
+
+def test_role_creation(writer):
+    assert isinstance(writer, Role) is True
+    assert str(writer) == writer.name
+
+
+def test_role_verbose_name_plural(writer):
+    assert str(writer._meta.verbose_name_plural) == "roles"
+
+
+def test_publisher_series_count(dc_comics, fc_series):
+    assert dc_comics.series_count == 1
+
+
+def test_publisher_creation(dc_comics):
+    assert isinstance(dc_comics, Publisher) is True
+    assert str(dc_comics) == dc_comics.name
+
+
+def test_publisher_verbose_name_plural(dc_comics):
+    assert str(dc_comics._meta.verbose_name_plural) == "publishers"
+
+
+def test_puiblisher_absolute_url(client, dc_comics):
+    resp = client.get(dc_comics.get_absolute_url())
+    assert resp.status_code == HTTP_200_OK
+
+
+def test_series_creation(fc_series):
+    assert isinstance(fc_series, Series) is True
+    assert str(fc_series), "Final Crisis (1939)"
+
+
+def test_series_verbose_name_plural(fc_series):
+    assert str(fc_series._meta.verbose_name_plural) == "Series"
+
+
+def test_series_absolute_url(client, fc_series):
+    resp = client.get(fc_series.get_absolute_url())
+    assert resp.status_code == HTTP_200_OK
+
+
+def test_issue_creation(issue_with_arc):
+    assert isinstance(issue_with_arc, Issue) is True
+    assert str(issue_with_arc) == "Final Crisis #1"
+
+
+def test_issue_verbose_name_plural(issue_with_arc):
+    assert str(issue_with_arc._meta.verbose_name_plural) == "issues"
+
+
+def test_issue_absolute_url(client, issue_with_arc):
+    resp = client.get(issue_with_arc.get_absolute_url())
+    assert resp.status_code == HTTP_200_OK
+
+
+# This test should be in the SeriesTest but for now let's leave this here.
+def test_issue_count(issue_with_arc, superman):
+    issue_count = superman.issue_count
+    assert issue_count == 1
+
+
+def test_seriestype_creation(cancelled_type):
+    assert isinstance(cancelled_type, SeriesType) is True
+    assert str(cancelled_type) == cancelled_type.name

@@ -5,6 +5,7 @@ from django.utils import timezone
 from comicsdb.models.arc import Arc
 from comicsdb.models.character import Character
 from comicsdb.models.creator import Creator
+from comicsdb.models.credits import Role
 from comicsdb.models.issue import Issue
 from comicsdb.models.publisher import Publisher
 from comicsdb.models.series import Series, SeriesType
@@ -58,21 +59,25 @@ def marvel(user):
 
 
 @pytest.fixture
-def fc_series(user, dc_comics):
-    series_type = SeriesType.objects.create(name="Cancelled")
+def cancelled_type(db):
+    return SeriesType.objects.create(name="Cancelled")
+
+
+@pytest.fixture
+def fc_series(user, dc_comics, cancelled_type):
     return Series.objects.create(
         name="Final Crisis",
         slug="final-crisis",
         publisher=dc_comics,
         volume="1",
         year_began=1939,
-        series_type=series_type,
+        series_type=cancelled_type,
         edited_by=user,
     )
 
 
 @pytest.fixture
-def issue_with_arc(user, fc_series, fc_arc):
+def issue_with_arc(user, fc_series, fc_arc, superman):
     i = Issue.objects.create(
         series=fc_series,
         number="1",
@@ -82,6 +87,7 @@ def issue_with_arc(user, fc_series, fc_arc):
         created_by=user,
     )
     i.arcs.add(fc_arc)
+    i.characters.add(superman)
     return i
 
 
@@ -115,3 +121,8 @@ def teen_titans(user):
 @pytest.fixture
 def avengers(user):
     return Team.objects.create(name="The Avengers", slug="the-avengers", edited_by=user)
+
+
+@pytest.fixture
+def writer(db):
+    return Role.objects.create(name="Writer", notes="Nothing here.", order=20)
