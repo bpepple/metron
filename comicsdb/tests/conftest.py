@@ -52,6 +52,11 @@ def dc_comics(user):
 
 
 @pytest.fixture
+def marvel(user):
+    return Publisher.objects.create(name="Marvel", slug="marvel", edited_by=user)
+
+
+@pytest.fixture
 def fc_series(user, dc_comics):
     series_type = SeriesType.objects.create(name="Cancelled")
     return Series.objects.create(
