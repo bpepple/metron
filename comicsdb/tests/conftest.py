@@ -1,6 +1,11 @@
 import pytest
 from django.contrib.auth.models import Group
+from django.utils import timezone
 
+from comicsdb.models.arc import Arc
+from comicsdb.models.issue import Issue
+from comicsdb.models.publisher import Publisher
+from comicsdb.models.series import Series, SeriesType
 from users.models import CustomUser
 
 
@@ -27,3 +32,46 @@ def user(db):
 def loggedin_user(client, user):
     client.login(username="foo", password="1234")
     return client
+
+
+@pytest.fixture
+def wwh_arc(user):
+    return Arc.objects.create(name="World War Hulk", slug="world-war-hulk", edited_by=user)
+
+
+@pytest.fixture
+def fc_arc(user):
+    return Arc.objects.create(name="Final Crisis", slug="final-crisis", edited_by=user)
+
+
+@pytest.fixture
+def dc_comics(user):
+    return Publisher.objects.create(name="DC Comics", slug="dc-comics", edited_by=user)
+
+
+@pytest.fixture
+def fc_series(user, dc_comics):
+    series_type = SeriesType.objects.create(name="Cancelled")
+    return Series.objects.create(
+        name="Final Crisis",
+        slug="final-crisis",
+        publisher=dc_comics,
+        volume="1",
+        year_began=1939,
+        series_type=series_type,
+        edited_by=user,
+    )
+
+
+@pytest.fixture
+def issue_with_arc(user, fc_series, fc_arc):
+    i = Issue.objects.create(
+        series=fc_series,
+        number="1",
+        slug="final-crisis-1",
+        cover_date=timezone.now().date(),
+        edited_by=user,
+        created_by=user,
+    )
+    i.arcs.add(fc_arc)
+    return i
