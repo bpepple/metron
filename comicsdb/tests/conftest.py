@@ -8,6 +8,7 @@ from comicsdb.models.creator import Creator
 from comicsdb.models.issue import Issue
 from comicsdb.models.publisher import Publisher
 from comicsdb.models.series import Series, SeriesType
+from comicsdb.models.team import Team
 from users.models import CustomUser
 
 
@@ -104,3 +105,13 @@ def walter_simonson(user):
     return Creator.objects.create(
         name="Walter Simonson", slug="walter-simonson", edited_by=user
     )
+
+
+@pytest.fixture
+def teen_titans(user):
+    return Team.objects.create(name="Teen Titans", slug="teen-titans", edited_by=user)
+
+
+@pytest.fixture
+def avengers(user):
+    return Team.objects.create(name="The Avengers", slug="the-avengers", edited_by=user)
