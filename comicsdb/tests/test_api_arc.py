@@ -1,103 +1,88 @@
-import logging
-
+import pytest
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework import status
 
 from comicsdb.models import Arc, Issue, Publisher, Series, SeriesType
 from comicsdb.serializers import ArcSerializer, IssueListSerializer
-from users.tests.case_base import TestCaseBase
 
 
-class GetAllArcsTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        Arc.objects.create(name="World War Hulk", slug="world-war-hulk", edited_by=user)
-        Arc.objects.create(name="Final Crisis", slug="final-crisis", edited_by=user)
-
-    def setUp(self):
-        logging.disable(logging.CRITICAL)
-        self._client_login()
-
-    def tearDown(self):
-        logging.disable(logging.NOTSET)
-
-    def test_view_url_accessible_by_name(self):
-        resp = self.client.get(reverse("api:arc-list"))
-        self.assertEqual(resp.status_code, status.HTTP_200_OK)
-
-    def test_unauthorized_view_url(self):
-        self.client.logout()
-        resp = self.client.get(reverse("api:arc-list"))
-        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
+@pytest.fixture
+def wwh_arc(user):
+    return Arc.objects.create(name="World War Hulk", slug="world-war-hulk", edited_by=user)
 
 
-class GetSingleArcTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
+@pytest.fixture
+def fc_arc(user):
+    return Arc.objects.create(name="Final Crisis", slug="final-crisis", edited_by=user)
 
-        publisher_obj = Publisher.objects.create(
-            name="DC Comics", slug="dc-comics", edited_by=user
-        )
-        series_type_obj = SeriesType.objects.create(name="Cancelled")
-        series_obj = Series.objects.create(
-            name="Final Crisis",
-            slug="final-crisis",
-            publisher=publisher_obj,
-            volume="1",
-            year_began=1939,
-            series_type=series_type_obj,
-            edited_by=user,
-        )
-        cls.issue_obj = Issue.objects.create(
-            series=series_obj,
-            number="1",
-            slug="final-crisis-1",
-            cover_date=timezone.now().date(),
-            edited_by=user,
-            created_by=user,
-        )
-        cls.hulk = Arc.objects.create(
-            name="World War Hulk", slug="world-war-hulk", edited_by=user
-        )
-        cls.crisis = Arc.objects.create(
-            name="Final Crisis", slug="final-crisis", edited_by=user
-        )
-        cls.issue_obj.arcs.add(cls.crisis)
 
-    def setUp(self):
-        logging.disable(logging.CRITICAL)
-        self._client_login()
+@pytest.fixture
+def dc_comics(user):
+    return Publisher.objects.create(name="DC Comics", slug="dc-comics", edited_by=user)
 
-    def tearDown(self):
-        logging.disable(logging.NOTSET)
 
-    def test_get_valid_single_arc(self):
-        response = self.client.get(reverse("api:arc-detail", kwargs={"pk": self.hulk.pk}))
-        arc = Arc.objects.get(pk=self.hulk.pk)
-        serializer = ArcSerializer(arc)
-        self.assertEqual(response.data, serializer.data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+@pytest.fixture
+def final_crisis(user, dc_comics):
+    series_type = SeriesType.objects.create(name="Cancelled")
+    return Series.objects.create(
+        name="Final Crisis",
+        slug="final-crisis",
+        publisher=dc_comics,
+        volume="1",
+        year_began=1939,
+        series_type=series_type,
+        edited_by=user,
+    )
 
-    def test_get_invalid_single_arc(self):
-        response = self.client.get(reverse("api:arc-detail", kwargs={"pk": "10"}))
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_unauthorized_view_url(self):
-        self.client.logout()
-        response = self.client.get(reverse("api:arc-detail", kwargs={"pk": self.hulk.pk}))
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+@pytest.fixture
+def arc_issue(user, final_crisis, fc_arc):
+    i = Issue.objects.create(
+        series=final_crisis,
+        number="1",
+        slug="final-crisis-1",
+        cover_date=timezone.now().date(),
+        edited_by=user,
+        created_by=user,
+    )
+    i.arcs.add(fc_arc)
+    return i
 
-    def test_arc_issue_list_view(self):
-        response = self.client.get(
-            reverse("api:arc-issue-list", kwargs={"pk": self.crisis.pk})
-        )
-        serializer = IssueListSerializer(self.issue_obj)
-        self.assertEqual(response.data["count"], 1)
-        self.assertEqual(response.data["next"], None)
-        self.assertEqual(response.data["previous"], None)
-        self.assertEqual(response.data["results"][0], serializer.data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+def test_view_url_accessible_by_name(loggedin_user, fc_arc, wwh_arc):
+    resp = loggedin_user.get(reverse("api:arc-list"))
+    assert resp.status_code == status.HTTP_200_OK
+
+
+def test_unauthorized_view_url(client, fc_arc, wwh_arc):
+    resp = client.get(reverse("api:arc-list"))
+    assert resp.status_code == status.HTTP_401_UNAUTHORIZED
+
+
+def test_get_valid_single_arc(loggedin_user, wwh_arc):
+    resp = loggedin_user.get(reverse("api:arc-detail", kwargs={"pk": wwh_arc.pk}))
+    arc = Arc.objects.get(pk=wwh_arc.pk)
+    serializer = ArcSerializer(arc)
+    assert resp.data == serializer.data
+    assert resp.status_code == status.HTTP_200_OK
+
+
+def test_get_invalid_single_arc(loggedin_user):
+    resp = loggedin_user.get(reverse("api:arc-detail", kwargs={"pk": "10"}))
+    assert resp.status_code == status.HTTP_404_NOT_FOUND
+
+
+def test_unauthorized_detail_view_url(client, wwh_arc):
+    resp = client.get(reverse("api:arc-detail", kwargs={"pk": wwh_arc.pk}))
+    assert resp.status_code == status.HTTP_401_UNAUTHORIZED
+
+
+def test_arc_issue_list_view(loggedin_user, fc_arc, arc_issue):
+    resp = loggedin_user.get(reverse("api:arc-issue-list", kwargs={"pk": fc_arc.pk}))
+    serializer = IssueListSerializer(arc_issue)
+    assert resp.data["count"] == 1
+    assert resp.data["next"] is None
+    assert resp.data["previous"] is None
+    assert resp.data["results"][0] == serializer.data
+    assert resp.status_code == status.HTTP_200_OK
