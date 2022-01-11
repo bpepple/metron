@@ -4,6 +4,7 @@ from django.utils import timezone
 
 from comicsdb.models.arc import Arc
 from comicsdb.models.character import Character
+from comicsdb.models.creator import Creator
 from comicsdb.models.issue import Issue
 from comicsdb.models.publisher import Publisher
 from comicsdb.models.series import Series, SeriesType
@@ -86,3 +87,15 @@ def superman(user):
 @pytest.fixture
 def batman(user):
     return Character.objects.create(name="Batman", slug="batman", edited_by=user)
+
+
+@pytest.fixture
+def john_byrne(user):
+    return Creator.objects.create(name="John Byrne", slug="john-byrne", edited_by=user)
+
+
+@pytest.fixture
+def walter_simonson(user):
+    return Creator.objects.create(
+        name="Walter Simonson", slug="walter-simonson", edited_by=user
+    )
