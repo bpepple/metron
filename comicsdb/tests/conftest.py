@@ -3,6 +3,7 @@ from django.contrib.auth.models import Group
 from django.utils import timezone
 
 from comicsdb.models.arc import Arc
+from comicsdb.models.character import Character
 from comicsdb.models.issue import Issue
 from comicsdb.models.publisher import Publisher
 from comicsdb.models.series import Series, SeriesType
@@ -75,3 +76,13 @@ def issue_with_arc(user, fc_series, fc_arc):
     )
     i.arcs.add(fc_arc)
     return i
+
+
+@pytest.fixture
+def superman(user):
+    return Character.objects.create(name="Superman", slug="superman", edited_by=user)
+
+
+@pytest.fixture
+def batman(user):
+    return Character.objects.create(name="Batman", slug="batman", edited_by=user)
