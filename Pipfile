@@ -35,6 +35,7 @@ pytest-cov = "*"
 pre-commit = "*"
 isort = "*"
 seed-isort-config = "*"
+pytest-django = "*"
 
 [requires]
 python_version = "3.8"
