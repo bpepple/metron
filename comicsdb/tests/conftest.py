@@ -1,6 +1,5 @@
 import pytest
 from django.contrib.auth.models import Group
-from django.test import Client
 
 from users.models import CustomUser
 
@@ -25,7 +24,6 @@ def user(db):
 
 
 @pytest.fixture
-def loggedin_user(db, user):
-    client = Client()
+def loggedin_user(client, user):
     client.login(username="foo", password="1234")
     return client
