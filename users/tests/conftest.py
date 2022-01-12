@@ -1,31 +1,38 @@
+import uuid
+
 import pytest
-from django.contrib.auth.models import Group
-from django.test import Client
 
 from users.models import CustomUser
 
 
 @pytest.fixture
-def editor(db):
-    grp = Group(user="editor")
-    grp.save()
-    user = CustomUser.objects.create(username="brian", email="brian@test.com")
-    user.set_password("1234")
-    user.groups.add(grp)
-    user.save()
-    return user
+def test_password():
+    return "strong-test-pass"
 
 
 @pytest.fixture
-def user(db):
-    user = CustomUser.objects.create(username="foo", email="foo@bar.com")
-    user.set_password("1234")
-    user.save()
-    return user
+def test_email():
+    return "foo@bar.com"
 
 
 @pytest.fixture
-def loggedin_user(db, user):
-    client = Client()
-    client.login(username="foo", password="1234")
-    return client
+def create_user(db, test_password, test_email):
+    def make_user(**kwargs):
+        kwargs["password"] = test_password
+        kwargs["email"] = test_email
+        if "username" not in kwargs:
+            kwargs["username"] = str(uuid.uuid4())
+        return CustomUser.objects.create_user(**kwargs)
+
+    return make_user
+
+
+@pytest.fixture
+def auto_login_user(db, client, create_user, test_password):
+    def make_auto_login(user=None):
+        if user is None:
+            user = create_user()
+        client.login(username=user.username, password=test_password)
+        return client, user
+
+    return make_auto_login
