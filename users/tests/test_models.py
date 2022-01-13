@@ -1,15 +1,41 @@
+import pytest
+
 from users.models import CustomUser
-from users.tests.case_base import TestCaseBase
 
 
-class CustomUserTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.user = cls._create_user()
+def test_user_creation(create_user):
+    user = create_user()
+    assert isinstance(user, CustomUser) is True
+    assert str(user) == user.username
 
-    def setUp(self):
-        self._client_login()
 
-    def test_user_creation(self):
-        self.assertTrue(isinstance(self.user, CustomUser))
-        self.assertEqual(str(self.user), self.user.username)
+@pytest.mark.django_db
+@pytest.mark.parametrize("username, email", [("", "foo@bar.com"), ("Foo", "")])
+def test_user_creation_missing_info(username, email, test_password):
+    with pytest.raises(ValueError):
+        assert CustomUser.objects.create_user(
+            username=username, email=email, password=test_password
+        )
+
+
+@pytest.mark.django_db
+def test_superuser_creation(test_password, test_email):
+    obj = CustomUser.objects.create_superuser(
+        username="Foo", password=test_password, email=test_email
+    )
+    assert isinstance(obj, CustomUser) is True
+    assert obj.is_superuser is True
+    assert obj.is_staff is True
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize("super, staff", [(True, False), (False, True)])
+def test_superuser_creation_without_roles(super, staff, test_password, test_email):
+    with pytest.raises(ValueError):
+        assert CustomUser.objects.create_superuser(
+            username="Foo",
+            password=test_password,
+            email=test_email,
+            is_superuser=super,
+            is_staff=staff,
+        )

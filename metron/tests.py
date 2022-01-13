@@ -1,31 +1,22 @@
-from django.test import TestCase
+import pytest
+from django.test import Client
 
 from users.models import CustomUser
 
 HTML_OK_CODE = 200
 
 
-class TestCaseBase(TestCase):
-    @classmethod
-    def _create_user(cls):
-        user = CustomUser.objects.create(username="brian", email="brian@test.com")
-        user.set_password("1234")
-        user.save()
+@pytest.fixture
+def loggedin_user(db):
+    user = CustomUser.objects.create(username="foo", email="foo@bar.com")
+    user.set_password("1234")
+    user.save()
 
-        return user
-
-    def _client_login(self):
-        self.client.login(username="brian", password="1234")
+    client = Client()
+    client.login(username="foo", password="1234")
+    return client
 
 
-class TestMetron(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        cls._create_user()
-
-    def setUp(self):
-        self._client_login()
-
-    def test_api_docs_url_exists_at_desired_location(self):
-        resp = self.client.get("/docs/")
-        self.assertEqual(resp.status_code, HTML_OK_CODE)
+def test_api_docs_url_exists_at_desired_location(loggedin_user):
+    resp = loggedin_user.get("/docs/")
+    assert resp.status_code == HTML_OK_CODE

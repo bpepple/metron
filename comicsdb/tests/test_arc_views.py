@@ -1,10 +1,9 @@
-import logging
-
+import pytest
 from django.urls import reverse
+from pytest_django.asserts import assertTemplateUsed
 
 from comicsdb.forms.arc import ArcForm
-from comicsdb.models import Arc
-from users.tests.case_base import TestCaseBase
+from comicsdb.models.arc import Arc
 
 HTML_OK_CODE = 200
 
@@ -13,194 +12,156 @@ PAGINATE_DEFAULT_VAL = 28
 PAGINATE_DIFF_VAL = PAGINATE_TEST_VAL - PAGINATE_DEFAULT_VAL
 
 
-class ArcSearchViewsTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        for pub_num in range(PAGINATE_TEST_VAL):
-            Arc.objects.create(
-                name="Arc %s" % pub_num, slug="arc-%s" % pub_num, edited_by=user
-            )
-
-    def setUp(self):
-        logging.disable(logging.CRITICAL)
-        self._client_login()
-
-    def tearDown(self):
-        logging.disable(logging.NOTSET)
-
-    def test_view_url_exists_at_desired_location(self):
-        resp = self.client.get("/arc/search")
-        self.assertEqual(resp.status_code, HTML_OK_CODE)
-
-    def test_view_url_accessible_by_name(self):
-        resp = self.client.get(reverse("arc:search"))
-        self.assertEqual(resp.status_code, HTML_OK_CODE)
-
-    def test_view_uses_correct_template(self):
-        resp = self.client.get(reverse("arc:search"))
-        self.assertEqual(resp.status_code, HTML_OK_CODE)
-        self.assertTemplateUsed(resp, "comicsdb/arc_list.html")
-
-    def test_pagination_is_thirty(self):
-        resp = self.client.get("/arc/search?q=arc")
-        self.assertEqual(resp.status_code, HTML_OK_CODE)
-        self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"])
-        self.assertTrue(len(resp.context["arc_list"]) == PAGINATE_DEFAULT_VAL)
-
-    def test_lists_all_arcs(self):
-        # Get second page and confirm it has (exactly) remaining 7 items
-        resp = self.client.get("/arc/search?page=2&q=arc")
-        self.assertEqual(resp.status_code, HTML_OK_CODE)
-        self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"])
-        self.assertTrue(len(resp.context["arc_list"]) == PAGINATE_DIFF_VAL)
+@pytest.fixture()
+def list_of_arc(create_user):
+    user = create_user()
+    for pub_num in range(PAGINATE_TEST_VAL):
+        Arc.objects.create(name="Arc %s" % pub_num, slug="arc-%s" % pub_num, edited_by=user)
 
 
-class ArcListViewTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        for pub_num in range(PAGINATE_TEST_VAL):
-            Arc.objects.create(
-                name="Arc %s" % pub_num, slug="arc-%s" % pub_num, edited_by=user
-            )
-
-    def setUp(self):
-        logging.disable(logging.CRITICAL)
-        self._client_login()
-
-    def tearDown(self):
-        logging.disable(logging.NOTSET)
-
-    def test_view_url_exists_at_desired_location(self):
-        resp = self.client.get("/arc/")
-        self.assertEqual(resp.status_code, HTML_OK_CODE)
-
-    def test_view_url_accessible_by_name(self):
-        resp = self.client.get(reverse("arc:list"))
-        self.assertEqual(resp.status_code, HTML_OK_CODE)
-
-    def test_view_uses_correct_template(self):
-        resp = self.client.get(reverse("arc:list"))
-        self.assertEqual(resp.status_code, HTML_OK_CODE)
-        self.assertTemplateUsed(resp, "comicsdb/arc_list.html")
-
-    def test_pagination_is_thirty(self):
-        resp = self.client.get(reverse("arc:list"))
-        self.assertEqual(resp.status_code, HTML_OK_CODE)
-        self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"])
-        self.assertTrue(len(resp.context["arc_list"]) == PAGINATE_DEFAULT_VAL)
-
-    def test_lists_second_page(self):
-        # Get second page and confirm it has (exactly) remaining 7 items
-        resp = self.client.get(reverse("arc:list") + "?page=2")
-        self.assertEqual(resp.status_code, HTML_OK_CODE)
-        self.assertTrue("is_paginated" in resp.context)
-        self.assertTrue(resp.context["is_paginated"])
-        self.assertTrue(len(resp.context["arc_list"]) == PAGINATE_DIFF_VAL)
+# Arc Search View
+def test_arc_search_view_url_exists_at_desired_location(auto_login_user):
+    client, _ = auto_login_user()
+    resp = client.get("/arc/search")
+    assert resp.status_code == HTML_OK_CODE
 
 
-class TestArcForm(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        cls._create_user()
-
-    def setUp(self):
-        logging.disable(logging.CRITICAL)
-        self._client_login()
-
-    def tearDown(self):
-        logging.disable(logging.NOTSET)
-
-    def test_valid_form(self):
-        form = ArcForm(
-            data={
-                "name": "Heroes in Crisis",
-                "slug": "heroes-in-crisis",
-                "desc": "Heroes in need of therapy",
-                "image": "arc/2019/06/07/heroes-1.jpg",
-            }
-        )
-        self.assertTrue(form.is_valid())
-
-    def test_form_invalid(self):
-        form = ArcForm(data={"name": "", "slug": "bad-data", "desc": "", "image": ""})
-        self.assertFalse(form.is_valid())
+def test_arc_search_view_url_accessible_by_name(auto_login_user):
+    client, _ = auto_login_user()
+    resp = client.get(reverse("arc:search"))
+    assert resp.status_code == HTML_OK_CODE
 
 
-class TestArcCreate(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        cls._create_user()
-
-    def setUp(self):
-        logging.disable(logging.CRITICAL)
-        self._client_login()
-
-    def tearDown(self):
-        logging.disable(logging.NOTSET)
-
-    def test_create_arc_view(self):
-        response = self.client.get(reverse("arc:create"))
-        self.assertEqual(response.status_code, HTML_OK_CODE)
-        self.assertTemplateUsed(response, "comicsdb/model_with_image_form.html")
-
-    def test_create_arc_validform_view(self):
-        arc_count = Arc.objects.count()
-        response = self.client.post(
-            reverse("arc:create"),
-            {
-                "name": "Infinite Crisis",
-                "slug": "infinite-crisis",
-                "desc": "World ending crisis",
-                "image": "arc/2019/06/07/crisis-1",
-            },
-        )
-        # Should this really be HTTP 302? Probably need to see if we should be redirecting or not.
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(Arc.objects.count(), arc_count + 1)
+def test_arc_search_view_uses_correct_template(auto_login_user):
+    client, _ = auto_login_user()
+    resp = client.get(reverse("arc:search"))
+    assert resp.status_code == HTML_OK_CODE
+    assertTemplateUsed(resp, "comicsdb/arc_list.html")
 
 
-class TestArcUpdate(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
+def test_arc_search_pagination_is_thirty(auto_login_user, list_of_arc):
+    client, _ = auto_login_user()
+    resp = client.get("/arc/search?q=arc")
+    assert resp.status_code == HTML_OK_CODE
+    assert "is_paginated" in resp.context
+    assert resp.context["is_paginated"] is True
+    assert len(resp.context["arc_list"]) == PAGINATE_DEFAULT_VAL
 
-        cls.slug = "war-realms"
-        cls.realms = Arc.objects.create(
-            name="War of the Realms", slug=cls.slug, edited_by=user
-        )
 
-    def setUp(self):
-        logging.disable(logging.CRITICAL)
-        self._client_login()
+def test_arc_search_all_arcs(auto_login_user, list_of_arc):
+    # Get second page and confirm it has (exactly) remaining 7 items
+    client, _ = auto_login_user()
+    resp = client.get("/arc/search?page=2&q=arc")
+    assert resp.status_code == HTML_OK_CODE
+    assert "is_paginated" in resp.context
+    assert resp.context["is_paginated"] is True
+    assert len(resp.context["arc_list"]) == PAGINATE_DIFF_VAL
 
-    def tearDown(self):
-        logging.disable(logging.NOTSET)
 
-    def test_arc_update_view(self):
-        k = {"slug": self.slug}
-        response = self.client.get(reverse("arc:update", kwargs=k))
-        self.assertEqual(response.status_code, HTML_OK_CODE)
-        self.assertTemplateUsed(response, "comicsdb/model_with_image_form.html")
+# Arc List Views
+def test_arc_list_view_url_exists_at_desired_location(auto_login_user):
+    client, _ = auto_login_user()
+    resp = client.get("/arc/")
+    assert resp.status_code == HTML_OK_CODE
 
-    def test_arc_update_validform_view(self):
-        k = {"slug": self.slug}
-        arc_count = Arc.objects.count()
-        response = self.client.post(
-            reverse("arc:update", kwargs=k),
-            {
-                "name": "War of the Realms",
-                "slug": self.slug,
-                "desc": "Asgardian crisis",
-                "image": "",
-            },
-        )
-        # Should this really be HTTP 302? Probably need to see if we should be redirecting or not.
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(Arc.objects.count(), arc_count)
+
+def test_arc_list_view_url_accessible_by_name(auto_login_user):
+    client, _ = auto_login_user()
+    resp = client.get(reverse("arc:list"))
+    assert resp.status_code == HTML_OK_CODE
+
+
+def test_arc_list_view_uses_correct_template(auto_login_user):
+    client, _ = auto_login_user()
+    resp = client.get(reverse("arc:list"))
+    assert resp.status_code == HTML_OK_CODE
+    assertTemplateUsed(resp, "comicsdb/arc_list.html")
+
+
+def test_arc_list_pagination_is_thirty(auto_login_user, list_of_arc):
+    client, _ = auto_login_user()
+    resp = client.get(reverse("arc:list"))
+    assert resp.status_code == HTML_OK_CODE
+    assert "is_paginated" in resp.context
+    assert resp.context["is_paginated"] is True
+    assert len(resp.context["arc_list"]) == PAGINATE_DEFAULT_VAL
+
+
+def test_arc_list_second_page(auto_login_user, list_of_arc):
+    # Get second page and confirm it has (exactly) remaining 7 items
+    client, _ = auto_login_user()
+    resp = client.get(reverse("arc:list") + "?page=2")
+    assert resp.status_code == HTML_OK_CODE
+    assert "is_paginated" in resp.context
+    assert resp.context["is_paginated"] is True
+    assert len(resp.context["arc_list"]) == PAGINATE_DIFF_VAL
+
+
+# Arc Form
+def test_valid_form():
+    form = ArcForm(
+        data={
+            "name": "Heroes in Crisis",
+            "slug": "heroes-in-crisis",
+            "desc": "Heroes in need of therapy",
+            "image": "arc/2019/06/07/heroes-1.jpg",
+        }
+    )
+    assert form.is_valid() is True
+
+
+def test_form_invalid():
+    form = ArcForm(data={"name": "", "slug": "bad-data", "desc": "", "image": ""})
+    assert form.is_valid() is False
+
+
+# Arc Create
+def test_create_arc_view(auto_login_user):
+    client, _ = auto_login_user()
+    resp = client.get(reverse("arc:create"))
+    assert resp.status_code == HTML_OK_CODE
+    assertTemplateUsed(resp, "comicsdb/model_with_image_form.html")
+
+
+def test_create_arc_validform_view(auto_login_user, wwh_arc):
+    client, _ = auto_login_user()
+    arc_count = Arc.objects.count()
+    resp = client.post(
+        reverse("arc:create"),
+        {
+            "name": "Infinite Crisis",
+            "slug": "infinite-crisis",
+            "desc": "World ending crisis",
+            "image": "arc/2019/06/07/crisis-1",
+        },
+    )
+    # Should this really be HTTP 302? Probably need to see if we should be redirecting or not.
+    assert resp.status_code == 302
+    assert Arc.objects.count() == arc_count + 1
+
+
+# Arc Update
+def test_arc_update_view(auto_login_user, wwh_arc):
+    client, _ = auto_login_user()
+    k = {"slug": wwh_arc.slug}
+    resp = client.get(reverse("arc:update", kwargs=k))
+    assert resp.status_code == HTML_OK_CODE
+    assertTemplateUsed(resp, "comicsdb/model_with_image_form.html")
+
+
+def test_arc_update_validform_view(auto_login_user, wwh_arc):
+    client, _ = auto_login_user()
+    k = {"slug": wwh_arc.slug}
+    arc_count = Arc.objects.count()
+    resp = client.post(
+        reverse("arc:update", kwargs=k),
+        {
+            "name": "War of the Realms",
+            "slug": wwh_arc.slug,
+            "desc": "Asgardian crisis",
+            "image": "",
+        },
+    )
+    # Should this really be HTTP 302? Probably need to see if we should be redirecting or not.
+    assert resp.status_code == 302
+    assert Arc.objects.count() == arc_count

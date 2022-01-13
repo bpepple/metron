@@ -1,65 +1,37 @@
-import logging
-
 from django.urls import reverse
 from rest_framework import status
 
 from comicsdb.models import Creator
 from comicsdb.serializers import CreatorSerializer
-from users.tests.case_base import TestCaseBase
 
 
-class GetAllCreatorsTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        Creator.objects.create(name="John Byrne", slug="john-byrne", edited_by=user)
-        Creator.objects.create(name="Walter Simonson", slug="walter-simonson", edited_by=user)
-
-    def setUp(self):
-        logging.disable(logging.CRITICAL)
-        self._client_login()
-
-    def tearDown(self):
-        logging.disable(logging.NOTSET)
-
-    def test_view_url_accessible_by_name(self):
-        resp = self.client.get(reverse("api:creator-list"))
-        self.assertEqual(resp.status_code, status.HTTP_200_OK)
-
-    def test_unauthorized_view_url(self):
-        self.client.logout()
-        resp = self.client.get(reverse("api:creator-list"))
-        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
+def test_view_url_accessible_by_name(api_client_with_credentials, john_byrne, walter_simonson):
+    resp = api_client_with_credentials.get(reverse("api:creator-list"))
+    assert resp.status_code == status.HTTP_200_OK
 
 
-class GetSingleCreatorTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
+def test_unauthorized_view_url(api_client, john_byrne, walter_simonson):
+    resp = api_client.get(reverse("api:creator-list"))
+    assert resp.status_code == status.HTTP_401_UNAUTHORIZED
 
-        cls.jack = Creator.objects.create(name="Jack Kirby", slug="jack-kirby", edited_by=user)
-        Creator.objects.create(name="Steve Ditko", slug="steve-ditko", edited_by=user)
 
-    def setUp(self):
-        logging.disable(logging.CRITICAL)
-        self._client_login()
+def test_get_valid_single_creator(api_client_with_credentials, john_byrne):
+    resp = api_client_with_credentials.get(
+        reverse("api:creator-detail", kwargs={"pk": john_byrne.pk})
+    )
+    creator = Creator.objects.get(pk=john_byrne.pk)
+    serializer = CreatorSerializer(creator)
+    assert resp.data == serializer.data
+    assert resp.status_code == status.HTTP_200_OK
 
-    def tearDown(self):
-        logging.disable(logging.NOTSET)
 
-    def test_get_valid_single_creator(self):
-        response = self.client.get(reverse("api:creator-detail", kwargs={"pk": self.jack.pk}))
-        creator = Creator.objects.get(pk=self.jack.pk)
-        serializer = CreatorSerializer(creator)
-        self.assertEqual(response.data, serializer.data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+def test_get_invalid_single_creator(api_client_with_credentials):
+    response = api_client_with_credentials.get(
+        reverse("api:creator-detail", kwargs={"pk": "10"})
+    )
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    def test_get_invalid_single_creator(self):
-        response = self.client.get(reverse("api:creator-detail", kwargs={"pk": "10"}))
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_unauthorized_view_url(self):
-        self.client.logout()
-        response = self.client.get(reverse("api:creator-detail", kwargs={"pk": self.jack.pk}))
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+def test_unauthorized_detail_view_url(api_client, john_byrne):
+    response = api_client.get(reverse("api:creator-detail", kwargs={"pk": john_byrne.pk}))
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED

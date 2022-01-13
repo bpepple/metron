@@ -1,69 +1,37 @@
-import logging
-
 from django.urls import reverse
 from rest_framework import status
 
 from comicsdb.models import Character
 from comicsdb.serializers import CharacterSerializer
-from users.tests.case_base import TestCaseBase
 
 
-class GetAllCharactersTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
-
-        Character.objects.create(name="Superman", slug="superman", edited_by=user)
-        Character.objects.create(name="Batman", slug="batman", edited_by=user)
-
-    def setUp(self):
-        logging.disable(logging.CRITICAL)
-        self._client_login()
-
-    def tearDown(self):
-        logging.disable(logging.NOTSET)
-
-    def test_view_url_accessible_by_name(self):
-        resp = self.client.get(reverse("api:character-list"))
-        self.assertEqual(resp.status_code, status.HTTP_200_OK)
-
-    def test_unauthorized_view_url(self):
-        self.client.logout()
-        resp = self.client.get(reverse("api:character-list"))
-        self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
+def test_view_url_accessible_by_name(api_client_with_credentials, batman, superman):
+    resp = api_client_with_credentials.get(reverse("api:character-list"))
+    assert resp.status_code == status.HTTP_200_OK
 
 
-class GetSingleCharacterTest(TestCaseBase):
-    @classmethod
-    def setUpTestData(cls):
-        user = cls._create_user()
+def test_unauthorized_view_url(api_client, batman, superman):
+    resp = api_client.get(reverse("api:character-list"))
+    assert resp.status_code == status.HTTP_401_UNAUTHORIZED
 
-        cls.hulk = Character.objects.create(name="Hulk", slug="hulk", edited_by=user)
-        Character.objects.create(name="Thor", slug="thor", edited_by=user)
 
-    def setUp(self):
-        logging.disable(logging.CRITICAL)
-        self._client_login()
+def test_get_valid_single_character(api_client_with_credentials, batman):
+    resp = api_client_with_credentials.get(
+        reverse("api:character-detail", kwargs={"pk": batman.pk})
+    )
+    character = Character.objects.get(pk=batman.pk)
+    serializer = CharacterSerializer(character)
+    assert resp.data == serializer.data
+    assert resp.status_code == status.HTTP_200_OK
 
-    def tearDown(self):
-        logging.disable(logging.NOTSET)
 
-    def test_get_valid_single_character(self):
-        response = self.client.get(
-            reverse("api:character-detail", kwargs={"pk": self.hulk.pk})
-        )
-        character = Character.objects.get(pk=self.hulk.pk)
-        serializer = CharacterSerializer(character)
-        self.assertEqual(response.data, serializer.data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+def test_get_invalid_single_character(api_client_with_credentials):
+    response = api_client_with_credentials.get(
+        reverse("api:character-detail", kwargs={"pk": "10"})
+    )
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
-    def test_get_invalid_single_character(self):
-        response = self.client.get(reverse("api:character-detail", kwargs={"pk": "10"}))
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_unauthorized_view_url(self):
-        self.client.logout()
-        response = self.client.get(
-            reverse("api:character-detail", kwargs={"pk": self.hulk.pk})
-        )
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+def test_unauthorized_detail_view_url(api_client, batman):
+    response = api_client.get(reverse("api:character-detail", kwargs={"pk": batman.pk}))
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
