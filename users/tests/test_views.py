@@ -1,3 +1,4 @@
+import pytest
 from django.urls import reverse
 from pytest_django.asserts import assertTemplateUsed
 
@@ -7,79 +8,35 @@ HTML_REDIRECT_CODE = 301
 HTML_OK_CODE = 200
 
 
-def test_update_profile_view_url_exists_at_desired_location_redirected(auto_login_user):
+@pytest.mark.parametrize(
+    "url", ["/accounts/update/", "/accounts/password/", "/accounts/signup/"]
+)
+def test_view_url_exists_at_desired_location(auto_login_user, url):
     client, _ = auto_login_user()
-    resp = client.get("/accounts/update")
+    resp = client.get(url)
+    assert resp.status_code == HTML_OK_CODE
+
+
+@pytest.mark.parametrize("url", ["/accounts/update", "/accounts/password", "/accounts/signup"])
+def test_view_url_exists_at_desired_location_redirected(auto_login_user, url):
+    client, _ = auto_login_user()
+    resp = client.get(url)
     assert resp.status_code == HTML_REDIRECT_CODE
 
 
-def test_update_profile_view_url_exists_at_desired_location(auto_login_user):
+@pytest.mark.parametrize("url", ["change_profile", "change_password", "signup"])
+def test_view_url_accessible_by_name(auto_login_user, url):
     client, _ = auto_login_user()
-    resp = client.get("/accounts/update/")
+    resp = client.get(reverse(url))
     assert resp.status_code == HTML_OK_CODE
 
 
-def test_update_profile_view_url_accessible_by_name(auto_login_user):
+@pytest.mark.parametrize("url", ["change_profile", "change_password", "signup"])
+def test_view_uses_correct_template(auto_login_user, url):
     client, _ = auto_login_user()
-    resp = client.get(reverse("change_profile"))
+    resp = client.get(reverse(url))
     assert resp.status_code == HTML_OK_CODE
-
-
-def test_change_profile_view_uses_correct_template(auto_login_user):
-    client, _ = auto_login_user()
-    resp = client.get(reverse("change_profile"))
-    assert resp.status_code == HTML_OK_CODE
-    assertTemplateUsed(resp, "change_profile.html")
-
-
-def test_update_password_view_url_exists_at_desired_location_redirected(auto_login_user):
-    client, _ = auto_login_user()
-    resp = client.get("/accounts/password")
-    assert resp.status_code == HTML_REDIRECT_CODE
-
-
-def test_update_password_view_url_exists_at_desired_location(auto_login_user):
-    client, _ = auto_login_user()
-    resp = client.get("/accounts/password/")
-    assert resp.status_code == HTML_OK_CODE
-
-
-def test_update_password_view_url_accessible_by_name(auto_login_user):
-    client, _ = auto_login_user()
-    resp = client.get(reverse("change_password"))
-    assert resp.status_code == HTML_OK_CODE
-
-
-def test_change_password_view_uses_correct_template(auto_login_user):
-    client, _ = auto_login_user()
-    resp = client.get(reverse("change_password"))
-    assert resp.status_code == HTML_OK_CODE
-    assertTemplateUsed(resp, "change_password.html")
-
-
-def test_signup_view_url_exists_at_desired_location(auto_login_user):
-    client, _ = auto_login_user()
-    resp = client.get("/accounts/signup/")
-    assert resp.status_code == HTML_OK_CODE
-
-
-def test_signup_view_url_exists_at_desired_location_redirected(auto_login_user):
-    client, _ = auto_login_user()
-    resp = client.get("/accounts/signup")
-    assert resp.status_code == HTML_REDIRECT_CODE
-
-
-def test_signup_view_url_accessible_by_name(auto_login_user):
-    client, _ = auto_login_user()
-    resp = client.get(reverse("signup"))
-    assert resp.status_code == HTML_OK_CODE
-
-
-def test_signup_view_uses_correct_template(auto_login_user):
-    client, _ = auto_login_user()
-    resp = client.get(reverse("signup"))
-    assert resp.status_code == HTML_OK_CODE
-    assertTemplateUsed(resp, "signup.html")
+    assertTemplateUsed(resp, f"{url}.html")
 
 
 def test_profile_view_url_exists_at_desired_location(auto_login_user):
