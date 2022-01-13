@@ -1,30 +1,11 @@
-import pytest
 from django.urls import reverse
-from django.utils import timezone
 from pytest_django.asserts import assertTemplateUsed
-
-from comicsdb.models import Issue
 
 HTML_OK_CODE = 200
 
 PAGINATE_TEST_VAL = 35
 PAGINATE_DEFAULT_VAL = 28
 PAGINATE_DIFF_VAL = PAGINATE_TEST_VAL - PAGINATE_DEFAULT_VAL
-
-
-@pytest.fixture
-def list_of_issues(create_user, fc_series):
-    user = create_user()
-    cover_date = timezone.now().date()
-    for i_num in range(PAGINATE_TEST_VAL):
-        Issue.objects.create(
-            series=fc_series,
-            number=i_num,
-            slug=f"final-crisis-1939-{i_num}",
-            cover_date=cover_date,
-            edited_by=user,
-            created_by=user,
-        )
 
 
 # Issue Search

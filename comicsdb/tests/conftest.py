@@ -1,4 +1,5 @@
 import uuid
+from datetime import date, datetime
 
 import pytest
 from django.utils import timezone
@@ -12,6 +13,8 @@ from comicsdb.models.publisher import Publisher
 from comicsdb.models.series import Series, SeriesType
 from comicsdb.models.team import Team
 from users.models import CustomUser
+
+NUMBER_OF_ISSUES = 35
 
 
 @pytest.fixture
@@ -119,6 +122,30 @@ def issue_with_arc(create_user, fc_series, fc_arc, superman):
     i.arcs.add(fc_arc)
     i.characters.add(superman)
     return i
+
+
+@pytest.fixture
+def list_of_issues(create_user, fc_series):
+    user = create_user()
+
+    # Create the store date for this week
+    year, week, _ = date.today().isocalendar()
+    # The "3" is the weekday (Wednesday)
+    wednesday = f"{year}-{week}-3"
+    # Dates used in Issue creating
+    in_store_date = datetime.strptime(wednesday, "%G-%V-%u")
+    cover_date = date.today()
+
+    for i_num in range(NUMBER_OF_ISSUES):
+        Issue.objects.create(
+            series=fc_series,
+            number=i_num,
+            slug=f"final-crisis-1939-{i_num}",
+            cover_date=cover_date,
+            store_date=in_store_date,
+            edited_by=user,
+            created_by=user,
+        )
 
 
 @pytest.fixture
