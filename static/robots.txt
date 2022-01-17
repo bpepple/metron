@@ -1233,3 +1233,5 @@ User-agent: ZyBorg
 Disallow:/
 User-agent: adsbot
 Disallow:/
+User-agent: DataForSeoBot
+Disallow: /
