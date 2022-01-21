@@ -42,6 +42,8 @@ from comicsdb.urls import publisher as publisher_urls
 from comicsdb.urls import series as series_urls
 from comicsdb.urls import team as team_urls
 
+handler404 = "metron.views.handler404"
+
 sitemaps = {
     "arc": ArcSitemap(),
     "character": CharacterSitemap(),
