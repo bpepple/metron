@@ -6,6 +6,7 @@
 
 {% block comic_content %}
   <h1 class="title">Series Form</h1>
+  {{ form.media }}
   <form method="post">
   {% csrf_token %}
     {% if form.errors %}
@@ -26,11 +27,11 @@
       <div class="field">
         <label class="label">{{ field.label }}</label>
         {% if field|is_select %}
-          <div class="control">
-            <div class="select">
-              {{ field }}
-            </div>
+        <div class="control">
+          <div class="select is-fullwidth {% if field|is_multiple_select %}is-multiple{% endif %}">
+            {{ field }}
           </div>
+        </div>
         {% else %}
           <div class="control">{{ field }}</div>
         {% endif %}
