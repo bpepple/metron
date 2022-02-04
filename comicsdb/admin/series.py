@@ -1,7 +1,7 @@
 from django.contrib import admin
+from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.forms.models import ModelForm
 from django.forms.widgets import Select, Textarea, TextInput
-from searchableselect.widgets import SearchableSelect
 
 from comicsdb.models import Series, SeriesType
 
@@ -17,8 +17,8 @@ class SeriesAdminForm(ModelForm):
             "year_began": TextInput(attrs={"class": "input"}),
             "year_end": TextInput(attrs={"class": "input"}),
             "series_type": Select(),
-            "associated": SearchableSelect(
-                model="comicsdb.Series", search_field="name", many=True, limit=200
+            "associated": FilteredSelectMultiple(
+                "Associated Series", attrs={"size": "6"}, is_stacked=False
             ),
             "publisher": Select(),
             "desc": Textarea(attrs={"class": "textarea"}),

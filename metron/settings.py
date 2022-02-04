@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     "sorl.thumbnail",
     "django_simple_bulma",
     "chartkick",
-    "searchableselect",
     "comicsdb",
     "users",
 ]
