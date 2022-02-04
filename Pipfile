@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "<4.0.0"
+django = "*"
 pillow = "*"
 redis = "*"
 sorl-thumbnail = "*"
@@ -22,7 +22,6 @@ django-simple-bulma = "*"
 drf-spectacular = "*"
 serifan = "*"
 esak = "*"
-django-searchable-select = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
