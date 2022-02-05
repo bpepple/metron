@@ -1,12 +1,12 @@
 from django.contrib import admin
 
-from comicsdb.forms.series import SeriesForm
 from comicsdb.models import Series, SeriesType
 
 
+# TODO: Need to rework this to use FilteredSelectMultiple
+#       for the 'associated' field.
 @admin.register(Series)
 class SeriesAdmin(admin.ModelAdmin):
-    form = SeriesForm
     search_fields = ("name",)
     list_display = ("name", "year_began")
     list_filter = ("modified", "publisher")
