@@ -15,9 +15,9 @@ class StatisticsView(TemplateView):
             "name", "num_issues"
         )
 
-        publisher_dict = {}
-        for publisher in publishers:
-            publisher_dict.update({publisher["name"]: publisher["num_issues"]})
+        publisher_dict = {
+            publisher["name"]: publisher["num_issues"] for publisher in publishers
+        }
 
         # Monthly Issues Added Queryset
         res = (
@@ -30,7 +30,7 @@ class StatisticsView(TemplateView):
         monthly_issue_dict = {}
         for issue in issues:
             month_str = issue["month"].strftime("%b")
-            monthly_issue_dict.update({month_str: issue["c"]})
+            monthly_issue_dict[month_str] = issue["c"]
 
         # Daily Issues Added Queryset.
         # To get the last 30 items we need to reverse sort by the 'created_on' date, which
@@ -45,7 +45,7 @@ class StatisticsView(TemplateView):
         daily_issue_dict = {}
         for issue in issues:
             day_str = issue["day"].strftime("%m/%d")
-            daily_issue_dict.update({day_str: issue["c"]})
+            daily_issue_dict[day_str] = issue["c"]
 
         # Monthly Creators Added
         res = (
@@ -58,7 +58,7 @@ class StatisticsView(TemplateView):
         creator_dict = {}
         for creator in creators:
             month_str = creator["month"].strftime("%b")
-            creator_dict.update({month_str: creator["c"]})
+            creator_dict[month_str] = creator["c"]
 
         # Monthly Characters Added
         res = (
@@ -71,7 +71,7 @@ class StatisticsView(TemplateView):
         character_dict = {}
         for character in characters:
             month_str = character["month"].strftime("%b")
-            character_dict.update({month_str: character["c"]})
+            character_dict[month_str] = character["c"]
 
         # Issues add by year
         res = (
@@ -83,7 +83,7 @@ class StatisticsView(TemplateView):
         year_count_dict = {}
         for year_count in res:
             year_str = year_count["year"].strftime("%Y")
-            year_count_dict.update({year_str: year_count["c"]})
+            year_count_dict[year_str] = year_count["c"]
 
         # Assign the context values
         context["publisher_counts"] = publisher_dict
