@@ -103,8 +103,7 @@ class CharacterDetail(DetailView):
 class SearchCharacterList(CharacterList):
     def get_queryset(self):
         result = super(SearchCharacterList, self).get_queryset()
-        query = self.request.GET.get("q")
-        if query:
+        if query := self.request.GET.get("q"):
             query_list = query.split()
             result = result.filter(
                 reduce(
