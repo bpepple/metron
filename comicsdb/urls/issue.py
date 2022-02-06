@@ -2,6 +2,7 @@ from django.urls import path, re_path
 
 from comicsdb.views.issue import (
     CreatorAutocomplete,
+    FutureList,
     IssueCreate,
     IssueDelete,
     IssueDetail,
@@ -24,6 +25,7 @@ urlpatterns = [
     path("<slug:slug>/add/variant/", VariantCreate.as_view(), name="variant"),
     path("thisweek", WeekList.as_view(), name="thisweek"),
     path("nextweek", NextWeekList.as_view(), name="nextweek"),
+    path("future", FutureList.as_view(), name="future"),
     re_path(
         r"^creator-autocomplete/?$",
         CreatorAutocomplete.as_view(create_field="name"),
