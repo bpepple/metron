@@ -222,16 +222,16 @@ class FutureList(ListView):
     year, week, _ = date.today().isocalendar()
     # Check if we're at the last week of the year.
     if week != 52:
-        week += 1
+        week += 2
     else:
         year += 1
-        week = 1
+        week = 2
 
     model = Issue
     paginate_by = PAGINATE
     template_name = "comicsdb/week_list.html"
     queryset = (
-        Issue.objects.filter(store_date__week__gt=week)
+        Issue.objects.filter(store_date__week__gte=week)
         .filter(store_date__year=year)
         .prefetch_related("series")
     )
