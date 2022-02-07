@@ -188,6 +188,7 @@ class WeekList(ListView):
         release_day = datetime.strptime(f"{self.year}-{self.week}-1", "%G-%V-%u")
         context = super().get_context_data(**kwargs)
         context["release_day"] = release_day
+        context["future"] = False
         return context
 
 
@@ -214,6 +215,7 @@ class NextWeekList(ListView):
         release_day = datetime.strptime(f"{self.year}-{self.week}-1", "%G-%V-%u")
         context = super().get_context_data(**kwargs)
         context["release_day"] = release_day
+        context["future"] = False
         return context
 
 
@@ -222,16 +224,16 @@ class FutureList(ListView):
     year, week, _ = date.today().isocalendar()
     # Check if we're at the last week of the year.
     if week != 52:
-        week += 2
+        week += 1
     else:
         year += 1
-        week = 2
+        week = 1
 
     model = Issue
     paginate_by = PAGINATE
     template_name = "comicsdb/week_list.html"
     queryset = (
-        Issue.objects.filter(store_date__week__gte=week)
+        Issue.objects.filter(store_date__week__gt=week)
         .filter(store_date__year=year)
         .prefetch_related("series")
     )
@@ -241,4 +243,5 @@ class FutureList(ListView):
         release_day = datetime.strptime(f"{self.year}-{self.week}-1", "%G-%V-%u")
         context = super().get_context_data(**kwargs)
         context["release_day"] = release_day
+        context["future"] = True
         return context
