@@ -109,7 +109,7 @@ class Command(BaseCommand):
         for i in issues:
             self.stdout.write(
                 self.style.HTTP_INFO(
-                    f"\nSearching for {i.series.name} ({i.series.year_began}) #{i.number}"
+                    f"\nSearching for {i.series.name} ({i.series.year_began}) #{i.number} ({i.cover_date})"
                 )
             )
             if not i.number.isnumeric():

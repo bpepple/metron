@@ -57,7 +57,8 @@ def _print_list_choices(results_list):
 
 def _print_issue_choices(results_list):
     for (counter, issue) in enumerate(results_list, start=1):
-        print(f"{counter}. {issue.title}")
+        cover_date = determine_cover_date(issue.dates.on_sale, "MARVEL COMICS")
+        print(f"{counter}. {issue.title} ({cover_date})")
 
 
 def select_list_choice(results_list):
