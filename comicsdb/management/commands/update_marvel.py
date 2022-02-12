@@ -92,25 +92,30 @@ class Command(BaseCommand):
             self.stdout.write(self.style.NOTICE("No information needed to be updated."))
 
     def add_arguments(self, parser: CommandParser) -> None:
+        parser.add_argument("-a", "--all", action="store_true", help="Update all issues.")
         parser.add_argument("-s", "--series", type=str, help="Series slug to query for.")
         return super().add_arguments(parser)
 
     def handle(self, *args: Any, **options: Any) -> Optional[str]:
-        if options["series"]:
+        if not options["all"] and not options["series"]:
+            self.stdout.write(self.style.NOTICE("No option given. Exiting..."))
+            exit(0)
+
+        if options["all"]:
+            issues = Issue.objects.filter(series__publisher__slug="marvel")
+        else:
             issues = self._get_metron_issue_list(options["series"])
-            for i in issues:
-                self.stdout.write(
-                    self.style.HTTP_INFO(
-                        f"\nSearching for {i.series.name} ({i.series.year_began}) #{i.number}"
-                    )
+
+        for i in issues:
+            self.stdout.write(
+                self.style.HTTP_INFO(
+                    f"\nSearching for {i.series.name} ({i.series.year_began}) #{i.number}"
                 )
-                if results := self._query_marvel_for_issue(i.series.name, int(i.number)):
-                    if correct_issue := select_issue_choice(results):
-                        self._update_issue(i, correct_issue)
-                    else:
-                        self.stdout.write(self.style.NOTICE(f"No match found for {i}.\n\n"))
+            )
+            if results := self._query_marvel_for_issue(i.series.name, int(i.number)):
+                if correct_issue := select_issue_choice(results):
+                    self._update_issue(i, correct_issue)
                 else:
                     self.stdout.write(self.style.NOTICE(f"No match found for {i}.\n\n"))
-
-        else:
-            self.stdout.write(self.style.NOTICE("No series given to query for."))
+            else:
+                self.stdout.write(self.style.NOTICE(f"No match found for {i}.\n\n"))
