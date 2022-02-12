@@ -3,6 +3,7 @@ from typing import Any, Optional
 
 import esak
 from django.core.management.base import BaseCommand, CommandParser
+from esak.exceptions import ApiError
 
 from comicsdb.models.issue import Issue
 from comicsdb.models.series import Series
@@ -19,20 +20,23 @@ class Command(BaseCommand):
         return Issue.objects.filter(series=series)
 
     def _query_marvel_for_issue(self, title: str, number: int):
-        m = esak.api(MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY)
-        return sorted(
-            m.comics_list(
-                {
-                    "format": "comic",
-                    "formatType": "comic",
-                    "noVariants": True,
-                    "limit": 100,
-                    "title": title,
-                    "issueNumber": number,
-                }
-            ),
-            key=lambda comic: comic.title,
-        )
+        try:
+            m = esak.api(MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY)
+            return sorted(
+                m.comics_list(
+                    {
+                        "format": "comic",
+                        "formatType": "comic",
+                        "noVariants": True,
+                        "limit": 100,
+                        "title": title,
+                        "issueNumber": number,
+                    }
+                ),
+                key=lambda comic: comic.title,
+            )
+        except ApiError:
+            return None
 
     def _check_for_solicit_txt(self, text_objects):
         return next((i.text for i in text_objects if i.type == "issue_solicit_text"), None)
@@ -45,6 +49,9 @@ class Command(BaseCommand):
             and not s.name.__contains__("story from")
             and not s.name.__contains__("interior to")
         ]
+
+    def _cleanup_upc(self, upc: str) -> str:
+        return upc.replace("-", "")
 
     def _update_issue(self, issue: Issue, marvel_data):
         modified = False
@@ -63,10 +70,9 @@ class Command(BaseCommand):
             modified = True
 
         if not issue.upc and marvel_data.upc:
-            issue.upc = marvel_data.upc
-            self.stdout.write(
-                self.style.SUCCESS(f"Added UPC of '{marvel_data.upc}' to {issue}.")
-            )
+            upc = self._cleanup_upc(marvel_data.upc)
+            issue.upc = upc
+            self.stdout.write(self.style.SUCCESS(f"Added UPC of '{upc}' to {issue}."))
             modified = True
 
         if not issue.page and marvel_data.page_count:
