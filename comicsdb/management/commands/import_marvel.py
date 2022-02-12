@@ -25,10 +25,7 @@ class Command(BaseCommand):
             return role
 
     def _check_for_solicit_txt(self, text_objects):
-        for i in text_objects:
-            if i.type == "issue_solicit_text":
-                return i.text
-        return None
+        return next((i.text for i in text_objects if i.type == "issue_solicit_text"), None)
 
     def _add_characters(self, characters, issue_obj):
         for character in characters:
@@ -40,13 +37,11 @@ class Command(BaseCommand):
                     results = Character.objects.filter(name__unaccent__icontains=words[0])
                     # If results are more than 15 let's try narrowing the results.
                     if results.count() > 15:
-                        new_results = results.filter(name__unaccent__icontains=words[-1])
-                        if new_results:
+                        if new_results := results.filter(name__unaccent__icontains=words[-1]):
                             results = new_results
 
                 if results:
-                    correct_character = select_list_choice(results)
-                    if correct_character:
+                    if correct_character := select_list_choice(results):
                         issue_obj.characters.add(correct_character)
                         self.stdout.write(
                             self.style.SUCCESS(f"Added {character.name} to {issue_obj}\n")
@@ -61,8 +56,7 @@ class Command(BaseCommand):
         for e in events:
             try:
                 self.stdout.write(f"Searching database for {e.name}...")
-                results = Arc.objects.filter(name__icontains=e.name)
-                if results:
+                if results := Arc.objects.filter(name__icontains=e.name):
                     correct_arc = select_list_choice(results)
                     if correct_arc and correct_arc not in issue_obj.arcs.all():
                         issue_obj.arcs.add(correct_arc)
@@ -96,28 +90,19 @@ class Command(BaseCommand):
                     results = Creator.objects.filter(name__unaccent__icontains=last_name)
                     # If results are more than 15 let's try narrowing the results.
                     if results.count() > 15:
-                        new_results = results.filter(name__unaccent__icontains=first)
-                        if new_results:
+                        if new_results := results.filter(name__unaccent__icontains=first):
                             results = new_results
 
-                if results:
-                    correct_creator = select_list_choice(results)
-                    if correct_creator:
-                        r = self._fix_role(creator.role)
-                        role = Role.objects.get(name__iexact=r)
-                        credits = Credits.objects.create(
-                            issue=issue_obj, creator=correct_creator
+                if results and (correct_creator := select_list_choice(results)):
+                    r = self._fix_role(creator.role)
+                    role = Role.objects.get(name__iexact=r)
+                    credits = Credits.objects.create(issue=issue_obj, creator=correct_creator)
+                    credits.role.add(role)
+                    self.stdout.write(
+                        self.style.SUCCESS(
+                            f"Added {correct_creator} as a {role} to {issue_obj}\n"
                         )
-                        credits.role.add(role)
-                        self.stdout.write(
-                            self.style.SUCCESS(
-                                f"Added {correct_creator} as a {role} to {issue_obj}\n"
-                            )
-                        )
-                    else:
-                        self.stdout.write(
-                            self.style.WARNING(f"Unable to find {creator.name}. Skipping...\n")
-                        )
+                    )
                 else:
                     self.stdout.write(
                         self.style.WARNING(f"Unable to find {creator.name}. Skipping...\n")
@@ -158,7 +143,7 @@ class Command(BaseCommand):
         # Marvel store date is in datetime format.
         store_date = marvel_data.dates.on_sale
         cover_date = self._determine_cover_date(store_date)
-        slug = slugify(series_obj.slug + " " + fnp.issue)
+        slug = slugify(f"{series_obj.slug} {fnp.issue}")
 
         try:
             issue, create = Issue.objects.get_or_create(
@@ -172,8 +157,7 @@ class Command(BaseCommand):
             modified = False
 
             if not issue.desc and marvel_data.text_objects:
-                solicit = self._check_for_solicit_txt(marvel_data.text_objects)
-                if solicit:
+                if solicit := self._check_for_solicit_txt(marvel_data.text_objects):
                     issue.desc = solicit
                     self.stdout.write(self.style.SUCCESS(f"Added description to {issue}."))
                     modified = True
@@ -198,8 +182,7 @@ class Command(BaseCommand):
                 modified = True
 
             if not issue.name and marvel_data.stories:
-                stories = self._add_stories(marvel_data.stories)
-                if stories:
+                if stories := self._add_stories(marvel_data.stories):
                     issue.name = stories
                     self.stdout.write(self.style.SUCCESS(f"Add titles to {issue}"))
                     modified = True
@@ -285,15 +268,13 @@ class Command(BaseCommand):
             results = Series.objects.filter(name__icontains=fnp.series)
             # If results are more than 15 let's try narrowing the results.
             if results.count() > 15:
-                new_results = Series.objects.filter(
+                if new_results := Series.objects.filter(
                     name__icontains=fnp.series, year_began=int(fnp.year)
-                )
-                if new_results:
+                ):
                     results = new_results
 
             if results:
-                correct_series = select_list_choice(results)
-                if correct_series:
+                if correct_series := select_list_choice(results):
                     self.add_issue_to_database(correct_series, fnp, comic, options["creators"])
                 else:
                     self.stdout.write(
