@@ -55,6 +55,11 @@ def _print_list_choices(results_list):
         print(f"{counter}. {series_name}")
 
 
+def _print_issue_choices(results_list):
+    for (counter, issue) in enumerate(results_list, start=1):
+        print(f"{counter}. {issue.title}")
+
+
 def select_list_choice(results_list):
     if len(results_list) > 1:
         print("Multiple results found:")
@@ -71,6 +76,26 @@ def select_list_choice(results_list):
     if i != "s":
         i = int(i) - 1
         return results_list[i]
+    else:
+        return None
+
+
+def select_issue_choice(results):
+    if len(results) > 1:
+        print("Multiple results found:")
+    else:
+        print("One record found:")
+
+    _print_issue_choices(results)
+
+    while True:
+        i = input("Choose a item #, or 's' to skip: ")
+        if (i.isdigit() and int(i) in range(1, len(results) + 1)) or i == "s":
+            break
+
+    if i != "s":
+        i = int(i) - 1
+        return results[i]
     else:
         return None
 
