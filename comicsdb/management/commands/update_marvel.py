@@ -112,6 +112,10 @@ class Command(BaseCommand):
                     f"\nSearching for {i.series.name} ({i.series.year_began}) #{i.number}"
                 )
             )
+            if not i.number.isnumeric():
+                self.stdout.write(self.style.WARNING(f"Unsupported issue number: {i.number}"))
+                continue
+
             if results := self._query_marvel_for_issue(i.series.name, int(i.number)):
                 if correct_issue := select_issue_choice(results):
                     self._update_issue(i, correct_issue)
