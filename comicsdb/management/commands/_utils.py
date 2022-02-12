@@ -83,9 +83,9 @@ def select_list_choice(results_list):
 
 def select_issue_choice(results):
     if len(results) > 1:
-        print("Multiple results found:")
+        print("\nMultiple results found:")
     else:
-        print("One record found:")
+        print("\nOne record found:")
 
     _print_issue_choices(results)
 

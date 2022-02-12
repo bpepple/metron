@@ -91,6 +91,19 @@ class Command(BaseCommand):
         else:
             self.stdout.write(self.style.NOTICE("No information needed to be updated."))
 
+    def _ask_if_want_to_search(self, i: Issue) -> bool:
+        self.stdout.write(
+            self.style.HTTP_INFO(
+                f"\nDo you want to search for {i.series.name} ({i.series.year_began}) #{i.number} ({i.cover_date})"
+            )
+        )
+        while True:
+            res = input("Choose (Y)es or (N)o: ")
+            if res.isalpha:
+                break
+
+        return res.lower() == "y"
+
     def add_arguments(self, parser: CommandParser) -> None:
         parser.add_argument("-a", "--all", action="store_true", help="Update all issues.")
         parser.add_argument("-s", "--series", type=str, help="Series slug to query for.")
@@ -107,19 +120,17 @@ class Command(BaseCommand):
             issues = self._get_metron_issue_list(options["series"])
 
         for i in issues:
-            self.stdout.write(
-                self.style.HTTP_INFO(
-                    f"\nSearching for {i.series.name} ({i.series.year_began}) #{i.number} ({i.cover_date})"
-                )
-            )
-            if not i.number.isnumeric():
-                self.stdout.write(self.style.WARNING(f"Unsupported issue number: {i.number}"))
-                continue
+            if self._ask_if_want_to_search(i):
+                if not i.number.isnumeric():
+                    self.stdout.write(
+                        self.style.WARNING(f"Unsupported issue number: {i.number}")
+                    )
+                    continue
 
-            if results := self._query_marvel_for_issue(i.series.name, int(i.number)):
-                if correct_issue := select_issue_choice(results):
-                    self._update_issue(i, correct_issue)
+                if results := self._query_marvel_for_issue(i.series.name, int(i.number)):
+                    if correct_issue := select_issue_choice(results):
+                        self._update_issue(i, correct_issue)
+                    else:
+                        self.stdout.write(self.style.NOTICE(f"No match found for {i}.\n\n"))
                 else:
                     self.stdout.write(self.style.NOTICE(f"No match found for {i}.\n\n"))
-            else:
-                self.stdout.write(self.style.NOTICE(f"No match found for {i}.\n\n"))
