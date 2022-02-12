@@ -47,7 +47,7 @@ class Command(BaseCommand):
             issue, create = Issue.objects.get_or_create(
                 series=series_obj,
                 number=issue_number,
-                slug=slugify(series_obj.slug + " " + issue_number),
+                slug=slugify(f"{series_obj.slug} {issue_number}"),
                 store_date=release,
                 cover_date=cover_date,
             )
@@ -118,10 +118,7 @@ class Command(BaseCommand):
 
     def _convert_price(self, price: str) -> Decimal:
         new_val = price.strip("$")
-        if not self._is_decimal(new_val):
-            return Decimal("0.00")
-        else:
-            return Decimal(new_val)
+        return Decimal("0.00") if not self._is_decimal(new_val) else Decimal(new_val)
 
     def _check_if_variant(self, comic):
         var_list = [
@@ -201,10 +198,8 @@ class Command(BaseCommand):
             series_name, issue_number = get_query_values(item)
             # print(f"{series_name} #{issue_number}")
             self.stdout.write(f"Searching database for {item.title}")
-            results = Series.objects.filter(name__icontains=series_name)
-            if results:
-                correct_series = select_list_choice(results)
-                if correct_series:
+            if results := Series.objects.filter(name__icontains=series_name):
+                if correct_series := select_list_choice(results):
                     self.add_issue_to_database(
                         correct_series, issue_number, release_date, item
                     )
