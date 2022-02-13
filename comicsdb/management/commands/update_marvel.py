@@ -1,8 +1,9 @@
+from datetime import date, datetime
 from decimal import Decimal
 from typing import Any, Optional
 
 import esak
-from django.core.management.base import BaseCommand, CommandParser
+from django.core.management.base import BaseCommand
 from esak.exceptions import ApiError
 
 from comicsdb.models.issue import Issue
@@ -15,9 +16,12 @@ from ._utils import select_issue_choice
 class Command(BaseCommand):
     help = "Update comic with information from the Marvel API."
 
-    def _get_metron_issue_list(self, slug: str):
+    def _get_metron_issue_list(self, slug: str, cover: Optional[date]):
         series = Series.objects.get(slug=slug)
-        return Issue.objects.filter(series=series)
+        if cover:
+            return Issue.objects.filter(series=series, cover_date__gte=cover)
+        else:
+            return Issue.objects.filter(series=series)
 
     def _query_marvel_for_issue(self, title: str, number: int):
         try:
@@ -98,39 +102,51 @@ class Command(BaseCommand):
             )
         )
         while True:
-            res = input("Choose (Y)es or (N)o: ")
-            if res.isalpha:
+            i = input("Choose (Y)es or (N)o: ")
+            if i.isalpha():
                 break
 
-        return res.lower() == "y"
+        return i.lower() == "y"
 
-    def add_arguments(self, parser: CommandParser) -> None:
-        parser.add_argument("-a", "--all", action="store_true", help="Update all issues.")
-        parser.add_argument("-s", "--series", type=str, help="Series slug to query for.")
-        return super().add_arguments(parser)
+    def _ask_for_series_slug(self):
+        while True:
+            i = input("Enter slug of series to search for, or q to quit: ")
+            if isinstance(i, str) or i.lower() == "q":
+                break
+
+        return i if i != "q" else exit(0)
+
+    def _ask_for_cover_date(self) -> Optional[date]:
+        while True:
+            i = input(
+                "Enter issue cover date to start with (e.g. 2013-01-01), or n for None: "
+            )
+            if isinstance(i, str) or i.lower() == "n":
+                break
+
+        return datetime.strptime(i, "%Y-%m-%d") if i != "n" else None
 
     def handle(self, *args: Any, **options: Any) -> Optional[str]:
-        if not options["all"] and not options["series"]:
-            self.stdout.write(self.style.NOTICE("No option given. Exiting..."))
-            exit(0)
-
-        if options["all"]:
-            issues = Issue.objects.filter(series__publisher__slug="marvel")
+        slug = self._ask_for_series_slug()
+        if cover := self._ask_for_cover_date():
+            issues = self._get_metron_issue_list(slug, cover)
         else:
-            issues = self._get_metron_issue_list(options["series"])
+            issues = self._get_metron_issue_list(slug, None)
 
         for i in issues:
-            if self._ask_if_want_to_search(i):
-                if not i.number.isnumeric():
-                    self.stdout.write(
-                        self.style.WARNING(f"Unsupported issue number: {i.number}")
-                    )
-                    continue
+            self.stdout.write(
+                self.style.HTTP_INFO(
+                    f"\nSearching for {i.series.name} ({i.series.year_began}) #{i.number} ({i.cover_date})"
+                )
+            )
+            if not i.number.isnumeric():
+                self.stdout.write(self.style.WARNING(f"Unsupported issue number: {i.number}"))
+                continue
 
-                if results := self._query_marvel_for_issue(i.series.name, int(i.number)):
-                    if correct_issue := select_issue_choice(results):
-                        self._update_issue(i, correct_issue)
-                    else:
-                        self.stdout.write(self.style.NOTICE(f"No match found for {i}.\n\n"))
+            if results := self._query_marvel_for_issue(i.series.name, int(i.number)):
+                if correct_issue := select_issue_choice(results):
+                    self._update_issue(i, correct_issue)
                 else:
-                    self.stdout.write(self.style.NOTICE(f"No match found for {i}.\n\n"))
+                    self.stdout.write(self.style.NOTICE(f"No match found for {i}.\n"))
+            else:
+                self.stdout.write(self.style.NOTICE(f"No match found for {i}.\n"))
