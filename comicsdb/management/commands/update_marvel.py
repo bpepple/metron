@@ -46,15 +46,6 @@ class Command(BaseCommand):
     def _check_for_solicit_txt(self, text_objects):
         return next((i.text for i in text_objects if i.type == "issue_solicit_text"), None)
 
-    def _add_stories(self, stories):
-        return [
-            s.name
-            for s in stories
-            if s.type == "interiorStory"
-            and not s.name.__contains__("story from")
-            and not s.name.__contains__("interior to")
-        ]
-
     def _cleanup_upc(self, upc: str) -> str:
         return upc.replace("-", "")
 
