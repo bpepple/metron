@@ -53,6 +53,14 @@ class Issue(CommonInfo):
     def get_absolute_url(self):
         return reverse("issue:detail", args=[self.slug])
 
+    @property
+    def wikipedia(self):
+        return self.attribution.filter(source=Attribution.Source.WIKIPEDIA)
+
+    @property
+    def marvel(self):
+        return self.attribution.filter(source=Attribution.Source.MARVEL)
+
     def __str__(self) -> str:
         return f"{self.series.name} #{self.number}"
 
