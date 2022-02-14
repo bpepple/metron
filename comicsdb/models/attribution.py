@@ -16,4 +16,5 @@ class Attribution(models.Model):
     content_object = GenericForeignKey("content_type", "object_id")
 
     class Meta:
+        unique_together = ["source", "content_type", "object_id"]
         ordering = ["content_type", "object_id"]

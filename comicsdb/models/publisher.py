@@ -12,7 +12,6 @@ from .common import CommonInfo, pre_save_slug
 
 class Publisher(CommonInfo):
     founded = models.PositiveSmallIntegerField("Year Founded", null=True, blank=True)
-    wikipedia = models.CharField("Wikipedia Slug", max_length=255, blank=True)
     image = ImageField("Logo", upload_to="publisher/%Y/%m/%d/", blank=True)
     attribution = GenericRelation(Attribution, related_query_name="publishers")
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
@@ -23,6 +22,14 @@ class Publisher(CommonInfo):
     @property
     def series_count(self):
         return self.series_set.all().count()
+
+    @property
+    def wikipedia(self):
+        return self.attribution.filter(source=Attribution.Source.WIKIPEDIA)
+
+    @property
+    def marvel(self):
+        return self.attribution.filter(source=Attribution.Source.MARVEL)
 
     def __str__(self) -> str:
         return self.name

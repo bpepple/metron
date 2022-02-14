@@ -14,7 +14,6 @@ from .team import Team
 
 
 class Character(CommonInfo):
-    wikipedia = models.CharField("Wikipedia Slug", max_length=255, blank=True)
     image = ImageField(upload_to="character/%Y/%m/%d/", blank=True)
     alias = ArrayField(models.CharField(max_length=100), null=True, blank=True)
     creators = models.ManyToManyField(Creator, blank=True)
@@ -36,6 +35,14 @@ class Character(CommonInfo):
     @property
     def recent_appearances(self):
         return self.issue_set.order_by("-cover_date").all()[:5]
+
+    @property
+    def wikipedia(self):
+        return self.attribution.filter(source=Attribution.Source.WIKIPEDIA)
+
+    @property
+    def marvel(self):
+        return self.attribution.filter(source=Attribution.Source.MARVEL)
 
     def __str__(self) -> str:
         return self.name

@@ -12,7 +12,6 @@ from .creator import Creator
 
 
 class Team(CommonInfo):
-    wikipedia = models.CharField("Wikipedia Slug", max_length=255, blank=True)
     image = ImageField(upload_to="team/%Y/%m/%d/", blank=True)
     creators = models.ManyToManyField(Creator, blank=True)
     attribution = GenericRelation(Attribution, related_query_name="teams")
@@ -24,6 +23,14 @@ class Team(CommonInfo):
     @property
     def issue_count(self):
         return self.issue_set.all().count()
+
+    @property
+    def wikipedia(self):
+        return self.attribution.filter(source=Attribution.Source.WIKIPEDIA)
+
+    @property
+    def marvel(self):
+        return self.attribution.filter(source=Attribution.Source.MARVEL)
 
     def __str__(self) -> str:
         return self.name
