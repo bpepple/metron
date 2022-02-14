@@ -1,3 +1,4 @@
+from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db.models.signals import pre_save
@@ -6,6 +7,7 @@ from sorl.thumbnail import ImageField
 
 from users.models import CustomUser
 
+from .attribution import Attribution
 from .common import CommonInfo, pre_save_slug
 from .creator import Creator
 from .team import Team
@@ -17,6 +19,7 @@ class Character(CommonInfo):
     alias = ArrayField(models.CharField(max_length=100), null=True, blank=True)
     creators = models.ManyToManyField(Creator, blank=True)
     teams = models.ManyToManyField(Team, blank=True)
+    attribution = GenericRelation(Attribution, related_query_name="characters")
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     def get_absolute_url(self):

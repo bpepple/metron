@@ -1,5 +1,6 @@
 import itertools
 
+from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db.models.signals import pre_save
@@ -10,6 +11,7 @@ from sorl.thumbnail import ImageField
 from users.models import CustomUser
 
 from .arc import Arc
+from .attribution import Attribution
 from .character import Character
 from .common import CommonInfo
 from .creator import Creator
@@ -39,6 +41,7 @@ class Issue(CommonInfo):
     creators = models.ManyToManyField(Creator, through="Credits", blank=True)
     characters = models.ManyToManyField(Character, blank=True)
     teams = models.ManyToManyField(Team, blank=True)
+    attribution = GenericRelation(Attribution, related_query_name="issues")
     created_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
     edited_by = models.ForeignKey(
         CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="editor"
