@@ -1,6 +1,7 @@
 from django.contrib import admin
 from sorl.thumbnail.admin.current import AdminImageMixin
 
+from comicsdb.admin.util import AttributionInline
 from comicsdb.models import Character
 
 
@@ -25,4 +26,5 @@ class CharacterAdmin(AdminImageMixin, admin.ModelAdmin):
         ),
         ("Related", {"fields": ("creators", "teams")}),
     )
+    inlines = [AttributionInline]
     filter_horizontal = ("creators", "teams")
