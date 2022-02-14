@@ -10,13 +10,8 @@ class PublisherForm(ModelForm):
         widgets = {
             "name": TextInput(attrs={"class": "input"}),
             "desc": Textarea(attrs={"class": "textarea"}),
-            "wikipedia": TextInput(attrs={"class": "input"}),
             "founded": TextInput(attrs={"class": "input"}),
             "image": ClearableFileInput(),
         }
-        help_texts = {
-            "wikipedia": "If the description is from wikipedia, please supply that pages slug"
-            + " so we can provide attribution to them."
-        }
 
-    field_order = ["name", "desc", "wikipedia", "founded", "image"]
+    field_order = ["name", "desc", "founded", "image"]

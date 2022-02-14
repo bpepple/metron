@@ -1,6 +1,7 @@
 from django.contrib import admin
 from sorl.thumbnail.admin.current import AdminImageMixin
 
+from comicsdb.admin.util import AttributionInline
 from comicsdb.models import Team
 
 
@@ -10,7 +11,8 @@ class TeamAdmin(AdminImageMixin, admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     # form view
     fieldsets = (
-        (None, {"fields": ("name", "slug", "desc", "wikipedia", "image", "edited_by")}),
+        (None, {"fields": ("name", "slug", "desc", "image", "edited_by")}),
         ("Related", {"fields": ("creators",)}),
     )
     filter_horizontal = ("creators",)
+    inlines = [AttributionInline]

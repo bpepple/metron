@@ -14,7 +14,6 @@ class CharacterForm(ModelForm):
         fields = (
             "name",
             "desc",
-            "wikipedia",
             "alias",
             "creators",
             "teams",
@@ -23,7 +22,6 @@ class CharacterForm(ModelForm):
         widgets = {
             "name": TextInput(attrs={"class": "input"}),
             "desc": Textarea(attrs={"class": "textarea"}),
-            "wikipedia": TextInput(attrs={"class": "input"}),
             "alias": TextInput(attrs={"class": "input"}),
             "creators": FilteredSelectMultiple(
                 "Creators", attrs={"size": "6"}, is_stacked=False
@@ -32,7 +30,5 @@ class CharacterForm(ModelForm):
             "image": ClearableFileInput(),
         }
         help_texts = {
-            "wikipedia": "If the description is from wikipedia, please supply that pages slug"
-            + " so we can provide attribution to them.",
             "alias": "Separate multiple aliases by a comma",
         }

@@ -1,4 +1,5 @@
 from .arc import Arc
+from .attribution import Attribution
 from .character import Character
 from .creator import Creator
 from .credits import Credits, Role
@@ -10,6 +11,7 @@ from .variant import Variant
 
 __all__ = [
     "Arc",
+    "Attribution",
     "Character",
     "Creator",
     "Credits",

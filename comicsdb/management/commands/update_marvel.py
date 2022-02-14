@@ -6,6 +6,7 @@ import esak
 from django.core.management.base import BaseCommand
 from esak.exceptions import ApiError
 
+from comicsdb.models.attribution import Attribution
 from comicsdb.models.issue import Issue
 from comicsdb.models.series import Series
 from metron.settings import MARVEL_PRIVATE_KEY, MARVEL_PUBLIC_KEY
@@ -45,15 +46,6 @@ class Command(BaseCommand):
     def _check_for_solicit_txt(self, text_objects):
         return next((i.text for i in text_objects if i.type == "issue_solicit_text"), None)
 
-    def _add_stories(self, stories):
-        return [
-            s.name
-            for s in stories
-            if s.type == "interiorStory"
-            and not s.name.__contains__("story from")
-            and not s.name.__contains__("interior to")
-        ]
-
     def _cleanup_upc(self, upc: str) -> str:
         return upc.replace("-", "")
 
@@ -84,13 +76,11 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(f"Added page count to {issue}."))
             modified = True
 
-        if not issue.name and marvel_data.stories:
-            if stories := self._add_stories(marvel_data.stories):
-                issue.name = stories
-                self.stdout.write(self.style.SUCCESS(f"Add titles to {issue}"))
-                modified = True
-
         if modified:
+            if marvel_data.urls.detail:
+                issue.attribution.create(
+                    source=Attribution.Source.MARVEL, url=marvel_data.urls.detail
+                )
             issue.save()
         else:
             self.stdout.write(self.style.NOTICE("No information needed to be updated."))

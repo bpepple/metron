@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.db.models.query import QuerySet
 from sorl.thumbnail.admin.current import AdminImageMixin
 
+from comicsdb.admin.util import AttributionInline
 from comicsdb.forms.credits import CreditsForm
 from comicsdb.forms.issue import IssueForm
 from comicsdb.models import Creator, Credits, Issue, Role, Variant
@@ -113,4 +114,4 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
         ("Related", {"fields": ("characters", "teams", "arcs")}),
     )
     filter_horizontal = ("arcs", "characters", "teams")
-    inlines = (CreditsInline, VariantInline)
+    inlines = (CreditsInline, VariantInline, AttributionInline)

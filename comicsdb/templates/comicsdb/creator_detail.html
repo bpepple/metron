@@ -120,25 +120,9 @@
       <div class="box">
         <h1 class="title is-5">Summary</h1>
         {% if creator.desc %}
-          <p>{{ creator.desc|linebreaksbr }}</p>
-          {% if creator.wikipedia %}
-              <br/>
-              <div class="content is-small">
-                This article uses material from the Wikipedia article
-                <a href="https://en.wikipedia.org/wiki/{{ creator.wikipedia}}">
-                  "{{ creator.wikipedia }}"
-                </a>
-                , which is released under the
-                <a href="https://creativecommons.org/licenses/by-sa/3.0/">
-                  Creative Commons Attribution-Share-Alike License 3.0
-                </a>.
-              </div>
-          {% else %}
-              <br/>
-          {% endif %}
+          <p>{{ creator.desc|linebreaksbr }}</p><br/>
         {% else %}
-           <p>No information available.<p>
-           <br/>
+           <p>No information available.<p><br/>
         {% endif %}
         <div class="content is-small is-italic">
           Last edited on {{ creator.modified }} by <a href="{% url 'user-detail' creator.edited_by.id %}">{{ creator.edited_by.username }}</a>
@@ -168,6 +152,22 @@
         {% endif %}
       {% endwith %}
       <!-- end series -->
+      <!-- attribution -->
+      {% if creator.attribution %}
+        {% for w in creator.wikipedia %}
+        <div class="box">
+          <h1 class="title is-5">Attribution</h1>
+          <div class="content">
+            This article uses material from <a href={{w.url}}>Wikipedia</a>, 
+            which is released under the
+            <a href="https://creativecommons.org/licenses/by-sa/3.0/">
+              Creative Commons Attribution-Share-Alike License 3.0
+            </a>.
+          </div>
+        </div>
+        {% endfor %}
+      {% endif %}
+      <!-- end attribution-->
     </div>
     <!-- end of center column -->
     <!-- misc info -->
