@@ -7,6 +7,7 @@ from django.db import IntegrityError
 from django.utils.text import slugify
 
 from comicsdb.models import Arc, Character, Creator, Credits, Issue, Role, Series
+from comicsdb.models.attribution import Attribution
 from metron.settings import MARVEL_PRIVATE_KEY, MARVEL_PUBLIC_KEY
 
 from ._parse_title import FileNameParser
@@ -128,15 +129,6 @@ class Command(BaseCommand):
         new_date = release_date + dateutil.relativedelta.relativedelta(months=2)
         return new_date.replace(day=1)
 
-    def _add_stories(self, stories):
-        return [
-            s.name
-            for s in stories
-            if s.type == "interiorStory"
-            and not s.name.__contains__("story from")
-            and not s.name.__contains__("interior to")
-        ]
-
     def add_issue_to_database(
         self, series_obj, fnp: FileNameParser, marvel_data, add_creator: bool
     ):
@@ -181,16 +173,14 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(f"Added page count to {issue}."))
                 modified = True
 
-            if not issue.name and marvel_data.stories:
-                if stories := self._add_stories(marvel_data.stories):
-                    issue.name = stories
-                    self.stdout.write(self.style.SUCCESS(f"Add titles to {issue}"))
-                    modified = True
-
             if marvel_data.events:
                 self._add_arcs(marvel_data.events, issue)
 
             if modified:
+                if marvel_data.urls.detail:
+                    issue.attribution.create(
+                        source=Attribution.Source.MARVEL, url=marvel_data.urls.detail
+                    )
                 issue.save()
 
             if create:
