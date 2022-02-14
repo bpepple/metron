@@ -119,23 +119,9 @@
       <div class="box">
         <h1 class="title is-5">Summary</h1>
         {% if team.desc %}
-          <p>{{ team.desc|linebreaksbr }}</p>
-          {% if team.attribution %}
-            {% for w in team.wikipedia %}
-                <br/>
-                <div class="content is-small">
-                  This article uses material from <a href={{w.url}}>Wikipedia</a>, 
-                  which is released under the
-                  <a href="https://creativecommons.org/licenses/by-sa/3.0/">
-                    Creative Commons Attribution-Share-Alike License 3.0
-                  </a>.
-                </div>
-            {% empty %}
-            <br/>
-            {% endfor %}
-          {% endif %}
+          <p>{{ team.desc|linebreaksbr }}</p><br/>
         {% else %}
-           <p>No information available.</p>
+           <p>No information available.</p><br/>
         {% endif %}
         <div class="content is-small is-italic">
           Last edited on {{ team.modified }} by <a href="{% url 'user-detail' team.edited_by.id %}">{{ team.edited_by.username }}</a>
@@ -180,6 +166,22 @@
         {% endif %}
       {% endwith %}
       <!-- end members -->
+      <!-- attribution -->
+      {% if team.attribution %}
+        {% for w in team.wikipedia %}
+        <div class="box">
+          <h1 class="title is-5">Attribution</h1>
+          <div class="content">
+            This article uses material from <a href={{w.url}}>Wikipedia</a>, 
+            which is released under the
+            <a href="https://creativecommons.org/licenses/by-sa/3.0/">
+              Creative Commons Attribution-Share-Alike License 3.0
+            </a>.
+          </div>
+        </div>
+        {% endfor %}
+      {% endif %}
+      <!-- end attribution-->
     </div>
     <!-- end middle column -->
 

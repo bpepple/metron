@@ -116,36 +116,39 @@
     </div>
     <!-- end of publisher logo -->
 
-    <!-- publisher summary -->
+    <!-- Center Column -->
     <div class="column">
+      <!-- Summary -->
       <div class="box">
         <h1 class="title is-5">Summary</h1>
         {% if publisher.desc %}
-          <p>{{ publisher.desc|linebreaksbr }}</p>
-          {% if publisher.attribution %}
-            {% for w in publisher.wikipedia %}
-                <br/>
-                <div class="content is-small">
-                  This article uses material from <a href={{w.url}}>Wikipedia</a>, 
-                  which is released under the
-                  <a href="https://creativecommons.org/licenses/by-sa/3.0/">
-                    Creative Commons Attribution-Share-Alike License 3.0
-                  </a>.
-                </div>
-            {% empty %}
-            <br/>
-            {% endfor %}
-          {% endif %}
+          <p>{{ publisher.desc|linebreaksbr }}</p><br/>
         {% else %}
-           <p>No information available.</p>
-           <br/>
+           <p>No information available.</p><br/>
         {% endif %}
         <div class="content is-small is-italic">
           Last edited on {{ publisher.modified }} by <a href="{% url 'user-detail' publisher.edited_by.id %}">{{ publisher.edited_by.username }}</a>
         </div>
       </div>
+      <!-- end of summary -->
+      <!-- attribution -->
+      {% if publisher.attribution %}
+        {% for w in publisher.wikipedia %}
+        <div class="box">
+          <h1 class="title is-5">Attribution</h1>
+          <div class="content">
+            This article uses material from <a href={{w.url}}>Wikipedia</a>, 
+            which is released under the
+            <a href="https://creativecommons.org/licenses/by-sa/3.0/">
+              Creative Commons Attribution-Share-Alike License 3.0
+            </a>.
+          </div>
+        </div>
+        {% endfor %}
+      {% endif %}
+      <!-- end attribution-->
     </div>
-    <!-- end of publisher summary -->
+    <!-- end of center column -->
 
     <!-- misc info -->
     {% if publisher.series_count > 0 or publisher.founded %}
