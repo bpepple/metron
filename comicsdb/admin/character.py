@@ -17,7 +17,6 @@ class CharacterAdmin(AdminImageMixin, admin.ModelAdmin):
                     "name",
                     "slug",
                     "desc",
-                    "wikipedia",
                     "alias",
                     "image",
                     "edited_by",

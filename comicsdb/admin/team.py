@@ -10,7 +10,7 @@ class TeamAdmin(AdminImageMixin, admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     # form view
     fieldsets = (
-        (None, {"fields": ("name", "slug", "desc", "wikipedia", "image", "edited_by")}),
+        (None, {"fields": ("name", "slug", "desc", "image", "edited_by")}),
         ("Related", {"fields": ("creators",)}),
     )
     filter_horizontal = ("creators",)

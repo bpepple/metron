@@ -121,20 +121,19 @@
         <h1 class="title is-5">Summary</h1>
         {% if character.desc %}
           <p>{{ character.desc|linebreaksbr }}</p>
-          {% if character.wikipedia %}
-              <br/>
-              <div class="content is-small">
-                This article uses material from the Wikipedia article
-                <a href="https://en.wikipedia.org/wiki/{{ character.wikipedia}}">
-                  "{{ character.wikipedia }}"
-                </a>
-                , which is released under the
-                <a href="https://creativecommons.org/licenses/by-sa/3.0/">
-                  Creative Commons Attribution-Share-Alike License 3.0
-                </a>.
-              </div>
-          {% else %}
-          <br/>
+          {% if character.attribution %}
+            {% for w in character.wikipedia %}
+                <br/>
+                <div class="content is-small">
+                  This article uses material from <a href={{w.url}}>Wikipedia</a>, 
+                  which is released under the
+                  <a href="https://creativecommons.org/licenses/by-sa/3.0/">
+                    Creative Commons Attribution-Share-Alike License 3.0
+                  </a>.
+                </div>
+            {% empty %}
+            <br/>
+            {% endfor %}
           {% endif %}
         {% else %}
            <p>No information available.</p><br />

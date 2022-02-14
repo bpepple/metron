@@ -15,7 +15,6 @@ class PublisherAdmin(AdminImageMixin, admin.ModelAdmin):
         "modified",
         "founded",
         "desc",
-        "wikipedia",
         "image",
         "edited_by",
     )
