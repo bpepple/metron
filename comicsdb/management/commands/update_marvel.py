@@ -114,7 +114,12 @@ class Command(BaseCommand):
             if isinstance(i, str) or i.lower() == "n":
                 break
 
-        return datetime.strptime(i, "%Y-%m-%d") if i != "n" else None
+        if i == "n":
+            return None
+        try:
+            return datetime.strptime(i, "%Y-%m-%d")
+        except ValueError:
+            return None
 
     def handle(self, *args: Any, **options: Any) -> Optional[str]:
         slug = self._ask_for_series_slug()
