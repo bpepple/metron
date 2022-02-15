@@ -1,4 +1,6 @@
 """ Some utility function to cleanup data from Shortboxed """
+from datetime import date, timedelta
+
 import dateutil.relativedelta
 
 
@@ -112,3 +114,14 @@ def determine_cover_date(release_date, publisher):
 def get_query_values(item):
     name = item.title.split("#")
     return name[0].strip(), name[1]
+
+
+def get_week_range_from_store_date(store: date) -> str:
+    d = date(store.year, 1, 1)
+    d = d - timedelta(d.isoweekday())
+    week = store.isocalendar()[1]
+    dlt = timedelta(days=(week) * 7)
+    start_date = d + dlt
+    end_date = d + dlt + timedelta(days=6)
+
+    return f"{start_date.strftime('%Y-%m-%d')},{end_date.strftime('%Y-%m-%d')}"

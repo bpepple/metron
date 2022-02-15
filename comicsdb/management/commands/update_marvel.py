@@ -11,7 +11,7 @@ from comicsdb.models.issue import Issue
 from comicsdb.models.series import Series
 from metron.settings import MARVEL_PRIVATE_KEY, MARVEL_PUBLIC_KEY
 
-from ._utils import select_issue_choice
+from ._utils import get_week_range_from_store_date, select_issue_choice
 
 
 class Command(BaseCommand):
@@ -24,9 +24,30 @@ class Command(BaseCommand):
         else:
             return Issue.objects.filter(series=series)
 
-    def _query_marvel_for_issue(self, title: str, number: int):
+    def _query_marvel_for_issue(self, issue: Issue):
+        m = esak.api(MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY)
+        if issue.store_date:
+            date_range = get_week_range_from_store_date(issue.store_date)
+            try:
+                if res := sorted(
+                    m.comics_list(
+                        {
+                            "format": "comic",
+                            "formatType": "comic",
+                            "noVariants": True,
+                            "limit": 100,
+                            "title": issue.series.name,
+                            "dateRange": date_range,
+                            "issueNumber": int(issue.number),
+                        }
+                    ),
+                    key=lambda comic: comic.title,
+                ):
+                    return res
+            except ApiError:
+                return None
+
         try:
-            m = esak.api(MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY)
             return sorted(
                 m.comics_list(
                     {
@@ -34,8 +55,8 @@ class Command(BaseCommand):
                         "formatType": "comic",
                         "noVariants": True,
                         "limit": 100,
-                        "title": title,
-                        "issueNumber": number,
+                        "title": issue.series.name,
+                        "issueNumber": int(issue.number),
                     }
                 ),
                 key=lambda comic: comic.title,
@@ -138,10 +159,9 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.WARNING(f"Unsupported issue number: {i.number}"))
                 continue
 
-            if results := self._query_marvel_for_issue(i.series.name, int(i.number)):
-                if correct_issue := select_issue_choice(results):
-                    self._update_issue(i, correct_issue)
-                else:
-                    self.stdout.write(self.style.NOTICE(f"No match found for {i}.\n"))
+            if (results := self._query_marvel_for_issue(i)) and (
+                correct_issue := select_issue_choice(results)
+            ):
+                self._update_issue(i, correct_issue)
             else:
                 self.stdout.write(self.style.NOTICE(f"No match found for {i}.\n"))
