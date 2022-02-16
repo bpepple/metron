@@ -1,6 +1,7 @@
-from django.forms import ClearableFileInput, HiddenInput, ModelForm, TextInput
+from django.forms import ClearableFileInput, ModelForm, TextInput, inlineformset_factory
 
 from comicsdb.models import Variant
+from comicsdb.models.issue import Issue
 
 
 class VariantForm(ModelForm):
@@ -10,16 +11,15 @@ class VariantForm(ModelForm):
 
     class Meta:
         model = Variant
-        fields = ("issue", "name", "sku", "upc", "image")
+        fields = ("image", "name", "sku", "upc")
         widgets = {
-            "issue": HiddenInput(),
             "name": TextInput(attrs={"class": "input"}),
             "sku": TextInput(attrs={"class": "input"}),
             "upc": TextInput(attrs={"class": "input"}),
             "image": ClearableFileInput(),
         }
 
-    def __init__(self, *args, **kwargs):
-        super(VariantForm, self).__init__(*args, **kwargs)
-        # Set the issue
-        self.initial["issue"] = kwargs["initial"]["issue"]
+
+VariantFormset = inlineformset_factory(
+    Issue, Variant, form=VariantForm, extra=3, can_delete=True
+)
