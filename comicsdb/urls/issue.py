@@ -13,7 +13,6 @@ from comicsdb.views.issue import (
     SeriesAutocomplete,
     WeekList,
 )
-from comicsdb.views.variant import VariantCreate
 
 app_name = "issue"
 urlpatterns = [
@@ -22,7 +21,6 @@ urlpatterns = [
     path("<slug:slug>/", IssueDetail.as_view(), name="detail"),
     path("<slug:slug>/update/", IssueUpdate.as_view(), name="update"),
     path("<slug:slug>/delete/", IssueDelete.as_view(), name="delete"),
-    path("<slug:slug>/add/variant/", VariantCreate.as_view(), name="variant"),
     path("thisweek", WeekList.as_view(), name="thisweek"),
     path("nextweek", NextWeekList.as_view(), name="nextweek"),
     path("future", FutureList.as_view(), name="future"),

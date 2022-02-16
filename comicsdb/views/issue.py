@@ -13,7 +13,9 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from comicsdb.filters.issue import IssueFilter
 from comicsdb.forms.credits import CreditsFormSet
 from comicsdb.forms.issue import IssueForm
+from comicsdb.forms.variant import VariantFormset
 from comicsdb.models import Creator, Credits, Issue, Series
+from comicsdb.models.variant import Variant
 
 PAGINATE = 28
 LOGGER = logging.getLogger(__name__)
@@ -102,22 +104,29 @@ class IssueCreate(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(IssueCreate, self).get_context_data(**kwargs)
         if self.request.POST:
-            context["credits"] = CreditsFormSet(self.request.POST)
+            context["credits"] = CreditsFormSet(self.request.POST, prefix="credits")
+            context["variants"] = VariantFormset(
+                self.request.POST, self.request.FILES, prefix="variants"
+            )
         else:
-            context["credits"] = CreditsFormSet()
+            context["credits"] = CreditsFormSet(prefix="credits")
+            context["variants"] = VariantFormset(prefix="variants")
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
         credits_form = context["credits"]
+        variants_form = context["variants"]
         with transaction.atomic():
             form.instance.created_by = self.request.user
             form.instance.edited_by = self.request.user
             self.object = form.save()
 
-            if credits_form.is_valid():
+            if credits_form.is_valid() and variants_form.is_valid():
                 credits_form.instance = self.object
                 credits_form.save()
+                variants_form.instance = self.object
+                variants_form.save()
 
             LOGGER.info(
                 f"Issue: {form.instance.series} #{form.instance.number} was created by {self.request.user}"
@@ -136,25 +145,43 @@ class IssueUpdate(LoginRequiredMixin, UpdateView):
                 self.request.POST,
                 instance=self.object,
                 queryset=(Credits.objects.filter(issue=self.object).prefetch_related("role")),
+                prefix="credits",
+            )
+            context["variants"] = VariantFormset(
+                self.request.POST,
+                self.request.FILES,
+                instance=self.object,
+                queryset=(Variant.objects.filter(issue=self.object)),
+                prefix="variants",
             )
             context["credits"].full_clean()
+            context["variants"].full_clean()
         else:
             context["credits"] = CreditsFormSet(
                 instance=self.object,
                 queryset=(Credits.objects.filter(issue=self.object).prefetch_related("role")),
+                prefix="credits",
+            )
+            context["variants"] = VariantFormset(
+                instance=self.object,
+                queryset=(Variant.objects.filter(issue=self.object)),
+                prefix="variants",
             )
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
         credits_form = context["credits"]
+        variants_form = context["variants"]
         with transaction.atomic():
             form.instance.edited_by = self.request.user
             self.object = form.save()
 
-            if credits_form.is_valid():
+            if credits_form.is_valid() and variants_form.is_valid():
                 credits_form.instance = self.object
+                variants_form.instance = self.object
                 credits_form.save()
+                variants_form.save()
             else:
                 return super().form_invalid(form)
 

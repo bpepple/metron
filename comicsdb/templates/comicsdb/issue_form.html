@@ -14,99 +14,163 @@
   <form method="post" enctype="multipart/form-data" id="issueForm">
     {%csrf_token%}
     <!-- main -->
-    {% if form.errors %}
-      {% for field in form %}
-        {% for error in field.errors %}
+    <div class="box">
+      <h2 class="title is-5">Primary Information</h2>
+      {% if form.errors %}
+        {% for field in form %}
+          {% for error in field.errors %}
+            <div class="notification is-danger">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
           <div class="notification is-danger">
             <strong>{{ error|escape }}</strong>
           </div>
         {% endfor %}
-      {% endfor %}
-      {% for error in form.non_field_errors %}
-        <div class="notification is-danger">
-          <strong>{{ error|escape }}</strong>
+      {% endif %}
+      {% for field in form %}
+        <div class="field is-danger is-small">
+          {{field.errors}}
+        </div>
+        <div class="field">
+          <label class="label">{{ field.label }}</label>
+          {% if field|is_select %}
+            <div class="control">
+              <div class="select is-fullwidth {% if field|is_multiple_select %}is-multiple{% endif %}">
+                {{ field }}
+              </div>
+            </div>
+          {% else %}
+            <div class="control">{{ field }}</div>
+          {% endif %}
+          {% if field.help_text %}
+            <ul>
+              <li class="help">{{ field.help_text|safe }}</li>
+            </ul>
+          {% endif %}
         </div>
       {% endfor %}
-    {% endif %}
-    {% for field in form %}
-      <div class="field is-danger is-small">
-        {{field.errors}}
-      </div>
-      <div class="field">
-        <label class="label">{{ field.label }}</label>
-        {% if field|is_select %}
-          <div class="control">
-            <div class="select is-fullwidth {% if field|is_multiple_select %}is-multiple{% endif %}">
-              {{ field }}
-            </div>
-          </div>
-        {% else %}
-          <div class="control">{{ field }}</div>
-        {% endif %}
-        {% if field.help_text %}
-          <ul>
-            <li class="help">{{ field.help_text|safe }}</li>
-          </ul>
-        {% endif %}
-      </div>
-    {% endfor %}
+    </div>
     <!-- end main -->
 
     <!-- credits -->
-    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-      {{ credits.management_form }}
-      {{ credits.non_form_errors }}
-      <thead>
-        <tr>
-          <th>Creator</th>
-          <th>Role</th>
-          <th>Delete</th>
-        </tr>
-      </thead>
-      {% for form in credits.forms %}
-        <tr>
-          {% for field in form.visible_fields %}
-          <td>
-            {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
-            {# Include the hidden fields in the form #}
-            {% if forloop.first %}
-              {% for hidden in form.hidden_fields %}
-                {{ hidden }}
+    <div class="box">
+      <h2 class="title is-5">Credits</h2>
+      <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" id="creditsTable">
+        {{ credits.management_form }}
+        {{ credits.non_form_errors }}
+        <thead>
+          <tr>
+            <th>Creator</th>
+            <th>Role</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        {% for form in credits.forms %}
+          <tr>
+            {% for field in form.visible_fields %}
+            <td>
+              {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+              {# Include the hidden fields in the form #}
+              {% if forloop.first %}
+                {% for hidden in form.hidden_fields %}
+                  {{ hidden }}
+                {% endfor %}
+              {% endif %}
+              {# Show error for any formset errors #}
+              {% if forloop.first %}
+                {% for error in form.non_field_errors %}
+                  <strong class="has-text-danger">{{error}}</strong>
+                {% endfor %}
+              {% endif %}
+              {# Show errors for any fields #}
+              {% for error in field.errors %}
+                <strong class="has-text-danger">{{ error }}</strong>
               {% endfor %}
-            {% endif %}
-            {# Show error for any formset errors #}
-            {% if forloop.first %}
-              {% for error in form.non_field_errors %}
-                <strong class="has-text-danger">{{error}}</strong>
-              {% endfor %}
-            {% endif %}
-            {# Show errors for any fields #}
-            {% for error in field.errors %}
-              <strong class="has-text-danger">{{ error }}</strong>
-            {% endfor %}
-            <div class="field">
-              {% if field|is_select %}
-                <div class="control is-expanded">
-                  <div class="select {% if field|is_multiple_select %}is-multiple{% endif %}">
-                    {{ field }}
+              <div class="field">
+                {% if field|is_select %}
+                  <div class="control is-expanded">
+                    <div class="select {% if field|is_multiple_select %}is-multiple{% endif %}">
+                      {{ field }}
+                    </div>
                   </div>
-                </div>
-              {% else %}
-                <div class="control">{{ field }}</div>
-              {% endif %}
-              {% if field.help_text %}
-                <ul>
-                  <li class="help">{{ field.help_text|safe }}</li>
-                </ul>
-              {% endif %}
-            </div>
-          </td>
-          {% endfor %}
-        </tr>
-    {% endfor %}
-    </table>
+                {% else %}
+                  <div class="control">{{ field }}</div>
+                {% endif %}
+                {% if field.help_text %}
+                  <ul>
+                    <li class="help">{{ field.help_text|safe }}</li>
+                  </ul>
+                {% endif %}
+              </div>
+            </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
     <!-- end credits -->
-
+    <!-- variants -->
+    <div class="box">
+      <h2 class="title is-5">Variant Covers</h2>
+      <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" id="variantsTable">
+        {{ variants.management_form }}
+        {{ variants.non_form_errors }}
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>SKU</th>
+            <th>UPC</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        {% for form in variants.forms %}
+          <tr>
+            {% for field in form.visible_fields %}
+            <td>
+              {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+              {# Include the hidden fields in the form #}
+              {% if forloop.first %}
+                {% for hidden in form.hidden_fields %}
+                  {{ hidden }}
+                {% endfor %}
+              {% endif %}
+              {# Show error for any formset errors #}
+              {% if forloop.first %}
+                {% for error in form.non_field_errors %}
+                  <strong class="has-text-danger">{{error}}</strong>
+                {% endfor %}
+              {% endif %}
+              {# Show errors for any fields #}
+              {% for error in field.errors %}
+                <strong class="has-text-danger">{{ error }}</strong>
+              {% endfor %}
+              <div class="field">
+                {% if field|is_select %}
+                  <div class="control is-expanded">
+                    <div class="select {% if field|is_multiple_select %}is-multiple{% endif %}">
+                      {{ field }}
+                    </div>
+                  </div>
+                {% else %}
+                  <div class="control">{{ field }}</div>
+                {% endif %}
+                {% if field.help_text %}
+                  <ul>
+                    <li class="help">{{ field.help_text|safe }}</li>
+                  </ul>
+                {% endif %}
+              </div>
+            </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+    <!-- endvariants -->
     <!-- submit -->
     <div class="field">
       <div class="control">
@@ -121,11 +185,20 @@
 <script src="{% static 'site/js/jquery.formset.js' %}"></script>
 <script type="text/javascript">
     $(function() {
-        $('#issueForm tbody tr').formset({
+        $('#issueForm #creditsTable tbody tr').formset({
             prefix: '{{ credits.prefix }}',
             deleteText: 'Remove?',
             addText: 'Add another creator credit',
         });
     })
+</script>
+<script type="text/javascript">
+  $(function() {
+      $('#issueForm #variantsTable tbody tr').formset({
+          prefix: '{{ variants.prefix }}',
+          deleteText: 'Remove?',
+          addText: 'Add another variant cover',
+      });
+  })
 </script>
 {% endblock %}
