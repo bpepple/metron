@@ -154,9 +154,11 @@
       {% endwith %}
       <!-- end series -->
       <!-- attribution -->
-      {% if character.attribution.all|length > 0 %}
-          {% include "comicsdb/attribution.html" with object=character %}
-      {% endif %}
+      {% with attribution=character.attribution.all %}
+        {% if attribution|length > 0 %}
+          {% include "comicsdb/attribution.html" with object=attribution %}
+        {% endif %}
+      {% endwith %}
       <!-- end attribution-->
     </div>
     <!-- end of center column -->

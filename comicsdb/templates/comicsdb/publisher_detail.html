@@ -132,9 +132,11 @@
       </div>
       <!-- end of summary -->
       <!-- attribution -->
-      {% if publisher.attribution.all|length > 0 %}
-          {% include "comicsdb/attribution.html" with object=publisher %}
-      {% endif %}
+      {% with attribution=publisher.attribution.all %}
+        {% if attribution|length > 0 %}
+          {% include "comicsdb/attribution.html" with object=attribution %}
+        {% endif %}
+      {% endwith %}
       <!-- end attribution-->
     </div>
     <!-- end of center column -->

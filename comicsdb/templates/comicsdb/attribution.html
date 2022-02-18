@@ -1,14 +1,15 @@
 <div class="box">
   <h1 class="title is-5">Attribution</h1>
   <div class="content">
-    {% for w in object.wikipedia %}
-      <p>This article uses material from <a href={{w.url}}>Wikipedia</a>, which is released under the 
-        <a href="https://creativecommons.org/licenses/by-sa/3.0/">
-          Creative Commons Attribution-Share-Alike License 3.0
-        </a>.</p>
-    {% endfor %}
-    {% for m in object.marvel %}
-      <p>Some data provided by <a href={{ m.url }}>Marvel</a>. © 2014 Marvel</p>
+    {% for obj in object %}
+      {% if obj.source == "W" %}
+        <p>This article uses material from <a href={{ obj.url }}>Wikipedia</a>, which is released under the 
+          <a href="https://creativecommons.org/licenses/by-sa/3.0/">
+            Creative Commons Attribution-Share-Alike License 3.0
+          </a>.</p>
+      {% elif obj.source == "M" %}
+        <p>Some data provided by <a href={{ obj.url }}>Marvel</a>. © 2014 Marvel</p>
+      {% endif %}
     {% endfor %}
   </div>
 </div>

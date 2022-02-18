@@ -167,9 +167,11 @@
       {% endwith %}
       <!-- end members -->
       <!-- attribution -->
-      {% if team.attribution.all|length > 0 %}
-          {% include "comicsdb/attribution.html" with object=team %}
-      {% endif %}
+      {% with attribution=team.attribution.all %}
+        {% if attribution|length > 0 %}
+          {% include "comicsdb/attribution.html" with object=attribution %}
+        {% endif %}
+      {% endwith %}
       <!-- end attribution-->
     </div>
     <!-- end middle column -->

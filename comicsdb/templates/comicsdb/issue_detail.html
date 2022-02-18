@@ -305,9 +305,11 @@
       <!-- end teams -->
 
       <!-- attribution -->
-      {% if issue.attribution.all|length > 0 %}
-          {% include "comicsdb/attribution.html" with object=issue %}
-      {% endif %}
+      {% with attribution=issue.attribution.all %}
+        {% if attribution|length > 0 %}
+          {% include "comicsdb/attribution.html" with object=attribution %}
+        {% endif %}
+      {% endwith %}
       <!-- end attribution-->
 
     </div>
