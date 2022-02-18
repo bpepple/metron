@@ -305,15 +305,8 @@
       <!-- end teams -->
 
       <!-- attribution -->
-      {% if issue.attribution %}
-        {% for w in issue.marvel %}
-        <div class="box">
-          <h1 class="title is-5">Attribution</h1>
-          <div class="content">
-            Some data provided by <a href={{w.url}}>Marvel</a>. © 2014 Marvel
-          </div>
-        </div>
-        {% endfor %}
+      {% if issue.attribution.all|length > 0 %}
+          {% include "comicsdb/attribution.html" with object=issue %}
       {% endif %}
       <!-- end attribution-->
 
