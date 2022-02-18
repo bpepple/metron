@@ -153,19 +153,8 @@
       {% endwith %}
       <!-- end series -->
       <!-- attribution -->
-      {% if creator.attribution %}
-        {% for w in creator.wikipedia %}
-        <div class="box">
-          <h1 class="title is-5">Attribution</h1>
-          <div class="content">
-            This article uses material from <a href={{w.url}}>Wikipedia</a>, 
-            which is released under the
-            <a href="https://creativecommons.org/licenses/by-sa/3.0/">
-              Creative Commons Attribution-Share-Alike License 3.0
-            </a>.
-          </div>
-        </div>
-        {% endfor %}
+      {% if creator.attribution.all|length > 0 %}
+          {% include "comicsdb/attribution.html" with object=creator %}
       {% endif %}
       <!-- end attribution-->
     </div>
