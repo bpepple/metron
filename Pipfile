@@ -18,10 +18,9 @@ django-storages = "*"
 python-decouple = "*"
 chartkick = "*"
 django-autocomplete-light = "*"
-django-simple-bulma = "*"
 drf-spectacular = "*"
-serifan = "*"
 esak = "*"
+django-simple-bulma = "<=2.4"
 
 [dev-packages]
 django-debug-toolbar = "*"
