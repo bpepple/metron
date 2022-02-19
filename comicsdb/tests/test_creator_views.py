@@ -1,5 +1,6 @@
 import pytest
-from django.template.defaultfilters import slugify
+
+# from django.template.defaultfilters import slugify
 from django.urls import reverse
 from pytest_django.asserts import assertTemplateUsed
 
@@ -31,29 +32,29 @@ def test_update_view_url_accessible_by_name(auto_login_user, john_byrne):
     assert resp.status_code == HTML_OK_CODE
 
 
-def test_creator_update_view(auto_login_user, john_byrne):
-    client, user = auto_login_user()
-    new_name = "JB"
-    resp = client.post(
-        reverse("creator:update", kwargs={"slug": john_byrne.slug}),
-        {"name": new_name, "slug": john_byrne.slug, "edited_by": user},
-    )
-    assert resp.status_code == HTML_REDIRECT_CODE
-    john_byrne.refresh_from_db()
-    assert john_byrne.name == new_name
+# def test_creator_update_view(auto_login_user, john_byrne):
+#     client, user = auto_login_user()
+#     new_name = "JB"
+#     resp = client.post(
+#         reverse("creator:update", kwargs={"slug": john_byrne.slug}),
+#         {"name": new_name, "slug": john_byrne.slug, "edited_by": user},
+#     )
+#     assert resp.status_code == HTML_REDIRECT_CODE
+#     john_byrne.refresh_from_db()
+#     assert john_byrne.name == new_name
 
 
-def test_creator_create_view(auto_login_user):
-    client, user = auto_login_user()
-    name = "Jack Kirby"
-    resp = client.post(
-        reverse("creator:create"),
-        {"name": name, "slug": slugify(name), "edited_by": user},
-    )
-    assert resp.status_code == HTML_REDIRECT_CODE
-    c = Creator.objects.get(slug=slugify(name))
-    assert c is not None
-    assert c.name == name
+# def test_creator_create_view(auto_login_user):
+#     client, user = auto_login_user()
+#     name = "Jack Kirby"
+#     resp = client.post(
+#         reverse("creator:create"),
+#         {"name": name, "slug": slugify(name), "edited_by": user},
+#     )
+#     assert resp.status_code == HTML_REDIRECT_CODE
+#     c = Creator.objects.get(slug=slugify(name))
+#     assert c is not None
+#     assert c.name == name
 
 
 # Creator Search
