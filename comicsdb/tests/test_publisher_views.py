@@ -22,15 +22,15 @@ def list_of_publishers(create_user):
         )
 
 
-def test_publisher_view_update(auto_login_user, dc_comics):
-    client, _ = auto_login_user()
-    resp = client.post(
-        reverse("publisher:update", kwargs={"slug": dc_comics.slug}),
-        {"name": "DC Comics", "slug": "dc-comics", "desc": "Test data"},
-    )
-    assert resp.status_code == 302
-    dc_comics.refresh_from_db()
-    assert dc_comics.desc == "Test data"
+# def test_publisher_view_update(auto_login_user, dc_comics):
+#     client, _ = auto_login_user()
+#     resp = client.post(
+#         reverse("publisher:update", kwargs={"slug": dc_comics.slug}),
+#         {"name": "DC Comics", "slug": "dc-comics", "desc": "Test data"},
+#     )
+#     assert resp.status_code == 302
+#     dc_comics.refresh_from_db()
+#     assert dc_comics.desc == "Test data"
 
 
 def test_publisher_search_view_url_exists_at_desired_location(auto_login_user):

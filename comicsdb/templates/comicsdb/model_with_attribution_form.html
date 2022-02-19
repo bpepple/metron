@@ -1,0 +1,132 @@
+{% extends "comicsdb/comics_base.html" %}
+{% load static %}
+{% load bulma_tags %}
+
+{% block title %}{{ form.instance }} Form{% endblock title %}
+
+{% block headscripts %}
+<script src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+{{ form.media }}
+{% endblock %}
+
+{% block comic_content %}
+  <h1 class="title">{{ title }}</h1>
+  <form method="post" enctype="multipart/form-data" id="mainForm">
+    {%csrf_token%}
+    <!-- main -->
+    {% if form.errors %}
+      {% for field in form %}
+        {% for error in field.errors %}
+          <div class="notification is-danger">
+            <strong>{{ error|escape }}</strong>
+          </div>
+        {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <div class="notification is-danger">
+          <strong>{{ error|escape }}</strong>
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% for field in form.hidden_fields %}
+      {{ field }}
+    {% endfor %}
+    {% for field in form.visible_fields %}
+      <div class="field is-danger is-small">
+        {{field.errors}}
+      </div>
+      <div class="field">
+        <label class="label">{{ field.label }}</label>
+        {% if field|is_select %}
+          <div class="control">
+            <div class="select {% if field|is_multiple_select %}is-multiple{% endif %}">
+              {{ field }}
+            </div>
+          </div>
+        {% else %}
+          <div class="control">{{ field }}</div>
+        {% endif %}
+        {% if field.help_text %}
+          <ul>
+            <li class="help">{{ field.help_text|safe }}</li>
+          </ul>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <!-- end main -->
+    <!-- attribution -->
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" id="attributionTable">
+      {{ attribution.management_form }}
+      {{ attribution.non_form_errors }}
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>URL</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      {% for form in attribution.forms %}
+        <tr>
+          {% for field in form.visible_fields %}
+          <td>
+            {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+            {# Include the hidden fields in the form #}
+            {% if forloop.first %}
+              {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+              {% endfor %}
+            {% endif %}
+            {# Show error for any formset errors #}
+            {% if forloop.first %}
+              {% for error in form.non_field_errors %}
+                <strong class="has-text-danger">{{error}}</strong>
+              {% endfor %}
+            {% endif %}
+            {# Show errors for any fields #}
+            {% for error in field.errors %}
+              <strong class="has-text-danger">{{ error }}</strong>
+            {% endfor %}
+            <div class="field">
+              {% if field|is_select %}
+                <div class="control is-expanded">
+                  <div class="select">
+                    {{ field }}
+                  </div>
+                </div>
+              {% else %}
+                <div class="control is-expanded">{{ field }}</div>
+              {% endif %}
+              {% if field.help_text %}
+                <ul>
+                  <li class="help">{{ field.help_text|safe }}</li>
+                </ul>
+              {% endif %}
+            </div>
+          </td>
+          {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+    <!-- end attribution -->
+    <!-- submit -->
+    <div class="field">
+      <div class="control">
+        <button class="button is-info" type="submit">Submit</button>
+      </div>
+    </div>
+    <!-- end submit -->
+  </form>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'site/js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $(function() {
+        $('#mainForm #attributionTable tbody tr').formset({
+            prefix: '{{ attribution.prefix }}',
+            deleteText: 'Remove?',
+            addText: 'Add another attribution',
+        });
+    })
+</script>
+{% endblock %}
