@@ -9,6 +9,11 @@
           </a>.</p>
       {% elif obj.source == "M" %}
         <p>Some data provided by <a href={{ obj.url }}>Marvel</a>. &copy; 2014 Marvel</p>
+      {% elif obj.source == "G" %}
+        <p>This article uses material from the <a href={{ obj.url }}>Grand Comics Database&#8482;</a>, which is released under the 
+          <a href="https://creativecommons.org/licenses/by-sa/4.0/">
+            Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)
+          </a>.</p>
       {% endif %}
     {% endfor %}
   </div>
