@@ -7,6 +7,7 @@ class Attribution(models.Model):
     class Source(models.TextChoices):
         MARVEL = "M", "Marvel"
         WIKIPEDIA = "W", "Wikipedia"
+        GCD = "G", "Grand Comics Database"
 
     source = models.CharField(max_length=1, choices=Source.choices, default=Source.WIKIPEDIA)
     url = models.URLField()
@@ -16,5 +17,4 @@ class Attribution(models.Model):
     content_object = GenericForeignKey("content_type", "object_id")
 
     class Meta:
-        unique_together = ["source", "content_type", "object_id"]
         ordering = ["content_type", "object_id"]
