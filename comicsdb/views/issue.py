@@ -66,7 +66,11 @@ class IssueDetail(DetailView):
             .distinct("creator__name")
             .select_related("creator")
             .prefetch_related("role"),
-        )
+        ),
+        Prefetch(
+            "reprints",
+            queryset=Issue.objects.select_related("series"),
+        ),
     )
 
     def get_context_data(self, **kwargs):

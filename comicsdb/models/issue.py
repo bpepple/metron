@@ -41,6 +41,7 @@ class Issue(CommonInfo):
     creators = models.ManyToManyField(Creator, through="Credits", blank=True)
     characters = models.ManyToManyField(Character, blank=True)
     teams = models.ManyToManyField(Team, blank=True)
+    reprints = models.ManyToManyField("self", blank=True)
     attribution = GenericRelation(Attribution, related_query_name="issues")
     created_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
     edited_by = models.ForeignKey(

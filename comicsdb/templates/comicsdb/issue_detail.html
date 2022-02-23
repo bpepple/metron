@@ -304,6 +304,23 @@
       {% endwith %}
       <!-- end teams -->
 
+      <!-- reprints -->
+      {% with reprints=issue.reprints.all %}
+        {% if reprints %}
+        <div class="box">
+          <h1 class="title is-5">Reprint{{ reprints|pluralize }}</h1>
+          <div class="content">
+            <ul>
+            {% for reprint in reprints %}
+              <li><a href="{% url 'issue:detail' reprint.slug %}">{{ reprint }}</a</li>
+            {% endfor %}
+            </ul>
+          </div>
+        </div>
+        {% endif %}
+      {% endwith %}
+      <!-- end reprints-->
+
       <!-- attribution -->
       {% with attribution=issue.attribution.all %}
         {% if attribution|length > 0 %}

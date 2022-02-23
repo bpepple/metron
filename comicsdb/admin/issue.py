@@ -71,7 +71,7 @@ class VariantInline(admin.TabularInline):
 
 @admin.register(Issue)
 class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
-    search_fields = ("series__name",)
+    search_fields = ("series__name", "number")
     list_display = ("__str__", "cover_date", "store_date")
     list_filter = (
         FutureStoreDateListFilter,
@@ -81,7 +81,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
         "cover_date",
         "series__publisher",
     )
-    autocomplete_fields = ["series", "characters", "teams", "arcs"]
+    autocomplete_fields = ["series", "characters", "teams", "arcs", "reprints"]
     list_select_related = ("series",)
     date_hierarchy = "cover_date"
     actions = [add_dc_credits, add_marvel_credits]
@@ -106,6 +106,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
                     "characters",
                     "teams",
                     "arcs",
+                    "reprints",
                     "image",
                     "created_by",
                     "edited_by",
