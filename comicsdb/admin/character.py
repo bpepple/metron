@@ -7,8 +7,10 @@ from comicsdb.models import Character
 
 @admin.register(Character)
 class CharacterAdmin(AdminImageMixin, admin.ModelAdmin):
-    search_fields = ("name",)
+    search_fields = ("name", "alias")
     prepopulated_fields = {"slug": ("name",)}
+    list_filter = ("created_on", "modified")
+    autocomplete_fields = ["creators", "teams"]
     # form view
     fieldsets = (
         (
@@ -19,12 +21,12 @@ class CharacterAdmin(AdminImageMixin, admin.ModelAdmin):
                     "slug",
                     "desc",
                     "alias",
+                    "creators",
+                    "teams",
                     "image",
                     "edited_by",
                 )
             },
         ),
-        ("Related", {"fields": ("creators", "teams")}),
     )
     inlines = [AttributionInline]
-    filter_horizontal = ("creators", "teams")

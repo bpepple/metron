@@ -7,8 +7,9 @@ from comicsdb.models import Creator
 
 @admin.register(Creator)
 class CreatorAdmin(AdminImageMixin, admin.ModelAdmin):
-    search_fields = ("name",)
+    search_fields = ("name", "alias")
     prepopulated_fields = {"slug": ("name",)}
+    list_filter = ("created_on", "modified")
     readonly_fields = ("modified",)
-    field = ("name", "slug", "modified", "birth", "death", "desc", "image")
+    field = ("name", "slug", "modified", "birth", "death", "alias", "desc", "image")
     inlines = [AttributionInline]

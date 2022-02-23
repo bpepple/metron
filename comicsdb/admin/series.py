@@ -3,14 +3,13 @@ from django.contrib import admin
 from comicsdb.models import Series, SeriesType
 
 
-# TODO: Need to rework this to use FilteredSelectMultiple
-#       for the 'associated' field.
 @admin.register(Series)
 class SeriesAdmin(admin.ModelAdmin):
     search_fields = ("name",)
     list_display = ("name", "year_began")
-    list_filter = ("modified", "publisher")
+    list_filter = ("created_on", "modified", "publisher")
     prepopulated_fields = {"slug": ("name", "year_began")}
+    autocomplete_fields = ["associated"]
     fields = (
         "name",
         "slug",
@@ -28,4 +27,5 @@ class SeriesAdmin(admin.ModelAdmin):
 
 @admin.register(SeriesType)
 class SeriesTypeAdmin(admin.ModelAdmin):
+    search_fields = ["name"]
     fields = ("name", "notes")

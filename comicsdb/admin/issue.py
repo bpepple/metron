@@ -6,8 +6,6 @@ from django.db.models.query import QuerySet
 from sorl.thumbnail.admin.current import AdminImageMixin
 
 from comicsdb.admin.util import AttributionInline
-from comicsdb.forms.credits import CreditsForm
-from comicsdb.forms.issue import IssueForm
 from comicsdb.models import Creator, Credits, Issue, Role, Variant
 
 
@@ -62,7 +60,7 @@ add_marvel_credits.short_description = "Add current Marvel EIC"
 
 class CreditsInline(admin.TabularInline):
     model = Credits
-    form = CreditsForm
+    autocomplete_fields = ["creator"]
     extra = 1
 
 
@@ -73,7 +71,6 @@ class VariantInline(admin.TabularInline):
 
 @admin.register(Issue)
 class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
-    form = IssueForm
     search_fields = ("series__name",)
     list_display = ("__str__", "cover_date", "store_date")
     list_filter = (
@@ -84,6 +81,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
         "cover_date",
         "series__publisher",
     )
+    autocomplete_fields = ["series", "characters", "teams", "arcs"]
     list_select_related = ("series",)
     date_hierarchy = "cover_date"
     actions = [add_dc_credits, add_marvel_credits]
@@ -105,13 +103,14 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
                     "upc",
                     "page",
                     "desc",
+                    "characters",
+                    "teams",
+                    "arcs",
                     "image",
                     "created_by",
                     "edited_by",
                 )
             },
         ),
-        ("Related", {"fields": ("characters", "teams", "arcs")}),
     )
-    filter_horizontal = ("arcs", "characters", "teams")
     inlines = (CreditsInline, VariantInline, AttributionInline)

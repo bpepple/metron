@@ -9,10 +9,10 @@ from comicsdb.models import Team
 class TeamAdmin(AdminImageMixin, admin.ModelAdmin):
     search_fields = ("name",)
     prepopulated_fields = {"slug": ("name",)}
+    list_filter = ("created_on", "modified")
+    autocomplete_fields = ["creators"]
     # form view
     fieldsets = (
-        (None, {"fields": ("name", "slug", "desc", "image", "edited_by")}),
-        ("Related", {"fields": ("creators",)}),
+        (None, {"fields": ("name", "slug", "desc", "creators", "image", "edited_by")}),
     )
-    filter_horizontal = ("creators",)
     inlines = [AttributionInline]

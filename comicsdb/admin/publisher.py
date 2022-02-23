@@ -7,8 +7,10 @@ from comicsdb.models import Publisher
 
 @admin.register(Publisher)
 class PublisherAdmin(AdminImageMixin, admin.ModelAdmin):
+    search_fields = ["name"]
     prepopulated_fields = {"slug": ("name",)}
-    list_display = ("name", "series_count")
+    list_filter = ("created_on", "modified")
+    list_display = ("name",)
     readonly_fields = ("modified",)
     fields = (
         "name",
