@@ -1,5 +1,4 @@
 from dal import autocomplete
-from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.forms import (
     ClearableFileInput,
     DateInput,
@@ -10,8 +9,24 @@ from django.forms import (
     Textarea,
     TextInput,
 )
+from django_select2 import forms as s2forms
 
+from comicsdb.forms.team import TeamsWidget
 from comicsdb.models import Issue, Series
+
+
+class ArcsWidget(s2forms.ModelSelect2MultipleWidget):
+    search_fields = [
+        "name__icontains",
+    ]
+
+
+class CharactersWidget(s2forms.ModelSelect2MultipleWidget):
+    search_fields = ["name__icontains", "alias__icontains"]
+
+
+class IssuesWidget(s2forms.ModelSelect2MultipleWidget):
+    search_fields = ["series__name__icontains", "number"]
 
 
 class IssueForm(ModelForm):
@@ -47,19 +62,16 @@ class IssueForm(ModelForm):
             "characters",
             "teams",
             "arcs",
+            "reprints",
             "image",
         )
         widgets = {
             "series": Select(),
             "name": TextInput(attrs={"class": "input"}),
             "number": TextInput(attrs={"class": "input"}),
-            "arcs": FilteredSelectMultiple(
-                "Story Arcs", attrs={"size": "6"}, is_stacked=False
-            ),
-            "characters": FilteredSelectMultiple(
-                "Characters", attrs={"size": "6"}, is_stacked=False
-            ),
-            "teams": FilteredSelectMultiple("Teams", attrs={"size": "6"}, is_stacked=False),
+            "arcs": ArcsWidget(attrs={"class": "input"}),
+            "characters": CharactersWidget(attrs={"class": "input"}),
+            "teams": TeamsWidget(attrs={"class": "input"}),
             "cover_date": DateInput(
                 attrs={"class": "input", "type": "date"},
             ),
@@ -71,11 +83,13 @@ class IssueForm(ModelForm):
             "upc": TextInput(attrs={"class": "input"}),
             "page": TextInput(attrs={"class": "input"}),
             "desc": Textarea(attrs={"class": "textarea"}),
+            "reprints": IssuesWidget(attrs={"class": "input"}),
             "image": ClearableFileInput(),
         }
         help_texts = {
             "name": "Separate multiple story titles by a semicolon",
             "price": "In United States currency",
+            "reprints": "Add any issues that are reprinted.",
         }
         labels = {"name": "Story Title"}
 
