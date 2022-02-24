@@ -6,7 +6,7 @@
 
 {% block headscripts %}
 <script src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
-{{ form.media }}
+{{ form.media.css }}
 {% endblock %}
 
 {% block comic_content %}
@@ -37,15 +37,7 @@
       </div>
       <div class="field">
         <label class="label">{{ field.label }}</label>
-        {% if field|is_select %}
-          <div class="control">
-            <div class="select {% if field|is_multiple_select %}is-multiple{% endif %}">
-              {{ field }}
-            </div>
-          </div>
-        {% else %}
-          <div class="control">{{ field }}</div>
-        {% endif %}
+        <div class="control">{{ field }}</div>
         {% if field.help_text %}
           <ul>
             <li class="help">{{ field.help_text|safe }}</li>
@@ -89,7 +81,7 @@
             <div class="field">
               {% if field|is_select %}
                 <div class="control is-expanded">
-                  <div class="select">
+                  <div class="select is-fullwidth">
                     {{ field }}
                   </div>
                 </div>
@@ -119,6 +111,7 @@
 {% endblock %}
 
 {% block js %}
+{{ form.media.js }}
 <script src="{% static 'site/js/jquery.formset.js' %}"></script>
 <script type="text/javascript">
     $(function() {

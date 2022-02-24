@@ -1,6 +1,14 @@
 from django.forms import ClearableFileInput, DateInput, ModelForm, Textarea, TextInput
+from django_select2 import forms as s2forms
 
 from comicsdb.models import Creator
+
+
+class CreatorsWidget(s2forms.ModelSelect2MultipleWidget):
+    search_fields = [
+        "name__icontains",
+        "alias__icontains",
+    ]
 
 
 class CreatorForm(ModelForm):

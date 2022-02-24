@@ -23,6 +23,7 @@
     {% bulma %}
     {% font_awesome %}
     <link rel="stylesheet" href="{% static 'site/css/base.css' %}">
+    {% block headcss %}{% endblock%}
     {% block headscripts %}{% endblock %}
   </head>
   <body class="has-navbar-fixed-top">

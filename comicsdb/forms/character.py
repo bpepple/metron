@@ -1,6 +1,7 @@
-from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.forms import ClearableFileInput, ModelForm, Textarea, TextInput
 
+from comicsdb.forms.creator import CreatorsWidget
+from comicsdb.forms.team import TeamsWidget
 from comicsdb.models import Character
 
 
@@ -23,10 +24,8 @@ class CharacterForm(ModelForm):
             "name": TextInput(attrs={"class": "input"}),
             "desc": Textarea(attrs={"class": "textarea"}),
             "alias": TextInput(attrs={"class": "input"}),
-            "creators": FilteredSelectMultiple(
-                "Creators", attrs={"size": "6"}, is_stacked=False
-            ),
-            "teams": FilteredSelectMultiple("Teams", attrs={"size": "6"}, is_stacked=False),
+            "creators": CreatorsWidget(attrs={"class": "input"}),
+            "teams": TeamsWidget(attrs={"class": "input"}),
             "image": ClearableFileInput(),
         }
         help_texts = {

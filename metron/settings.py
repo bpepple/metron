@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "django_filters",
     "widget_tweaks",
+    "django_select2",
     "sorl.thumbnail",
     "django_simple_bulma",
     "chartkick",
@@ -138,6 +139,22 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Define model primary keys
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
+# Cache for Select2
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+    },
+    "select2": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+    },
+}
+
+
+# Tell select2 which cache configuration to use:
+SELECT2_CACHE_BACKEND = "select2"
 
 # sorl-thumbnail settings
 THUMBNAIL_KVSTORE = "sorl.thumbnail.kvstores.redis_kvstore.KVStore"

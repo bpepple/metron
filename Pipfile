@@ -21,6 +21,7 @@ django-autocomplete-light = "*"
 drf-spectacular = "*"
 esak = "*"
 django-simple-bulma = "<=2.4"
+django-select2 = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
