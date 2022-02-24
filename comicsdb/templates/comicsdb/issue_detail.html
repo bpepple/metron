@@ -312,7 +312,14 @@
           <div class="content">
             <ul>
             {% for reprint in reprints %}
-              <li><a href="{% url 'issue:detail' reprint.slug %}">{{ reprint }}</a</li>
+              <li>
+                {% if reprint.cover_date < issue.cover_date %}
+                from
+                {% else %}
+                in
+                {% endif %}
+                <a href="{% url 'issue:detail' reprint.slug %}">{{ reprint }}</a>
+              </li>
             {% endfor %}
             </ul>
           </div>
