@@ -4,10 +4,7 @@
 
 {% block title %}Issue Form{% endblock title %}
 
-{% block headscripts %}
-<script src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
-{{ form.media }}
-{% endblock %}
+{% block headcss %}{{ form.media.css }}{% endblock %}
 
 {% block comic_content %}
   <h1 class="title">Issue Form</h1>
@@ -182,6 +179,8 @@
 {% endblock %}
 
 {% block js %}
+<script src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+{{ form.media.js }}
 <script src="{% static 'site/js/jquery.formset.js' %}"></script>
 <script type="text/javascript">
     $(function() {
