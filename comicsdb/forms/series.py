@@ -1,7 +1,14 @@
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.forms import ModelForm, Select, Textarea, TextInput
+from django_select2 import forms as s2forms
 
 from comicsdb.models import Series
+
+
+class SeriesWidget(s2forms.ModelSelect2Widget):
+    search_fields = [
+        "name__icontains",
+    ]
 
 
 class SeriesForm(ModelForm):
