@@ -14,7 +14,7 @@ HTTP_200_OK = 200
 
 
 def test_team_creation(avengers):
-    assert isinstance(avengers, Team) is True
+    assert isinstance(avengers, Team)
     assert str(avengers) == avengers.name
 
 
@@ -28,7 +28,7 @@ def test_team_absolute_url(client, avengers):
 
 
 def test_character_creation(batman):
-    assert isinstance(batman, Character) is True
+    assert isinstance(batman, Character)
     assert str(batman) == batman.name
 
 
@@ -42,7 +42,7 @@ def test_character_absolute_url(client, batman):
 
 
 def test_arc_creation(wwh_arc):
-    assert isinstance(wwh_arc, Arc) is True
+    assert isinstance(wwh_arc, Arc)
     assert str(wwh_arc) == wwh_arc.name
 
 
@@ -56,7 +56,7 @@ def test_arc_absolute_url(client, wwh_arc):
 
 
 def test_creator_creation(john_byrne):
-    assert isinstance(john_byrne, Creator) is True
+    assert isinstance(john_byrne, Creator)
     assert str(john_byrne) == john_byrne.name
 
 
@@ -74,7 +74,7 @@ def test_creator_absolute_url(client, john_byrne):
 
 
 def test_role_creation(writer):
-    assert isinstance(writer, Role) is True
+    assert isinstance(writer, Role)
     assert str(writer) == writer.name
 
 
@@ -87,7 +87,7 @@ def test_publisher_series_count(dc_comics, fc_series):
 
 
 def test_publisher_creation(dc_comics):
-    assert isinstance(dc_comics, Publisher) is True
+    assert isinstance(dc_comics, Publisher)
     assert str(dc_comics) == dc_comics.name
 
 
@@ -101,7 +101,7 @@ def test_puiblisher_absolute_url(client, dc_comics):
 
 
 def test_series_creation(fc_series):
-    assert isinstance(fc_series, Series) is True
+    assert isinstance(fc_series, Series)
     assert str(fc_series), "Final Crisis (1939)"
 
 
@@ -115,7 +115,7 @@ def test_series_absolute_url(client, fc_series):
 
 
 def test_issue_creation(issue_with_arc):
-    assert isinstance(issue_with_arc, Issue) is True
+    assert isinstance(issue_with_arc, Issue)
     assert str(issue_with_arc) == "Final Crisis #1"
 
 
@@ -135,5 +135,5 @@ def test_issue_count(issue_with_arc, superman):
 
 
 def test_seriestype_creation(cancelled_type):
-    assert isinstance(cancelled_type, SeriesType) is True
+    assert isinstance(cancelled_type, SeriesType)
     assert str(cancelled_type) == cancelled_type.name
