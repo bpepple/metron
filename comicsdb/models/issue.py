@@ -1,7 +1,9 @@
 import itertools
+import logging
 
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.postgres.fields import ArrayField
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
@@ -17,6 +19,8 @@ from .common import CommonInfo
 from .creator import Creator
 from .series import Series
 from .team import Team
+
+LOGGER = logging.getLogger(__name__)
 
 
 class GraphicNovelManager(models.Manager):
@@ -61,6 +65,17 @@ class Issue(CommonInfo):
     @property
     def marvel(self):
         return self.attribution.filter(source=Attribution.Source.MARVEL)
+
+    def save(self, *args, **kwargs) -> None:
+        # Let's delete the original image if we're replacing it by uploading a new one.
+        try:
+            this = Issue.objects.get(id=self.id)
+            if this.image != self.image:
+                LOGGER.info(f"Replacing {this.image} with {self.image}.")
+                this.image.delete(save=False)
+        except ObjectDoesNotExist:
+            pass
+        return super(Issue, self).save(*args, **kwargs)
 
     def __str__(self) -> str:
         return f"{self.series.name} #{self.number}"
