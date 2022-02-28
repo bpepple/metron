@@ -71,7 +71,9 @@ class Issue(CommonInfo):
         try:
             this = Issue.objects.get(id=self.id)
             if this.image != self.image:
-                LOGGER.info(f"Replacing {this.image} with {self.image}.")
+                LOGGER.info(
+                    f"Replacing {'None' if not (img:=this.image) else img} with {'None' if not(img:=self.image) else img}."
+                )
                 this.image.delete(save=False)
         except ObjectDoesNotExist:
             pass
