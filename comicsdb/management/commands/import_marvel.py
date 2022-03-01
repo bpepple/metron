@@ -1,21 +1,68 @@
+import shutil
+import tempfile
+from datetime import datetime
 from decimal import Decimal
+from os import fspath
+from pathlib import Path
+from urllib.request import urlopen
 
 import dateutil.relativedelta
 import esak
+from boto3 import session
+from boto3.s3.transfer import S3Transfer
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from django.utils.text import slugify
 
 from comicsdb.models import Arc, Character, Creator, Credits, Issue, Role, Series
 from comicsdb.models.attribution import Attribution
-from metron.settings import MARVEL_PRIVATE_KEY, MARVEL_PUBLIC_KEY
+from metron.settings import DEBUG, MARVEL_PRIVATE_KEY, MARVEL_PUBLIC_KEY
+from metron.storage_backends import MediaStorage
 
 from ._parse_title import FileNameParser
 from ._utils import select_list_choice
 
+if not DEBUG:
+    from metron.settings import (
+        AWS_ACCESS_KEY_ID,
+        AWS_S3_ENDPOINT_URL,
+        AWS_SECRET_ACCESS_KEY,
+        AWS_STORAGE_BUCKET_NAME,
+    )
+else:
+    from metron.settings import MEDIA_ROOT
+
 
 class Command(BaseCommand):
     help = "Retrieve next months comics from the Marvel API."
+
+    @property
+    def get_upload_image_path(self):
+        now = datetime.now()
+        return f"issue/{now:%Y/%m/%d}/"
+
+    def _upload_image(self, image):
+        # TODO: Should probably use Storage to upload image instead of boto directly
+        media_storage = MediaStorage()
+        upload_file = f"{media_storage.location}/{self.get_upload_image_path}{image.name}"
+
+        sesh = session.Session()
+        client = sesh.client(
+            "s3",
+            region_name="nyc3",
+            endpoint_url=AWS_S3_ENDPOINT_URL,
+            aws_access_key_id=AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+        )
+
+        transfer = S3Transfer(client)
+        transfer.upload_file(
+            str(image),
+            AWS_STORAGE_BUCKET_NAME,
+            upload_file,
+            extra_args={"CacheControl": "max-age=604800", "ACL": "public-read"},
+        )
+        self.stdout.write(self.style.SUCCESS(f"Uploaded {image.name} to DigitalOcean."))
 
     def _fix_role(self, role):
         if role == "penciler":
@@ -125,12 +172,19 @@ class Command(BaseCommand):
                 self.style.SUCCESS(f"Added '{eic}' role for {cb} to {issue_obj}.\n")
             )
 
+    def _download_image(self, url):
+        url_path = Path(url)
+        save_path = Path(tempfile.gettempdir()) / url_path.name
+        with open(save_path, "wb") as img_file:
+            img_file.write(urlopen(url).read())
+        return save_path
+
     def _determine_cover_date(self, release_date):
         new_date = release_date + dateutil.relativedelta.relativedelta(months=2)
         return new_date.replace(day=1)
 
     def add_issue_to_database(
-        self, series_obj, fnp: FileNameParser, marvel_data, add_creator: bool
+        self, series_obj, fnp: FileNameParser, marvel_data, add_creator: bool, cover: bool
     ):
         # Marvel store date is in datetime format.
         store_date = marvel_data.dates.on_sale
@@ -184,6 +238,12 @@ class Command(BaseCommand):
                 issue.save()
 
             if create:
+                if cover:
+                    if not DEBUG:
+                        self._get_cover(marvel_data, issue)
+                    else:
+                        self._get_cover_debug(marvel_data, issue)
+
                 self._add_eic_credit(issue)
 
                 if add_creator and marvel_data.creators:
@@ -193,6 +253,12 @@ class Command(BaseCommand):
                     self._add_characters(marvel_data.characters, issue)
 
                 self.stdout.write(self.style.SUCCESS(f"Added {issue} to database.\n\n"))
+            elif cover and not issue.image:
+                if not DEBUG:
+                    self._get_cover(marvel_data, issue)
+                else:
+                    self._get_cover_debug(marvel_data, issue)
+                self.stdout.write(self.style.SUCCESS(f"Added image to {issue}\n"))
             else:
                 self.stdout.write(self.style.WARNING(f"{issue} already exists...\n\n"))
         except IntegrityError:
@@ -201,6 +267,23 @@ class Command(BaseCommand):
                     f"{series_obj} #{fnp.issue} already existing in the database.\n\n"
                 )
             )
+
+    def _get_cover_debug(self, marvel_data, issue):
+        fn = self._download_image(marvel_data.images[0])
+        issue.image = f"{self.get_upload_image_path}{fn.name}"
+        issue.save()
+
+        dest = Path(MEDIA_ROOT) / f"{self.get_upload_image_path}"
+        if not dest.is_dir():
+            dest.mkdir(parents=True)
+        shutil.move(fspath(fn), fspath(dest))
+
+    def _get_cover(self, marvel_data, issue):
+        fn = self._download_image(marvel_data.images[0])
+        issue.image = f"{self.get_upload_image_path}{fn.name}"
+        issue.save()
+        self._upload_image(fn)
+        fn.unlink()
 
     def _get_data_from_marvel(self, options):
         m = esak.api(MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY)
@@ -243,6 +326,12 @@ class Command(BaseCommand):
         parser.add_argument(
             "-c", "--creators", action="store_true", help="Add creators to issue."
         )
+        parser.add_argument(
+            "--cover",
+            help="Retrieve issue covers from Marvel.",
+            action="store_true",
+            default=False,
+        )
 
     def handle(self, *args, **options):
         if not options["date"] and not options["range"]:
@@ -265,7 +354,9 @@ class Command(BaseCommand):
 
             if results:
                 if correct_series := select_list_choice(results):
-                    self.add_issue_to_database(correct_series, fnp, comic, options["creators"])
+                    self.add_issue_to_database(
+                        correct_series, fnp, comic, options["creators"], options["cover"]
+                    )
                 else:
                     self.stdout.write(
                         self.style.NOTICE(
