@@ -70,9 +70,9 @@ class Issue(CommonInfo):
         # Let's delete the original image if we're replacing it by uploading a new one.
         try:
             this = Issue.objects.get(id=self.id)
-            if this.image != self.image:
+            if this.image and this.image != self.image:
                 LOGGER.info(
-                    f"Replacing {'None' if not (img:=this.image) else img} with {'None' if not(img:=self.image) else img}."
+                    f"Replacing {this.image} with {'None' if not(img:=self.image) else img}."
                 )
                 this.image.delete(save=False)
         except ObjectDoesNotExist:
