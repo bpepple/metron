@@ -1,5 +1,8 @@
+import logging
+
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.postgres.fields import ArrayField
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
@@ -10,6 +13,8 @@ from users.models import CustomUser
 from .attribution import Attribution
 from .common import CommonInfo, pre_save_slug
 
+LOGGER = logging.getLogger(__name__)
+
 
 class Creator(CommonInfo):
     birth = models.DateField("Date of Birth", null=True, blank=True)
@@ -18,6 +23,19 @@ class Creator(CommonInfo):
     alias = ArrayField(models.CharField(max_length=100), null=True, blank=True)
     attribution = GenericRelation(Attribution, related_query_name="creators")
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+
+    def save(self, *args, **kwargs) -> None:
+        # Let's delete the original image if we're replacing it by uploading a new one.
+        try:
+            this = Creator.objects.get(id=self.id)
+            if this.image and this.image != self.image:
+                LOGGER.info(
+                    f"Replacing {this.image} with {'None' if not(img:=self.image) else img}."
+                )
+                this.image.delete(save=False)
+        except ObjectDoesNotExist:
+            pass
+        return super(Creator, self).save(*args, **kwargs)
 
     @property
     def issue_count(self):
