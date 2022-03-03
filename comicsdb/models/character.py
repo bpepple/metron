@@ -1,5 +1,8 @@
+import logging
+
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.postgres.fields import ArrayField
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
@@ -12,6 +15,8 @@ from .common import CommonInfo, pre_save_slug
 from .creator import Creator
 from .team import Team
 
+LOGGER = logging.getLogger(__name__)
+
 
 class Character(CommonInfo):
     image = ImageField(upload_to="character/%Y/%m/%d/", blank=True)
@@ -20,6 +25,19 @@ class Character(CommonInfo):
     teams = models.ManyToManyField(Team, blank=True)
     attribution = GenericRelation(Attribution, related_query_name="characters")
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+
+    def save(self, *args, **kwargs) -> None:
+        # Let's delete the original image if we're replacing it by uploading a new one.
+        try:
+            this = Character.objects.get(id=self.id)
+            if this.image and this.image != self.image:
+                LOGGER.info(
+                    f"Replacing {this.image} with {'None' if not(img:=self.image) else img}."
+                )
+                this.image.delete(save=False)
+        except ObjectDoesNotExist:
+            pass
+        return super(Character, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("character:detail", args=[self.slug])
