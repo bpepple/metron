@@ -139,7 +139,6 @@
         </div>
       </div>
       <!-- end series summary -->
-
       <!-- creator counts-->
       {% if creators %}
       <div class="box">
@@ -177,7 +176,6 @@
       </div>
       {% endif %}
       <!-- end creator counts -->
-
       <!-- characters counts-->
       {% if characters %}
       <div class="box">
@@ -215,7 +213,13 @@
       </div>
       {% endif %}
       <!-- end characters counts -->
-
+      <!-- attribution -->
+      {% with attribution=series.attribution.all %}
+        {% if attribution|length > 0 %}
+          {% include "comicsdb/attribution.html" with object=attribution %}
+        {% endif %}
+      {% endwith %}
+      <!-- end attribution-->
     </div>
     <!-- end series main info -->
 
