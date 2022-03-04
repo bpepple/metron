@@ -46,9 +46,8 @@ class FileNameParser:
             count = match.group()
             found = True
 
-        if not found:
-            match = re.search(r"(?<=\(of\s)\d+(?=\))", tmpstr, re.IGNORECASE)
-            if match:
+        if match := re.search(r"(?<=\(of\s)\d+(?=\))", tmpstr, re.IGNORECASE):
+            if not found:
                 count = match.group()
                 found = True
 
