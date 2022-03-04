@@ -41,10 +41,6 @@ class IssueForm(ModelForm):
         ),
     )
 
-    class Media:
-        css = {"all": ("admin/css/widgets.css",)}
-        js = (("/jsi18n"),)
-
     class Meta:
         model = Issue
         # exclude 'creators' field
