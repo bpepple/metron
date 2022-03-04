@@ -5,10 +5,6 @@ from comicsdb.models.issue import Issue
 
 
 class VariantForm(ModelForm):
-    class Media:
-        css = {"all": ("admin/css/widgets.css",)}
-        js = (("/jsi18n"),)
-
     class Meta:
         model = Variant
         fields = ("image", "name", "sku", "upc")
