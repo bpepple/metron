@@ -175,15 +175,13 @@ class FileNameParser:
         series = re.sub(r"\(.*?\)", "", series)
 
         # search for year number
-        match = re.search(r"(.+)([vV]|[Vv][oO][Ll]\.?\s?)(\d+)\s*$", series)
-        if match:
+        if match := re.search(r"(.+)([vV]|[Vv][oO][Ll]\.?\s?)(\d+)\s*$", series):
             series = match.group(1)
             year = match.group(3)
 
         if year == "":
             # match either (YEAR), (YEAR-), or (YEAR-YEAR2)
-            match = re.search(r"(\()(\d{4})(-(\d{4}|)|)(\))", last_word)
-            if match:
+            if match := re.search(r"(\()(\d{4})(-(\d{4}|)|)(\))", last_word):
                 year = match.group(2)
 
         series = series.strip()
