@@ -4,14 +4,17 @@ from functools import reduce
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
+from comicsdb.forms.attribution import AttributionFormSet
 from comicsdb.forms.series import SeriesForm
 from comicsdb.models import Issue, Series
+from comicsdb.models.attribution import Attribution
 
 PAGINATE = 28
 LOGGER = logging.getLogger(__name__)
@@ -130,9 +133,29 @@ class SearchSeriesList(SeriesList):
 class SeriesCreate(LoginRequiredMixin, CreateView):
     model = Series
     form_class = SeriesForm
+    template_name = "comicsdb/model_with_attribution_form.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(SeriesCreate, self).get_context_data(**kwargs)
+        context["title"] = "Add Series"
+        if self.request.POST:
+            context["attribution"] = AttributionFormSet(self.request.POST)
+        else:
+            context["attribution"] = AttributionFormSet()
+        return context
 
     def form_valid(self, form):
-        form.instance.edited_by = self.request.user
+        context = self.get_context_data()
+        attribution_form = context["attribution"]
+        with transaction.atomic():
+            form.instance.edited_by = self.request.user
+            if attribution_form.is_valid():
+                self.object = form.save()
+                attribution_form.instance = self.object
+                attribution_form.save()
+            else:
+                return super().form_invalid(form)
+
         LOGGER.info(f"Series: {form.instance.name} was created by {self.request.user}")
         return super().form_valid(form)
 
@@ -140,9 +163,39 @@ class SeriesCreate(LoginRequiredMixin, CreateView):
 class SeriesUpdate(LoginRequiredMixin, UpdateView):
     model = Series
     form_class = SeriesForm
+    template_name = "comicsdb/model_with_attribution_form.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(SeriesUpdate, self).get_context_data(**kwargs)
+        context["title"] = f"Edit information for {context['series']}"
+        if self.request.POST:
+            context["attribution"] = AttributionFormSet(
+                self.request.POST,
+                instance=self.object,
+                queryset=(Attribution.objects.filter(series=self.object)),
+                prefix="attribution",
+            )
+            context["attribution"].full_clean()
+        else:
+            context["attribution"] = AttributionFormSet(
+                instance=self.object,
+                queryset=(Attribution.objects.filter(series=self.object)),
+                prefix="attribution",
+            )
+        return context
 
     def form_valid(self, form):
-        form.instance.edited_by = self.request.user
+        context = self.get_context_data()
+        attribution_form = context["attribution"]
+        with transaction.atomic():
+            form.instance.edited_by = self.request.user
+            if attribution_form.is_valid():
+                self.object = form.save()
+                attribution_form.instance = self.object
+                attribution_form.save()
+            else:
+                return super().form_invalid(form)
+
         LOGGER.info(f"Series: {form.instance.name} was updated by {self.request.user}")
         return super().form_valid(form)
 

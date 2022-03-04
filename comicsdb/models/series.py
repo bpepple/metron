@@ -1,10 +1,12 @@
 import itertools
 
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
 from django.utils.text import slugify
 
+from comicsdb.models.attribution import Attribution
 from users.models import CustomUser
 
 from .common import CommonInfo
@@ -31,6 +33,7 @@ class Series(CommonInfo):
     series_type = models.ForeignKey(SeriesType, on_delete=models.CASCADE)
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
     associated = models.ManyToManyField("self", blank=True)
+    attribution = GenericRelation(Attribution, related_query_name="series")
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     def get_absolute_url(self):

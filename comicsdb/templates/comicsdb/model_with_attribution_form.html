@@ -37,7 +37,15 @@
       </div>
       <div class="field">
         <label class="label">{{ field.label }}</label>
-        <div class="control">{{ field }}</div>
+        {% if field|is_select %}
+        <div class="control">
+          <div class="select is-fullwidth">
+            {{ field }}
+          </div>
+        </div>
+        {% else %}
+          <div class="control">{{ field }}</div>
+        {% endif %}
         {% if field.help_text %}
           <ul>
             <li class="help">{{ field.help_text|safe }}</li>
