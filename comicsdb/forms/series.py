@@ -1,4 +1,3 @@
-from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.forms import ModelForm, Select, Textarea, TextInput
 from django_select2 import forms as s2forms
 
@@ -6,16 +5,14 @@ from comicsdb.models import Series
 
 
 class SeriesWidget(s2forms.ModelSelect2Widget):
-    search_fields = [
-        "name__icontains",
-    ]
+    search_fields = ["name__icontains"]
+
+
+class MultiSeriesWidget(s2forms.ModelSelect2MultipleWidget):
+    search_fields = ["name__icontains"]
 
 
 class SeriesForm(ModelForm):
-    class Media:
-        css = {"all": ("admin/css/widgets.css",)}
-        js = (("/jsi18n"),)
-
     class Meta:
         model = Series
         exclude = ("edited_by", "slug")
@@ -28,16 +25,14 @@ class SeriesForm(ModelForm):
             "series_type": Select(),
             "publisher": Select(),
             "desc": Textarea(attrs={"class": "textarea"}),
-            "associated": FilteredSelectMultiple(
-                "Associated Series", attrs={"size": "6"}, is_stacked=False
-            ),
+            "associated": MultiSeriesWidget(attrs={"class": "input"}),
         }
         help_texts = {
             "sort_name": """Most of the time it will be the same as the series name,
             but if the title starts with an article like 'The' it might be remove so
             that it is listed with like named series.""",
             "year_end": "Leave blank if a One-Shot, Annual, or Ongoing Series.",
-            "associated": "Associate a series with another. For example, an annual with it's primary series.",
+            "associated": "Associate the series with another series. For example, an annual with it's primary series.",
         }
         labels = {"associated": "Associated Series"}
 
