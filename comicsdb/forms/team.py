@@ -10,10 +10,6 @@ class TeamsWidget(s2forms.ModelSelect2MultipleWidget):
 
 
 class TeamForm(ModelForm):
-    class Media:
-        css = {"all": ("admin/css/widgets.css",)}
-        js = (("/jsi18n"),)
-
     class Meta:
         model = Team
         fields = ("name", "desc", "creators", "image")
