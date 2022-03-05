@@ -4,6 +4,7 @@ from functools import reduce
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 from django.db.models import Prefetch, Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -11,7 +12,10 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from comicsdb.forms.arc import ArcForm
-from comicsdb.models import Arc, Issue
+from comicsdb.forms.attribution import AttributionFormSet
+from comicsdb.models.arc import Arc
+from comicsdb.models.attribution import Attribution
+from comicsdb.models.issue import Issue
 
 PAGINATE = 28
 LOGGER = logging.getLogger(__name__)
@@ -80,15 +84,29 @@ class SearchArcList(ArcList):
 class ArcCreate(LoginRequiredMixin, CreateView):
     model = Arc
     form_class = ArcForm
-    template_name = "comicsdb/model_with_image_form.html"
+    template_name = "comicsdb/model_with_attribution_form.html"
 
     def get_context_data(self, **kwargs):
         context = super(ArcCreate, self).get_context_data(**kwargs)
         context["title"] = "Add Story Arc"
+        if self.request.POST:
+            context["attribution"] = AttributionFormSet(self.request.POST)
+        else:
+            context["attribution"] = AttributionFormSet()
         return context
 
     def form_valid(self, form):
-        form.instance.edited_by = self.request.user
+        context = self.get_context_data()
+        attribution_form = context["attribution"]
+        with transaction.atomic():
+            form.instance.edited_by = self.request.user
+            if attribution_form.is_valid():
+                self.object = form.save()
+                attribution_form.instance = self.object
+                attribution_form.save()
+            else:
+                return super().form_invalid(form)
+
         LOGGER.info(f"Arc: {form.instance.name} was created by {self.request.user}")
         return super().form_valid(form)
 
@@ -96,17 +114,41 @@ class ArcCreate(LoginRequiredMixin, CreateView):
 class ArcUpdate(LoginRequiredMixin, UpdateView):
     model = Arc
     form_class = ArcForm
-    template_name = "comicsdb/model_with_image_form.html"
+    template_name = "comicsdb/model_with_attribution_form.html"
 
     def get_context_data(self, **kwargs):
         context = super(ArcUpdate, self).get_context_data(**kwargs)
         context["title"] = f"Edit information for {context['arc']}"
+        if self.request.POST:
+            context["attribution"] = AttributionFormSet(
+                self.request.POST,
+                instance=self.object,
+                queryset=(Attribution.objects.filter(arcs=self.object)),
+                prefix="attribution",
+            )
+            context["attribution"].full_clean()
+        else:
+            context["attribution"] = AttributionFormSet(
+                instance=self.object,
+                queryset=(Attribution.objects.filter(arcs=self.object)),
+                prefix="attribution",
+            )
         return context
 
     def form_valid(self, form):
-        form.instance.edited_by = self.request.user
+        context = self.get_context_data()
+        attribution_form = context["attribution"]
+        with transaction.atomic():
+            form.instance.edited_by = self.request.user
+            if attribution_form.is_valid():
+                self.object = form.save()
+                attribution_form.instance = self.object
+                attribution_form.save()
+            else:
+                return super().form_invalid(form)
+
         LOGGER.info(f"Arc: {form.instance.name} was updated by {self.request.user}")
-        return super().form_valid(form)
+        return super(ArcUpdate, self).form_valid(form)
 
 
 class ArcDelete(PermissionRequiredMixin, DeleteView):
