@@ -1,11 +1,13 @@
 import logging
 
+from django.contrib.contenttypes.fields import GenericRelation
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
 from sorl.thumbnail import ImageField
 
+from comicsdb.models.attribution import Attribution
 from users.models import CustomUser
 
 from .common import CommonInfo, pre_save_slug
@@ -15,6 +17,7 @@ LOGGER = logging.getLogger(__name__)
 
 class Arc(CommonInfo):
     image = ImageField(upload_to="arc/%Y/%m/%d/", blank=True)
+    attribution = GenericRelation(Attribution, related_query_name="arcs")
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
     def save(self, *args, **kwargs) -> None:

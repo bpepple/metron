@@ -141,6 +141,13 @@
           </div>
         {% endif %}
       {% endwith %}
+      <!-- attribution -->
+      {% with attribution=arc.attribution.all %}
+        {% if attribution|length > 0 %}
+          {% include "comicsdb/attribution.html" with object=attribution %}
+        {% endif %}
+      {% endwith %}
+      <!-- end attribution-->
     </div>
     <!-- end of arc summary -->
     <!-- misc info -->
