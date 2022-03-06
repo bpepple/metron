@@ -6,25 +6,33 @@
     {% block sitedesc %}{% endblock %}
     {% block sitekeywords %}{% endblock %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <!-- Social: Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@MetronDB" />
     <meta name="twitter:title" content="Metron Comic Book Database" />
     <meta name="twitter:description" content="A community-based comic book database." />
     <meta name="twitter:image" content="https://metron-static.nyc3.digitaloceanspaces.com/misc/metron-twitter-card.jpg" />
     <meta name="twitter:image:alt" content="A image of the New God Metron seated and pondering the universe." />
+    <!-- End Social: Twitter -->
+    <!-- Social: Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Metron Comic Book Database" />
     <meta property="og:description" content="A community-based comic book database." />
     <meta property="og:url" content="https://metron.cloud/" />
     <meta property="og:image" content="https://metron-static.nyc3.digitaloceanspaces.com/misc/metron-twitter-card.jpg" />
-    <title>{% block title %}{% endblock %}</title>
+    <!-- End Social: Open Graph-->
+    <!-- Favicon -->
     <link rel="shortcut icon" type="image/png" href="{% static 'site/img/favicon.ico' %}" />
+    <!-- End Favicon -->
+    <!-- Resources -->
     {% load django_simple_bulma %}
     {% bulma %}
     {% font_awesome %}
     <link rel="stylesheet" href="{% static 'site/css/base.css' %}">
     {% block headcss %}{% endblock%}
     {% block headscripts %}{% endblock %}
+    <!-- End Resources -->
   </head>
   <body class="has-navbar-fixed-top">
     {% include "navbar.html" %}
