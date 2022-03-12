@@ -9,7 +9,6 @@ from comicsdb.models import (
     Publisher,
     Role,
     Series,
-    SeriesType,
     Team,
     Variant,
 )
@@ -67,12 +66,6 @@ class SeriesListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Series
         fields = ("id", "__str__", "modified")
-
-
-class SeriesTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SeriesType
-        fields = ("id", "name")
 
 
 class TeamListSerializer(serializers.ModelSerializer):
@@ -189,7 +182,7 @@ class SeriesSerializer(serializers.ModelSerializer):
     publisher = IssuePublisherSerializer(read_only=True)
     issue_count = serializers.ReadOnlyField
     image = SeriesImageSerializer(source="issue_set.first", many=False)
-    series_type = SeriesTypeSerializer(read_only=True)
+    type = serializers.CharField(source="get_type_display")
     associated = AssociatedSeriesSerializer(many=True, read_only=True)
 
     class Meta:
@@ -199,7 +192,7 @@ class SeriesSerializer(serializers.ModelSerializer):
             "name",
             "sort_name",
             "volume",
-            "series_type",
+            "type",
             "publisher",
             "year_began",
             "year_end",

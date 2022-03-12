@@ -1,14 +1,4 @@
-from comicsdb.models import (
-    Arc,
-    Character,
-    Creator,
-    Issue,
-    Publisher,
-    Role,
-    Series,
-    SeriesType,
-    Team,
-)
+from comicsdb.models import Arc, Character, Creator, Issue, Publisher, Role, Series, Team
 
 HTTP_200_OK = 200
 
@@ -132,8 +122,3 @@ def test_issue_absolute_url(client, issue_with_arc):
 def test_issue_count(issue_with_arc, superman):
     issue_count = superman.issue_count
     assert issue_count == 1
-
-
-def test_seriestype_creation(cancelled_type):
-    assert isinstance(cancelled_type, SeriesType)
-    assert str(cancelled_type) == cancelled_type.name
