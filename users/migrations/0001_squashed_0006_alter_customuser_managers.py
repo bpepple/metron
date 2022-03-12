@@ -9,7 +9,14 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    replaces = []
+    replaces = [
+        ("users", "0001_initial"),
+        ("users", "0002_customuser_email_confirmed"),
+        ("users", "0003_alter_first_name"),
+        ("users", "0004_add_profile_image"),
+        ("users", "0005_remove_customuser_created_on"),
+        ("users", "0006_alter_customuser_managers"),
+    ]
 
     initial = True
 

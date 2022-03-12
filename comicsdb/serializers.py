@@ -182,7 +182,7 @@ class SeriesSerializer(serializers.ModelSerializer):
     publisher = IssuePublisherSerializer(read_only=True)
     issue_count = serializers.ReadOnlyField
     image = SeriesImageSerializer(source="issue_set.first", many=False)
-    series_type = serializers.CharField(source="get_type_display")
+    type = serializers.CharField(source="get_type_display")
     associated = AssociatedSeriesSerializer(many=True, read_only=True)
 
     class Meta:
@@ -192,7 +192,7 @@ class SeriesSerializer(serializers.ModelSerializer):
             "name",
             "sort_name",
             "volume",
-            "series_type",
+            "type",
             "publisher",
             "year_began",
             "year_end",
