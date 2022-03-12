@@ -171,9 +171,7 @@ class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
         Returns a list of series for a publisher.
         """
         publisher = self.get_object()
-        queryset = publisher.series_set.select_related("series_type").prefetch_related(
-            "issue_set"
-        )
+        queryset = publisher.series_set.prefetch_related("issue_set")
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = SeriesListSerializer(page, many=True, context={"request": request})
@@ -203,7 +201,7 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
     Returns the information of an individual comic series.
     """
 
-    queryset = Series.objects.select_related("series_type", "publisher")
+    queryset = Series.objects.select_related("publisher")
     serializer_class = SeriesSerializer
     filterset_class = SeriesFilter
     throttle_classes = (UserRateThrottle,)
