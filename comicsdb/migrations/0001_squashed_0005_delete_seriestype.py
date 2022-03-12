@@ -91,13 +91,7 @@ def migrate_wikipedia_field(apps, schema_editor):
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("comicsdb", "0001_squashed_0007_issue_reprints"),
-        ("comicsdb", "0002_series_type"),
-        ("comicsdb", "0003_migrate_series_type_to_choices"),
-        ("comicsdb", "0004_alter_series_unique_together_and_more"),
-        ("comicsdb", "0005_delete_seriestype"),
-    ]
+    replaces = []
 
     initial = True
 
