@@ -57,15 +57,7 @@ def migrate_wikipedia_field(apps, schema_editor):
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("comicsdb", "0001_initial"),
-        ("comicsdb", "0002_alter_series_associated"),
-        ("comicsdb", "0003_attribution"),
-        ("comicsdb", "0004_migrate_wiki_field"),
-        ("comicsdb", "0005_remove_wiki_fields"),
-        ("comicsdb", "0006_add_gcd_to_attribution_model"),
-        ("comicsdb", "0007_issue_reprints"),
-    ]
+    replaces = []
 
     initial = True
 
