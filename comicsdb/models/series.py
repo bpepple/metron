@@ -13,18 +13,6 @@ from .common import CommonInfo
 from .publisher import Publisher
 
 
-class SeriesType(models.Model):
-    name = models.CharField(max_length=255)
-    notes = models.TextField(blank=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    def __str__(self) -> str:
-        return self.name
-
-    class Meta:
-        ordering = ["name"]
-
-
 class Series(CommonInfo):
     class Type(models.TextChoices):
         ANNUAL = "AN", "Annual"
