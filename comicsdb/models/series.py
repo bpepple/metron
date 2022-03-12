@@ -41,7 +41,6 @@ class Series(CommonInfo):
     year_began = models.PositiveSmallIntegerField("Year Began")
     year_end = models.PositiveSmallIntegerField("Year Ended", null=True, blank=True)
     type = models.CharField(max_length=2, choices=Type.choices, default=Type.ONGOING)
-    series_type = models.ForeignKey(SeriesType, on_delete=models.CASCADE)
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
     associated = models.ManyToManyField("self", blank=True)
     attribution = GenericRelation(Attribution, related_query_name="series")
@@ -65,7 +64,7 @@ class Series(CommonInfo):
 
     class Meta:
         verbose_name_plural = "Series"
-        unique_together = ["publisher", "name", "volume", "series_type"]
+        unique_together = ["publisher", "name", "volume", "type"]
         ordering = ["sort_name", "year_began"]
 
 
