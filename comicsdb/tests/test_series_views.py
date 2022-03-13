@@ -3,7 +3,7 @@ from django.urls import reverse
 from pytest_django.asserts import assertTemplateUsed
 
 from comicsdb.forms.series import SeriesForm
-from comicsdb.models import Series
+from comicsdb.models import Series, SeriesType
 
 # from comicsdb.tests.test_creator_views import HTML_REDIRECT_CODE
 
@@ -17,6 +17,7 @@ PAGINATE_DIFF_VAL = PAGINATE_TEST_VAL - PAGINATE_DEFAULT_VAL
 @pytest.fixture
 def list_of_series(create_user, dc_comics):
     user = create_user()
+    series_type = SeriesType.objects.create(name="Ongoing Series")
     for pub_num in range(PAGINATE_TEST_VAL):
         Series.objects.create(
             name=f"Series {pub_num}",
@@ -25,7 +26,7 @@ def list_of_series(create_user, dc_comics):
             year_began=2018,
             publisher=dc_comics,
             volume=f"{pub_num}",
-            type="OG",
+            series_type=series_type,
             edited_by=user,
         )
 
@@ -106,7 +107,7 @@ def test_series_listlists_second_page(auto_login_user, list_of_series):
     assert len(resp.context["series_list"]) == PAGINATE_DIFF_VAL
 
 
-def test_valid_form(dc_comics):
+def test_valid_form(dc_comics, cancelled_type):
     form = SeriesForm(
         data={
             "name": "Batman",
@@ -115,7 +116,7 @@ def test_valid_form(dc_comics):
             "volume": 3,
             "year_began": 2017,
             "year_end": "",
-            "type": "CA",
+            "series_type": cancelled_type,
             "publisher": dc_comics,
             "desc": "The Dark Knight.",
         }
@@ -123,7 +124,7 @@ def test_valid_form(dc_comics):
     assert form.is_valid() is True
 
 
-def test_form_invalid(dc_comics):
+def test_form_invalid(dc_comics, cancelled_type):
     form = SeriesForm(
         data={
             "name": "",
@@ -131,7 +132,7 @@ def test_form_invalid(dc_comics):
             "slug": "bad-data",
             "volume": "",
             "year_began": "",
-            "type": "CA",
+            "series_type": cancelled_type,
             "publisher": dc_comics,
             "desc": "",
         }
@@ -157,7 +158,7 @@ def test_create_series_view(auto_login_user):
 #             "volume": 3,
 #             "year_began": 2017,
 #             "year_end": 2018,
-#             "type": "CA",
+#             "series_type": cancelled_type.id,
 #             "publisher": dc_comics.id,
 #             "desc": "Bunch of Misfits",
 #         },
@@ -187,7 +188,7 @@ def test_series_update_view(auto_login_user, fc_series):
 #             "volume": 3,
 #             "year_began": 2017,
 #             "year_end": "",
-#             "type": "CA",
+#             "series_type": cancelled_type.id,
 #             "publisher": dc_comics.id,
 #             "desc": "Blah, Blah.",
 #         },
