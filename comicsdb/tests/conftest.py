@@ -10,7 +10,7 @@ from comicsdb.models.creator import Creator
 from comicsdb.models.credits import Role
 from comicsdb.models.issue import Issue
 from comicsdb.models.publisher import Publisher
-from comicsdb.models.series import Series
+from comicsdb.models.series import Series, SeriesType
 from comicsdb.models.team import Team
 from users.models import CustomUser
 
@@ -90,7 +90,12 @@ def marvel(create_user):
 
 
 @pytest.fixture
-def fc_series(create_user, dc_comics):
+def cancelled_type(db):
+    return SeriesType.objects.create(name="Cancelled")
+
+
+@pytest.fixture
+def fc_series(create_user, dc_comics, cancelled_type):
     user = create_user()
     return Series.objects.create(
         name="Final Crisis",
@@ -98,7 +103,7 @@ def fc_series(create_user, dc_comics):
         publisher=dc_comics,
         volume="1",
         year_began=1939,
-        type="CA",
+        series_type=cancelled_type,
         edited_by=user,
     )
 

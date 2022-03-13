@@ -13,22 +13,24 @@ from .common import CommonInfo
 from .publisher import Publisher
 
 
-class Series(CommonInfo):
-    class Type(models.TextChoices):
-        ANNUAL = "AN", "Annual"
-        CANCELLED = "CA", "Cancelled"
-        GRAPHIC_NOVEL = "GN", "Graphic Novel"
-        HARD_COVER = "HC", "Hard Cover"
-        MAXI = "MX", "Maxi-Series"
-        MINI = "MN", "Mini-Series"
-        ONE_SHOT = "OS", "One-Shot"
-        ONGOING = "OG", "Ongoing"
+class SeriesType(models.Model):
+    name = models.CharField(max_length=255)
+    notes = models.TextField(blank=True)
+    modified = models.DateTimeField(auto_now=True)
 
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        ordering = ["name"]
+
+
+class Series(CommonInfo):
     sort_name = models.CharField(max_length=255)
     volume = models.PositiveSmallIntegerField("Volume Number")
     year_began = models.PositiveSmallIntegerField("Year Began")
     year_end = models.PositiveSmallIntegerField("Year Ended", null=True, blank=True)
-    type = models.CharField(max_length=2, choices=Type.choices, default=Type.ONGOING)
+    series_type = models.ForeignKey(SeriesType, on_delete=models.CASCADE)
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
     associated = models.ManyToManyField("self", blank=True)
     attribution = GenericRelation(Attribution, related_query_name="series")
@@ -52,7 +54,7 @@ class Series(CommonInfo):
 
     class Meta:
         verbose_name_plural = "Series"
-        unique_together = ["publisher", "name", "volume", "type"]
+        unique_together = ["publisher", "name", "volume", "series_type"]
         ordering = ["sort_name", "year_began"]
 
 

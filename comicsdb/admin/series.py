@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from comicsdb.models import Series
+from comicsdb.models import Series, SeriesType
 
 
 @admin.register(Series)
@@ -18,8 +18,14 @@ class SeriesAdmin(admin.ModelAdmin):
         "volume",
         "year_began",
         "year_end",
-        "type",
+        "series_type",
         "associated",
         "desc",
         "edited_by",
     )
+
+
+@admin.register(SeriesType)
+class SeriesTypeAdmin(admin.ModelAdmin):
+    search_fields = ["name"]
+    fields = ("name", "notes")

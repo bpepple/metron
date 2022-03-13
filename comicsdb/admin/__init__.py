@@ -4,7 +4,7 @@ from .creator import CreatorAdmin
 from .issue import IssueAdmin
 from .publisher import PublisherAdmin
 from .role import RoleAdmin
-from .series import SeriesAdmin
+from .series import SeriesAdmin, SeriesTypeAdmin
 from .team import TeamAdmin
 
 __all__ = [
@@ -15,5 +15,6 @@ __all__ = [
     "PublisherAdmin",
     "RoleAdmin",
     "SeriesAdmin",
+    "SeriesTypeAdmin",
     "TeamAdmin",
 ]
