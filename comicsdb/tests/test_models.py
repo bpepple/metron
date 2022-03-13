@@ -116,7 +116,7 @@ def test_series_absolute_url(client, fc_series):
 
 def test_issue_creation(issue_with_arc):
     assert isinstance(issue_with_arc, Issue)
-    assert str(issue_with_arc) == "Final Crisis #1"
+    assert str(issue_with_arc) == "Final Crisis (1939) #1"
 
 
 def test_issue_verbose_name_plural(issue_with_arc):
