@@ -9,6 +9,7 @@ from comicsdb.models import (
     SeriesType,
     Team,
 )
+from comicsdb.models.common import generate_slug_from_name
 
 HTTP_200_OK = 200
 
@@ -16,6 +17,10 @@ HTTP_200_OK = 200
 def test_team_creation(avengers):
     assert isinstance(avengers, Team)
     assert str(avengers) == avengers.name
+    # test generatte slug function
+    new_slug = generate_slug_from_name(avengers)
+    expected_slug = f"{avengers.slug}-1"
+    assert new_slug == expected_slug
 
 
 def test_team_verbose_name_plural(avengers):
