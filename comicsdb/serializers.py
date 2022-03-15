@@ -57,6 +57,14 @@ class PublisherListSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "modified")
 
 
+class ReprintSerializer(serializers.ModelSerializer):
+    issue = serializers.CharField(source="__str__")
+
+    class Meta:
+        model = Issue
+        fields = ("id", "issue")
+
+
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Role
@@ -136,6 +144,7 @@ class IssueSerializer(serializers.ModelSerializer):
     publisher = IssuePublisherSerializer(source="series.publisher", read_only=True)
     series = IssueSeriesSerializer(read_only=True)
     volume = serializers.ReadOnlyField(source="series.volume")
+    reprints = ReprintSerializer(many=True, read_only=True)
 
     class Meta:
         model = Issue
@@ -158,6 +167,7 @@ class IssueSerializer(serializers.ModelSerializer):
             "credits",
             "characters",
             "teams",
+            "reprints",
             "variants",
             "modified",
         )
