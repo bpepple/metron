@@ -46,9 +46,11 @@ class CreatorListSerializer(serializers.ModelSerializer):
 
 
 class IssueListSerializer(serializers.ModelSerializer):
+    issue = serializers.CharField(source="__str__")
+
     class Meta:
         model = Issue
-        fields = ("id", "__str__", "cover_date", "modified")
+        fields = ("id", "issue", "cover_date", "modified")
 
 
 class PublisherListSerializer(serializers.ModelSerializer):
@@ -72,9 +74,11 @@ class RoleSerializer(serializers.ModelSerializer):
 
 
 class SeriesListSerializer(serializers.ModelSerializer):
+    series = serializers.CharField(source="__str__")
+
     class Meta:
         model = Series
-        fields = ("id", "__str__", "modified")
+        fields = ("id", "series", "modified")
 
 
 class SeriesTypeSerializer(serializers.ModelSerializer):
@@ -190,9 +194,11 @@ class SeriesImageSerializer(serializers.ModelSerializer):
 
 
 class AssociatedSeriesSerializer(serializers.ModelSerializer):
+    series = serializers.CharField(source="__str__")
+
     class Meta:
         model = Series
-        fields = ("id", "__str__")
+        fields = ("id", "series")
 
 
 class SeriesSerializer(serializers.ModelSerializer):
