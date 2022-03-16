@@ -46,15 +46,25 @@ class CreatorListSerializer(serializers.ModelSerializer):
 
 
 class IssueListSerializer(serializers.ModelSerializer):
+    issue = serializers.CharField(source="__str__")
+
     class Meta:
         model = Issue
-        fields = ("id", "__str__", "cover_date", "modified")
+        fields = ("id", "issue", "cover_date", "modified")
 
 
 class PublisherListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publisher
         fields = ("id", "name", "modified")
+
+
+class ReprintSerializer(serializers.ModelSerializer):
+    issue = serializers.CharField(source="__str__")
+
+    class Meta:
+        model = Issue
+        fields = ("id", "issue")
 
 
 class RoleSerializer(serializers.ModelSerializer):
@@ -64,9 +74,11 @@ class RoleSerializer(serializers.ModelSerializer):
 
 
 class SeriesListSerializer(serializers.ModelSerializer):
+    series = serializers.CharField(source="__str__")
+
     class Meta:
         model = Series
-        fields = ("id", "__str__", "modified")
+        fields = ("id", "series", "modified")
 
 
 class SeriesTypeSerializer(serializers.ModelSerializer):
@@ -136,6 +148,7 @@ class IssueSerializer(serializers.ModelSerializer):
     publisher = IssuePublisherSerializer(source="series.publisher", read_only=True)
     series = IssueSeriesSerializer(read_only=True)
     volume = serializers.ReadOnlyField(source="series.volume")
+    reprints = ReprintSerializer(many=True, read_only=True)
 
     class Meta:
         model = Issue
@@ -158,6 +171,7 @@ class IssueSerializer(serializers.ModelSerializer):
             "credits",
             "characters",
             "teams",
+            "reprints",
             "variants",
             "modified",
         )
@@ -180,9 +194,11 @@ class SeriesImageSerializer(serializers.ModelSerializer):
 
 
 class AssociatedSeriesSerializer(serializers.ModelSerializer):
+    series = serializers.CharField(source="__str__")
+
     class Meta:
         model = Series
-        fields = ("id", "__str__")
+        fields = ("id", "series")
 
 
 class SeriesSerializer(serializers.ModelSerializer):
