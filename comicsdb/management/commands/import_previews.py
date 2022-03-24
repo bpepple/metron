@@ -118,7 +118,7 @@ class Command(BaseCommand):
 
     def _convert_price(self, price: str) -> Decimal:
         new_val = price.strip("$")
-        return Decimal("0.00") if not self._is_decimal(new_val) else Decimal(new_val)
+        return Decimal(new_val) if self._is_decimal(new_val) else Decimal("0.00")
 
     def _check_if_variant(self, comic):
         var_list = [
