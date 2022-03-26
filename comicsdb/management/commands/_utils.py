@@ -1,5 +1,6 @@
 """ Some utility function to cleanup data from Shortboxed """
 from datetime import date, timedelta
+from typing import Tuple
 
 import dateutil.relativedelta
 
@@ -9,7 +10,7 @@ def _remove_trade_paperbacks(lst):
     return [i for i in lst if "#" in i.title]
 
 
-def _cleanup_title(str):
+def _cleanup_title(str: str) -> str:
     """Remove any word *after* the issue number"""
     words = str.split(" ")
     new_title = []
@@ -96,7 +97,7 @@ def select_issue_choice(results):
         return None
 
 
-def determine_cover_date(release_date, publisher):
+def determine_cover_date(release_date: date, publisher: str) -> date:
     if publisher.upper() != "MARVEL COMICS":
         return release_date.replace(day=1)
 
@@ -104,7 +105,7 @@ def determine_cover_date(release_date, publisher):
     return new_date.replace(day=1)
 
 
-def get_query_values(item):
+def get_query_values(item: str) -> Tuple[str, str]:
     name = item.title.split("#")
     return name[0].strip(), name[1]
 
