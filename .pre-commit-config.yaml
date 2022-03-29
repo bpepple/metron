@@ -4,11 +4,11 @@ repos:
   hooks:
     - id: seed-isort-config
 - repo: https://github.com/pycqa/isort
-  rev: 5.9.3
+  rev: 5.10.1
   hooks:
     - id: isort
 -   repo: https://github.com/ambv/black
-    rev: 21.7b0
+    rev: 22.3.0
     hooks:
     - id: black
       language_version: python3.8
