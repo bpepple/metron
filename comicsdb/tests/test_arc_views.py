@@ -4,6 +4,7 @@ from pytest_django.asserts import assertTemplateUsed
 
 from comicsdb.forms.arc import ArcForm
 from comicsdb.models.arc import Arc
+from comicsdb.models.attribution import Attribution
 
 HTML_OK_CODE = 200
 
@@ -119,25 +120,35 @@ def test_form_invalid():
 def test_create_arc_view(auto_login_user):
     client, _ = auto_login_user()
     resp = client.get(reverse("arc:create"))
+    assert (
+        '<input type="text" name="comicsdb-attribution-content_type-object_id-0-url" class="input" maxlength="200" id="id_comicsdb-attribution-content_type-object_id-0-url">'
+        in str(resp.content)
+    )
     assert resp.status_code == HTML_OK_CODE
     assertTemplateUsed(resp, "comicsdb/model_with_attribution_form.html")
 
 
-# def test_create_arc_validform_view(auto_login_user, wwh_arc):
-#     client, _ = auto_login_user()
-#     arc_count = Arc.objects.count()
-#     resp = client.post(
-#         reverse("arc:create"),
-#         {
-#             "name": "Infinite Crisis",
-#             "slug": "infinite-crisis",
-#             "desc": "World ending crisis",
-#             "image": "arc/2019/06/07/crisis-1",
-#         },
-#     )
-#     # Should this really be HTTP 302? Probably need to see if we should be redirecting or not.
-#     assert resp.status_code == 302
-#     assert Arc.objects.count() == arc_count + 1
+def test_create_arc_validform_view(auto_login_user, wwh_arc):
+    data = {
+        "name": "Infinite Crisis",
+        "slug": "infinite-crisis",
+        "desc": "World ending crisis",
+        "image": "arc/2019/06/07/crisis-1",
+        "comicsdb-attribution-content_type-object_id-TOTAL_FORMS": 1,
+        "comicsdb-attribution-content_type-object_id-INITIAL_FORMS": 0,
+        "comicsdb-attribution-content_type-object_id-0-source": "W",
+        "comicsdb-attribution-content_type-object_id-0-url": "https://en.wikipedia.org/wiki/Wonder_Woman",
+    }
+    client, _ = auto_login_user()
+    arc_count = Arc.objects.count()
+    resp = client.post(
+        reverse("arc:create"),
+        data=data,
+    )
+    # Should this really be HTTP 302? Probably need to see if we should be redirecting or not.
+    assert resp.status_code == 302
+    assert Arc.objects.count() == arc_count + 1
+    assert Attribution.objects.count() == 1
 
 
 # Arc Update
