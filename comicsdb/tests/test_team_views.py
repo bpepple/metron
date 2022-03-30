@@ -15,7 +15,7 @@ PAGINATE_DIFF_VAL = PAGINATE_TEST_VAL - PAGINATE_DEFAULT_VAL
 def list_of_series(create_user):
     user = create_user()
     for pub_num in range(PAGINATE_TEST_VAL):
-        Team.objects.create(name="Team %s" % pub_num, slug="team-%s" % pub_num, edited_by=user)
+        Team.objects.create(name=f"Team {pub_num}", slug=f"team-{pub_num}", edited_by=user)
 
 
 def test_team_search_view_url_exists_at_desired_location(auto_login_user):
