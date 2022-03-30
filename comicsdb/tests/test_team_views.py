@@ -1,8 +1,10 @@
 import pytest
 from django.urls import reverse
+from django.utils.text import slugify
 from pytest_django.asserts import assertTemplateUsed
 
-from comicsdb.models import Team
+from comicsdb.models.attribution import Attribution
+from comicsdb.models.team import Team
 
 HTML_OK_CODE = 200
 
@@ -92,3 +94,56 @@ def test_team_lists_second_page(auto_login_user, list_of_series):
     assert "is_paginated" in resp.context
     assert resp.context["is_paginated"] is True
     assert len(resp.context["team_list"]) == PAGINATE_DIFF_VAL
+
+
+# CreateView
+def test_create_team_validform_view(auto_login_user, teen_titans):
+    team_name = "U-Foes"
+    team_slug = slugify(team_name)
+    data = {
+        "name": team_name,
+        "slug": team_slug,
+        "comicsdb-attribution-content_type-object_id-TOTAL_FORMS": 1,
+        "comicsdb-attribution-content_type-object_id-INITIAL_FORMS": 0,
+        "comicsdb-attribution-content_type-object_id-0-source": "W",
+        "comicsdb-attribution-content_type-object_id-0-url": "https://en.wikipedia.org/wiki/U_Foes",
+    }
+    client, _ = auto_login_user()
+    team_count = Team.objects.count()
+    resp = client.post(reverse("team:create"), data=data)
+    uf = Team.objects.get(slug=team_slug)
+    assert resp.status_code == 302
+    assert Team.objects.count() == team_count + 1
+    assert Attribution.objects.count() == 1
+    assert uf.name == team_name
+    assert uf.slug == team_slug
+
+
+# UpdateView
+def test_team_update_view(auto_login_user, teen_titans):
+    client, _ = auto_login_user()
+    k = {"slug": teen_titans.slug}
+    resp = client.get(reverse("team:update", kwargs=k))
+    assert resp.status_code == HTML_OK_CODE
+    assertTemplateUsed(resp, "comicsdb/model_with_attribution_form.html")
+
+
+# def test_team_update_form(auto_login_user, teen_titans):
+#     data = {
+#         "name": "Teen Titans",
+#         "slug": "teen-titans",
+#         "desc": "The sidekicks",
+#         "comicsdb-attribution-content_type-object_id-TOTAL_FORMS": 1,
+#         "comicsdb-attribution-content_type-object_id-INITIAL_FORMS": 0,
+#         "comicsdb-attribution-content_type-object_id-0-source": "W",
+#         "comicsdb-attribution-content_type-object_id-0-url": "https://en.wikipedia.org/wiki/Teen_Titans",
+#     }
+#     client, _ = auto_login_user()
+#     k = {"slug": teen_titans.slug}
+#     team_count = Team.objects.count()
+#     client.post(reverse("team:update", kwargs=k), data=data)
+#     # assert resp.status_code == 302
+#     assert Team.objects.count() == team_count
+#     tt = Team.objects.get(slug="teen-titans")
+#     tt.desc == "The sidekicks"
+#     # assert Attribution.objects.count() == 1
