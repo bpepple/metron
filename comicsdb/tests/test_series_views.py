@@ -4,10 +4,10 @@ from pytest_django.asserts import assertTemplateUsed
 
 from comicsdb.forms.series import SeriesForm
 from comicsdb.models import Series, SeriesType
-
-# from comicsdb.tests.test_creator_views import HTML_REDIRECT_CODE
+from comicsdb.models.attribution import Attribution
 
 HTML_OK_CODE = 200
+HTML_REDIRECT_CODE = 302
 
 PAGINATE_TEST_VAL = 35
 PAGINATE_DEFAULT_VAL = 28
@@ -147,24 +147,36 @@ def test_create_series_view(auto_login_user):
     assertTemplateUsed(response, "comicsdb/model_with_attribution_form.html")
 
 
-# def test_create_series_validform_view(auto_login_user, cancelled_type, dc_comics):
-#     client, _ = auto_login_user()
-#     response = client.post(
-#         reverse("series:create"),
-#         {
-#             "name": "Doom Patrol",
-#             "sort_name": "Doom Patrol",
-#             "slug": "doom-patrol-2017",
-#             "volume": 3,
-#             "year_began": 2017,
-#             "year_end": 2018,
-#             "series_type": cancelled_type.id,
-#             "publisher": dc_comics.id,
-#             "desc": "Bunch of Misfits",
-#         },
-#     )
-#     assert response.status_code == HTML_REDIRECT_CODE
-#     assert Series.objects.count() == 1
+def test_create_series_validform_view(auto_login_user, cancelled_type, dc_comics):
+    s_name = "Doom Patrol"
+    s_slug = "doom-patrol-2017"
+    data = {
+        "name": s_name,
+        "sort_name": s_name,
+        "slug": s_slug,
+        "volume": 3,
+        "year_began": 2017,
+        "year_end": 2018,
+        "series_type": cancelled_type.id,
+        "publisher": dc_comics.id,
+        "desc": "Bunch of Misfits",
+        "comicsdb-attribution-content_type-object_id-TOTAL_FORMS": 1,
+        "comicsdb-attribution-content_type-object_id-INITIAL_FORMS": 0,
+        "comicsdb-attribution-content_type-object_id-0-source": "W",
+        "comicsdb-attribution-content_type-object_id-0-url": "https://en.wikipedia.org/wiki/Doom_Patrol",
+    }
+    client, _ = auto_login_user()
+    response = client.post(
+        reverse("series:create"),
+        data=data,
+    )
+    assert response.status_code == HTML_REDIRECT_CODE
+    assert Series.objects.count() == 1
+    assert Attribution.objects.count() == 1
+    dp = Series.objects.get(slug=s_slug)
+    assert dp.name == s_name
+    assert dp.sort_name == s_name
+    assert dp.slug == s_slug
 
 
 def test_series_update_view(auto_login_user, fc_series):
