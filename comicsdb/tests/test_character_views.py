@@ -17,8 +17,8 @@ def list_of_characters(create_user):
     user = create_user()
     for pub_num in range(PAGINATE_TEST_VAL):
         Character.objects.create(
-            name="Character %s" % pub_num,
-            slug="character-%s" % pub_num,
+            name=f"Character {pub_num}",
+            slug=f"character-{pub_num}",
             edited_by=user,
         )
 
