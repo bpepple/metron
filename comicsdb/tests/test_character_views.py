@@ -3,7 +3,8 @@ from django.urls import reverse
 from pytest_django.asserts import assertTemplateUsed
 
 from comicsdb.forms.character import CharacterForm
-from comicsdb.models import Character
+from comicsdb.models.attribution import Attribution
+from comicsdb.models.character import Character
 
 HTML_OK_CODE = 200
 
@@ -140,23 +141,31 @@ def test_create_character_view(auto_login_user):
     assertTemplateUsed(response, "comicsdb/model_with_attribution_form.html")
 
 
-# TODO: Need to rewrite this test to handle the inline formset
-#
-# def test_create_character_validform_view(auto_login_user, batman):
-#     character_count = Character.objects.count()
-#     client, _ = auto_login_user()
-#     response = client.post(
-#         reverse("character:create"),
-#         {
-#             "name": "Hulk",
-#             "slug": "hulk",
-#             "desc": "Gamma powered goliath.",
-#             "image": "character/2019/06/07/hulk.jpg",
-#             "alias": "Green Goliath",
-#         },
-#     )
-#     assert response.status_code == 302
-#     assert Character.objects.count() == character_count + 1
+def test_create_character_validform_view(auto_login_user, batman):
+    c_name = "Hulk"
+    c_slug = "hulk"
+    c_desc = "Gamma powered goliath."
+    c_alias = ["Green Goliath"]
+    data = {
+        "name": c_name,
+        "slug": c_slug,
+        "desc": c_desc,
+        "alias": c_alias,
+        "comicsdb-attribution-content_type-object_id-TOTAL_FORMS": 1,
+        "comicsdb-attribution-content_type-object_id-INITIAL_FORMS": 0,
+        "comicsdb-attribution-content_type-object_id-0-source": "W",
+        "comicsdb-attribution-content_type-object_id-0-url": "https://en.wikipedia.org/wiki/Hulk",
+    }
+    character_count = Character.objects.count()
+    client, _ = auto_login_user()
+    response = client.post(reverse("character:create"), data=data)
+    assert response.status_code == 302
+    assert Character.objects.count() == character_count + 1
+    assert Attribution.objects.count() == 1
+    h = Character.objects.get(slug=c_slug)
+    assert h.name == c_name
+    assert h.desc == c_desc
+    assert h.alias == c_alias
 
 
 # Character Update
