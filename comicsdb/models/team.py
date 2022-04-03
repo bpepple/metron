@@ -1,3 +1,4 @@
+import contextlib
 import logging
 
 from django.contrib.contenttypes.fields import GenericRelation
@@ -24,15 +25,14 @@ class Team(CommonInfo):
 
     def save(self, *args, **kwargs) -> None:
         # Let's delete the original image if we're replacing it by uploading a new one.
-        try:
+        with contextlib.suppress(ObjectDoesNotExist):
             this = Team.objects.get(id=self.id)
             if this.image and this.image != self.image:
                 LOGGER.info(
-                    f"Replacing {this.image} with {'None' if not(img:=self.image) else img}."
+                    f"Replacing {this.image} with {img if (img:=self.image) else 'None'}."
                 )
+
                 this.image.delete(save=False)
-        except ObjectDoesNotExist:
-            pass
         return super(Team, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
