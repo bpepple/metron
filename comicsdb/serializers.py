@@ -1,3 +1,4 @@
+# sourcery skip: avoid-builtin-shadow
 from rest_framework import serializers
 
 from comicsdb.models import (
@@ -22,6 +23,8 @@ class IssuePublisherSerializer(serializers.ModelSerializer):
 
 
 class IssueSeriesSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source="__str__")
+
     class Meta:
         model = Series
         fields = ("id", "name")

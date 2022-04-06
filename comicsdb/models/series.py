@@ -43,9 +43,9 @@ class Series(CommonInfo):
     def __str__(self) -> str:
         try:
             if self.series_type.name == "Trade Paper Back":
-                return f"{self.name} TPB ({self.year_began})"
+                return f"{self.name} TPB"
             else:
-                return f"{self.name} ({self.year_began})"
+                return f"{self.name}"
         except ObjectDoesNotExist:
             return "New"
 
