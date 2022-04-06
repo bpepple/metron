@@ -80,7 +80,7 @@ class Issue(CommonInfo):
         return super(Issue, self).save(*args, **kwargs)
 
     def __str__(self) -> str:
-        return f"{self.series.name} ({self.series.year_began}) #{self.number}"
+        return f"{self.series} #{self.number}"
 
     class Meta:
         unique_together = ["series", "number"]

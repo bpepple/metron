@@ -1,6 +1,7 @@
 import itertools
 
 from django.contrib.contenttypes.fields import GenericRelation
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
@@ -40,7 +41,13 @@ class Series(CommonInfo):
         return reverse("series:detail", args=[self.slug])
 
     def __str__(self) -> str:
-        return f"{self.name} ({self.year_began})"
+        try:
+            if self.series_type.name == "Trade Paper Back":
+                return f"{self.name} TPB ({self.year_began})"
+            else:
+                return f"{self.name} ({self.year_began})"
+        except ObjectDoesNotExist:
+            return "New"
 
     def first_issue_cover(self):
         try:

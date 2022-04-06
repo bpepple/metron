@@ -63,7 +63,7 @@ class ArcViewSet(viewsets.ReadOnlyModelViewSet):
         Returns a list of issues for a story arc.
         """
         arc = self.get_object()
-        queryset = arc.issue_set.select_related("series").order_by(
+        queryset = arc.issue_set.select_related("series", "series__series_type").order_by(
             "cover_date", "series", "number"
         )
         page = self.paginate_queryset(queryset)
@@ -125,14 +125,18 @@ class IssueViewSet(viewsets.ReadOnlyModelViewSet):
     Returns the information of an individual issue.
     """
 
-    queryset = Issue.objects.select_related("series").prefetch_related(
+    queryset = Issue.objects.select_related("series", "series__series_type").prefetch_related(
         Prefetch(
             "credits_set",
             queryset=Credits.objects.order_by("creator__name")
             .distinct("creator__name")
             .select_related("creator")
             .prefetch_related("role"),
-        )
+        ),
+        Prefetch(
+            "reprints",
+            queryset=Issue.objects.select_related("series", "series__series_type"),
+        ),
     )
     filterset_class = IssueFilter
     throttle_classes = (UserRateThrottle,)

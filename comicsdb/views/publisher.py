@@ -33,7 +33,11 @@ class PublisherSeriesList(ListView):
 
     def get_queryset(self):
         self.publisher = get_object_or_404(Publisher, slug=self.kwargs["slug"])
-        return Series.objects.filter(publisher=self.publisher).prefetch_related("issue_set")
+        return (
+            Series.objects.filter(publisher=self.publisher)
+            .select_related("series_type")
+            .prefetch_related("issue_set")
+        )
 
     def get_context_data(self, **kwargs):
         context = super(PublisherSeriesList, self).get_context_data(**kwargs)

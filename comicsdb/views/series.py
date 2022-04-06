@@ -23,7 +23,7 @@ LOGGER = logging.getLogger(__name__)
 class SeriesList(ListView):
     model = Series
     paginate_by = PAGINATE
-    queryset = Series.objects.prefetch_related("issue_set")
+    queryset = Series.objects.select_related("series_type").prefetch_related("issue_set")
 
 
 class SeriesIssueList(ListView):
@@ -32,7 +32,9 @@ class SeriesIssueList(ListView):
 
     def get_queryset(self):
         self.series = get_object_or_404(Series, slug=self.kwargs["slug"])
-        return Issue.objects.select_related("series").filter(series=self.series)
+        return Issue.objects.select_related("series", "series__series_type").filter(
+            series=self.series
+        )
 
     def get_context_data(self, **kwargs):
         context = super(SeriesIssueList, self).get_context_data(**kwargs)
@@ -42,9 +44,9 @@ class SeriesIssueList(ListView):
 
 class SeriesDetail(DetailView):
     model = Series
-    queryset = Series.objects.select_related("publisher", "edited_by").prefetch_related(
-        "issue_set"
-    )
+    queryset = Series.objects.select_related(
+        "publisher", "edited_by", "series_type"
+    ).prefetch_related("issue_set")
 
     def get_context_data(self, **kwargs):
         context = super(SeriesDetail, self).get_context_data(**kwargs)

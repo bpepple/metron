@@ -33,7 +33,9 @@ class ArcIssueList(ListView):
 
     def get_queryset(self):
         self.arc = get_object_or_404(Arc, slug=self.kwargs["slug"])
-        return Issue.objects.select_related("series").filter(arcs=self.arc)
+        return Issue.objects.select_related("series", "series__series_type").filter(
+            arcs=self.arc
+        )
 
     def get_context_data(self, **kwargs):
         context = super(ArcIssueList, self).get_context_data(**kwargs)
@@ -48,7 +50,7 @@ class ArcDetail(DetailView):
             "issue_set",
             queryset=Issue.objects.order_by(
                 "cover_date", "store_date", "series__sort_name", "number"
-            ).select_related("series"),
+            ).select_related("series", "series__series_type"),
         )
     )
 

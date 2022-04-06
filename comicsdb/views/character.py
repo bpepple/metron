@@ -45,7 +45,9 @@ class CharacterIssueList(ListView):
 
     def get_queryset(self):
         self.character = get_object_or_404(Character, slug=self.kwargs["slug"])
-        return Issue.objects.select_related("series").filter(characters=self.character)
+        return Issue.objects.select_related("series", "series__series_type").filter(
+            characters=self.character
+        )
 
     def get_context_data(self, **kwargs):
         context = super(CharacterIssueList, self).get_context_data(**kwargs)
@@ -60,7 +62,7 @@ class CharacterDetail(DetailView):
             "issue_set",
             queryset=Issue.objects.order_by(
                 "series__sort_name", "cover_date", "number"
-            ).select_related("series"),
+            ).select_related("series", "series__series_type"),
         )
     )
 
