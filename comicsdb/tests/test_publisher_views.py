@@ -16,9 +16,7 @@ def list_of_publishers(create_user):
     user = create_user()
     for pub_num in range(PAGINATE_TEST_VAL):
         Publisher.objects.create(
-            name="Publisher %s" % pub_num,
-            slug="publisher-%s" % pub_num,
-            edited_by=user,
+            name=f"Publisher {pub_num}", slug=f"publisher-{pub_num}", edited_by=user
         )
 
 
