@@ -1,10 +1,10 @@
 import pytest
-
-# from django.template.defaultfilters import slugify
 from django.urls import reverse
+from django.utils.text import slugify
 from pytest_django.asserts import assertTemplateUsed
 
 from comicsdb.models import Creator
+from comicsdb.models.attribution import Attribution
 
 HTML_OK_CODE = 200
 HTML_REDIRECT_CODE = 302
@@ -43,18 +43,28 @@ def test_update_view_url_accessible_by_name(auto_login_user, john_byrne):
 #     john_byrne.refresh_from_db()
 #     assert john_byrne.name == new_name
 
-
-# def test_creator_create_view(auto_login_user):
-#     client, user = auto_login_user()
-#     name = "Jack Kirby"
-#     resp = client.post(
-#         reverse("creator:create"),
-#         {"name": name, "slug": slugify(name), "edited_by": user},
-#     )
-#     assert resp.status_code == HTML_REDIRECT_CODE
-#     c = Creator.objects.get(slug=slugify(name))
-#     assert c is not None
-#     assert c.name == name
+# Create View
+def test_creator_create_view(auto_login_user, walter_simonson):
+    name = "Jack Kirby"
+    slug = slugify(name)
+    client, user = auto_login_user()
+    data = {
+        "name": name,
+        "slug": slug,
+        "edited_by": user,
+        "comicsdb-attribution-content_type-object_id-TOTAL_FORMS": 1,
+        "comicsdb-attribution-content_type-object_id-INITIAL_FORMS": 0,
+        "comicsdb-attribution-content_type-object_id-0-source": "W",
+        "comicsdb-attribution-content_type-object_id-0-url": "https://en.wikipedia.org/wiki/Jack_Kirby",
+    }
+    creator_count = Creator.objects.count()
+    resp = client.post(reverse("creator:create"), data=data)
+    jack = Creator.objects.get(slug=slug)
+    assert resp.status_code == HTML_REDIRECT_CODE
+    assert Creator.objects.count() == creator_count + 1
+    assert Attribution.objects.count() == 1
+    assert jack is not None
+    assert jack.name == name
 
 
 # Creator Search
