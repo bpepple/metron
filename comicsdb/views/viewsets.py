@@ -132,7 +132,11 @@ class IssueViewSet(viewsets.ReadOnlyModelViewSet):
             .distinct("creator__name")
             .select_related("creator")
             .prefetch_related("role"),
-        )
+        ),
+        Prefetch(
+            "reprints",
+            queryset=Issue.objects.select_related("series"),
+        ),
     )
     filterset_class = IssueFilter
     throttle_classes = (UserRateThrottle,)
