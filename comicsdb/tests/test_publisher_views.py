@@ -1,10 +1,13 @@
 import pytest
 from django.urls import reverse
+from django.utils.text import slugify
 from pytest_django.asserts import assertTemplateUsed
 
 from comicsdb.models import Publisher
+from comicsdb.models.attribution import Attribution
 
 HTML_OK_CODE = 200
+HTML_REDIRECT_CODE = 302
 
 PAGINATE_TEST_VAL = 35
 PAGINATE_DEFAULT_VAL = 28
@@ -29,6 +32,29 @@ def list_of_publishers(create_user):
 #     assert resp.status_code == 302
 #     dc_comics.refresh_from_db()
 #     assert dc_comics.desc == "Test data"
+
+
+def test_publisher_create_view(auto_login_user, marvel):
+    pub_name = "Ahoy Comics"
+    pub_slug = slugify(pub_name)
+    client, user = auto_login_user()
+    data = {
+        "name": pub_name,
+        "slug": pub_slug,
+        "edited_by": user,
+        "comicsdb-attribution-content_type-object_id-TOTAL_FORMS": 1,
+        "comicsdb-attribution-content_type-object_id-INITIAL_FORMS": 0,
+        "comicsdb-attribution-content_type-object_id-0-source": "W",
+        "comicsdb-attribution-content_type-object_id-0-url": "https://en.wikipedia.org/wiki/Ahoy_Comics",
+    }
+    publisher_count = Publisher.objects.count()
+    attribution_count = Attribution.objects.count()
+    resp = client.post(reverse("publisher:create"), data=data)
+    assert resp.status_code == HTML_REDIRECT_CODE
+    ahoy = Publisher.objects.get(slug=pub_slug)
+    assert Publisher.objects.count() == publisher_count + 1
+    assert Attribution.objects.count() == attribution_count + 1
+    assert ahoy.name == pub_name
 
 
 def test_publisher_search_view_url_exists_at_desired_location(auto_login_user):
