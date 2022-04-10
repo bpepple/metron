@@ -239,11 +239,11 @@ class Command(BaseCommand):
 
             if create:
                 if cover:
-                    if not DEBUG:
-                        self._get_cover(marvel_data, issue)
-                    else:
+                    if DEBUG:
                         self._get_cover_debug(marvel_data, issue)
 
+                    else:
+                        self._get_cover(marvel_data, issue)
                 self._add_eic_credit(issue)
 
                 if add_creator and marvel_data.creators:
