@@ -263,7 +263,7 @@ STATICFILES_FINDERS = [
 # Custom settings for django-simple-bulma
 BULMA_SETTINGS = {
     "extensions": [
-        "bulma-calendar",
+        # "bulma-calendar",
         "bulma-fileupload",
         "bulma-navbar-burger",
         "bulma-modal",
