@@ -1,6 +1,6 @@
 import csv
 import platform
-from datetime import datetime
+from datetime import date, datetime
 from decimal import Decimal, DecimalException
 from typing import List
 
@@ -33,7 +33,7 @@ class Command(BaseCommand):
         super().__init__()
         self.api_url = "https://www.previewsworld.com/NewReleases/Export"
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument(
             "-d",
             "--date",
@@ -41,7 +41,9 @@ class Command(BaseCommand):
             help="Enter a release date in MM/DD/YYYY format. Ex. 12/08/2021",
         )
 
-    def add_issue_to_database(self, series_obj, issue_number, release, previews_data):
+    def add_issue_to_database(
+        self, series_obj: Series, issue_number: str, release: date, previews_data
+    ) -> None:
         cover_date = determine_cover_date(release, previews_data.publisher)
         try:
             issue, create = Issue.objects.get_or_create(
@@ -81,7 +83,7 @@ class Command(BaseCommand):
                 )
             )
 
-    def _retrieve_data(self, date: str):
+    def _retrieve_data(self, date: str) -> requests.Response:
         params = {"format": "text", "releaseDate": date}
         header = {"User-Agent": f"metron ({platform.system()}; {platform.release()})"}
         response = requests.get(self.api_url, params=params, headers=header)
@@ -89,16 +91,16 @@ class Command(BaseCommand):
 
         return response
 
-    def _remove_intro_text(self, txt):
+    def _remove_intro_text(self, txt: str) -> List[str]:
         lines = []
         lines = txt.strip().splitlines()
 
         return [line for number, line in enumerate(lines) if number not in range(9)]
 
-    def _remove_empty_items(self, lst):
+    def _remove_empty_items(self, lst: List[str]) -> List[str]:
         return [i for i in lst if i]
 
-    def _check_valid_publisher(self, publisher):
+    def _check_valid_publisher(self, publisher: str) -> bool:
         valid = [
             "BOOM! STUDIOS",
             "DARK HORSE COMICS",
@@ -120,7 +122,7 @@ class Command(BaseCommand):
         new_val = price.strip("$")
         return Decimal(new_val) if self._is_decimal(new_val) else Decimal("0.00")
 
-    def _check_if_variant(self, comic):
+    def _check_if_variant(self, comic: PreviewComic) -> bool:
         var_list = [
             "VAR",
             "CVR B",
@@ -158,7 +160,7 @@ class Command(BaseCommand):
         ]
         return any(i in comic.title for i in var_list)
 
-    def _set_comic(self, pub, row):
+    def _set_comic(self, pub: str, row: List[str]) -> PreviewComic:
         comic = PreviewComic()
         comic.publisher = pub
         comic.sku = row[0]
@@ -166,10 +168,10 @@ class Command(BaseCommand):
         comic.price = self._convert_price(row[2])
         return comic
 
-    def _process_cvs(self, readCVS):
+    def _process_cvs(self, readCSV) -> List[PreviewComic]:
         lst: List[PreviewComic] = []
         pub = None
-        for row in readCVS:
+        for row in readCSV:
             if len(row) < 2:
                 pub = row[0]
                 valid = self._check_valid_publisher(pub)
@@ -180,7 +182,7 @@ class Command(BaseCommand):
                     lst.append(comic)
         return lst
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         if not options["date"]:
             self.stdout.write(self.style.NOTICE("No date given requested. Exiting..."))
             exit(0)
@@ -189,8 +191,8 @@ class Command(BaseCommand):
         res = self._remove_intro_text(resp.text)
         res = self._remove_empty_items(res)
 
-        readCVS = csv.reader(res, delimiter=",")
-        lst = self._process_cvs(readCVS)
+        readCSV = csv.reader(res, delimiter=",")
+        lst = self._process_cvs(readCSV)
         lst = clean_shortboxed_data(lst)
 
         release_date = datetime.strptime(options["date"], "%m/%d/%Y").date()
