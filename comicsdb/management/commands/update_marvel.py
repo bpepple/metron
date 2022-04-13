@@ -44,7 +44,7 @@ class Command(BaseCommand):
                     key=lambda comic: comic.title,
                 ):
                     return res
-            except ApiError:
+            except (ApiError, ValueError):
                 return None
 
         try:
@@ -61,7 +61,7 @@ class Command(BaseCommand):
                 ),
                 key=lambda comic: comic.title,
             )
-        except ApiError:
+        except (ApiError, ValueError):
             return None
 
     def _check_for_solicit_txt(self, text_objects):
