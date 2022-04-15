@@ -1,11 +1,11 @@
 """ Some utility function to cleanup data from Shortboxed """
 from datetime import date, timedelta
-from typing import Tuple
+from typing import List, Optional, Tuple
 
 import dateutil.relativedelta
 
 
-def _remove_trade_paperbacks(lst):
+def _remove_trade_paperbacks(lst: List[str]) -> List[str]:
     """Remove any comic that doesn't have an issue number"""
     return [i for i in lst if "#" in i.title]
 
@@ -23,7 +23,7 @@ def _cleanup_title(str: str) -> str:
     return " ".join(new_title)
 
 
-def _remove_duplicate_titles(lst):
+def _remove_duplicate_titles(lst: List[str]) -> List[str]:
     """Remove any duplicate issues from the Shortboxed data"""
     seen = set()
     result = []
@@ -35,7 +35,7 @@ def _remove_duplicate_titles(lst):
     return result
 
 
-def clean_shortboxed_data(lst):
+def clean_shortboxed_data(lst: List[str]) -> List[str]:
     """Clean up the title data from Shortboxed so we can query the db"""
     for i in lst:
         i.title = _cleanup_title(i.title)
@@ -46,18 +46,18 @@ def clean_shortboxed_data(lst):
     return lst
 
 
-def _print_list_choices(results_list):
+def _print_list_choices(results_list) -> None:
     for (counter, series_name) in enumerate(results_list, start=1):
         print(f"{counter}. {series_name}")
 
 
-def _print_issue_choices(results_list):
+def _print_issue_choices(results_list) -> None:
     for (counter, issue) in enumerate(results_list, start=1):
         cover_date = determine_cover_date(issue.dates.on_sale, "MARVEL COMICS")
         print(f"{counter}. {issue.title} ({cover_date})")
 
 
-def select_list_choice(results_list):
+def select_list_choice(results_list) -> Optional[int]:
     if len(results_list) > 1:
         print("Multiple results found:")
     else:
@@ -77,7 +77,7 @@ def select_list_choice(results_list):
         return None
 
 
-def select_issue_choice(results):
+def select_issue_choice(results) -> Optional[int]:
     if len(results) > 1:
         print("\nMultiple results found:")
     else:
