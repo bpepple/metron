@@ -1,18 +1,21 @@
 import shutil
 import tempfile
-from datetime import datetime
+from datetime import date, datetime
 from decimal import Decimal
 from os import fspath
 from pathlib import Path
+from typing import List, Optional
 from urllib.request import urlopen
 
 import dateutil.relativedelta
-import esak
 from boto3 import session
 from boto3.s3.transfer import S3Transfer
 from django.core.management.base import BaseCommand
 from django.db import IntegrityError
 from django.utils.text import slugify
+from esak import api
+from esak.comic import ComicSchema
+from esak.text_object import TextObjectSchema
 
 from comicsdb.models import Arc, Character, Creator, Credits, Issue, Role, Series
 from comicsdb.models.attribution import Attribution
@@ -37,11 +40,11 @@ class Command(BaseCommand):
     help = "Retrieve next months comics from the Marvel API."
 
     @property
-    def get_upload_image_path(self):
+    def get_upload_image_path(self) -> str:
         now = datetime.now()
         return f"issue/{now:%Y/%m/%d}/"
 
-    def _upload_image(self, image):
+    def _upload_image(self, image: Path) -> None:
         # TODO: Should probably use Storage to upload image instead of boto directly
         media_storage = MediaStorage()
         upload_file = f"{media_storage.location}/{self.get_upload_image_path}{image.name}"
@@ -64,7 +67,7 @@ class Command(BaseCommand):
         )
         self.stdout.write(self.style.SUCCESS(f"Uploaded {image.name} to DigitalOcean."))
 
-    def _fix_role(self, role):
+    def _fix_role(self, role: str) -> str:
         if role == "penciler":
             return "penciller"
         elif "cover" in role:
@@ -72,10 +75,10 @@ class Command(BaseCommand):
         else:
             return role
 
-    def _check_for_solicit_txt(self, text_objects):
+    def _check_for_solicit_txt(self, text_objects: TextObjectSchema) -> Optional[str]:
         return next((i.text for i in text_objects if i.type == "issue_solicit_text"), None)
 
-    def _add_characters(self, characters, issue_obj):
+    def _add_characters(self, characters, issue_obj: Issue) -> None:
         for character in characters:
             try:
                 self.stdout.write(f"Searching database for {character.name}...")
@@ -100,7 +103,7 @@ class Command(BaseCommand):
                 )
                 continue
 
-    def _add_arcs(self, events, issue_obj):
+    def _add_arcs(self, events, issue_obj: Issue) -> None:
         for e in events:
             try:
                 self.stdout.write(f"Searching database for {e.name}...")
@@ -128,7 +131,7 @@ class Command(BaseCommand):
                 )
                 continue
 
-    def _add_creators(self, creators, issue_obj):
+    def _add_creators(self, creators, issue_obj: Issue) -> None:
         for creator in creators:
             try:
                 self.stdout.write(f"Searching database for {creator.name}...")
@@ -161,7 +164,7 @@ class Command(BaseCommand):
                 )
                 continue
 
-    def _add_eic_credit(self, issue_obj):
+    def _add_eic_credit(self, issue_obj: Issue) -> None:
         cb = Creator.objects.get(slug="c-b-cebulski")
         cr, create = Credits.objects.get_or_create(issue=issue_obj, creator=cb)
         self.stdout.write(self.style.SUCCESS(f"Added credit for {cb} to {issue_obj}."))
@@ -172,20 +175,25 @@ class Command(BaseCommand):
                 self.style.SUCCESS(f"Added '{eic}' role for {cb} to {issue_obj}.\n")
             )
 
-    def _download_image(self, url):
+    def _download_image(self, url: str) -> None:
         url_path = Path(url)
         save_path = Path(tempfile.gettempdir()) / url_path.name
         with open(save_path, "wb") as img_file:
             img_file.write(urlopen(url).read())
         return save_path
 
-    def _determine_cover_date(self, release_date):
+    def _determine_cover_date(self, release_date: date) -> date:
         new_date = release_date + dateutil.relativedelta.relativedelta(months=2)
         return new_date.replace(day=1)
 
     def add_issue_to_database(
-        self, series_obj, fnp: FileNameParser, marvel_data, add_creator: bool, cover: bool
-    ):
+        self,
+        series_obj: Series,
+        fnp: FileNameParser,
+        marvel_data: ComicSchema,
+        add_creator: bool,
+        cover: bool,
+    ) -> None:
         # Marvel store date is in datetime format.
         store_date = marvel_data.dates.on_sale
         cover_date = self._determine_cover_date(store_date)
@@ -268,7 +276,8 @@ class Command(BaseCommand):
                 )
             )
 
-    def _get_cover_debug(self, marvel_data, issue):
+    def _get_cover_debug(self, marvel_data: ComicSchema, issue: Issue) -> None:
+        # sourcery skip: class-extract-method
         fn = self._download_image(marvel_data.images[0])
         issue.image = f"{self.get_upload_image_path}{fn.name}"
         issue.save()
@@ -278,15 +287,15 @@ class Command(BaseCommand):
             dest.mkdir(parents=True)
         shutil.move(fspath(fn), fspath(dest))
 
-    def _get_cover(self, marvel_data, issue):
+    def _get_cover(self, marvel_data: ComicSchema, issue: Issue) -> None:
         fn = self._download_image(marvel_data.images[0])
         issue.image = f"{self.get_upload_image_path}{fn.name}"
         issue.save()
         self._upload_image(fn)
         fn.unlink()
 
-    def _get_data_from_marvel(self, options):
-        m = esak.api(MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY)
+    def _get_data_from_marvel(self, options) -> List[ComicSchema]:
+        m = api(MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY)
         if options["date"]:
             return sorted(
                 m.comics_list(
@@ -313,7 +322,7 @@ class Command(BaseCommand):
                 key=lambda comic: comic.title,
             )
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser) -> None:
         parser.add_argument(
             "-d",
             "--date",
