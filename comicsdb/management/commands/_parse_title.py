@@ -177,13 +177,13 @@ class FileNameParser:
 
         # search for year number
         if match := re.search(r"(.+)([vV]|[Vv][oO][Ll]\.?\s?)(\d+)\s*$", series):
-            series = match.group(1)
-            year = match.group(3)
+            series = match[1]
+            year = match[3]
 
         if year == "":
             # match either (YEAR), (YEAR-), or (YEAR-YEAR2)
             if match := re.search(r"(\()(\d{4})(-(\d{4}|)|)(\))", last_word):
-                year = match.group(2)
+                year = match[2]
 
         series = series.strip()
 
