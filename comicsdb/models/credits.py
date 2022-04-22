@@ -24,6 +24,7 @@ class Credits(models.Model):
     modified = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name_plural = "Credits"
-        unique_together = ["issue", "creator"]
+        indexes = [models.Index(fields=["issue", "creator"], name="issue_creator_idx")]
         ordering = ["issue", "creator__name"]
+        unique_together = ["issue", "creator"]
+        verbose_name_plural = "Credits"

@@ -43,5 +43,9 @@ class Arc(CommonInfo):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        indexes = [models.Index(fields=["name"], name="arc_name_idx")]
+        ordering = ["name"]
+
 
 pre_save.connect(pre_save_slug, sender=Arc, dispatch_uid="pre_save_arc")

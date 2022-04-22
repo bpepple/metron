@@ -17,4 +17,5 @@ class Attribution(models.Model):
     content_object = GenericForeignKey("content_type", "object_id")
 
     class Meta:
+        indexes = [models.Index(fields=["content_type", "object_id"], name="ct_obj_id_idx")]
         ordering = ["content_type", "object_id"]

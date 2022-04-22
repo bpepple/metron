@@ -83,8 +83,14 @@ class Issue(CommonInfo):
         return f"{self.series} #{self.number}"
 
     class Meta:
-        unique_together = ["series", "number"]
+        indexes = [
+            models.Index(
+                fields=["series", "cover_date", "store_date", "number"],
+                name="series_cover_store_num_idx",
+            )
+        ]
         ordering = ["series__sort_name", "cover_date", "store_date", "number"]
+        unique_together = ["series", "number"]
 
 
 def generate_issue_slug(issue):

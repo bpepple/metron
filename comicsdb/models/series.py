@@ -53,9 +53,13 @@ class Series(CommonInfo):
         return self.issue_set.all().count()
 
     class Meta:
-        verbose_name_plural = "Series"
-        unique_together = ["publisher", "name", "volume", "series_type"]
+        indexes = [
+            models.Index(fields=["sort_name", "year_began"], name="sort_year_began_idx"),
+            models.Index(fields=["name"], name="series_name_idx"),
+        ]
         ordering = ["sort_name", "year_began"]
+        unique_together = ["publisher", "name", "volume", "series_type"]
+        verbose_name_plural = "Series"
 
 
 def generate_series_slug(instance):

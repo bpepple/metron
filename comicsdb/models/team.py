@@ -53,5 +53,9 @@ class Team(CommonInfo):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        indexes = [models.Index(fields=["name"], name="team_name_idx")]
+        ordering = ["name"]
+
 
 pre_save.connect(pre_save_slug, sender=Team, dispatch_uid="pre_save_team")

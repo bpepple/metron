@@ -52,5 +52,9 @@ class Publisher(CommonInfo):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        indexes = [models.Index(fields=["name"], name="publisher_name_idx")]
+        ordering = ["name"]
+
 
 pre_save.connect(pre_save_slug, sender=Publisher, dispatch_uid="pre_save_publisher")

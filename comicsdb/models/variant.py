@@ -15,4 +15,5 @@ class Variant(models.Model):
         return self.name
 
     class Meta:
+        indexes = [models.Index(fields=["issue"], name="issue_idx")]
         ordering = ["issue"]

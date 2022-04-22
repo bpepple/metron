@@ -65,5 +65,9 @@ class Character(CommonInfo):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        indexes = [models.Index(fields=["name"], name="character_name_idx")]
+        ordering = ["name"]
+
 
 pre_save.connect(pre_save_slug, sender=Character, dispatch_uid="pre_save_character")
