@@ -27,17 +27,37 @@
         <div class="media-content">
           <div class="content">
             {% if customuser.get_full_name %}
-              <h3 class="title is-3">{{ customuser.get_full_name }}</h3>
+              <h3 class="title is-3">
+                {{ customuser.get_full_name }}
+                {% if customuser.is_superuser %}
+                  <span class="tag is-primary">Admin</span>
+                {% endif %}
+                {% for groups in customuser.groups.all %}
+                  {% if groups.name == "Editors" %}
+                    <span class="tag is-info">Editor</span>
+                  {% endif %}
+                {% endfor %}
+              </h3>
             {% else %}
-              <h3 class="title is-3">{{ customuser.username }}</h3>
+              <h3 class="title is-3">
+                {{ customuser.username }}
+                {% if customuser.is_superuser %}
+                  <span class="tag is-primary">Admin</span>
+                {% endif %}
+                {% for groups in customuser.groups.all %}
+                  {% if groups.name == "Editors" %}
+                    <span class="tag is-info">Editor</span>
+                  {% endif %}
+                {% endfor %}
+              </h3>
             {% endif %}
-            {% if customuser.is_superuser %}
-            <span class="tag is-primary">Admin</span>
-            {% endif %}
-            {% for groups in customuser.groups.all %}
-              {% if groups.name == "Editors" %}<span class="tag is-info">Editor</span>{% endif %}
-            {% endfor %}
-            <p><strong>Joined:</strong> {{ customuser.date_joined|date:"DATE_FORMAT" }}</p>
+            <p>
+              <strong>Joined:</strong> {{ customuser.date_joined|date:"DATE_FORMAT" }}
+              {% if customuser.bio %}
+              <br/>
+              {{ customuser.bio }}
+              {% endif %}
+            </p>
           </div>
         </div>
         <!-- End User detail -->

@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
-from django.forms import ClearableFileInput, EmailField, EmailInput, TextInput
+from django.forms import ClearableFileInput, EmailField, EmailInput, Textarea, TextInput
 
 from .models import CustomUser
 
@@ -27,10 +27,11 @@ class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
         model = CustomUser
-        fields = ("username", "first_name", "last_name", "email", "image")
+        fields = ("username", "first_name", "last_name", "email", "bio", "image")
         widgets = {
             "username": TextInput(attrs={"class": "input"}),
             "first_name": TextInput(attrs={"class": "input"}),
             "last_name": TextInput(attrs={"class": "input"}),
+            "bio": Textarea(attrs={"class": "textarea"}),
             "image": ClearableFileInput(),
         }
