@@ -67,7 +67,8 @@ class Command(BaseCommand):
         )
         self.stdout.write(self.style.SUCCESS(f"Uploaded {image.name} to DigitalOcean."))
 
-    def _fix_role(self, role: str) -> str:
+    @staticmethod
+    def _fix_role(role: str) -> str:
         if role == "penciler":
             return "penciller"
         elif "cover" in role:
@@ -75,7 +76,8 @@ class Command(BaseCommand):
         else:
             return role
 
-    def _check_for_solicit_txt(self, text_objects: TextObjectSchema) -> Optional[str]:
+    @staticmethod
+    def _check_for_solicit_txt(text_objects: TextObjectSchema) -> Optional[str]:
         return next((i.text for i in text_objects if i.type == "issue_solicit_text"), None)
 
     def _add_characters(self, characters, issue_obj: Issue) -> None:
@@ -175,14 +177,16 @@ class Command(BaseCommand):
                 self.style.SUCCESS(f"Added '{eic}' role for {cb} to {issue_obj}.\n")
             )
 
-    def _download_image(self, url: str) -> None:
+    @staticmethod
+    def _download_image(url: str) -> None:
         url_path = Path(url)
         save_path = Path(tempfile.gettempdir()) / url_path.name
         with open(save_path, "wb") as img_file:
             img_file.write(urlopen(url).read())
         return save_path
 
-    def _determine_cover_date(self, release_date: date) -> date:
+    @staticmethod
+    def _determine_cover_date(release_date: date) -> date:
         new_date = release_date + dateutil.relativedelta.relativedelta(months=2)
         return new_date.replace(day=1)
 
@@ -233,6 +237,13 @@ class Command(BaseCommand):
             if not issue.page and marvel_data.page_count:
                 issue.page = marvel_data.page_count
                 self.stdout.write(self.style.SUCCESS(f"Added page count to {issue}."))
+                modified = True
+
+            if not issue.sku and marvel_data.diamond_code:
+                issue.sku = marvel_data.diamond_code
+                self.stdout.write(
+                    self.style.SUCCESS(f"Add sku of '{marvel_data.diamond_code}' to {issue}")
+                )
                 modified = True
 
             if marvel_data.events:
@@ -294,7 +305,8 @@ class Command(BaseCommand):
         self._upload_image(fn)
         fn.unlink()
 
-    def _get_data_from_marvel(self, options) -> List[ComicSchema]:
+    @staticmethod
+    def _get_data_from_marvel(options) -> List[ComicSchema]:
         m = api(MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY)
         if options["date"]:
             return sorted(
@@ -322,7 +334,8 @@ class Command(BaseCommand):
                 key=lambda comic: comic.title,
             )
 
-    def add_arguments(self, parser) -> None:
+    @staticmethod
+    def add_arguments(parser) -> None:
         parser.add_argument(
             "-d",
             "--date",

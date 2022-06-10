@@ -10,6 +10,7 @@ from comicsdb.models.attribution import Attribution
 from comicsdb.models.issue import Issue
 from comicsdb.models.series import Series
 from metron.settings import MARVEL_PRIVATE_KEY, MARVEL_PUBLIC_KEY
+from esak.comic import ComicSchema
 
 from ._utils import get_week_range_from_store_date, select_issue_choice
 
@@ -17,14 +18,16 @@ from ._utils import get_week_range_from_store_date, select_issue_choice
 class Command(BaseCommand):
     help = "Update comic with information from the Marvel API."
 
-    def _get_metron_issue_list(self, slug: str, cover: Optional[date]):
+    @staticmethod
+    def _get_metron_issue_list(slug: str, cover: Optional[date]):
         series = Series.objects.get(slug=slug)
         if cover:
             return Issue.objects.filter(series=series, cover_date__gte=cover)
         else:
             return Issue.objects.filter(series=series)
 
-    def _query_marvel_for_issue(self, issue: Issue):
+    @staticmethod
+    def _query_marvel_for_issue(issue: Issue):
         m = esak.api(MARVEL_PUBLIC_KEY, MARVEL_PRIVATE_KEY)
         if issue.store_date:
             date_range = get_week_range_from_store_date(issue.store_date)
@@ -64,13 +67,15 @@ class Command(BaseCommand):
         except (ApiError, ValueError):
             return None
 
-    def _check_for_solicit_txt(self, text_objects):
+    @staticmethod
+    def _check_for_solicit_txt(text_objects):
         return next((i.text for i in text_objects if i.type == "issue_solicit_text"), None)
 
-    def _cleanup_upc(self, upc: str) -> str:
+    @staticmethod
+    def _cleanup_upc(upc: str) -> str:
         return upc.replace("-", "")
 
-    def _update_issue(self, issue: Issue, marvel_data):
+    def _update_issue(self, issue: Issue, marvel_data: ComicSchema):
         modified = False
 
         if not issue.desc and marvel_data.text_objects:
@@ -97,6 +102,13 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(f"Added page count to {issue}."))
             modified = True
 
+        if not issue.sku and marvel_data.diamond_code:
+            issue.sku = marvel_data.diamond_code
+            self.stdout.write(
+                self.style.SUCCESS(f"Add sku of '{marvel_data.diamond_code}' to {issue}")
+            )
+            modified = True
+
         if modified:
             if marvel_data.urls.detail:
                 issue.attribution.create(
@@ -119,7 +131,8 @@ class Command(BaseCommand):
 
         return i.lower() == "y"
 
-    def _ask_for_series_slug(self):
+    @staticmethod
+    def _ask_for_series_slug():
         while True:
             i = input("Enter slug of series to search for, or q to quit: ")
             if isinstance(i, str) or i.lower() == "q":
@@ -127,7 +140,8 @@ class Command(BaseCommand):
 
         return i if i != "q" else exit(0)
 
-    def _ask_for_cover_date(self) -> Optional[date]:
+    @staticmethod
+    def _ask_for_cover_date() -> Optional[date]:
         while True:
             i = input(
                 "Enter issue cover date to start with (e.g. 2013-01-01), or n for None: "
