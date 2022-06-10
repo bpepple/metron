@@ -111,7 +111,7 @@ class Command(BaseCommand):
 
         if modified:
             if marvel_data.urls.detail:
-                issue.attribution.create(
+                issue.attribution.get_or_create(
                     source=Attribution.Source.MARVEL, url=marvel_data.urls.detail
                 )
             issue.save()
