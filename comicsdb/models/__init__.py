@@ -3,6 +3,7 @@ from .attribution import Attribution
 from .character import Character
 from .creator import Creator
 from .credits import Credits, Role
+from .genre import Genre
 from .issue import Issue
 from .publisher import Publisher
 from .series import Series, SeriesType
@@ -15,6 +16,7 @@ __all__ = [
     "Character",
     "Creator",
     "Credits",
+    "Genre",
     "Issue",
     "Publisher",
     "Role",

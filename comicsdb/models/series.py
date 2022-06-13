@@ -7,10 +7,10 @@ from django.urls import reverse
 from django.utils.text import slugify
 
 from comicsdb.models.attribution import Attribution
+from comicsdb.models.common import CommonInfo
+from comicsdb.models.genre import Genre
+from comicsdb.models.publisher import Publisher
 from users.models import CustomUser
-
-from .common import CommonInfo
-from .publisher import Publisher
 
 
 class SeriesType(models.Model):
@@ -32,6 +32,7 @@ class Series(CommonInfo):
     year_end = models.PositiveSmallIntegerField("Year Ended", null=True, blank=True)
     series_type = models.ForeignKey(SeriesType, on_delete=models.CASCADE)
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+    genres = models.ManyToManyField(Genre, blank=True)
     associated = models.ManyToManyField("self", blank=True)
     attribution = GenericRelation(Attribution, related_query_name="series")
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
