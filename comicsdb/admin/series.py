@@ -10,19 +10,28 @@ class SeriesAdmin(admin.ModelAdmin):
     list_filter = ("created_on", "modified", "publisher")
     prepopulated_fields = {"slug": ("name", "year_began")}
     autocomplete_fields = ["associated"]
-    fields = (
-        "name",
-        "slug",
-        "sort_name",
-        "publisher",
-        "volume",
-        "year_began",
-        "year_end",
-        "series_type",
-        "associated",
-        "desc",
-        "edited_by",
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "name",
+                    "slug",
+                    "sort_name",
+                    "publisher",
+                    "volume",
+                    "year_began",
+                    "year_end",
+                    "series_type",
+                    "associated",
+                    "desc",
+                    "edited_by",
+                )
+            },
+        ),
+        ("Related", {"fields": ("genres",)}),
     )
+    filter_horizontal = ("genres",)
 
 
 @admin.register(SeriesType)

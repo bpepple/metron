@@ -1,6 +1,7 @@
 from .arc import ArcAdmin
 from .character import CharacterAdmin
 from .creator import CreatorAdmin
+from .genre import GenreAdmin
 from .issue import IssueAdmin
 from .publisher import PublisherAdmin
 from .role import RoleAdmin
@@ -11,6 +12,7 @@ __all__ = [
     "ArcAdmin",
     "CharacterAdmin",
     "CreatorAdmin",
+    "GenreAdmin",
     "IssueAdmin",
     "PublisherAdmin",
     "RoleAdmin",
