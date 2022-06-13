@@ -4,13 +4,13 @@ from typing import Any, Optional
 
 import esak
 from django.core.management.base import BaseCommand
+from esak.comic import ComicSchema
 from esak.exceptions import ApiError
 
 from comicsdb.models.attribution import Attribution
 from comicsdb.models.issue import Issue
 from comicsdb.models.series import Series
 from metron.settings import MARVEL_PRIVATE_KEY, MARVEL_PUBLIC_KEY
-from esak.comic import ComicSchema
 
 from ._utils import get_week_range_from_store_date, select_issue_choice
 
