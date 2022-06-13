@@ -39,7 +39,7 @@
         <label class="label">{{ field.label }}</label>
         {% if field|is_select %}
         <div class="control">
-          <div class="select is-fullwidth">
+          <div class="select{% if field|is_multiple_select %} is-multiple{% endif %} is-fullwidth">
             {{ field }}
           </div>
         </div>

@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Select, Textarea, TextInput
+from django.forms import ModelForm, Select, SelectMultiple, Textarea, TextInput
 from django_select2 import forms as s2forms
 
 from comicsdb.models import Series
@@ -25,6 +25,7 @@ class SeriesForm(ModelForm):
             "series_type": Select(),
             "publisher": Select(),
             "desc": Textarea(attrs={"class": "textarea"}),
+            "genres": SelectMultiple(),
             "associated": MultiSeriesWidget(attrs={"class": "input"}),
         }
         help_texts = {
@@ -33,6 +34,7 @@ class SeriesForm(ModelForm):
             that it is listed with like named series.""",
             "year_end": "Leave blank if a One-Shot, Annual, or Ongoing Series.",
             "associated": "Associate the series with another series. For example, an annual with it's primary series.",
+            "genres": "Hold down “Control”, or “Command” on a Mac, to select more than one.",
         }
         labels = {"associated": "Associated Series"}
 
@@ -45,5 +47,6 @@ class SeriesForm(ModelForm):
         "series_type",
         "publisher",
         "desc",
+        "genres",
         "associated",
     ]
