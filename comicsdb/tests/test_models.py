@@ -10,6 +10,7 @@ from comicsdb.models import (
     Team,
 )
 from comicsdb.models.common import generate_slug_from_name
+from comicsdb.models.genre import Genre
 
 HTTP_200_OK = 200
 
@@ -142,3 +143,8 @@ def test_issue_count(issue_with_arc, superman):
 def test_seriestype_creation(cancelled_type):
     assert isinstance(cancelled_type, SeriesType)
     assert str(cancelled_type) == cancelled_type.name
+
+
+def test_fantasy_genre(db):
+    fantasy = Genre.objects.get(name="Fantasy")
+    assert isinstance(fantasy, Genre)
