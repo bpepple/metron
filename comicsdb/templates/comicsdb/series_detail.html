@@ -146,7 +146,7 @@
           <div class="column">
             <h1 class="title is-5">Most Issue Credit{{ creators|pluralize }}</h1>
             <div class="columns is-multiline">
-              {% for i in creators%}
+              {% for i in creators %}
               <div class="column is-4">
                 <article class="media">
                   <div class="media-left">
@@ -240,6 +240,18 @@
         {% if series.issue_count > 0 %}
           <p><b>Number of Issues:</b> {{ series.issue_count }}</p>
         {% endif %}
+        {% with genres=series.genres.all %}
+          {% if genres|length > 0 %}
+          <p><b>Genre{{ genres|pluralize }}:</b></p>
+          <div class="content">
+            <ul>
+            {% for genre in genres %}
+              <li>{{genre.name}}</li>
+            {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+        {% endwith %}
       </div>
       <!-- end series detail info -->
 

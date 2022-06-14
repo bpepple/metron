@@ -5,6 +5,7 @@ from comicsdb.models import (
     Character,
     Creator,
     Credits,
+    Genre,
     Issue,
     Publisher,
     Role,
@@ -15,6 +16,12 @@ from comicsdb.models import (
 )
 
 
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = ("id", "name")
+
+
 class IssuePublisherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publisher
@@ -22,9 +29,11 @@ class IssuePublisherSerializer(serializers.ModelSerializer):
 
 
 class IssueSeriesSerializer(serializers.ModelSerializer):
+    genres = GenreSerializer(many=True, read_only=True)
+
     class Meta:
         model = Series
-        fields = ("id", "name")
+        fields = ("id", "name", "genres")
 
 
 class ArcListSerializer(serializers.ModelSerializer):
@@ -207,6 +216,7 @@ class SeriesSerializer(serializers.ModelSerializer):
     image = SeriesImageSerializer(source="issue_set.first", many=False)
     series_type = SeriesTypeSerializer(read_only=True)
     associated = AssociatedSeriesSerializer(many=True, read_only=True)
+    genres = GenreSerializer(many=True, read_only=True)
 
     class Meta:
         model = Series
@@ -222,6 +232,7 @@ class SeriesSerializer(serializers.ModelSerializer):
             "desc",
             "issue_count",
             "image",
+            "genres",
             "associated",
             "modified",
         )
