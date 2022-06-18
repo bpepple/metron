@@ -94,6 +94,22 @@ class CharacterViewSet(viewsets.ReadOnlyModelViewSet):
             return CharacterSerializer
         return CharacterListSerializer
 
+    @action(detail=True)
+    def issue_list(self, request, pk=None):
+        """
+        Returns a list of issues for a character.
+        """
+        character = self.get_object()
+        queryset = character.issue_set.select_related("series").order_by(
+            "cover_date", "series", "number"
+        )
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = IssueListSerializer(page, many=True, context={"request": request})
+            return self.get_paginated_response(serializer.data)
+        else:
+            raise Http404()
+
 
 class CreatorViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -253,3 +269,19 @@ class TeamViewSet(viewsets.ReadOnlyModelViewSet):
         if self.action == "retrieve":
             return TeamSerializer
         return TeamListSerializer
+
+    @action(detail=True)
+    def issue_list(self, request, pk=None):
+        """
+        Returns a list of issues for a character.
+        """
+        team = self.get_object()
+        queryset = team.issue_set.select_related("series").order_by(
+            "cover_date", "series", "number"
+        )
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = IssueListSerializer(page, many=True, context={"request": request})
+            return self.get_paginated_response(serializer.data)
+        else:
+            raise Http404()
