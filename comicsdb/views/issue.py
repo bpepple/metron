@@ -54,12 +54,14 @@ class CreatorAutocomplete(autocomplete.Select2QuerySetView):
 class IssueList(ListView):
     model = Issue
     paginate_by = PAGINATE
-    queryset = Issue.objects.select_related("series")
+    queryset = Issue.objects.select_related("series", "series__series_type")
 
 
 class IssueDetail(DetailView):
     model = Issue
-    queryset = Issue.objects.select_related("series", "series__publisher").prefetch_related(
+    queryset = Issue.objects.select_related(
+        "series", "series__publisher", "series__series_type"
+    ).prefetch_related(
         Prefetch(
             "credits_set",
             queryset=Credits.objects.order_by("creator__name")
@@ -69,7 +71,7 @@ class IssueDetail(DetailView):
         ),
         Prefetch(
             "reprints",
-            queryset=Issue.objects.select_related("series"),
+            queryset=Issue.objects.select_related("series", "series__series_type"),
         ),
     )
 

@@ -48,7 +48,7 @@ class ArcDetail(DetailView):
             "issue_set",
             queryset=Issue.objects.order_by(
                 "cover_date", "store_date", "series__sort_name", "number"
-            ).select_related("series"),
+            ).select_related("series", "series__series_type"),
         )
     )
 
