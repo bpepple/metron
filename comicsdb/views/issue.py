@@ -213,7 +213,7 @@ class WeekList(ListView):
     queryset = (
         Issue.objects.filter(store_date__week=week)
         .filter(store_date__year=year)
-        .prefetch_related("series")
+        .prefetch_related("series", "series__series_type")
     )
 
     def get_context_data(self, **kwargs):
@@ -240,7 +240,7 @@ class NextWeekList(ListView):
     queryset = (
         Issue.objects.filter(store_date__week=week)
         .filter(store_date__year=year)
-        .prefetch_related("series")
+        .prefetch_related("series", "series__series_type")
     )
 
     def get_context_data(self, **kwargs):
@@ -268,7 +268,7 @@ class FutureList(ListView):
     queryset = (
         Issue.objects.filter(store_date__week__gt=week)
         .filter(store_date__year=year)
-        .prefetch_related("series")
+        .prefetch_related("series", "series__series_type")
     )
 
     def get_context_data(self, **kwargs):
