@@ -157,16 +157,30 @@
 
       <!-- issue summary -->
       <div class="box">
-        <h1 class="title is-5">Summary</h1>
+        <!-- collection title -->
+        {% if issue.title %}
+        <h1 class="title is-5">Collection Title</h1>
+        <p>{{ issue.title }}</p>
+        <br/>
+        {% endif %}
+        <!-- end collection title -->
+        <!-- stories -->
         {% if issue.name %}
           {% with names=issue.name %}
-            <p>
-              <strong>
-                <em>"{% for name in names %}{% if not forloop.first %}; {% endif %}{{ name }}{% endfor %}"</em>
-              </strong>
-            </p><br>
+          <h1 class="title is-5">Stor{{ names|pluralize:"y,ies" }} Title{{ names|pluralize}}</h1>
+          <div class="content">
+            <ul>
+              {% for story in names %}
+              <li>{{ story }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          <br/>
           {% endwith %}
         {% endif %}
+        <!-- end stores -->
+        <!-- summary -->
+        <h1 class="title is-5">Summary</h1>
         {% if issue.desc %}
           <p>{{ issue.desc|linebreaksbr }}</p>
         {% else %}
@@ -176,6 +190,7 @@
         <div class="content is-small is-italic">
           Last edited on {{ issue.modified }} by <a href="{% url 'user-detail' issue.edited_by.id %}">{{ issue.edited_by.username }}</a>
         </div>
+        <!-- end summary -->
       </div>
       <!-- end of issue summary -->
 
