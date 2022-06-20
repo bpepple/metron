@@ -29,9 +29,15 @@ class GraphicNovelManager(models.Manager):
         return super().get_queryset().filter(series__series_type__name="Graphic Novel")
 
 
+class TradePaperbackManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(series__series_type__name="Trade Paperback")
+
+
 class Issue(CommonInfo):
     series = models.ForeignKey(Series, on_delete=models.CASCADE)
     name = ArrayField(models.CharField("Story Title", max_length=150), null=True, blank=True)
+    title = models.CharField("Collection Title", max_length=255, blank=True)
     number = models.CharField(max_length=25)
     arcs = models.ManyToManyField(Arc, blank=True)
     cover_date = models.DateField("Cover Date")
@@ -55,6 +61,7 @@ class Issue(CommonInfo):
 
     objects = models.Manager()
     graphic_novels = GraphicNovelManager()
+    tpb = TradePaperbackManager()
 
     def get_absolute_url(self):
         return reverse("issue:detail", args=[self.slug])
