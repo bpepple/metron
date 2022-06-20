@@ -11,6 +11,12 @@ class SeriesFilter(django_filters.FilterSet):
     publisher_name = django_filters.CharFilter(
         field_name="publisher__name", lookup_expr="icontains"
     )
+    series_type_id = django_filters.filters.NumberFilter(
+        field_name="series_type__id", lookup_expr="exact"
+    )
+    series_type = django_filters.CharFilter(
+        field_name="series_type__name", lookup_expr="icontains"
+    )
 
     class Meta:
         model = Series
