@@ -1,5 +1,4 @@
 {% extends "comicsdb/comics_base.html" %}
-{% load creator_tags %}
 {% load thumbnail %}
 {% load static %}
 
@@ -138,11 +137,11 @@
             <ul>
             {% for i in series %}
               <li>
-                <a href="{% url 'series:detail' slug=i|get_item:'issue__series__slug' %}">
-                  {{ i|get_item:"issue__series__name" }} ({{ i|get_item:"issue__series__year_began"}})
+                <a href="{% url 'series:detail' slug=i.issue__series__slug %}">
+                  {{ i.issue__series__name }} ({{ i.issue__series__year_began }})
                 </a>:
-                <a href="{% url 'creator:series' creator=creator.slug series=i|get_item:'issue__series__slug' %}">
-                  {{ i|get_item:"issue__count" }} issue{{ i|get_item:"issue__count"|pluralize }}
+                <a href="{% url 'creator:series' creator=creator.slug series=i.issue__series__slug %}">
+                  {{ i.issue__count }} issue{{ i.issue__count|pluralize }}
                 </a>
               </li>
             {% endfor %}
