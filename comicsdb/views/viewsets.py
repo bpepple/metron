@@ -18,6 +18,7 @@ from comicsdb.models import (
     Series,
     Team,
 )
+from comicsdb.models.series import SeriesType
 from comicsdb.serializers import (
     ArcListSerializer,
     ArcSerializer,
@@ -32,6 +33,7 @@ from comicsdb.serializers import (
     RoleSerializer,
     SeriesListSerializer,
     SeriesSerializer,
+    SeriesTypeSerializer,
     TeamListSerializer,
     TeamSerializer,
 )
@@ -248,6 +250,17 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
             return self.get_paginated_response(serializer.data)
         else:
             raise Http404()
+
+
+class SeriesTypeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """
+    list:
+    Returns a list of the Series Types available.
+    """
+
+    queryset = SeriesType.objects.all()
+    serializer_class = SeriesTypeSerializer
+    throttle_classes = (UserRateThrottle,)
 
 
 class TeamViewSet(viewsets.ReadOnlyModelViewSet):
