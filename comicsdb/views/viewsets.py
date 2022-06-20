@@ -63,7 +63,7 @@ class ArcViewSet(viewsets.ReadOnlyModelViewSet):
         Returns a list of issues for a story arc.
         """
         arc = self.get_object()
-        queryset = arc.issue_set.select_related("series").order_by(
+        queryset = arc.issue_set.select_related("series", "series__series_type").order_by(
             "cover_date", "series", "number"
         )
         page = self.paginate_queryset(queryset)
@@ -100,9 +100,9 @@ class CharacterViewSet(viewsets.ReadOnlyModelViewSet):
         Returns a list of issues for a character.
         """
         character = self.get_object()
-        queryset = character.issue_set.select_related("series").order_by(
-            "cover_date", "series", "number"
-        )
+        queryset = character.issue_set.select_related(
+            "series", "series__series_type"
+        ).order_by("cover_date", "series", "number")
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = IssueListSerializer(page, many=True, context={"request": request})
@@ -141,7 +141,7 @@ class IssueViewSet(viewsets.ReadOnlyModelViewSet):
     Returns the information of an individual issue.
     """
 
-    queryset = Issue.objects.select_related("series").prefetch_related(
+    queryset = Issue.objects.select_related("series", "series__series_type").prefetch_related(
         Prefetch(
             "credits_set",
             queryset=Credits.objects.order_by("creator__name")
@@ -151,7 +151,7 @@ class IssueViewSet(viewsets.ReadOnlyModelViewSet):
         ),
         Prefetch(
             "reprints",
-            queryset=Issue.objects.select_related("series"),
+            queryset=Issue.objects.select_related("series", "series__series_type"),
         ),
     )
     filterset_class = IssueFilter
@@ -276,7 +276,7 @@ class TeamViewSet(viewsets.ReadOnlyModelViewSet):
         Returns a list of issues for a character.
         """
         team = self.get_object()
-        queryset = team.issue_set.select_related("series").order_by(
+        queryset = team.issue_set.select_related("series", "series__series_type").order_by(
             "cover_date", "series", "number"
         )
         page = self.paginate_queryset(queryset)

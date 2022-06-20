@@ -47,6 +47,7 @@ class IssueForm(ModelForm):
         fields = (
             "series",
             "number",
+            "title",
             "name",
             "cover_date",
             "store_date",
@@ -64,6 +65,7 @@ class IssueForm(ModelForm):
         widgets = {
             "series": Select(),
             "name": TextInput(attrs={"class": "input"}),
+            "title": TextInput(attrs={"class": "input"}),
             "number": TextInput(attrs={"class": "input"}),
             "arcs": ArcsWidget(attrs={"class": "input"}),
             "characters": CharactersWidget(attrs={"class": "input"}),
@@ -84,10 +86,14 @@ class IssueForm(ModelForm):
         }
         help_texts = {
             "name": "Separate multiple story titles by a semicolon",
+            "title": "Only used with Collected Editions like a Trade Paperback.",
             "price": "In United States currency",
             "reprints": "Add any issues that are reprinted.",
         }
-        labels = {"name": "Story Title"}
+        labels = {
+            "name": "Story Title",
+            "title": "Collection Title",
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
