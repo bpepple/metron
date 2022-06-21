@@ -167,6 +167,7 @@ class IssueSerializer(serializers.ModelSerializer):
             "series",
             "volume",
             "number",
+            "title",
             "name",
             "cover_date",
             "store_date",
