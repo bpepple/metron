@@ -81,6 +81,7 @@ class CreatorDetail(DetailView):
                 "issue__series__name",
                 "issue__series__year_began",
                 "issue__series__slug",
+                "issue__series__series_type",
             )
             .annotate(Count("issue"))
             .order_by("issue__series__sort_name", "issue__series__year_began")

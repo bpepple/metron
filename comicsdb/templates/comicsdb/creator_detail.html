@@ -138,7 +138,7 @@
             {% for i in series %}
               <li>
                 <a href="{% url 'series:detail' slug=i.issue__series__slug %}">
-                  {{ i.issue__series__name }} ({{ i.issue__series__year_began }})
+                  {{ i.issue__series__name }} {% if i.issue__series__series_type == 10 %}TPB {% endif %}({{ i.issue__series__year_began }})
                 </a>:
                 <a href="{% url 'creator:series' creator=creator.slug series=i.issue__series__slug %}">
                   {{ i.issue__count }} issue{{ i.issue__count|pluralize }}

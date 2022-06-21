@@ -60,7 +60,7 @@ class CharacterDetail(DetailView):
             "issue_set",
             queryset=Issue.objects.order_by(
                 "series__sort_name", "cover_date", "number"
-            ).select_related("series"),
+            ).select_related("series", "series__series_type"),
         )
     )
 
@@ -88,6 +88,7 @@ class CharacterDetail(DetailView):
                     "issue__series__name",
                     "issue__series__year_began",
                     "issue__series__slug",
+                    "issue__series__series_type",
                 )
                 .annotate(Count("issue"))
                 .order_by("issue__series__sort_name", "issue__series__year_began")
