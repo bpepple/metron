@@ -260,6 +260,7 @@ class SeriesTypeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 
     queryset = SeriesType.objects.all()
     serializer_class = SeriesTypeSerializer
+    filterset_class = NameFilter
     throttle_classes = (UserRateThrottle,)
 
 
