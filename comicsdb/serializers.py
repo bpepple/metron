@@ -173,6 +173,7 @@ class IssueSerializer(serializers.ModelSerializer):
             "store_date",
             "price",
             "sku",
+            "isbn",
             "upc",
             "page",
             "desc",

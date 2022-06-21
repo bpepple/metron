@@ -46,6 +46,7 @@ class Issue(CommonInfo):
         "Cover Price", max_digits=5, decimal_places=2, null=True, blank=True
     )
     sku = models.CharField("Distributor SKU", max_length=9, blank=True)
+    isbn = models.CharField("ISBN", max_length=13, blank=True)
     upc = models.CharField("UPC Code", max_length=20, blank=True)
     page = models.PositiveSmallIntegerField("Page Count", null=True, blank=True)
     image = ImageField("Cover", upload_to="issue/%Y/%m/%d/", blank=True)

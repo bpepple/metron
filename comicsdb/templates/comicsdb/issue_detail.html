@@ -373,6 +373,9 @@
         {% if issue.sku %}
           <p><b>Distributor SKU:</b> {{ issue.sku }}</p>
         {% endif %}
+        {% if issue.isbn %}
+          <p><b>ISBN:</b> {{ issue.isbn }}</p>
+        {% endif %}
         {% if issue.upc %}
           <p><b>UPC:</b> {{ issue.upc }}</p>
         {% endif %}
