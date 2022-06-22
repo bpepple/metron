@@ -150,12 +150,13 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
             if i.series.series_type.id == 10:
                 for reprint in i.reprints.all():
                     # If reprint is not a single story let's bail.
-                    if reprint.name and len(reprint.name) < 2:
+                    if len(reprint.name) < 2:
                         modified = True
                         # Add stories
-                        for story in reprint.name:
-                            i.name.append(story)
-                        i.save()
+                        if reprint.name:
+                            for story in reprint.name:
+                                i.name.append(story)
+                            i.save()
                         # Add characters
                         for character in reprint.characters.all():
                             if character not in i.characters.all():
