@@ -109,6 +109,20 @@ def fc_series(create_user, dc_comics, cancelled_type):
 
 
 @pytest.fixture
+def bat_sups_series(create_user, dc_comics, cancelled_type):
+    user = create_user()
+    return Series.objects.create(
+        name="Batman / Superman",
+        slug="batman-superman",
+        publisher=dc_comics,
+        volume="1",
+        year_began=2016,
+        series_type=cancelled_type,
+        edited_by=user,
+    )
+
+
+@pytest.fixture
 def issue_with_arc(create_user, fc_series, fc_arc, superman):
     user = create_user()
     i = Issue.objects.create(

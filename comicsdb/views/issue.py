@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
-from comicsdb.filters.issue import IssueFilter
+from comicsdb.filters.issue import IssueViewFilter
 from comicsdb.forms.credits import CreditsFormSet
 from comicsdb.forms.issue import IssueForm
 from comicsdb.forms.variant import VariantFormset
@@ -98,7 +98,7 @@ class IssueDetail(DetailView):
 class SearchIssueList(IssueList):
     def get_queryset(self):
         result = super(SearchIssueList, self).get_queryset()
-        issue_result = IssueFilter(self.request.GET, queryset=result)
+        issue_result = IssueViewFilter(self.request.GET, queryset=result)
 
         return issue_result.qs
 

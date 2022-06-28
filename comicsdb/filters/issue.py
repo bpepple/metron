@@ -1,40 +1,89 @@
-import django_filters
+import operator
+from functools import reduce
+
+import django_filters as df
+from django.db.models import Q
 
 from comicsdb.models import Issue
 
 
-class IssueFilter(django_filters.FilterSet):
-    cover_year = django_filters.NumberFilter(
+class IssueSeriesName(df.rest_framework.CharFilter):
+    def filter(self, qs, value):
+        if value:
+            query_list = value.split()
+            qs = qs.filter(
+                reduce(operator.and_, (Q(series__name__icontains=q) for q in query_list))
+            )
+            return qs
+        return super().filter(qs, value)
+
+
+class IssueFilter(df.rest_framework.FilterSet):
+    cover_year = df.rest_framework.NumberFilter(
         label="Cover Year", field_name="cover_date", lookup_expr="year"
     )
-    cover_month = django_filters.NumberFilter(
+    cover_month = df.rest_framework.NumberFilter(
         label="Cover Month", field_name="cover_date", lookup_expr="month"
     )
-    publisher_name = django_filters.filters.CharFilter(
+    publisher_name = df.rest_framework.CharFilter(
         label="Publisher Name", field_name="series__publisher__name", lookup_expr="icontains"
     )
-    publisher_id = django_filters.filters.NumberFilter(
+    publisher_id = df.rest_framework.NumberFilter(
         label="Publisher Metron ID", field_name="series__publisher__id", lookup_expr="exact"
     )
-    series_name = django_filters.CharFilter(
+    series_name = IssueSeriesName(
         label="Series Name", field_name="series__name", lookup_expr="icontains"
     )
-    series_id = django_filters.filters.NumberFilter(
+    series_id = df.rest_framework.NumberFilter(
         label="Series Metron ID", field_name="series__id", lookup_expr="exact"
     )
-    series_volume = django_filters.NumberFilter(
+    series_volume = df.rest_framework.NumberFilter(
         label="Series Volume Number", field_name="series__volume", lookup_expr="exact"
     )
-    store_date_range = django_filters.filters.DateFromToRangeFilter("store_date")
-    series_year_began = django_filters.filters.NumberFilter(
+    store_date_range = df.rest_framework.DateFromToRangeFilter("store_date")
+    series_year_began = df.rest_framework.NumberFilter(
         label="Series Beginning Year", field_name="series__year_began", lookup_expr="exact"
     )
-    sku = django_filters.filters.CharFilter(
+    sku = df.rest_framework.CharFilter(
         label="Distributor SKU", field_name="sku", lookup_expr="iexact"
     )
-    upc = django_filters.filters.CharFilter(
+    upc = df.rest_framework.CharFilter(
         label="UPC Code", field_name="upc", lookup_expr="iexact"
     )
+
+    class Meta:
+        model = Issue
+        fields = ["number", "store_date"]
+
+
+class IssueViewFilter(df.FilterSet):
+    cover_year = df.NumberFilter(
+        label="Cover Year", field_name="cover_date", lookup_expr="year"
+    )
+    cover_month = df.NumberFilter(
+        label="Cover Month", field_name="cover_date", lookup_expr="month"
+    )
+    publisher_name = df.CharFilter(
+        label="Publisher Name", field_name="series__publisher__name", lookup_expr="icontains"
+    )
+    publisher_id = df.NumberFilter(
+        label="Publisher Metron ID", field_name="series__publisher__id", lookup_expr="exact"
+    )
+    series_name = IssueSeriesName(
+        label="Series Name", field_name="series__name", lookup_expr="icontains"
+    )
+    series_id = df.NumberFilter(
+        label="Series Metron ID", field_name="series__id", lookup_expr="exact"
+    )
+    series_volume = df.NumberFilter(
+        label="Series Volume Number", field_name="series__volume", lookup_expr="exact"
+    )
+    store_date_range = df.DateFromToRangeFilter("store_date")
+    series_year_began = df.NumberFilter(
+        label="Series Beginning Year", field_name="series__year_began", lookup_expr="exact"
+    )
+    sku = df.CharFilter(label="Distributor SKU", field_name="sku", lookup_expr="iexact")
+    upc = df.CharFilter(label="UPC Code", field_name="upc", lookup_expr="iexact")
 
     class Meta:
         model = Issue
