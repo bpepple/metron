@@ -1,22 +1,18 @@
-import django_filters
+from django_filters import rest_framework as filters
 
 from comicsdb.models import Series
 
 
-class SeriesFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(lookup_expr="icontains")
-    publisher_id = django_filters.filters.NumberFilter(
+class SeriesFilter(filters.FilterSet):
+    name = filters.CharFilter(lookup_expr="icontains")
+    publisher_id = filters.filters.NumberFilter(
         field_name="publisher__id", lookup_expr="exact"
     )
-    publisher_name = django_filters.CharFilter(
-        field_name="publisher__name", lookup_expr="icontains"
-    )
-    series_type_id = django_filters.filters.NumberFilter(
+    publisher_name = filters.CharFilter(field_name="publisher__name", lookup_expr="icontains")
+    series_type_id = filters.filters.NumberFilter(
         field_name="series_type__id", lookup_expr="exact"
     )
-    series_type = django_filters.CharFilter(
-        field_name="series_type__name", lookup_expr="icontains"
-    )
+    series_type = filters.CharFilter(field_name="series_type__name", lookup_expr="icontains")
 
     class Meta:
         model = Series
