@@ -1,10 +1,22 @@
+import operator
+from functools import reduce
+
+from django.db.models import Q
 from django_filters import rest_framework as filters
 
 from comicsdb.models import Series
 
 
+class SeriesNameFilter(filters.CharFilter):
+    def filter(self, qs, value):
+        if value:
+            query_list = value.split()
+            qs = qs.filter(reduce(operator.and_, (Q(name__icontains=q) for q in query_list)))
+        return qs
+
+
 class SeriesFilter(filters.FilterSet):
-    name = filters.CharFilter(lookup_expr="icontains")
+    name = SeriesNameFilter(lookup_expr="icontains")
     publisher_id = filters.filters.NumberFilter(
         field_name="publisher__id", lookup_expr="exact"
     )
