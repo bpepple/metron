@@ -1,5 +1,6 @@
 import logging
 from datetime import date, datetime
+from typing import Any, Dict
 
 from dal import autocomplete
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -15,6 +16,7 @@ from comicsdb.forms.credits import CreditsFormSet
 from comicsdb.forms.issue import IssueForm
 from comicsdb.forms.variant import VariantFormset
 from comicsdb.models import Creator, Credits, Issue, Series
+from comicsdb.models.series import SeriesType
 from comicsdb.models.variant import Variant
 
 PAGINATE = 28
@@ -54,7 +56,13 @@ class CreatorAutocomplete(autocomplete.Select2QuerySetView):
 class IssueList(ListView):
     model = Issue
     paginate_by = PAGINATE
+    # TODO: Let's look into limiting fields returned since we don't use most of them.
     queryset = Issue.objects.select_related("series", "series__series_type")
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super(IssueList, self).get_context_data(**kwargs)
+        context["series_type"] = SeriesType.objects.values("id", "name")
+        return context
 
 
 class IssueDetail(DetailView):
