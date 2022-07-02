@@ -26,9 +26,8 @@ class StatisticsView(TemplateView):
             .annotate(c=Count("month"))
             .order_by("-month")[:12]
         )
-        issues = reversed(res)
         monthly_issue_dict = {}
-        for issue in issues:
+        for issue in reversed(res):
             month_str = issue["month"].strftime("%b")
             monthly_issue_dict[month_str] = issue["c"]
 
@@ -41,9 +40,8 @@ class StatisticsView(TemplateView):
             .annotate(c=Count("day"))
             .order_by("-day")[:30]
         )
-        issues = reversed(res)
         daily_issue_dict = {}
-        for issue in issues:
+        for issue in reversed(res):
             day_str = issue["day"].strftime("%m/%d")
             daily_issue_dict[day_str] = issue["c"]
 
@@ -54,9 +52,8 @@ class StatisticsView(TemplateView):
             .annotate(c=Count("month"))
             .order_by("-month")[:12]
         )
-        creators = reversed(res)
         creator_dict = {}
-        for creator in creators:
+        for creator in reversed(res):
             month_str = creator["month"].strftime("%b")
             creator_dict[month_str] = creator["c"]
 
@@ -67,9 +64,8 @@ class StatisticsView(TemplateView):
             .annotate(c=Count("month"))
             .order_by("-month")[:12]
         )
-        characters = reversed(res)
         character_dict = {}
-        for character in characters:
+        for character in reversed(res):
             month_str = character["month"].strftime("%b")
             character_dict[month_str] = character["c"]
 
