@@ -78,6 +78,9 @@ class IssueViewFilter(df.FilterSet):
     series_volume = df.NumberFilter(
         label="Series Volume Number", field_name="series__volume", lookup_expr="exact"
     )
+    series_type = df.NumberFilter(
+        label="Series Type", field_name="series__series_type__id", lookup_expr="exact"
+    )
     store_date_range = df.DateFromToRangeFilter("store_date")
     series_year_began = df.NumberFilter(
         label="Series Beginning Year", field_name="series__year_began", lookup_expr="exact"

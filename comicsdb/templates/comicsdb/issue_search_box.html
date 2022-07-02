@@ -15,6 +15,19 @@
       </div>
     </div>
     <div class="field">
+      <label class="label">Series Type</label>
+      <div class="control">
+        <div class="select">
+          <select name="series_type">
+            <option value="">Select Series Type</option>
+            {% for i in series_type  %}
+            <option value="{{ i.id }}">{{ i.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="field">
       <label class="label">Issue Number</label>
       <div class="control">
         <input class="input" type="text" name="number" placeholder="Enter Issue Number">
