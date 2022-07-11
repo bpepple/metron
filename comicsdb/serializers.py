@@ -22,6 +22,12 @@ class GenreSerializer(serializers.ModelSerializer):
         fields = ("id", "name")
 
 
+class SeriesTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SeriesType
+        fields = ("id", "name")
+
+
 class IssuePublisherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publisher
@@ -29,11 +35,12 @@ class IssuePublisherSerializer(serializers.ModelSerializer):
 
 
 class IssueSeriesSerializer(serializers.ModelSerializer):
+    series_type = SeriesTypeSerializer(read_only=True)
     genres = GenreSerializer(many=True, read_only=True)
 
     class Meta:
         model = Series
-        fields = ("id", "name", "genres")
+        fields = ("id", "name", "sort_name", "volume", "series_type", "genres")
 
 
 class ArcListSerializer(serializers.ModelSerializer):
@@ -88,12 +95,6 @@ class SeriesListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Series
         fields = ("id", "series", "modified")
-
-
-class SeriesTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SeriesType
-        fields = ("id", "name")
 
 
 class TeamListSerializer(serializers.ModelSerializer):
@@ -156,7 +157,6 @@ class IssueSerializer(serializers.ModelSerializer):
     teams = TeamListSerializer(many=True, read_only=True)
     publisher = IssuePublisherSerializer(source="series.publisher", read_only=True)
     series = IssueSeriesSerializer(read_only=True)
-    volume = serializers.ReadOnlyField(source="series.volume")
     reprints = ReprintSerializer(many=True, read_only=True)
 
     class Meta:
@@ -165,7 +165,6 @@ class IssueSerializer(serializers.ModelSerializer):
             "id",
             "publisher",
             "series",
-            "volume",
             "number",
             "title",
             "name",
