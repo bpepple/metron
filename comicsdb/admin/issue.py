@@ -55,7 +55,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
     autocomplete_fields = ["series", "characters", "teams", "arcs", "reprints"]
     list_select_related = ("series",)
     date_hierarchy = "cover_date"
-    actions = ["add_dc_credits", "add_marvel_credits", "add_tpb_info"]
+    actions = ["add_dc_credits", "add_marvel_credits", "add_reprint_info"]
     actions_on_top = True
     # form view
     fieldsets = (
@@ -141,30 +141,28 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
             messages.SUCCESS,
         )
 
-    @admin.action(description="Add TPB info from reprints")
-    def add_tpb_info(self, request, queryset) -> None:
+    @admin.action(description="Add info from reprints")
+    def add_reprint_info(self, request, queryset) -> None:
         count = 0
         for i in queryset:
             modified = False
-            # Only add info for TPB.
-            if i.series.series_type.id == 10:
-                for reprint in i.reprints.all():
-                    # If reprint is not a single story let's bail.
-                    if len(reprint.name) < 2:
-                        modified = True
-                        # Add stories
-                        if reprint.name:
-                            for story in reprint.name:
-                                i.name.append(story)
-                            i.save()
-                        # Add characters
-                        for character in reprint.characters.all():
-                            if character not in i.characters.all():
-                                i.characters.add(character)
-                        # Add Teams
-                        for team in reprint.teams.all():
-                            if team not in i.teams.all():
-                                i.teams.add(team)
+            for reprint in i.reprints.all():
+                # If reprint is not a single story let's bail.
+                if len(reprint.name) < 2:
+                    modified = True
+                    # Add stories
+                    if reprint.name:
+                        for story in reprint.name:
+                            i.name.append(story)
+                        i.save()
+                    # Add characters
+                    for character in reprint.characters.all():
+                        if character not in i.characters.all():
+                            i.characters.add(character)
+                    # Add Teams
+                    for team in reprint.teams.all():
+                        if team not in i.teams.all():
+                            i.teams.add(team)
             if modified:
                 count += 1
 
