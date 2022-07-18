@@ -40,15 +40,7 @@
               </div>
             </div>
           {% else %}
-            {% if field.label == "Collection Title" %}
-              {% if issue.series.series_type.id == 10 %}
-                <div class="control">{{ field }}</div>
-              {% else %}
-                <fieldset disabled><div class="control">{{ field }}</div></fieldset>
-              {% endif %}
-            {% else %}
-              <div class="control">{{ field }}</div>
-            {% endif %}
+            <div class="control">{{ field }}</div>
           {% endif %}
           {% if field.help_text %}
             <ul>
