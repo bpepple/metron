@@ -28,9 +28,6 @@
         {% endfor %}
       {% endif %}
       {% for field in form %}
-        <div class="field is-danger is-small">
-          {{field.errors}}
-        </div>
         <div class="field">
           <label class="label">{{ field.label }}</label>
           {% if field|is_select %}
