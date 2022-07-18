@@ -79,7 +79,9 @@ class IssueDetail(DetailView):
         ),
         Prefetch(
             "reprints",
-            queryset=Issue.objects.select_related("series", "series__series_type"),
+            queryset=Issue.objects.select_related("series", "series__series_type").order_by(
+                "cover_date", "store_date"
+            ),
         ),
     )
 
