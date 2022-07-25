@@ -71,6 +71,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
                     "store_date",
                     "price",
                     "sku",
+                    "isbn",
                     "upc",
                     "page",
                     "desc",
