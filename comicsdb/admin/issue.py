@@ -154,7 +154,8 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
                     # Add stories
                     if reprint.name:
                         for story in reprint.name:
-                            i.name.append(story)
+                            if story not in i.name:
+                                i.name.append(story)
                         i.save()
                     # Add characters
                     for character in reprint.characters.all():
