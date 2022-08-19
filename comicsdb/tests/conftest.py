@@ -2,6 +2,7 @@ import uuid
 from datetime import date, datetime
 
 import pytest
+from django.core.management import call_command
 from django.utils import timezone
 
 from comicsdb.models.arc import Arc
@@ -89,9 +90,15 @@ def marvel(create_user):
     return Publisher.objects.create(name="Marvel", slug="marvel", edited_by=user)
 
 
+@pytest.fixture(scope="session")
+def django_db_setup(django_db_setup, django_db_blocker):
+    with django_db_blocker.unblock():
+        call_command("loaddata", "../fixtures/series_type.yaml")
+
+
 @pytest.fixture
 def cancelled_type(db):
-    return SeriesType.objects.create(name="Cancelled")
+    return SeriesType.objects.get(name="Cancelled Series")
 
 
 @pytest.fixture

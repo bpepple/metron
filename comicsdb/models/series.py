@@ -43,6 +43,10 @@ class Series(CommonInfo):
     def __str__(self) -> str:
         if self.series_type.id == 10:
             return f"{self.name} TPB ({self.year_began})"
+        elif self.series_type.id == 8:
+            return f"{self.name} HC ({self.year_began})"
+        elif self.series_type.id == 9:
+            return f"{self.name} GN ({self.year_began})"
         else:
             return f"{self.name} ({self.year_began})"
 
