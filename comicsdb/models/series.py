@@ -41,14 +41,15 @@ class Series(CommonInfo):
         return reverse("series:detail", args=[self.slug])
 
     def __str__(self) -> str:
-        if self.series_type.id == 10:
-            return f"{self.name} TPB ({self.year_began})"
-        elif self.series_type.id == 8:
-            return f"{self.name} HC ({self.year_began})"
-        elif self.series_type.id == 9:
-            return f"{self.name} GN ({self.year_began})"
-        else:
-            return f"{self.name} ({self.year_began})"
+        match self.series_type.id:
+            case 10:
+                return f"{self.name} TPB ({self.year_began})"
+            case 8:
+                return f"{self.name} HC ({self.year_began})"
+            case 9:
+                return f"{self.name} GN ({self.year_began})"
+            case _:
+                return f"{self.name} ({self.year_began})"
 
     def first_issue_cover(self):
         try:
