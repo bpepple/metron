@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 from django.db.models.signals import pre_delete
 
-from comicsdb.signals import pre_delete_image
+from comicsdb.signals import pre_delete_credit, pre_delete_image
 
 
 class ComicsdbConfig(AppConfig):
@@ -33,3 +33,8 @@ class ComicsdbConfig(AppConfig):
 
         variant = self.get_model("Variant")
         pre_delete.connect(pre_delete_image, sender=variant, dispatch_uid="pre_delete_variant")
+
+        credits = self.get_model("Credits")
+        pre_delete.connect(
+            pre_delete_credit, sender=credits, dispatch_uid="pre_delete_credits"
+        )
