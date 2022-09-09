@@ -53,11 +53,11 @@ class ArcViewSet(viewsets.ReadOnlyModelViewSet):
     throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
-        if self.action == "list":
-            return ArcListSerializer
-        if self.action == "retrieve":
-            return ArcSerializer
-        return ArcListSerializer
+        match self.action:
+            case "retrieve":
+                return ArcSerializer
+            case _:
+                return ArcListSerializer
 
     @action(detail=True)
     def issue_list(self, request, pk=None):
@@ -90,11 +90,11 @@ class CharacterViewSet(viewsets.ReadOnlyModelViewSet):
     throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
-        if self.action == "list":
-            return CharacterListSerializer
-        if self.action == "retrieve":
-            return CharacterSerializer
-        return CharacterListSerializer
+        match self.action:
+            case "retrieve":
+                return CharacterSerializer
+            case _:
+                return CharacterListSerializer
 
     @action(detail=True)
     def issue_list(self, request, pk=None):
@@ -127,11 +127,11 @@ class CreatorViewSet(viewsets.ReadOnlyModelViewSet):
     throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
-        if self.action == "list":
-            return CreatorListSerializer
-        if self.action == "retrieve":
-            return CreatorSerializer
-        return CreatorListSerializer
+        match self.action:
+            case "retrieve":
+                return CreatorSerializer
+            case _:
+                return CreatorListSerializer
 
 
 class IssueViewSet(viewsets.ReadOnlyModelViewSet):
@@ -160,11 +160,11 @@ class IssueViewSet(viewsets.ReadOnlyModelViewSet):
     throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
-        if self.action == "list":
-            return IssueListSerializer
-        if self.action == "retrieve":
-            return IssueSerializer
-        return IssueListSerializer
+        match self.action:
+            case "retrieve":
+                return IssueSerializer
+            case _:
+                return IssueListSerializer
 
 
 class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
@@ -181,11 +181,11 @@ class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
     throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
-        if self.action == "list":
-            return PublisherListSerializer
-        if self.action == "retrieve":
-            return PublisherSerializer
-        return PublisherListSerializer
+        match self.action:
+            case "retrieve":
+                return PublisherSerializer
+            case _:
+                return PublisherListSerializer
 
     @action(detail=True)
     def series_list(self, request, pk=None):
@@ -231,11 +231,11 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
     throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
-        if self.action == "list":
-            return SeriesListSerializer
-        if self.action == "retrieve":
-            return SeriesSerializer
-        return SeriesListSerializer
+        match self.action:
+            case "retrieve":
+                return SeriesSerializer
+            case _:
+                return SeriesListSerializer
 
     @action(detail=True)
     def issue_list(self, request, pk=None):
@@ -278,11 +278,11 @@ class TeamViewSet(viewsets.ReadOnlyModelViewSet):
     throttle_classes = (UserRateThrottle,)
 
     def get_serializer_class(self):
-        if self.action == "list":
-            return TeamListSerializer
-        if self.action == "retrieve":
-            return TeamSerializer
-        return TeamListSerializer
+        match self.action:
+            case "retrieve":
+                return TeamSerializer
+            case _:
+                return TeamListSerializer
 
     @action(detail=True)
     def issue_list(self, request, pk=None):
