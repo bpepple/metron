@@ -6,7 +6,7 @@ This should probably be re-written, but, well, it mostly works!
 
 import contextlib
 import re
-from typing import List, Match, Optional, Tuple
+from typing import List, Tuple
 from urllib.parse import unquote
 
 
@@ -42,8 +42,7 @@ class FileNameParser:
         tmpstr: str = self.fix_spaces(filename)
         found: bool = False
 
-        match: Optional[Match[str]] = re.search(r"(?<=\sof\s)\d+(?=\s)", tmpstr, re.IGNORECASE)
-        if match:
+        if match := re.search(r"(?<=\sof\s)\d+(?=\s)", tmpstr, re.IGNORECASE):
             count = match.group()
             found = True
 
