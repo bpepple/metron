@@ -232,6 +232,7 @@ class WeekList(ListView):
         context = super().get_context_data(**kwargs)
         context["release_day"] = release_day
         context["future"] = False
+        context["series_type"] = SeriesType.objects.values("id", "name")
         return context
 
 
@@ -259,6 +260,7 @@ class NextWeekList(ListView):
         context = super().get_context_data(**kwargs)
         context["release_day"] = release_day
         context["future"] = False
+        context["series_type"] = SeriesType.objects.values("id", "name")
         return context
 
 
@@ -287,4 +289,5 @@ class FutureList(ListView):
         context = super().get_context_data(**kwargs)
         context["release_day"] = release_day
         context["future"] = True
+        context["series_type"] = SeriesType.objects.values("id", "name")
         return context
