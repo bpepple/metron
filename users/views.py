@@ -56,7 +56,7 @@ def signup(request):
             result = get_recaptcha_auth(request)
 
             if result["success"]:
-                user = form.save(commit=False)
+                user: CustomUser = form.save(commit=False)
                 user.is_active = False
                 user.save()
                 current_site = get_current_site(request)
