@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("comicsdb", "0006_issue_title"),
+        ("comicsdb", "0001_squashed_migrations"),
     ]
 
     operations = [
