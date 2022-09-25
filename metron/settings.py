@@ -206,12 +206,12 @@ logging.config.dictConfig(
                 # Avoid double logging because of root logger
                 "propagate": False,
             },
-            "django.db.backends": {
-                "level": "DEBUG",
-                "handlers": ["console"],
-                # Avoid double logging because of root logger
-                "propagate": False,
-            },
+            # "django.db.backends": {
+            #     "level": "DEBUG",
+            #     "handlers": ["console"],
+            #     # Avoid double logging because of root logger
+            #     "propagate": False,
+            # },
             # Default runserver request logging
             "django.server": DEFAULT_LOGGING["loggers"]["django.server"],
         },
