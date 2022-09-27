@@ -1,4 +1,7 @@
+from typing import Any, Dict
+
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from django.core.exceptions import ValidationError
 from django.forms import ClearableFileInput, EmailField, EmailInput, Textarea, TextInput
 
 from .models import CustomUser
@@ -10,6 +13,12 @@ class CustomUserCreationForm(UserCreationForm):
         help_text="Required. Enter a valid email address.",
         required=True,
     )
+
+    def clean(self) -> Dict[str, Any]:
+        email = self.cleaned_data.get("email")
+        if CustomUser.objects.filter(email=email).exists():
+            raise ValidationError("Email already exists")
+        return super().clean()
 
     class Meta(UserCreationForm):
         model = CustomUser
