@@ -1,4 +1,4 @@
-{% extends "comicsdb/comics_base.html" %}
+{% extends parent_template|default:"base.html" %}
 {% load static %}
 {% load bulma_tags %}
 
@@ -9,8 +9,10 @@
 {{ form.media.css }}
 {% endblock %}
 
-{% block comic_content %}
-  <h1 class="title">{{ title }}</h1>
+{% block content %}
+  <header class="block has-text-centered">
+    <h1 class="title">{{ title }}</h1>
+  </header>
   <form method="post" enctype="multipart/form-data" id="mainForm">
     {%csrf_token%}
     <!-- main -->
