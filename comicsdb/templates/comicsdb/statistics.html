@@ -8,36 +8,30 @@
 {% endblock %}
 
 {% block content %}
-<!-- hero -->
-<section class="hero">
-  <div class="hero-body">
-    <div class="container has-text-centered">
-      <h1 class="title is-3">Metron Database Statistics</h1>
-    </div>
-  </div>
-</section>
-<!-- end hero -->
+<!-- header -->
+<header class="block has-text-centered">
+  <h1 class="title">Metron Database Statistics</h1>
+</header>
+<!-- end header -->
 <!-- statistics -->
 <section>
-  <div class="container">
-    <div class="box">
-      {% pie_chart yearly_count with id='chart-1' library={"title": "Number of Issues Added per Year",} %}
-    </div>
-    <div class="box">
-      {% pie_chart publisher_counts with id='chart-2', library={'title':'Percentage of Issues by Publisher', 'sliceVisibilityThreshold': '.02'} %}
-    </div>
-    <div class="box">
-      {% column_chart daily_issue_count with id='chart-3' library={"title":"Number of Issue Added by Date",} %}
-    </div>
-    <div class="box">
-      {% column_chart monthly_issue_count with id='chart-4' library={"title":"Number of Issues Added by Month",} %}
-    </div>
-    <div class="box">
-      {% column_chart monthly_creator with id='chart-5' library={"title":"Number of Creators Added by Month",} %}
-    </div>
-    <div class="box">
-      {% column_chart monthly_character with id='chart-6' library={"title":"Number of Characters Add by Month",} %}
-    </div>
+  <div class="box">
+    {% pie_chart yearly_count with id='chart-1' library={"title": "Number of Issues Added per Year",} %}
+  </div>
+  <div class="box">
+    {% pie_chart publisher_counts with id='chart-2', library={'title':'Percentage of Issues by Publisher', 'sliceVisibilityThreshold': '.02'} %}
+  </div>
+  <div class="box">
+    {% column_chart daily_issue_count with id='chart-3' library={"title":"Number of Issue Added by Date",} %}
+  </div>
+  <div class="box">
+    {% column_chart monthly_issue_count with id='chart-4' library={"title":"Number of Issues Added by Month",} %}
+  </div>
+  <div class="box">
+    {% column_chart monthly_creator with id='chart-5' library={"title":"Number of Creators Added by Month",} %}
+  </div>
+  <div class="box">
+    {% column_chart monthly_character with id='chart-6' library={"title":"Number of Characters Add by Month",} %}
   </div>
 </section>
 <!-- end statistics -->
