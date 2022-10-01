@@ -1,5 +1,6 @@
 {% extends parent_template|default:"base.html" %}
 {% load thumbnail %}
+{% load humanize %}
 {% load static %}
 
 {% block title %}Series{% endblock title %}
@@ -20,7 +21,7 @@
       <div class="level-item">
         <p class="subtitle is-5">
           {% if page_obj.paginator %}
-          <strong>{{ page_obj.paginator.count }}</strong> Series
+          <strong>{{ page_obj.paginator.count|intcomma }}</strong> Series
           {% else %}
           <strong>{{ series_list.count }}</strong> Series
           {% endif %}
