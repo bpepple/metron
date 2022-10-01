@@ -2,7 +2,7 @@ from django.db.models import Count
 from django.db.models.functions import TruncDate, TruncMonth, TruncYear
 from django.views.generic.base import TemplateView
 
-from comicsdb.models import Character, Creator, Issue, Publisher
+from comicsdb.models import Arc, Character, Creator, Issue, Publisher, Series, Team
 
 
 class StatisticsView(TemplateView):
@@ -88,5 +88,14 @@ class StatisticsView(TemplateView):
         context["monthly_creator"] = creator_dict
         context["monthly_character"] = character_dict
         context["yearly_count"] = year_count_dict
+
+        # TODO: Look into using len(publisher_dict)
+        context["publishers"] = Publisher.objects.count()
+        context["series"] = Series.objects.count()
+        context["issues"] = Issue.objects.count()
+        context["characters"] = Character.objects.count()
+        context["creators"] = Creator.objects.count()
+        context["teams"] = Team.objects.count()
+        context["arcs"] = Arc.objects.count()
 
         return context
