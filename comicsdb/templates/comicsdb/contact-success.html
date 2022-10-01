@@ -1,9 +1,7 @@
-{% extends "comicsdb/comics_base.html" %}
+{% extends parent_template|default:"base.html" %}
 
 {% block title %}Contact{% endblock title %}
 
-{% block comic_content %}
-  <div class="container">
-    <div class="notification">{{ msg }}</div>
-  </div>
+{% block content %}
+  <div class="notification">{{ msg }}</div>
 {% endblock %}
