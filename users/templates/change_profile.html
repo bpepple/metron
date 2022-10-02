@@ -8,47 +8,45 @@
     <div class="notification is-success">
       <button class="delete"></button>
       {{ message }}
-    </div> 
+    </div>
     {% endif %}
   {% endfor %}
 {% endif %}
 <section class="section">
-  <div class="container">
-    <h1 class="title">Change Profile Form</h1>
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      {% if form.errors %}
-        {% for field in form %}
-          {% for error in field.errors %}
-            <div class="notification is-danger">
-              <strong>{{ error|escape }}</strong>
-            </div>
-          {% endfor %}
-        {% endfor %}
-        {% for error in form.non_field_errors %}
+  <h1 class="title">Change Profile Form</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if form.errors %}
+      {% for field in form %}
+        {% for error in field.errors %}
         <div class="notification is-danger">
           <strong>{{ error|escape }}</strong>
         </div>
         {% endfor %}
-      {% endif %}
-      {% for field in form %}
-      <div class="field">
-        <label class="label">{{ field.label }}</label>
-        <div class="control">{{ field }}</div>
-        {% if field.help_text %}
-        <ul>
-          <li class="help">{{ field.help_text|safe }}</li>
-        </ul>
-        {% endif %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+      <div class="notification is-danger">
+        <strong>{{ error|escape }}</strong>
       </div>
       {% endfor %}
-      <div class="field">
-        <div class="control">
-          <button class="button is-info" type="submit">Submit</button>
-        </div>
+    {% endif %}
+    {% for field in form %}
+    <div class="field">
+      <label class="label">{{ field.label }}</label>
+      <div class="control">{{ field }}</div>
+      {% if field.help_text %}
+      <ul>
+        <li class="help">{{ field.help_text|safe }}</li>
+      </ul>
+      {% endif %}
+    </div>
+    {% endfor %}
+    <div class="field">
+      <div class="control">
+        <button class="button is-info" type="submit">Submit</button>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
 </section>
 {% endblock %}
 
