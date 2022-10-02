@@ -1,6 +1,7 @@
 {% extends parent_template|default:"base.html" %}
 {% load static %}
 {% load chartkick %}
+{% load humanize %}
 
 {% block headscripts %}
 <script src="https://www.gstatic.com/charts/loader.js"></script>
@@ -8,37 +9,80 @@
 {% endblock %}
 
 {% block content %}
-<!-- hero -->
-<section class="hero">
-  <div class="hero-body">
-    <div class="container has-text-centered">
-      <h1 class="title is-3">Metron Database Statistics</h1>
+<!-- header -->
+<header class="block has-text-centered">
+  <h1 class="title">Metron Database Statistics</h1>
+</header>
+<!-- end header -->
+<!-- totals -->
+<div class="box">
+  <header class="block has-text-centered">
+    <h2 class="subtitle">Totals</h2>
+  </header>
+  <ul>
+    <li class="tag is-size-6">
+      <span class="mr-1">Publisher{{ publishers|pluralize}}:</span>
+      <strong>{{ publishers|intcomma }}</strong>
+    </li>
+    <li class="tag is-size-6">
+      <span class="mr-1">Series:</span>
+      <strong>{{ series|intcomma }}</strong>
+    </li>
+    <li class="tag is-size-6">
+      <span class="mr-1">Issue{{ issues|pluralize }}:</span>
+      <strong>{{ issues|intcomma }}</strong>
+    </li>
+    <li class="tag is-size-6">
+      <span class="mr-1">Character{{ characters|pluralize }}:</span>
+      <strong>{{ characters|intcomma }}</strong>
+    </li>
+    <li class="tag is-size-6">
+      <span class="mr-1">Creator{{ creators|pluralize }}:</span>
+      <strong>{{ creators|intcomma }}</strong>
+    </li>
+    <li class="tag is-size-6">
+      <span class="mr-1">Team{{ teams|pluralize }}:</span>
+      <strong>{{ teams|intcomma }}</strong>
+    </li>
+    <li class="tag is-size-6">
+      <span class="mr-1">Story Arc{{ arcs|pluralize }}:</span>
+      <strong>{{ arcs|intcomma }}</strong>
+    </li>
+  </ul>
+</div>
+<!-- end totals -->
+<!-- graphs -->
+<section>
+  <div class="tile is-ancestor">
+    <div class="tile is-parent">
+      <div class="tile is-child">
+        {% pie_chart yearly_count with id='chart-1' library={"title": "Number of Issues Added per Year",} %}
+      </div>
+      <div class="tile is-child">
+        {% pie_chart publisher_counts with id='chart-2', library={'title':'Percentage of Issues by Publisher', 'sliceVisibilityThreshold': '.02'} %}
+      </div>
     </div>
   </div>
-</section>
-<!-- end hero -->
-<!-- statistics -->
-<section>
-  <div class="container">
-    <div class="box">
-      {% pie_chart yearly_count with id='chart-1' library={"title": "Number of Issues Added per Year",} %}
-    </div>
-    <div class="box">
-      {% pie_chart publisher_counts with id='chart-2', library={'title':'Percentage of Issues by Publisher', 'sliceVisibilityThreshold': '.02'} %}
-    </div>
-    <div class="box">
+  <div class="tile is-ancestor">
+    <div class="tile is-child">
       {% column_chart daily_issue_count with id='chart-3' library={"title":"Number of Issue Added by Date",} %}
     </div>
-    <div class="box">
+  </div>
+  <div class="tile is-ancestor">
+    <div class="tile is-child">
       {% column_chart monthly_issue_count with id='chart-4' library={"title":"Number of Issues Added by Month",} %}
     </div>
-    <div class="box">
+  </div>
+  <div class="tile is-ancestor">
+    <div class="tile is-child">
       {% column_chart monthly_creator with id='chart-5' library={"title":"Number of Creators Added by Month",} %}
     </div>
-    <div class="box">
+  </div>
+  <div class="tile is-ancestor">
+    <div class="tile is-child">
       {% column_chart monthly_character with id='chart-6' library={"title":"Number of Characters Add by Month",} %}
     </div>
   </div>
 </section>
-<!-- end statistics -->
+<!-- end graphs -->
 {% endblock %}
