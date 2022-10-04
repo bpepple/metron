@@ -6,6 +6,7 @@ from .credits import Credits, Role
 from .genre import Genre
 from .issue import Issue
 from .publisher import Publisher
+from .rating import Rating
 from .series import Series, SeriesType
 from .team import Team
 from .variant import Variant
@@ -19,6 +20,7 @@ __all__ = [
     "Genre",
     "Issue",
     "Publisher",
+    "Rating",
     "Role",
     "Series",
     "SeriesType",
