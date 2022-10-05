@@ -371,6 +371,8 @@
         {% if issue.page %}
           <p><b>Page Count:</b> {{ issue.page }}</p>
         {% endif %}
+        <!-- Ratings are alway present -->
+        <p><b>Rating:</b> {{ issue.rating.name }}</p>
         {% if issue.sku %}
           <p><b>Distributor SKU:</b> {{ issue.sku }}</p>
         {% endif %}

@@ -8,12 +8,19 @@ from comicsdb.models import (
     Genre,
     Issue,
     Publisher,
+    Rating,
     Role,
     Series,
     SeriesType,
     Team,
     Variant,
 )
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ("id", "name")
 
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -158,6 +165,7 @@ class IssueSerializer(serializers.ModelSerializer):
     publisher = IssuePublisherSerializer(source="series.publisher", read_only=True)
     series = IssueSeriesSerializer(read_only=True)
     reprints = ReprintSerializer(many=True, read_only=True)
+    rating = RatingSerializer(read_only=True)
 
     class Meta:
         model = Issue
@@ -171,6 +179,7 @@ class IssueSerializer(serializers.ModelSerializer):
             "cover_date",
             "store_date",
             "price",
+            "rating",
             "sku",
             "isbn",
             "upc",

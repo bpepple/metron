@@ -143,7 +143,9 @@ class IssueViewSet(viewsets.ReadOnlyModelViewSet):
     Returns the information of an individual issue.
     """
 
-    queryset = Issue.objects.select_related("series", "series__series_type").prefetch_related(
+    queryset = Issue.objects.select_related(
+        "series", "series__series_type", "rating"
+    ).prefetch_related(
         Prefetch(
             "credits_set",
             queryset=Credits.objects.order_by("creator__name")

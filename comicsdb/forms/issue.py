@@ -13,7 +13,7 @@ from django.forms import (
 from django_select2 import forms as s2forms
 
 from comicsdb.forms.team import TeamsWidget
-from comicsdb.models import Issue, Series
+from comicsdb.models import Issue, Rating, Series
 
 
 class ArcsWidget(s2forms.ModelSelect2MultipleWidget):
@@ -42,6 +42,8 @@ class IssueForm(ModelForm):
         ),
     )
 
+    rating = ModelChoiceField(queryset=Rating.objects.all(), empty_label=None)
+
     class Meta:
         model = Issue
         # exclude 'creators' field
@@ -52,6 +54,7 @@ class IssueForm(ModelForm):
             "name",
             "cover_date",
             "store_date",
+            "rating",
             "price",
             "sku",
             "isbn",
