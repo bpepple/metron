@@ -33,7 +33,7 @@ class ArcIssueList(ListView):
 
     def get_queryset(self):
         self.arc = get_object_or_404(Arc, slug=self.kwargs["slug"])
-        return Issue.objects.select_related("series").filter(arcs=self.arc)
+        return self.arc.issue_set.all().select_related("series", "series__series_type")
 
     def get_context_data(self, **kwargs):
         context = super(ArcIssueList, self).get_context_data(**kwargs)

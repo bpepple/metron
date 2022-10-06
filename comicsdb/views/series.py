@@ -13,7 +13,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from comicsdb.forms.attribution import AttributionFormSet
 from comicsdb.forms.series import SeriesForm
-from comicsdb.models import Issue, Series
+from comicsdb.models import Series
 from comicsdb.models.attribution import Attribution
 
 PAGINATE = 28
@@ -32,9 +32,7 @@ class SeriesIssueList(ListView):
 
     def get_queryset(self):
         self.series = get_object_or_404(Series, slug=self.kwargs["slug"])
-        return Issue.objects.select_related("series", "series__series_type").filter(
-            series=self.series
-        )
+        return self.series.issue_set.all()
 
     def get_context_data(self, **kwargs):
         context = super(SeriesIssueList, self).get_context_data(**kwargs)

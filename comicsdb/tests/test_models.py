@@ -4,6 +4,7 @@ from comicsdb.models import (
     Creator,
     Issue,
     Publisher,
+    Rating,
     Role,
     Series,
     SeriesType,
@@ -148,3 +149,8 @@ def test_seriestype_creation(cancelled_type):
 def test_fantasy_genre(db):
     fantasy = Genre.objects.get(name="Fantasy")
     assert isinstance(fantasy, Genre)
+
+
+def test_unknown_rating(db):
+    unknown = Rating.objects.get(name="Unknown")
+    assert isinstance(unknown, Rating)

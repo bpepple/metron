@@ -18,6 +18,7 @@ from .attribution import Attribution
 from .character import Character
 from .common import CommonInfo
 from .creator import Creator
+from .rating import Rating
 from .series import Series
 from .team import Team
 
@@ -39,17 +40,18 @@ class Issue(CommonInfo):
     name = ArrayField(models.CharField("Story Title", max_length=150), null=True, blank=True)
     title = models.CharField("Collection Title", max_length=255, blank=True)
     number = models.CharField(max_length=25)
-    arcs = models.ManyToManyField(Arc, blank=True)
     cover_date = models.DateField("Cover Date")
     store_date = models.DateField("In Store Date", null=True, blank=True)
     price = models.DecimalField(
         "Cover Price", max_digits=5, decimal_places=2, null=True, blank=True
     )
+    rating = models.ForeignKey(Rating, default=1, on_delete=models.SET_DEFAULT)
     sku = models.CharField("Distributor SKU", max_length=9, blank=True)
     isbn = models.CharField("ISBN", max_length=13, blank=True)
     upc = models.CharField("UPC Code", max_length=20, blank=True)
     page = models.PositiveSmallIntegerField("Page Count", null=True, blank=True)
     image = ImageField("Cover", upload_to="issue/%Y/%m/%d/", blank=True)
+    arcs = models.ManyToManyField(Arc, blank=True)
     creators = models.ManyToManyField(Creator, through="Credits", blank=True)
     characters = models.ManyToManyField(Character, blank=True)
     teams = models.ManyToManyField(Team, blank=True)

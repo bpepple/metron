@@ -68,7 +68,7 @@ class IssueList(ListView):
 class IssueDetail(DetailView):
     model = Issue
     queryset = Issue.objects.select_related(
-        "series", "series__publisher", "series__series_type"
+        "series", "series__publisher", "series__series_type", "rating"
     ).prefetch_related(
         Prefetch(
             "credits_set",
