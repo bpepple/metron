@@ -1,5 +1,5 @@
 from dal import autocomplete
-from django.forms import ModelChoiceField, ModelForm, inlineformset_factory
+from django.forms import ModelChoiceField, ModelForm, SelectMultiple, inlineformset_factory
 
 from comicsdb.models import Creator, Credits, Issue
 
@@ -19,6 +19,7 @@ class CreditsForm(ModelForm):
     class Meta:
         model = Credits
         fields = "__all__"
+        widgets = {"role": SelectMultiple(attrs={"size": 6})}
 
 
 CreditsFormSet = inlineformset_factory(
