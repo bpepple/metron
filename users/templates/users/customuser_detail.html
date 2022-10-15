@@ -5,65 +5,61 @@
 {% block title %}{{ customuser.username }}{% endblock title %}
 
 {% block content %}
-<section class="section">
-  <div class="container">
-    <!-- Main page content -->
-    <div class="box">
-      <article class="media">
-        <!-- User profile image-->
-        <div class="media-left">
-          <figure class="image is-128x128">
-            {% if customuser.image %}
-              {% thumbnail customuser.image "128x128" crop="center" format="WEBP" as im %}
-              <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ customuser.username }}">
-              {% endthumbnail %}
-            {% else %}
-              <img class="is-rounded" src="{% static 'site/img/user-not-found.webp' %}" alt="No image for {{ customuser.username }}">
-            {% endif %}
-          </figure>
-        </div>
-        <!-- End User profile image -->
-        <!-- User detail -->
-        <div class="media-content">
-          <div class="content">
-            {% if customuser.get_full_name %}
-              <h3 class="title is-3">
-                {{ customuser.get_full_name }}
-                {% if customuser.is_superuser %}
-                  <span class="tag is-primary">Admin</span>
-                {% endif %}
-                {% for groups in customuser.groups.all %}
-                  {% if groups.name == "Editors" %}
-                    <span class="tag is-info">Editor</span>
-                  {% endif %}
-                {% endfor %}
-              </h3>
-            {% else %}
-              <h3 class="title is-3">
-                {{ customuser.username }}
-                {% if customuser.is_superuser %}
-                  <span class="tag is-primary">Admin</span>
-                {% endif %}
-                {% for groups in customuser.groups.all %}
-                  {% if groups.name == "Editors" %}
-                    <span class="tag is-info">Editor</span>
-                  {% endif %}
-                {% endfor %}
-              </h3>
-            {% endif %}
-            <p>
-              <strong>Joined:</strong> {{ customuser.date_joined|date:"DATE_FORMAT" }}
-              {% if customuser.bio %}
-              <br/>
-              {{ customuser.bio }}
-              {% endif %}
-            </p>
-          </div>
-        </div>
-        <!-- End User detail -->
-      </article>
+<!-- Main page content -->
+<div class="box">
+  <article class="media">
+    <!-- User profile image-->
+    <div class="media-left">
+      <figure class="image is-128x128">
+        {% if customuser.image %}
+          {% thumbnail customuser.image "128x128" crop="center" format="WEBP" as im %}
+          <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ customuser.username }}">
+          {% endthumbnail %}
+        {% else %}
+          <img class="is-rounded" src="{% static 'site/img/user-not-found.webp' %}" alt="No image for {{ customuser.username }}">
+        {% endif %}
+      </figure>
     </div>
-    <!-- End main page content -->
-  </div>
-</section>
+    <!-- End User profile image -->
+    <!-- User detail -->
+    <div class="media-content">
+      <div class="content">
+        {% if customuser.get_full_name %}
+        <h3 class="title is-3">
+          {{ customuser.get_full_name }}
+          {% if customuser.is_superuser %}
+            <span class="tag is-primary">Admin</span>
+          {% endif %}
+          {% for groups in customuser.groups.all %}
+            {% if groups.name == "Editors" %}
+            <span class="tag is-info">Editor</span>
+            {% endif %}
+          {% endfor %}
+        </h3>
+        {% else %}
+        <h3 class="title is-3">
+          {{ customuser.username }}
+          {% if customuser.is_superuser %}
+            <span class="tag is-primary">Admin</span>
+          {% endif %}
+          {% for groups in customuser.groups.all %}
+            {% if groups.name == "Editors" %}
+            <span class="tag is-info">Editor</span>
+            {% endif %}
+          {% endfor %}
+        </h3>
+        {% endif %}
+        <p>
+          <strong>Joined:</strong> {{ customuser.date_joined|date:"DATE_FORMAT" }}
+          {% if customuser.bio %}
+          <br />
+          {{ customuser.bio }}
+          {% endif %}
+        </p>
+      </div>
+    </div>
+    <!-- End User detail -->
+  </article>
+</div>
+<!-- End main page content -->
 {% endblock %}
