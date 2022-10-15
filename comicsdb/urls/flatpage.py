@@ -3,7 +3,7 @@ from django.urls import path
 
 app_name = "flatpage"
 urlpatterns = [
-    path("contribute/", views.flatpage, {"url": "/contribute/"}, name="contribute"),
+    path("about/privacy/", views.flatpage, {"url": "/about/privacy/"}, name="privacy"),
     path(
         "guidelines/editing/",
         views.flatpage,
