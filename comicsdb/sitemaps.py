@@ -9,7 +9,7 @@ class StaticViewSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return ["home", "flatpage:contribute", "flatpage:editing-guidelines"]
+        return ["home", "flatpage:privacy", "flatpage:editing-guidelines"]
 
     def location(self, obj):
         return reverse(obj)
