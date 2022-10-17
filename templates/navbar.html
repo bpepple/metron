@@ -93,6 +93,12 @@
             </span>
             <span>Editing Guidelines</span>
           </a>
+          <a class="navbar-item" href="{% url 'flatpage:api-guidelines' %}">
+            <span class="icon">
+              <i class="fas fa-satellite"></i>
+            </span>
+            <span>API Guidelines</span>
+          </a>
           {% if user.is_authenticated %}
           <a class="navbar-item" href="/docs/">
             <span class="icon">
@@ -101,6 +107,12 @@
             <span>API Docs</span>
           </a>
           {% endif %}
+          <a class="navbar-item" href="{% url 'flatpage:privacy' %}">
+            <span class="icon">
+              <i class="fas fa-user-secret"></i>
+            </span>
+            <span>Privacy Policy</span>
+          </a>
           <a class="navbar-item" href="{% url 'statistics' %}">
             <span class="icon">
               <i class="fas fa-chart-bar"></i>
@@ -112,12 +124,6 @@
               <i class="fas fa-blog"></i>
             </span>
             <span>Blog</span>
-          </a>
-          <a class="navbar-item" href="{% url 'flatpage:privacy' %}">
-            <span class="icon">
-              <i class="fas fa-user-secret"></i>
-            </span>
-            <span>Privacy Policy</span>
           </a>
           <hr class="navbar-divider">
           <a class="navbar-item" href="https://github.com/bpepple/metron/issues/new/choose">
