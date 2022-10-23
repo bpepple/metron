@@ -169,7 +169,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
     ),
     "DEFAULT_THROTTLE_CLASSES": ("rest_framework.throttling.UserRateThrottle",),
-    "DEFAULT_THROTTLE_RATES": {"user": "30/minute"},
+    "DEFAULT_THROTTLE_RATES": {"user": "35/minute"},
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 100,
