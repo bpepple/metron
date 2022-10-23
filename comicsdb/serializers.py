@@ -166,6 +166,10 @@ class IssueSerializer(serializers.ModelSerializer):
     series = IssueSeriesSerializer(read_only=True)
     reprints = ReprintSerializer(many=True, read_only=True)
     rating = RatingSerializer(read_only=True)
+    resource_url = serializers.SerializerMethodField("get_resource_url")
+
+    def get_resource_url(self, obj):
+        return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
     class Meta:
         model = Issue
@@ -192,6 +196,7 @@ class IssueSerializer(serializers.ModelSerializer):
             "teams",
             "reprints",
             "variants",
+            "resource_url",
             "modified",
         )
 
