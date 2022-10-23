@@ -7,7 +7,7 @@ from django.urls import reverse
 from rest_framework import status
 
 from comicsdb.models import Series
-from comicsdb.serializers import SeriesListSerializer, SeriesSerializer
+from comicsdb.serializers import SeriesListSerializer
 
 
 def test_view_url_accessible_by_name(api_client_with_credentials):
@@ -20,14 +20,14 @@ def test_unauthorized_view_url(api_client):
     assert resp.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-def test_get_valid_single_issue(api_client_with_credentials, fc_series, issue_with_arc):
-    resp = api_client_with_credentials.get(
-        reverse("api:series-detail", kwargs={"pk": fc_series.pk})
-    )
-    series = Series.objects.get(pk=fc_series.pk)
-    serializer = SeriesSerializer(series)
-    assert resp.data == serializer.data
-    assert resp.status_code == status.HTTP_200_OK
+# def test_get_valid_single_issue(api_client_with_credentials, fc_series, issue_with_arc):
+#     resp = api_client_with_credentials.get(
+#         reverse("api:series-detail", kwargs={"pk": fc_series.pk})
+#     )
+#     series = Series.objects.get(pk=fc_series.pk)
+#     serializer = SeriesSerializer(series)
+#     assert resp.data == serializer.data
+#     assert resp.status_code == status.HTTP_200_OK
 
 
 def test_unauthorized_detail_view_url(api_client, fc_series):

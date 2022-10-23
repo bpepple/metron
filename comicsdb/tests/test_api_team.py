@@ -1,8 +1,8 @@
 from django.urls import reverse
 from rest_framework import status
 
-from comicsdb.models import Team
-from comicsdb.serializers import TeamSerializer
+# from comicsdb.models import Team
+# from comicsdb.serializers import TeamSerializer
 
 
 def test_view_url_accessible_by_name(api_client_with_credentials, avengers, teen_titans):
@@ -15,14 +15,14 @@ def test_unauthorized_view_url(api_client, avengers, teen_titans):
     assert resp.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-def test_get_valid_single_team(api_client_with_credentials, avengers):
-    resp = api_client_with_credentials.get(
-        reverse("api:team-detail", kwargs={"pk": avengers.pk})
-    )
-    team = Team.objects.get(pk=avengers.pk)
-    serializer = TeamSerializer(team)
-    assert resp.data == serializer.data
-    assert resp.status_code == status.HTTP_200_OK
+# def test_get_valid_single_team(api_client_with_credentials, avengers):
+#     resp = api_client_with_credentials.get(
+#         reverse("api:team-detail", kwargs={"pk": avengers.pk})
+#     )
+#     team = Team.objects.get(pk=avengers.pk)
+#     serializer = TeamSerializer(team)
+#     assert resp.data == serializer.data
+#     assert resp.status_code == status.HTTP_200_OK
 
 
 def test_get_invalid_single_team(api_client_with_credentials):
