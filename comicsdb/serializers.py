@@ -284,7 +284,11 @@ class SeriesSerializer(serializers.ModelSerializer):
 
 class TeamSerializer(serializers.ModelSerializer):
     creators = CreatorListSerializer(many=True, read_only=True)
+    resource_url = serializers.SerializerMethodField("get_resource_url")
+
+    def get_resource_url(self, obj):
+        return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
     class Meta:
         model = Team
-        fields = ("id", "name", "desc", "image", "creators", "modified")
+        fields = ("id", "name", "desc", "image", "creators", "resource_url", "modified")
