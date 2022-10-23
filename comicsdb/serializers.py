@@ -111,9 +111,14 @@ class TeamListSerializer(serializers.ModelSerializer):
 
 
 class ArcSerializer(serializers.ModelSerializer):
+    resource_url = serializers.SerializerMethodField("get_resource_url")
+
+    def get_resource_url(self, obj):
+        return self.context["request"].build_absolute_uri(obj.get_absolute_url())
+
     class Meta:
         model = Arc
-        fields = ("id", "name", "desc", "image", "modified")
+        fields = ("id", "name", "desc", "image", "resource_url", "modified")
 
 
 class CharacterSerializer(serializers.ModelSerializer):
