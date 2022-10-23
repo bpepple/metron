@@ -113,7 +113,7 @@ class TeamListSerializer(serializers.ModelSerializer):
 class ArcSerializer(serializers.ModelSerializer):
     resource_url = serializers.SerializerMethodField("get_resource_url")
 
-    def get_resource_url(self, obj):
+    def get_resource_url(self, obj: Arc) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
     class Meta:
@@ -126,7 +126,7 @@ class CharacterSerializer(serializers.ModelSerializer):
     teams = TeamListSerializer(many=True, read_only=True)
     resource_url = serializers.SerializerMethodField("get_resource_url")
 
-    def get_resource_url(self, obj):
+    def get_resource_url(self, obj: Character) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
     class Meta:
@@ -147,7 +147,7 @@ class CharacterSerializer(serializers.ModelSerializer):
 class CreatorSerializer(serializers.ModelSerializer):
     resource_url = serializers.SerializerMethodField("get_resource_url")
 
-    def get_resource_url(self, obj):
+    def get_resource_url(self, obj: Creator) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
     class Meta:
@@ -183,7 +183,7 @@ class IssueSerializer(serializers.ModelSerializer):
     rating = RatingSerializer(read_only=True)
     resource_url = serializers.SerializerMethodField("get_resource_url")
 
-    def get_resource_url(self, obj):
+    def get_resource_url(self, obj: Issue) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
     class Meta:
@@ -219,7 +219,7 @@ class IssueSerializer(serializers.ModelSerializer):
 class PublisherSerializer(serializers.ModelSerializer):
     resource_url = serializers.SerializerMethodField("get_resource_url")
 
-    def get_resource_url(self, obj):
+    def get_resource_url(self, obj: Publisher) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
     class Meta:
@@ -254,7 +254,7 @@ class SeriesSerializer(serializers.ModelSerializer):
     genres = GenreSerializer(many=True, read_only=True)
     resource_url = serializers.SerializerMethodField("get_resource_url")
 
-    def get_resource_url(self, obj):
+    def get_resource_url(self, obj: Series) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
     class Meta:
@@ -291,7 +291,7 @@ class TeamSerializer(serializers.ModelSerializer):
     creators = CreatorListSerializer(many=True, read_only=True)
     resource_url = serializers.SerializerMethodField("get_resource_url")
 
-    def get_resource_url(self, obj):
+    def get_resource_url(self, obj: Team) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
     class Meta:
