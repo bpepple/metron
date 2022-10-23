@@ -140,9 +140,14 @@ class CharacterSerializer(serializers.ModelSerializer):
 
 
 class CreatorSerializer(serializers.ModelSerializer):
+    resource_url = serializers.SerializerMethodField("get_resource_url")
+
+    def get_resource_url(self, obj):
+        return self.context["request"].build_absolute_uri(obj.get_absolute_url())
+
     class Meta:
         model = Creator
-        fields = ("id", "name", "birth", "death", "desc", "image", "modified")
+        fields = ("id", "name", "birth", "death", "desc", "image", "resource_url", "modified")
 
 
 class CreditsSerializer(serializers.ModelSerializer):
