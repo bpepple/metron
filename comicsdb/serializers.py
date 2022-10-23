@@ -119,6 +119,10 @@ class ArcSerializer(serializers.ModelSerializer):
 class CharacterSerializer(serializers.ModelSerializer):
     creators = CreatorListSerializer(many=True, read_only=True)
     teams = TeamListSerializer(many=True, read_only=True)
+    resource_url = serializers.SerializerMethodField("get_resource_url")
+
+    def get_resource_url(self, obj):
+        return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
     class Meta:
         model = Character
@@ -130,14 +134,20 @@ class CharacterSerializer(serializers.ModelSerializer):
             "image",
             "creators",
             "teams",
+            "resource_url",
             "modified",
         )
 
 
 class CreatorSerializer(serializers.ModelSerializer):
+    resource_url = serializers.SerializerMethodField("get_resource_url")
+
+    def get_resource_url(self, obj):
+        return self.context["request"].build_absolute_uri(obj.get_absolute_url())
+
     class Meta:
         model = Creator
-        fields = ("id", "name", "birth", "death", "desc", "image", "modified")
+        fields = ("id", "name", "birth", "death", "desc", "image", "resource_url", "modified")
 
 
 class CreditsSerializer(serializers.ModelSerializer):
@@ -166,6 +176,10 @@ class IssueSerializer(serializers.ModelSerializer):
     series = IssueSeriesSerializer(read_only=True)
     reprints = ReprintSerializer(many=True, read_only=True)
     rating = RatingSerializer(read_only=True)
+    resource_url = serializers.SerializerMethodField("get_resource_url")
+
+    def get_resource_url(self, obj):
+        return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
     class Meta:
         model = Issue
@@ -192,14 +206,20 @@ class IssueSerializer(serializers.ModelSerializer):
             "teams",
             "reprints",
             "variants",
+            "resource_url",
             "modified",
         )
 
 
 class PublisherSerializer(serializers.ModelSerializer):
+    resource_url = serializers.SerializerMethodField("get_resource_url")
+
+    def get_resource_url(self, obj):
+        return self.context["request"].build_absolute_uri(obj.get_absolute_url())
+
     class Meta:
         model = Publisher
-        fields = ("id", "name", "founded", "desc", "image", "modified")
+        fields = ("id", "name", "founded", "desc", "image", "resource_url", "modified")
 
 
 class SeriesImageSerializer(serializers.ModelSerializer):
@@ -227,6 +247,10 @@ class SeriesSerializer(serializers.ModelSerializer):
     series_type = SeriesTypeSerializer(read_only=True)
     associated = AssociatedSeriesSerializer(many=True, read_only=True)
     genres = GenreSerializer(many=True, read_only=True)
+    resource_url = serializers.SerializerMethodField("get_resource_url")
+
+    def get_resource_url(self, obj):
+        return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
     class Meta:
         model = Series
@@ -244,6 +268,7 @@ class SeriesSerializer(serializers.ModelSerializer):
             "image",
             "genres",
             "associated",
+            "resource_url",
             "modified",
         )
 
@@ -259,7 +284,11 @@ class SeriesSerializer(serializers.ModelSerializer):
 
 class TeamSerializer(serializers.ModelSerializer):
     creators = CreatorListSerializer(many=True, read_only=True)
+    resource_url = serializers.SerializerMethodField("get_resource_url")
+
+    def get_resource_url(self, obj):
+        return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
     class Meta:
         model = Team
-        fields = ("id", "name", "desc", "image", "creators", "modified")
+        fields = ("id", "name", "desc", "image", "creators", "resource_url", "modified")

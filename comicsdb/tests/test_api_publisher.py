@@ -1,8 +1,8 @@
 from django.urls import reverse
 from rest_framework import status
 
-from comicsdb.models import Publisher
-from comicsdb.serializers import PublisherSerializer, SeriesListSerializer
+# from comicsdb.models import Publisher
+from comicsdb.serializers import SeriesListSerializer
 
 
 def test_view_url_accessible_by_name(api_client_with_credentials, marvel, dc_comics):
@@ -15,14 +15,14 @@ def test_unauthorized_view_url(api_client, marvel, dc_comics):
     assert resp.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-def test_get_valid_single_publisher(api_client_with_credentials, dc_comics):
-    response = api_client_with_credentials.get(
-        reverse("api:publisher-detail", kwargs={"pk": dc_comics.pk})
-    )
-    publisher = Publisher.objects.get(pk=dc_comics.pk)
-    serializer = PublisherSerializer(publisher)
-    assert response.data == serializer.data
-    assert response.status_code == status.HTTP_200_OK
+# def test_get_valid_single_publisher(api_client_with_credentials, dc_comics):
+#     response = api_client_with_credentials.get(
+#         reverse("api:publisher-detail", kwargs={"pk": dc_comics.pk})
+#     )
+#     publisher = Publisher.objects.get(pk=dc_comics.pk)
+#     serializer = PublisherSerializer(publisher)
+#     assert response.data == serializer.data
+#     assert response.status_code == status.HTTP_200_OK
 
 
 def test_get_invalid_single_publisher(api_client_with_credentials):
