@@ -212,9 +212,14 @@ class IssueSerializer(serializers.ModelSerializer):
 
 
 class PublisherSerializer(serializers.ModelSerializer):
+    resource_url = serializers.SerializerMethodField("get_resource_url")
+
+    def get_resource_url(self, obj):
+        return self.context["request"].build_absolute_uri(obj.get_absolute_url())
+
     class Meta:
         model = Publisher
-        fields = ("id", "name", "founded", "desc", "image", "modified")
+        fields = ("id", "name", "founded", "desc", "image", "resource_url", "modified")
 
 
 class SeriesImageSerializer(serializers.ModelSerializer):
