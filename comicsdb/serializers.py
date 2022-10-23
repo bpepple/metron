@@ -247,6 +247,10 @@ class SeriesSerializer(serializers.ModelSerializer):
     series_type = SeriesTypeSerializer(read_only=True)
     associated = AssociatedSeriesSerializer(many=True, read_only=True)
     genres = GenreSerializer(many=True, read_only=True)
+    resource_url = serializers.SerializerMethodField("get_resource_url")
+
+    def get_resource_url(self, obj):
+        return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
     class Meta:
         model = Series
@@ -264,6 +268,7 @@ class SeriesSerializer(serializers.ModelSerializer):
             "image",
             "genres",
             "associated",
+            "resource_url",
             "modified",
         )
 
