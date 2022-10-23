@@ -119,6 +119,10 @@ class ArcSerializer(serializers.ModelSerializer):
 class CharacterSerializer(serializers.ModelSerializer):
     creators = CreatorListSerializer(many=True, read_only=True)
     teams = TeamListSerializer(many=True, read_only=True)
+    resource_url = serializers.SerializerMethodField("get_resource_url")
+
+    def get_resource_url(self, obj):
+        return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
     class Meta:
         model = Character
@@ -130,6 +134,7 @@ class CharacterSerializer(serializers.ModelSerializer):
             "image",
             "creators",
             "teams",
+            "resource_url",
             "modified",
         )
 
