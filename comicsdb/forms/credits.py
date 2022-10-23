@@ -19,7 +19,7 @@ class CreditsForm(ModelForm):
     class Meta:
         model = Credits
         fields = "__all__"
-        widgets = {"role": SelectMultiple(attrs={"size": 6})}
+        widgets = {"role": SelectMultiple(attrs={"size": 5})}
 
 
 CreditsFormSet = inlineformset_factory(
