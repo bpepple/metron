@@ -44,6 +44,9 @@ class IssueFilter(df.rest_framework.FilterSet):
     series_year_began = df.rest_framework.NumberFilter(
         label="Series Beginning Year", field_name="series__year_began", lookup_expr="exact"
     )
+    modified_gt = df.rest_framework.DateTimeFilter(
+        label="Greater than Modified DateTime", field_name="modified", lookup_expr="gt"
+    )
     sku = df.rest_framework.CharFilter(
         label="Distributor SKU", field_name="sku", lookup_expr="iexact"
     )
