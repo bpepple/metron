@@ -104,17 +104,18 @@ class IssueForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["name"].delimiter = ";"
+        self.collections = [8, 10]
 
     def clean_title(self):
         series: Series = self.cleaned_data["series"]
         collection_title = self.cleaned_data["title"]
-        if series.series_type.id != 10 and collection_title:
+        if series.series_type.id not in self.collections and collection_title:
             raise ValidationError("Collection Title field is only used for Trade Paperbacks.")
         return collection_title
 
     def clean_arcs(self):
         series: Series = self.cleaned_data["series"]
         arcs = self.cleaned_data["arcs"]
-        if series.series_type.id == 10 and arcs:
+        if series.series_type.id in self.collections and arcs:
             raise ValidationError("Arcs cannot be added to Trade Paperbacks.")
         return arcs
