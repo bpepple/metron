@@ -278,9 +278,8 @@ class FutureList(ListView):
     paginate_by = PAGINATE
     template_name = "comicsdb/week_list.html"
     queryset = (
-        Issue.objects.exclude(store_date=None)
-        .exclude(store_date__year__lt=year)
-        .exclude(store_date__week__lte=week)
+        Issue.objects.filter(store_date__year__gte=year)
+        .exclude(store_date__week__lte=week, store_date__year=year)
         .prefetch_related("series", "series__series_type")
     )
 
