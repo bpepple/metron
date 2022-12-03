@@ -11,18 +11,6 @@
     notes: ''
     modified: 2020-11-24 19:28:05.787148+00:00
 - model: comicsdb.seriestype
-  pk: 3
-  fields:
-    name: Mini-Series
-    notes: ''
-    modified: 2018-11-11 21:06:12.439000+00:00
-- model: comicsdb.seriestype
-  pk: 4
-  fields:
-    name: Maxi-Series
-    notes: ''
-    modified: 2018-11-11 21:06:12.440000+00:00
-- model: comicsdb.seriestype
   pk: 5
   fields:
     name: One-Shot
@@ -52,3 +40,9 @@
     name: Trade Paperback
     notes: 'A collection of stories originally published in comic books, reprinted in book format.'
     modified: 2022-06-20 08:43:11.94462+00:00
+- model: comicsdb.seriestype
+  pk: 11
+  fields:
+    name: Limited Series
+    notes: 'Typically a mini or maxi series.'
+    modified: 2022-12-03 15:55:06.888335+00:00
