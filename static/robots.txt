@@ -1235,3 +1235,5 @@ User-agent: adsbot
 Disallow:/
 User-agent: DataForSeoBot
 Disallow: /
+User-agent: SeekportBot
+Disallow: /
