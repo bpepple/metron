@@ -97,7 +97,8 @@ class Issue(CommonInfo):
             models.Index(
                 fields=["series", "cover_date", "store_date", "number"],
                 name="series_cover_store_num_idx",
-            )
+            ),
+            models.Index(fields=["series", "number"], name="series_number_idx"),
         ]
         ordering = ["series__sort_name", "cover_date", "store_date", "number"]
         unique_together = ["series", "number"]
