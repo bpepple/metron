@@ -222,6 +222,23 @@ class PublisherSerializer(serializers.ModelSerializer):
     def get_resource_url(self, obj: Publisher) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
+    def create(self, validated_data):
+        """
+        Create and return a new `Publisher` instance, given the validated data.
+        """
+        return Publisher.objects.create(**validated_data)
+
+    def update(self, instance: Publisher, validated_data):
+        """
+        Update and return an existing `Publisher` instance, given the validated data.
+        """
+        instance.name = validated_data.get("name", instance.name)
+        instance.founded = validated_data.get("founded", instance.founded)
+        instance.desc = validated_data.get("desc", instance.desc)
+        instance.image = validated_data.get("image", instance.image)
+        instance.save()
+        return instance
+
     class Meta:
         model = Publisher
         fields = ("id", "name", "founded", "desc", "image", "resource_url", "modified")

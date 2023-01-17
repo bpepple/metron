@@ -2,6 +2,7 @@ from django.db.models import Prefetch
 from django.http import Http404
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.throttling import UserRateThrottle
 
 from comicsdb.filters.issue import IssueFilter
@@ -169,13 +170,25 @@ class IssueViewSet(viewsets.ReadOnlyModelViewSet):
                 return IssueListSerializer
 
 
-class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
+class PublisherViewSet(
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet,
+):
     """
     list:
     Returns a list of all publishers.
 
     retrieve:
     Returns the information of an individual publisher.
+
+    create:
+    Add a new publisher.
+
+    update:
+    Update a publisher's information.
     """
 
     queryset = Publisher.objects.prefetch_related("series_set")
@@ -184,10 +197,28 @@ class PublisherViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_serializer_class(self):
         match self.action:
-            case "retrieve":
-                return PublisherSerializer
-            case _:
+            case "list":
                 return PublisherListSerializer
+            case "series_list":
+                return SeriesListSerializer
+            case _:
+                return PublisherSerializer
+
+    def get_permissions(self):
+        permission_classes = []
+        if self.action in ["create", "update", "partial_update"]:
+            permission_classes = [IsAdminUser]
+        elif self.action in ["retrieve", "list", "series_list"]:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+    def perform_create(self, serializer):
+        serializer.save(edited_by=self.request.user)
+        return super().perform_create(serializer)
+
+    def perform_update(self, serializer):
+        serializer.save(edited_by=self.request.user)
+        return super().perform_update(serializer)
 
     @action(detail=True)
     def series_list(self, request, pk=None):
