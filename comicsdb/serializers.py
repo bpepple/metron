@@ -284,25 +284,6 @@ class SeriesSerializer(serializers.ModelSerializer):
     def get_resource_url(self, obj: Series) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
-    class Meta:
-        model = Series
-        fields = (
-            "id",
-            "name",
-            "sort_name",
-            "volume",
-            "series_type",
-            "publisher",
-            "year_began",
-            "year_end",
-            "desc",
-            "issue_count",
-            "genres",
-            "associated",
-            "resource_url",
-            "modified",
-        )
-
     def create(self, validated_data):
         """
         Create and return a new `Series` instance, given the validated data.
@@ -342,6 +323,25 @@ class SeriesSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+    class Meta:
+        model = Series
+        fields = (
+            "id",
+            "name",
+            "sort_name",
+            "volume",
+            "series_type",
+            "publisher",
+            "year_began",
+            "year_end",
+            "desc",
+            "issue_count",
+            "genres",
+            "associated",
+            "resource_url",
+            "modified",
+        )
+
 
 class SeriesReadSerializer(SeriesSerializer):
     publisher = IssuePublisherSerializer(read_only=True)
@@ -358,6 +358,35 @@ class TeamSerializer(serializers.ModelSerializer):
     def get_resource_url(self, obj: Team) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
+    def create(self, validated_data):
+        """
+        Create and return a new `Team` instance, given the validated data.
+        """
+        creators_data = validated_data.pop("creators", None)
+        team = Team.objects.create(**validated_data)
+        if creators_data:
+            for creator in creators_data:
+                team.creators.add(creator)
+
+        return team
+
+    def update(self, instance: Team, validated_data):
+        """
+        Update and return an existing `Team` instance, given the validated data.
+        """
+        instance.name = validated_data.get("name", instance.name)
+        instance.desc = validated_data.get("desc", instance.desc)
+        instance.image = validated_data.get("image", instance.image)
+        if creators_data := validated_data.pop("creators", None):
+            for creator in creators_data:
+                instance.creators.add(creator)
+        instance.save()
+        return instance
+
     class Meta:
         model = Team
         fields = ("id", "name", "desc", "image", "creators", "resource_url", "modified")
+
+
+class TeamReadSerializer(TeamSerializer):
+    creators = CreatorSerializer(many=True, read_only=True)
