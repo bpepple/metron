@@ -312,12 +312,10 @@ class SeriesSerializer(serializers.ModelSerializer):
         instance.year_end = validated_data.get("year_end", instance.year_end)
         instance.series_type = validated_data.get("series_type", instance.series_type)
         instance.publisher = validated_data.get("publisher", instance.publisher)
-        genres_data = validated_data.pop("genres", None)
-        assoc_data = validated_data.pop("associated", None)
-        if genres_data:
+        if genres_data := validated_data.pop("genres", None):
             for g in genres_data:
                 instance.genres.add(g)
-        if assoc_data:
+        if assoc_data := validated_data.pop("associated", None):
             for a in assoc_data:
                 instance.associated.add(a)
         instance.save()
