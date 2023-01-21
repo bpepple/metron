@@ -116,6 +116,22 @@ class ArcSerializer(serializers.ModelSerializer):
     def get_resource_url(self, obj: Arc) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
+    def create(self, validated_data):
+        """
+        Create and return a new `Arc` instance, given the validated data.
+        """
+        return Arc.objects.create(**validated_data)
+
+    def update(self, instance: Arc, validated_data):
+        """
+        Update and return an existing `Arc` instance, given the validated data.
+        """
+        instance.name = validated_data.get("name", instance.name)
+        instance.desc = validated_data.get("desc", instance.desc)
+        instance.image = validated_data.get("image", instance.image)
+        instance.save()
+        return instance
+
     class Meta:
         model = Arc
         fields = ("id", "name", "desc", "image", "resource_url", "modified")
