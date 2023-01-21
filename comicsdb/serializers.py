@@ -263,12 +263,6 @@ class AssociatedSeriesSerializer(serializers.ModelSerializer):
 
 
 class SeriesSerializer(serializers.ModelSerializer):
-    publisher = IssuePublisherSerializer(read_only=True)
-    issue_count = serializers.ReadOnlyField
-    image = SeriesImageSerializer(source="issue_set.first", many=False)
-    series_type = SeriesTypeSerializer(read_only=True)
-    associated = AssociatedSeriesSerializer(many=True, read_only=True)
-    genres = GenreSerializer(many=True, read_only=True)
     resource_url = serializers.SerializerMethodField("get_resource_url")
 
     def get_resource_url(self, obj: Series) -> str:
@@ -287,21 +281,67 @@ class SeriesSerializer(serializers.ModelSerializer):
             "year_end",
             "desc",
             "issue_count",
-            "image",
             "genres",
             "associated",
             "resource_url",
             "modified",
         )
 
-    def to_representation(self, instance):
-        """Move image field from Issue to Series representation."""
-        representation = super().to_representation(instance)
-        issue_representation = representation.pop("image")
-        for key in issue_representation:
-            representation[key] = issue_representation[key]
+    def create(self, validated_data):
+        """
+        Create and return a new `Series` instance, given the validated data.
+        """
+        genres_data = validated_data.pop("genres", None)
+        assoc_data = validated_data.pop("associated", None)
+        series = Series.objects.create(
+            name=validated_data.get("name"),
+            sort_name=validated_data.get("sort_name"),
+            desc=validated_data.get("desc"),
+            volume=validated_data.get("volume"),
+            year_began=validated_data.get("year_began"),
+            year_end=validated_data.get("year_end"),
+            series_type=validated_data.get("series_type"),
+            publisher=validated_data.get("publisher"),
+        )
+        if genres_data:
+            for g in genres_data:
+                series.genres.add(g)
+        if assoc_data:
+            for a in assoc_data:
+                series.associated.add(a)
 
-        return representation
+        return series
+
+    def update(self, instance: Series, validated_data):
+        """
+        Update and return an existing `Series` instance, given the validated data.
+        """
+        instance.name = validated_data.get("name", instance.name)
+        instance.sort_name = validated_data.get("sort_name", instance.sort_name)
+        instance.desc = validated_data.get("desc", instance.desc)
+        instance.volume = validated_data.get("volume", instance.volume)
+        instance.year_began = validated_data.get("year_began", instance.year_began)
+        instance.year_end = validated_data.get("year_end", instance.year_end)
+        instance.series_type = validated_data.get("series_type", instance.series_type)
+        instance.publisher = validated_data.get("publisher", instance.publisher)
+        genres_data = validated_data.pop("genres", None)
+        assoc_data = validated_data.pop("associated", None)
+        if genres_data:
+            for g in genres_data:
+                instance.genres.add(g)
+        if assoc_data:
+            for a in assoc_data:
+                instance.associated.add(a)
+        instance.save()
+        return instance
+
+
+class SeriesReadSerializer(SeriesSerializer):
+    publisher = IssuePublisherSerializer(read_only=True)
+    series_type = SeriesTypeSerializer(read_only=True)
+    issue_count = serializers.ReadOnlyField
+    associated = AssociatedSeriesSerializer(many=True, read_only=True)
+    genres = GenreSerializer(many=True, read_only=True)
 
 
 class TeamSerializer(serializers.ModelSerializer):
