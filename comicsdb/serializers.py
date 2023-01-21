@@ -309,16 +309,7 @@ class SeriesSerializer(serializers.ModelSerializer):
         """
         genres_data = validated_data.pop("genres", None)
         assoc_data = validated_data.pop("associated", None)
-        series = Series.objects.create(
-            name=validated_data.get("name"),
-            sort_name=validated_data.get("sort_name"),
-            desc=validated_data.get("desc"),
-            volume=validated_data.get("volume"),
-            year_began=validated_data.get("year_began"),
-            year_end=validated_data.get("year_end"),
-            series_type=validated_data.get("series_type"),
-            publisher=validated_data.get("publisher"),
-        )
+        series = Series.objects.create(**validated_data)
         if genres_data:
             for g in genres_data:
                 series.genres.add(g)
