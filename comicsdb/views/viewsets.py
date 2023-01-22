@@ -166,7 +166,13 @@ class CharacterViewSet(
             raise Http404()
 
 
-class CreatorViewSet(viewsets.ReadOnlyModelViewSet):
+class CreatorViewSet(
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet,
+):
     """
     list:
     Return a list of all the creators.
@@ -181,10 +187,26 @@ class CreatorViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_serializer_class(self):
         match self.action:
-            case "retrieve":
-                return CreatorSerializer
-            case _:
+            case "list":
                 return CreatorListSerializer
+            case _:
+                return CreatorSerializer
+
+    def get_permissions(self):
+        permission_classes = []
+        if self.action in ["create", "update", "partial_update"]:
+            permission_classes = [IsAdminUser]
+        elif self.action in ["retrieve", "list", "series_list"]:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+    def perform_create(self, serializer: CreatorSerializer) -> None:
+        serializer.save(edited_by=self.request.user)
+        return super().perform_create(serializer)
+
+    def perform_update(self, serializer: CreatorSerializer) -> None:
+        serializer.save(edited_by=self.request.user)
+        return super().perform_update(serializer)
 
 
 class IssueViewSet(viewsets.ReadOnlyModelViewSet):

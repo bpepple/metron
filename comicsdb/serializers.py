@@ -201,9 +201,37 @@ class CreatorSerializer(serializers.ModelSerializer):
     def get_resource_url(self, obj: Creator) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
+    def create(self, validated_data):
+        """
+        Create and return a new `Creator` instance, given the validated data.
+        """
+        return Creator.objects.create(**validated_data)
+
+    def update(self, instance: Creator, validated_data):
+        """
+        Update and return an existing `Character` instance, given the validated data.
+        """
+        instance.name = validated_data.get("name", instance.name)
+        instance.desc = validated_data.get("desc", instance.desc)
+        instance.image = validated_data.get("image", instance.image)
+        instance.alias = validated_data.get("alias", instance.alias)
+        instance.birth = validated_data.get("birth", instance.birth)
+        instance.death = validated_data.get("death", instance.death)
+        return instance
+
     class Meta:
         model = Creator
-        fields = ("id", "name", "birth", "death", "desc", "image", "resource_url", "modified")
+        fields = (
+            "id",
+            "name",
+            "birth",
+            "death",
+            "desc",
+            "image",
+            "alias",
+            "resource_url",
+            "modified",
+        )
 
 
 class CreditsSerializer(serializers.ModelSerializer):
