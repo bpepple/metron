@@ -23,7 +23,6 @@ def create_series_data(cancelled_type: SeriesType, dc_comics: Publisher):
         "year_began": 2023,
         "series_type": cancelled_type.id,
         "publisher": dc_comics.id,
-        "genres": [10, 9],
     }
 
 
@@ -31,7 +30,6 @@ def create_series_data(cancelled_type: SeriesType, dc_comics: Publisher):
 def create_put_data():
     return {
         "name": "Wasp",
-        "genres": [10, 9],
     }
 
 
@@ -48,11 +46,11 @@ def test_user_post_url(api_client_with_credentials, create_series_data):
     assert resp.status_code == status.HTTP_403_FORBIDDEN
 
 
-# def test_admin_user_post_url(db, api_client_with_staff_credentials, create_series_data):
-#     resp = api_client_with_staff_credentials.post(
-#         reverse("api:series-list"), data=create_series_data
-#     )
-#     assert resp.status_code == status.HTTP_201_CREATED
+def test_admin_user_post_url(db, api_client_with_staff_credentials, create_series_data):
+    resp = api_client_with_staff_credentials.post(
+        reverse("api:series-list"), data=create_series_data
+    )
+    assert resp.status_code == status.HTTP_201_CREATED
 
 
 # Put Tests
@@ -70,11 +68,11 @@ def test_user_put_url(api_client_with_credentials, fc_series, create_put_data):
     assert resp.status_code == status.HTTP_403_FORBIDDEN
 
 
-# def test_group_user_put_url(api_client_with_staff_credentials, fc_series, create_put_data):
-#     resp = api_client_with_staff_credentials.patch(
-#         reverse("api:series-detail", kwargs={"pk": fc_series.pk}), data=create_put_data
-#     )
-#     assert resp.status_code == status.HTTP_200_OK
+def test_staff_user_put_url(api_client_with_staff_credentials, fc_series, create_put_data):
+    resp = api_client_with_staff_credentials.patch(
+        reverse("api:series-detail", kwargs={"pk": fc_series.pk}), data=create_put_data
+    )
+    assert resp.status_code == status.HTTP_200_OK
 
 
 # Regular Tests
