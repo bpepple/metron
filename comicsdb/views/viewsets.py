@@ -24,6 +24,7 @@ from comicsdb.serializers import (
     ArcListSerializer,
     ArcSerializer,
     CharacterListSerializer,
+    CharacterReadSerializer,
     CharacterSerializer,
     CreatorListSerializer,
     CreatorSerializer,
@@ -102,7 +103,13 @@ class ArcViewSet(
             raise Http404()
 
 
-class CharacterViewSet(viewsets.ReadOnlyModelViewSet):
+class CharacterViewSet(
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet,
+):
     """
     list:
     Return a list of all the characters.
@@ -117,10 +124,30 @@ class CharacterViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_serializer_class(self):
         match self.action:
-            case "retrieve":
-                return CharacterSerializer
-            case _:
+            case "list":
                 return CharacterListSerializer
+            case "issue_list":
+                return IssueListSerializer
+            case "retrieve":
+                return CharacterReadSerializer
+            case _:
+                return CharacterSerializer
+
+    def get_permissions(self):
+        permission_classes = []
+        if self.action in ["create", "update", "partial_update"]:
+            permission_classes = [IsAdminUser]
+        elif self.action in ["retrieve", "list", "series_list"]:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+    def perform_create(self, serializer: CharacterSerializer) -> None:
+        serializer.save(edited_by=self.request.user)
+        return super().perform_create(serializer)
+
+    def perform_update(self, serializer: CharacterSerializer) -> None:
+        serializer.save(edited_by=self.request.user)
+        return super().perform_update(serializer)
 
     @action(detail=True)
     def issue_list(self, request, pk=None):

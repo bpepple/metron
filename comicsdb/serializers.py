@@ -138,12 +138,42 @@ class ArcSerializer(serializers.ModelSerializer):
 
 
 class CharacterSerializer(serializers.ModelSerializer):
-    creators = CreatorListSerializer(many=True, read_only=True)
-    teams = TeamListSerializer(many=True, read_only=True)
     resource_url = serializers.SerializerMethodField("get_resource_url")
 
     def get_resource_url(self, obj: Character) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
+
+    def create(self, validated_data):
+        """
+        Create and return a new `Character` instance, given the validated data.
+        """
+        creators_data = validated_data.pop("creators", None)
+        teams_data = validated_data.pop("teams", None)
+        character = Character.objects.create(**validated_data)
+        if creators_data:
+            for creator in creators_data:
+                character.creators.add(creator)
+        if teams_data:
+            for team in teams_data:
+                character.teams.add(team)
+        return character
+
+    def update(self, instance: Character, validated_data):
+        """
+        Update and return an existing `Character` instance, given the validated data.
+        """
+        instance.name = validated_data.get("name", instance.name)
+        instance.desc = validated_data.get("desc", instance.desc)
+        instance.image = validated_data.get("image", instance.image)
+        instance.alias = validated_data.get("alias", instance.alias)
+        if creators_data := validated_data.get("creators", None):
+            for creator in creators_data:
+                instance.creators.add(creator)
+        if teams_data := validated_data.get("teams", None):
+            for team in teams_data:
+                instance.teams.add(team)
+        instance.save()
+        return instance
 
     class Meta:
         model = Character
@@ -158,6 +188,11 @@ class CharacterSerializer(serializers.ModelSerializer):
             "resource_url",
             "modified",
         )
+
+
+class CharacterReadSerializer(CharacterSerializer):
+    creators = CreatorListSerializer(many=True, read_only=True)
+    teams = TeamListSerializer(many=True, read_only=True)
 
 
 class CreatorSerializer(serializers.ModelSerializer):
