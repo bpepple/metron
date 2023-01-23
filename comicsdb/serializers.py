@@ -250,7 +250,97 @@ class VariantsSerializer(serializers.ModelSerializer):
         fields = ("name", "sku", "upc", "image")
 
 
+# TODO: Refactor this so reuse Issue serializer for read-only also.
+#       Need to handle variants & credits sets.
 class IssueSerializer(serializers.ModelSerializer):
+    resource_url = serializers.SerializerMethodField("get_resource_url")
+
+    def get_resource_url(self, obj: Issue) -> str:
+        return self.context["request"].build_absolute_uri(obj.get_absolute_url())
+
+    def create(self, validated_data):
+        """
+        Create and return a new `Issue` instance, given the validated data.
+        """
+        arcs_data = validated_data.pop("arcs", None)
+        characters_data = validated_data.pop("characters", None)
+        teams_data = validated_data.pop("teams", None)
+        reprints_data = validated_data.pop("reprints", None)
+        issue: Issue = Issue.objects.create(**validated_data)
+        if arcs_data:
+            for arc in arcs_data:
+                issue.arcs.add(arc)
+        if characters_data:
+            for character in characters_data:
+                issue.characters.add(character)
+        if teams_data:
+            for team in teams_data:
+                issue.teams.add(team)
+        if reprints_data:
+            for reprint in reprints_data:
+                issue.reprints.add(reprint)
+        return issue
+
+    def update(self, instance: Issue, validated_data):
+        """
+        Update and return an existing `Issue` instance, given the validated data.
+        """
+        instance.series = validated_data.get("series", instance.series)
+        instance.number = validated_data.get("number", instance.number)
+        instance.title = validated_data.get("title", instance.title)
+        instance.name = validated_data.get("name", instance.name)
+        instance.cover_date = validated_data.get("cover_date", instance.cover_date)
+        instance.store_date = validated_data.get("store_date", instance.store_date)
+        instance.price = validated_data.get("price", instance.price)
+        instance.rating = validated_data.get("rating", instance.rating)
+        instance.sku = validated_data.get("sku", instance.sku)
+        instance.isbn = validated_data.get("isbn", instance.isbn)
+        instance.upc = validated_data.get("upc", instance.upc)
+        instance.page = validated_data.get("page", instance.page)
+        instance.desc = validated_data.get("desc", instance.desc)
+        instance.image = validated_data.get("image", instance.image)
+        if arcs_data := validated_data.pop("arcs", None):
+            for arc in arcs_data:
+                instance.arcs.add(arc)
+        if characters_data := validated_data.pop("characters", None):
+            for character in characters_data:
+                instance.characters.add(character)
+        if teams_data := validated_data.pop("teams", None):
+            for team in teams_data:
+                instance.teams.add(team)
+        if reprints_data := validated_data.pop("reprints", None):
+            for reprint in reprints_data:
+                instance.reprints.add(reprint)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = Issue
+        fields = (
+            "id",
+            "series",
+            "number",
+            "title",
+            "name",
+            "cover_date",
+            "store_date",
+            "price",
+            "rating",
+            "sku",
+            "isbn",
+            "upc",
+            "page",
+            "desc",
+            "image",
+            "arcs",
+            "characters",
+            "teams",
+            "reprints",
+            "resource_url",
+        )
+
+
+class IssueReadSerializer(serializers.ModelSerializer):
     variants = VariantsSerializer(source="variant_set", many=True, read_only=True)
     credits = CreditsSerializer(source="credits_set", many=True, read_only=True)
     arcs = ArcListSerializer(many=True, read_only=True)

@@ -29,6 +29,7 @@ from comicsdb.serializers import (
     CreatorListSerializer,
     CreatorSerializer,
     IssueListSerializer,
+    IssueReadSerializer,
     IssueSerializer,
     PublisherListSerializer,
     PublisherSerializer,
@@ -209,7 +210,13 @@ class CreatorViewSet(
         return super().perform_update(serializer)
 
 
-class IssueViewSet(viewsets.ReadOnlyModelViewSet):
+class IssueViewSet(
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet,
+):
     """
     list:
     Return a list of all the issues.
@@ -238,10 +245,28 @@ class IssueViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_serializer_class(self):
         match self.action:
-            case "retrieve":
-                return IssueSerializer
-            case _:
+            case "list":
                 return IssueListSerializer
+            case "retrieve":
+                return IssueReadSerializer
+            case _:
+                return IssueSerializer
+
+    def get_permissions(self):
+        permission_classes = []
+        if self.action in ["create", "update", "partial_update"]:
+            permission_classes = [IsAdminUser]
+        elif self.action in ["retrieve", "list", "series_list"]:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+
+    def perform_create(self, serializer: IssueSerializer) -> None:
+        serializer.save(edited_by=self.request.user)
+        return super().perform_create(serializer)
+
+    def perform_update(self, serializer: IssueSerializer) -> None:
+        serializer.save(edited_by=self.request.user)
+        return super().perform_update(serializer)
 
 
 class PublisherViewSet(
