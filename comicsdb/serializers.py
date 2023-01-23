@@ -259,7 +259,7 @@ class CreditSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Credits
-        fields = ("id", "issue", "creator", "role")
+        fields = "__all__"
 
 
 class CreditReadSerializer(serializers.ModelSerializer):
