@@ -20,6 +20,7 @@ from comicsdb.models import (
     Team,
 )
 from comicsdb.models.series import SeriesType
+from comicsdb.models.variant import Variant
 from comicsdb.serializers import (
     ArcListSerializer,
     ArcSerializer,
@@ -41,6 +42,7 @@ from comicsdb.serializers import (
     SeriesTypeSerializer,
     TeamListSerializer,
     TeamSerializer,
+    VariantSerializer,
 )
 
 
@@ -513,3 +515,28 @@ class TeamViewSet(
             return self.get_paginated_response(serializer.data)
         else:
             raise Http404()
+
+
+class VariantViewset(
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet,
+):
+    """
+    create:
+    Add a new Variant Cover.
+
+    update:
+    Update a Variant Cover's information."""
+
+    queryset = Variant.objects.all()
+    throttle_classes = (UserRateThrottle,)
+
+    def get_serializer_class(self):
+        return VariantSerializer
+
+    def get_permissions(self):
+        permission_classes = []
+        if self.action in ["create", "update", "partial_update"]:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
