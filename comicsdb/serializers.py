@@ -234,7 +234,35 @@ class CreatorSerializer(serializers.ModelSerializer):
         )
 
 
-class CreditsSerializer(serializers.ModelSerializer):
+class CreditSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        """
+        Create and return a new `Credits` instance, given the validated data.
+        """
+        roles_data = validated_data.pop("role", None)
+        credit = Credits.objects.create(**validated_data)
+        for role in roles_data:
+            credit.role.add(role)
+        return credit
+
+    def update(self, instance: Credits, validated_data):
+        """
+        Update and return an existing `Credits` instance, given the validated data.
+        """
+        instance.issue = validated_data.get("issue", instance.issue)
+        instance.creator = validated_data.get("creator", instance.creator)
+        if roles_data := validated_data.pop("role", None):
+            for role in roles_data:
+                instance.role.add(role)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = Credits
+        fields = ("id", "issue", "creator", "role")
+
+
+class CreditReadSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField(source="creator.id")
     creator = serializers.ReadOnlyField(source="creator.name")
     role = RoleSerializer("role", many=True)
@@ -342,7 +370,7 @@ class IssueSerializer(serializers.ModelSerializer):
 
 class IssueReadSerializer(serializers.ModelSerializer):
     variants = VariantsSerializer(source="variant_set", many=True, read_only=True)
-    credits = CreditsSerializer(source="credits_set", many=True, read_only=True)
+    credits = CreditReadSerializer(source="credits_set", many=True, read_only=True)
     arcs = ArcListSerializer(many=True, read_only=True)
     characters = CharacterListSerializer(many=True, read_only=True)
     teams = TeamListSerializer(many=True, read_only=True)

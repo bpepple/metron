@@ -28,6 +28,7 @@ from comicsdb.serializers import (
     CharacterSerializer,
     CreatorListSerializer,
     CreatorSerializer,
+    CreditSerializer,
     IssueListSerializer,
     IssueReadSerializer,
     IssueSerializer,
@@ -208,6 +209,31 @@ class CreatorViewSet(
     def perform_update(self, serializer: CreatorSerializer) -> None:
         serializer.save(edited_by=self.request.user)
         return super().perform_update(serializer)
+
+
+class CreditViewset(
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet,
+):
+    """
+    create:
+    Add a new Credit.
+
+    update:
+    Update a Credit's data."""
+
+    queryset = Credits.objects.all()
+    throttle_classes = (UserRateThrottle,)
+
+    def get_serializer_class(self):
+        return CreditSerializer
+
+    def get_permissions(self):
+        permission_classes = []
+        if self.action in ["create", "update", "partial_update"]:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
 
 
 class IssueViewSet(
