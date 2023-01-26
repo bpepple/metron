@@ -41,6 +41,7 @@ from comicsdb.serializers import (
     SeriesSerializer,
     SeriesTypeSerializer,
     TeamListSerializer,
+    TeamReadSerializer,
     TeamSerializer,
     VariantSerializer,
 )
@@ -481,6 +482,8 @@ class TeamViewSet(
                 return TeamListSerializer
             case "issue_list":
                 return IssueListSerializer
+            case "retrieve":
+                return TeamReadSerializer
             case _:
                 return TeamSerializer
 

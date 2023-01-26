@@ -531,7 +531,6 @@ class SeriesReadSerializer(SeriesSerializer):
 
 
 class TeamSerializer(serializers.ModelSerializer):
-    creators = CreatorListSerializer(many=True, read_only=True)
     resource_url = serializers.SerializerMethodField("get_resource_url")
 
     def get_resource_url(self, obj: Team) -> str:
@@ -568,7 +567,7 @@ class TeamSerializer(serializers.ModelSerializer):
 
 
 class TeamReadSerializer(TeamSerializer):
-    creators = CreatorSerializer(many=True, read_only=True)
+    creators = CreatorListSerializer(many=True, read_only=True)
 
 
 class VariantSerializer(serializers.ModelSerializer):
