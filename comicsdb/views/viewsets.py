@@ -3,7 +3,6 @@ from django.http import Http404
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from rest_framework.throttling import UserRateThrottle
 
 from comicsdb.filters.issue import IssueFilter
 from comicsdb.filters.name import NameFilter
@@ -45,6 +44,7 @@ from comicsdb.serializers import (
     TeamSerializer,
     VariantSerializer,
 )
+from metron.throttle import GetUserRateThrottle, PostUserRateThrottle
 
 
 class ArcViewSet(
@@ -64,7 +64,7 @@ class ArcViewSet(
 
     queryset = Arc.objects.all()
     filterset_class = NameFilter
-    throttle_classes = (UserRateThrottle,)
+    throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
         match self.action:
@@ -125,7 +125,7 @@ class CharacterViewSet(
 
     queryset = Character.objects.all()
     filterset_class = NameFilter
-    throttle_classes = (UserRateThrottle,)
+    throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
         match self.action:
@@ -188,7 +188,7 @@ class CreatorViewSet(
 
     queryset = Creator.objects.all()
     filterset_class = NameFilter
-    throttle_classes = (UserRateThrottle,)
+    throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
         match self.action:
@@ -227,7 +227,7 @@ class CreditViewset(
     Update a Credit's data."""
 
     queryset = Credits.objects.all()
-    throttle_classes = (UserRateThrottle,)
+    throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
         return CreditSerializer
@@ -270,7 +270,7 @@ class IssueViewSet(
         ),
     )
     filterset_class = IssueFilter
-    throttle_classes = (UserRateThrottle,)
+    throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
         match self.action:
@@ -321,7 +321,7 @@ class PublisherViewSet(
 
     queryset = Publisher.objects.prefetch_related("series_set")
     filterset_class = NameFilter
-    throttle_classes = (UserRateThrottle,)
+    throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
         match self.action:
@@ -374,7 +374,7 @@ class RoleViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = Role.objects.all()
     serializer_class = RoleSerializer
     filterset_class = NameFilter
-    throttle_classes = (UserRateThrottle,)
+    throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
 
 class SeriesViewSet(
@@ -401,7 +401,7 @@ class SeriesViewSet(
     queryset = Series.objects.select_related("series_type", "publisher")
     serializer_class = SeriesSerializer
     filterset_class = SeriesFilter
-    throttle_classes = (UserRateThrottle,)
+    throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
         match self.action:
@@ -454,7 +454,7 @@ class SeriesTypeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = SeriesType.objects.all()
     serializer_class = SeriesTypeSerializer
     filterset_class = NameFilter
-    throttle_classes = (UserRateThrottle,)
+    throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
 
 class TeamViewSet(
@@ -474,7 +474,7 @@ class TeamViewSet(
 
     queryset = Team.objects.all()
     filterset_class = NameFilter
-    throttle_classes = (UserRateThrottle,)
+    throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
         match self.action:
@@ -533,7 +533,7 @@ class VariantViewset(
     Update a Variant Cover's information."""
 
     queryset = Variant.objects.all()
-    throttle_classes = (UserRateThrottle,)
+    throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
         return VariantSerializer
