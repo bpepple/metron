@@ -40,6 +40,14 @@ def create_user(db, test_password, test_email):
     return make_user
 
 
+@pytest.fixture()
+def create_staff_user(create_user):
+    user: CustomUser = create_user()
+    user.is_staff = True
+    user.save()
+    return user
+
+
 @pytest.fixture
 def auto_login_user(db, client, create_user, test_password):
     def make_auto_login(user=None):
@@ -62,6 +70,13 @@ def api_client():
 def api_client_with_credentials(db, create_user, api_client):
     user = create_user()
     api_client.force_authenticate(user=user)
+    yield api_client
+    api_client.force_authenticate(user=None)
+
+
+@pytest.fixture
+def api_client_with_staff_credentials(db, create_staff_user, api_client):
+    api_client.force_authenticate(user=create_staff_user)
     yield api_client
     api_client.force_authenticate(user=None)
 

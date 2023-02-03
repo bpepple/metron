@@ -116,18 +116,64 @@ class ArcSerializer(serializers.ModelSerializer):
     def get_resource_url(self, obj: Arc) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
+    def create(self, validated_data):
+        """
+        Create and return a new `Arc` instance, given the validated data.
+        """
+        return Arc.objects.create(**validated_data)
+
+    def update(self, instance: Arc, validated_data):
+        """
+        Update and return an existing `Arc` instance, given the validated data.
+        """
+        instance.name = validated_data.get("name", instance.name)
+        instance.desc = validated_data.get("desc", instance.desc)
+        instance.image = validated_data.get("image", instance.image)
+        instance.save()
+        return instance
+
     class Meta:
         model = Arc
         fields = ("id", "name", "desc", "image", "resource_url", "modified")
 
 
 class CharacterSerializer(serializers.ModelSerializer):
-    creators = CreatorListSerializer(many=True, read_only=True)
-    teams = TeamListSerializer(many=True, read_only=True)
     resource_url = serializers.SerializerMethodField("get_resource_url")
 
     def get_resource_url(self, obj: Character) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
+
+    def create(self, validated_data):
+        """
+        Create and return a new `Character` instance, given the validated data.
+        """
+        creators_data = validated_data.pop("creators", None)
+        teams_data = validated_data.pop("teams", None)
+        character = Character.objects.create(**validated_data)
+        if creators_data:
+            for creator in creators_data:
+                character.creators.add(creator)
+        if teams_data:
+            for team in teams_data:
+                character.teams.add(team)
+        return character
+
+    def update(self, instance: Character, validated_data):
+        """
+        Update and return an existing `Character` instance, given the validated data.
+        """
+        instance.name = validated_data.get("name", instance.name)
+        instance.desc = validated_data.get("desc", instance.desc)
+        instance.image = validated_data.get("image", instance.image)
+        instance.alias = validated_data.get("alias", instance.alias)
+        if creators_data := validated_data.get("creators", None):
+            for creator in creators_data:
+                instance.creators.add(creator)
+        if teams_data := validated_data.get("teams", None):
+            for team in teams_data:
+                instance.teams.add(team)
+        instance.save()
+        return instance
 
     class Meta:
         model = Character
@@ -144,18 +190,79 @@ class CharacterSerializer(serializers.ModelSerializer):
         )
 
 
+class CharacterReadSerializer(CharacterSerializer):
+    creators = CreatorListSerializer(many=True, read_only=True)
+    teams = TeamListSerializer(many=True, read_only=True)
+
+
 class CreatorSerializer(serializers.ModelSerializer):
     resource_url = serializers.SerializerMethodField("get_resource_url")
 
     def get_resource_url(self, obj: Creator) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
+    def create(self, validated_data):
+        """
+        Create and return a new `Creator` instance, given the validated data.
+        """
+        return Creator.objects.create(**validated_data)
+
+    def update(self, instance: Creator, validated_data):
+        """
+        Update and return an existing `Character` instance, given the validated data.
+        """
+        instance.name = validated_data.get("name", instance.name)
+        instance.desc = validated_data.get("desc", instance.desc)
+        instance.image = validated_data.get("image", instance.image)
+        instance.alias = validated_data.get("alias", instance.alias)
+        instance.birth = validated_data.get("birth", instance.birth)
+        instance.death = validated_data.get("death", instance.death)
+        return instance
+
     class Meta:
         model = Creator
-        fields = ("id", "name", "birth", "death", "desc", "image", "resource_url", "modified")
+        fields = (
+            "id",
+            "name",
+            "birth",
+            "death",
+            "desc",
+            "image",
+            "alias",
+            "resource_url",
+            "modified",
+        )
 
 
-class CreditsSerializer(serializers.ModelSerializer):
+class CreditSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        """
+        Create and return a new `Credits` instance, given the validated data.
+        """
+        roles_data = validated_data.pop("role", None)
+        credit = Credits.objects.create(**validated_data)
+        for role in roles_data:
+            credit.role.add(role)
+        return credit
+
+    def update(self, instance: Credits, validated_data):
+        """
+        Update and return an existing `Credits` instance, given the validated data.
+        """
+        instance.issue = validated_data.get("issue", instance.issue)
+        instance.creator = validated_data.get("creator", instance.creator)
+        if roles_data := validated_data.pop("role", None):
+            for role in roles_data:
+                instance.role.add(role)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = Credits
+        fields = "__all__"
+
+
+class CreditReadSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField(source="creator.id")
     creator = serializers.ReadOnlyField(source="creator.name")
     role = RoleSerializer("role", many=True)
@@ -165,15 +272,105 @@ class CreditsSerializer(serializers.ModelSerializer):
         fields = ("id", "creator", "role")
 
 
-class VariantsSerializer(serializers.ModelSerializer):
+class VariantsIssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Variant
         fields = ("name", "sku", "upc", "image")
 
 
+# TODO: Refactor this so reuse Issue serializer for read-only also.
+#       Need to handle variants & credits sets.
 class IssueSerializer(serializers.ModelSerializer):
-    variants = VariantsSerializer(source="variant_set", many=True, read_only=True)
-    credits = CreditsSerializer(source="credits_set", many=True, read_only=True)
+    resource_url = serializers.SerializerMethodField("get_resource_url")
+
+    def get_resource_url(self, obj: Issue) -> str:
+        return self.context["request"].build_absolute_uri(obj.get_absolute_url())
+
+    def create(self, validated_data):
+        """
+        Create and return a new `Issue` instance, given the validated data.
+        """
+        arcs_data = validated_data.pop("arcs", None)
+        characters_data = validated_data.pop("characters", None)
+        teams_data = validated_data.pop("teams", None)
+        reprints_data = validated_data.pop("reprints", None)
+        issue: Issue = Issue.objects.create(**validated_data)
+        if arcs_data:
+            for arc in arcs_data:
+                issue.arcs.add(arc)
+        if characters_data:
+            for character in characters_data:
+                issue.characters.add(character)
+        if teams_data:
+            for team in teams_data:
+                issue.teams.add(team)
+        if reprints_data:
+            for reprint in reprints_data:
+                issue.reprints.add(reprint)
+        return issue
+
+    def update(self, instance: Issue, validated_data):
+        """
+        Update and return an existing `Issue` instance, given the validated data.
+        """
+        instance.series = validated_data.get("series", instance.series)
+        instance.number = validated_data.get("number", instance.number)
+        instance.title = validated_data.get("title", instance.title)
+        instance.name = validated_data.get("name", instance.name)
+        instance.cover_date = validated_data.get("cover_date", instance.cover_date)
+        instance.store_date = validated_data.get("store_date", instance.store_date)
+        instance.price = validated_data.get("price", instance.price)
+        instance.rating = validated_data.get("rating", instance.rating)
+        instance.sku = validated_data.get("sku", instance.sku)
+        instance.isbn = validated_data.get("isbn", instance.isbn)
+        instance.upc = validated_data.get("upc", instance.upc)
+        instance.page = validated_data.get("page", instance.page)
+        instance.desc = validated_data.get("desc", instance.desc)
+        instance.image = validated_data.get("image", instance.image)
+        if arcs_data := validated_data.pop("arcs", None):
+            for arc in arcs_data:
+                instance.arcs.add(arc)
+        if characters_data := validated_data.pop("characters", None):
+            for character in characters_data:
+                instance.characters.add(character)
+        if teams_data := validated_data.pop("teams", None):
+            for team in teams_data:
+                instance.teams.add(team)
+        if reprints_data := validated_data.pop("reprints", None):
+            for reprint in reprints_data:
+                instance.reprints.add(reprint)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = Issue
+        fields = (
+            "id",
+            "series",
+            "number",
+            "title",
+            "name",
+            "cover_date",
+            "store_date",
+            "price",
+            "rating",
+            "sku",
+            "isbn",
+            "upc",
+            "page",
+            "desc",
+            "image",
+            "arcs",
+            "characters",
+            "teams",
+            "reprints",
+            "resource_url",
+        )
+
+
+class IssueReadSerializer(serializers.ModelSerializer):
+    variants = VariantsIssueSerializer(source="variant_set", many=True, read_only=True)
+    credits = CreditReadSerializer(source="credits_set", many=True, read_only=True)
     arcs = ArcListSerializer(many=True, read_only=True)
     characters = CharacterListSerializer(many=True, read_only=True)
     teams = TeamListSerializer(many=True, read_only=True)
@@ -222,6 +419,23 @@ class PublisherSerializer(serializers.ModelSerializer):
     def get_resource_url(self, obj: Publisher) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
+    def create(self, validated_data):
+        """
+        Create and return a new `Publisher` instance, given the validated data.
+        """
+        return Publisher.objects.create(**validated_data)
+
+    def update(self, instance: Publisher, validated_data):
+        """
+        Update and return an existing `Publisher` instance, given the validated data.
+        """
+        instance.name = validated_data.get("name", instance.name)
+        instance.founded = validated_data.get("founded", instance.founded)
+        instance.desc = validated_data.get("desc", instance.desc)
+        instance.image = validated_data.get("image", instance.image)
+        instance.save()
+        return instance
+
     class Meta:
         model = Publisher
         fields = ("id", "name", "founded", "desc", "image", "resource_url", "modified")
@@ -246,16 +460,47 @@ class AssociatedSeriesSerializer(serializers.ModelSerializer):
 
 
 class SeriesSerializer(serializers.ModelSerializer):
-    publisher = IssuePublisherSerializer(read_only=True)
-    issue_count = serializers.ReadOnlyField
-    image = SeriesImageSerializer(source="issue_set.first", many=False)
-    series_type = SeriesTypeSerializer(read_only=True)
-    associated = AssociatedSeriesSerializer(many=True, read_only=True)
-    genres = GenreSerializer(many=True, read_only=True)
     resource_url = serializers.SerializerMethodField("get_resource_url")
 
     def get_resource_url(self, obj: Series) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
+
+    def create(self, validated_data):
+        """
+        Create and return a new `Series` instance, given the validated data.
+        """
+        genres_data = validated_data.pop("genres", None)
+        assoc_data = validated_data.pop("associated", None)
+        series = Series.objects.create(**validated_data)
+        if genres_data:
+            for g in genres_data:
+                series.genres.add(g)
+        if assoc_data:
+            for a in assoc_data:
+                series.associated.add(a)
+
+        return series
+
+    def update(self, instance: Series, validated_data):
+        """
+        Update and return an existing `Series` instance, given the validated data.
+        """
+        instance.name = validated_data.get("name", instance.name)
+        instance.sort_name = validated_data.get("sort_name", instance.sort_name)
+        instance.desc = validated_data.get("desc", instance.desc)
+        instance.volume = validated_data.get("volume", instance.volume)
+        instance.year_began = validated_data.get("year_began", instance.year_began)
+        instance.year_end = validated_data.get("year_end", instance.year_end)
+        instance.series_type = validated_data.get("series_type", instance.series_type)
+        instance.publisher = validated_data.get("publisher", instance.publisher)
+        if genres_data := validated_data.pop("genres", None):
+            for g in genres_data:
+                instance.genres.add(g)
+        if assoc_data := validated_data.pop("associated", None):
+            for a in assoc_data:
+                instance.associated.add(a)
+        instance.save()
+        return instance
 
     class Meta:
         model = Series
@@ -270,30 +515,80 @@ class SeriesSerializer(serializers.ModelSerializer):
             "year_end",
             "desc",
             "issue_count",
-            "image",
             "genres",
             "associated",
             "resource_url",
             "modified",
         )
 
-    def to_representation(self, instance):
-        """Move image field from Issue to Series representation."""
-        representation = super().to_representation(instance)
-        issue_representation = representation.pop("image")
-        for key in issue_representation:
-            representation[key] = issue_representation[key]
 
-        return representation
+class SeriesReadSerializer(SeriesSerializer):
+    publisher = IssuePublisherSerializer(read_only=True)
+    series_type = SeriesTypeSerializer(read_only=True)
+    issue_count = serializers.ReadOnlyField
+    associated = AssociatedSeriesSerializer(many=True, read_only=True)
+    genres = GenreSerializer(many=True, read_only=True)
 
 
 class TeamSerializer(serializers.ModelSerializer):
-    creators = CreatorListSerializer(many=True, read_only=True)
     resource_url = serializers.SerializerMethodField("get_resource_url")
 
     def get_resource_url(self, obj: Team) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
 
+    def create(self, validated_data):
+        """
+        Create and return a new `Team` instance, given the validated data.
+        """
+        creators_data = validated_data.pop("creators", None)
+        team = Team.objects.create(**validated_data)
+        if creators_data:
+            for creator in creators_data:
+                team.creators.add(creator)
+
+        return team
+
+    def update(self, instance: Team, validated_data):
+        """
+        Update and return an existing `Team` instance, given the validated data.
+        """
+        instance.name = validated_data.get("name", instance.name)
+        instance.desc = validated_data.get("desc", instance.desc)
+        instance.image = validated_data.get("image", instance.image)
+        if creators_data := validated_data.pop("creators", None):
+            for creator in creators_data:
+                instance.creators.add(creator)
+        instance.save()
+        return instance
+
     class Meta:
         model = Team
         fields = ("id", "name", "desc", "image", "creators", "resource_url", "modified")
+
+
+class TeamReadSerializer(TeamSerializer):
+    creators = CreatorListSerializer(many=True, read_only=True)
+
+
+class VariantSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        """
+        Create and return a new `Variant` instance, given the validated data.
+        """
+        return Variant.objects.create(**validated_data)
+
+    def update(self, instance: Variant, validated_data):
+        """
+        Update and return an existing `Variant` instance, given the validated data.
+        """
+        instance.issue = validated_data.get("issue", instance.issue)
+        instance.image = validated_data.get("image", instance.image)
+        instance.name = validated_data.get("name", instance.name)
+        instance.sku = validated_data.get("sku", instance.sku)
+        instance.upc = validated_data.get("upc", instance.upc)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = Variant
+        fields = "__all__"
