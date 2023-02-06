@@ -47,13 +47,7 @@ from comicsdb.serializers import (
 from metron.throttle import GetUserRateThrottle, PostUserRateThrottle
 
 
-class ArcViewSet(
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-    viewsets.GenericViewSet,
-):
+class ArcViewSet(viewsets.ModelViewSet):
     """
     list:
     Returns a list of all the story arcs.
@@ -77,7 +71,7 @@ class ArcViewSet(
 
     def get_permissions(self):
         permission_classes = []
-        if self.action in ["create", "update", "partial_update"]:
+        if self.action in ["create", "update", "partial_update", "delete"]:
             permission_classes = [IsAdminUser]
         elif self.action in ["retrieve", "list", "series_list"]:
             permission_classes = [IsAuthenticated]
@@ -108,13 +102,7 @@ class ArcViewSet(
             raise Http404()
 
 
-class CharacterViewSet(
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-    viewsets.GenericViewSet,
-):
+class CharacterViewSet(viewsets.ModelViewSet):
     """
     list:
     Return a list of all the characters.
@@ -140,7 +128,7 @@ class CharacterViewSet(
 
     def get_permissions(self):
         permission_classes = []
-        if self.action in ["create", "update", "partial_update"]:
+        if self.action in ["create", "update", "partial_update", "delete"]:
             permission_classes = [IsAdminUser]
         elif self.action in ["retrieve", "list", "series_list"]:
             permission_classes = [IsAuthenticated]
@@ -171,13 +159,7 @@ class CharacterViewSet(
             raise Http404()
 
 
-class CreatorViewSet(
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-    viewsets.GenericViewSet,
-):
+class CreatorViewSet(viewsets.ModelViewSet):
     """
     list:
     Return a list of all the creators.
@@ -199,7 +181,7 @@ class CreatorViewSet(
 
     def get_permissions(self):
         permission_classes = []
-        if self.action in ["create", "update", "partial_update"]:
+        if self.action in ["create", "update", "partial_update", "delete"]:
             permission_classes = [IsAdminUser]
         elif self.action in ["retrieve", "list", "series_list"]:
             permission_classes = [IsAuthenticated]
@@ -239,13 +221,7 @@ class CreditViewset(
         return [permission() for permission in permission_classes]
 
 
-class IssueViewSet(
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-    viewsets.GenericViewSet,
-):
+class IssueViewSet(viewsets.ModelViewSet):
     """
     list:
     Return a list of all the issues.
@@ -283,7 +259,7 @@ class IssueViewSet(
 
     def get_permissions(self):
         permission_classes = []
-        if self.action in ["create", "update", "partial_update"]:
+        if self.action in ["create", "update", "partial_update", "delete"]:
             permission_classes = [IsAdminUser]
         elif self.action in ["retrieve", "list", "series_list"]:
             permission_classes = [IsAuthenticated]
@@ -298,13 +274,7 @@ class IssueViewSet(
         return super().perform_update(serializer)
 
 
-class PublisherViewSet(
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-    viewsets.GenericViewSet,
-):
+class PublisherViewSet(viewsets.ModelViewSet):
     """
     list:
     Returns a list of all publishers.
@@ -334,7 +304,7 @@ class PublisherViewSet(
 
     def get_permissions(self):
         permission_classes = []
-        if self.action in ["create", "update", "partial_update"]:
+        if self.action in ["create", "update", "partial_update", "delete"]:
             permission_classes = [IsAdminUser]
         elif self.action in ["retrieve", "list", "series_list"]:
             permission_classes = [IsAuthenticated]
@@ -377,13 +347,7 @@ class RoleViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
 
-class SeriesViewSet(
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-    viewsets.GenericViewSet,
-):
+class SeriesViewSet(viewsets.ModelViewSet):
     """
     list:
     Returns a list of all the comic series.
@@ -416,7 +380,7 @@ class SeriesViewSet(
 
     def get_permissions(self):
         permission_classes = []
-        if self.action in ["create", "update", "partial_update"]:
+        if self.action in ["create", "update", "partial_update", "delete"]:
             permission_classes = [IsAdminUser]
         elif self.action in ["retrieve", "list", "series_list"]:
             permission_classes = [IsAuthenticated]
@@ -457,13 +421,7 @@ class SeriesTypeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
 
-class TeamViewSet(
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-    viewsets.GenericViewSet,
-):
+class TeamViewSet(viewsets.ModelViewSet):
     """
     list:
     Return a list of all the teams.
@@ -489,7 +447,7 @@ class TeamViewSet(
 
     def get_permissions(self):
         permission_classes = []
-        if self.action in ["create", "update", "partial_update"]:
+        if self.action in ["create", "update", "partial_update", "delete"]:
             permission_classes = [IsAdminUser]
         elif self.action in ["retrieve", "list", "series_list"]:
             permission_classes = [IsAuthenticated]

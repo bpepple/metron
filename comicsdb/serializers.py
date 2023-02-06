@@ -120,6 +120,7 @@ class ArcSerializer(serializers.ModelSerializer):
         """
         Create and return a new `Arc` instance, given the validated data.
         """
+        validated_data["image"] = validated_data["image"].seek(0)
         return Arc.objects.create(**validated_data)
 
     def update(self, instance: Arc, validated_data):
@@ -149,6 +150,7 @@ class CharacterSerializer(serializers.ModelSerializer):
         """
         creators_data = validated_data.pop("creators", None)
         teams_data = validated_data.pop("teams", None)
+        validated_data["image"] = validated_data["image"].seek(0)
         character = Character.objects.create(**validated_data)
         if creators_data:
             for creator in creators_data:
@@ -205,6 +207,7 @@ class CreatorSerializer(serializers.ModelSerializer):
         """
         Create and return a new `Creator` instance, given the validated data.
         """
+        validated_data["image"] = validated_data["image"].seek(0)
         return Creator.objects.create(**validated_data)
 
     def update(self, instance: Creator, validated_data):
@@ -294,6 +297,7 @@ class IssueSerializer(serializers.ModelSerializer):
         characters_data = validated_data.pop("characters", None)
         teams_data = validated_data.pop("teams", None)
         reprints_data = validated_data.pop("reprints", None)
+        validated_data["image"] = validated_data["image"].seek(0)
         issue: Issue = Issue.objects.create(**validated_data)
         if arcs_data:
             for arc in arcs_data:
@@ -423,6 +427,7 @@ class PublisherSerializer(serializers.ModelSerializer):
         """
         Create and return a new `Publisher` instance, given the validated data.
         """
+        validated_data["image"] = validated_data["image"].seek(0)
         return Publisher.objects.create(**validated_data)
 
     def update(self, instance: Publisher, validated_data):
@@ -541,6 +546,7 @@ class TeamSerializer(serializers.ModelSerializer):
         Create and return a new `Team` instance, given the validated data.
         """
         creators_data = validated_data.pop("creators", None)
+        validated_data["image"] = validated_data["image"].seek(0)
         team = Team.objects.create(**validated_data)
         if creators_data:
             for creator in creators_data:
