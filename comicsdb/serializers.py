@@ -120,7 +120,7 @@ class ArcSerializer(serializers.ModelSerializer):
         """
         Create and return a new `Arc` instance, given the validated data.
         """
-        if validated_data["image"]:
+        if "image" in validated_data and validated_data["image"] is not None:
             validated_data["image"] = validated_data["image"].seek(0)
         return Arc.objects.create(**validated_data)
 
