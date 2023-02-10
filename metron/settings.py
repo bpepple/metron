@@ -10,18 +10,20 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
-import logging.config
+import logging
 from os import environ
 from pathlib import Path
 
 import chartkick
 from decouple import Csv, config
 from django.utils.log import DEFAULT_LOGGING
+from sorl.thumbnail.log import ThumbnailLogHandler
 
 # Disable Django's logging setup
 LOGGING_CONFIG = None
 
 LOGLEVEL = environ.get("LOGLEVEL", "info").upper()
+
 
 # Pushover Config
 PUSHOVER_TOKEN = config("PUSHOVER_TOKEN")
@@ -160,6 +162,7 @@ SELECT2_CACHE_BACKEND = "select2"
 THUMBNAIL_KVSTORE = "sorl.thumbnail.kvstores.redis_kvstore.KVStore"
 THUMBNAIL_REDIS_HOST = "localhost"  # default
 THUMBNAIL_REDIS_PORT = 6379  # default
+THUMBNAIL_DEBUG = False
 
 # REST settings
 REST_FRAMEWORK = {
@@ -223,6 +226,11 @@ logging.config.dictConfig(
         },
     }
 )
+
+# Thumbnail Logging
+handler = ThumbnailLogHandler()
+handler.setLevel(logging.ERROR)
+logging.getLogger("sorl.thumbnail").addHandler(handler)
 
 
 # Internationalization
