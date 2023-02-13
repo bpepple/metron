@@ -1,8 +1,9 @@
 from django.db.models import Prefetch
 from django.http import Http404
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.response import Response
 
 from comicsdb.filters.issue import IssueFilter
 from comicsdb.filters.name import NameFilter
@@ -219,6 +220,13 @@ class CreditViewset(
         if self.action in ["create", "update", "partial_update"]:
             permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
+
+    def create(self, request, *args, **kwargs) -> Response:
+        serializer: CreditSerializer = self.get_serializer(data=request.data, many=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class IssueViewSet(viewsets.ModelViewSet):
