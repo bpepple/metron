@@ -16,12 +16,12 @@ psycopg2 = "*"
 boto3 = "*"
 django-storages = "*"
 python-decouple = "*"
-chartkick = "*"
 django-autocomplete-light = "*"
 drf-spectacular = "*"
 esak = "*"
 django-simple-bulma = "<=2.4"
 django-select2 = "*"
+chartkick = "~=0.5.0"
 
 [dev-packages]
 django-debug-toolbar = "*"
