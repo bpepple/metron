@@ -160,6 +160,7 @@ SELECT2_CACHE_BACKEND = "select2"
 THUMBNAIL_KVSTORE = "sorl.thumbnail.kvstores.redis_kvstore.KVStore"
 THUMBNAIL_REDIS_HOST = "localhost"  # default
 THUMBNAIL_REDIS_PORT = 6379  # default
+THUMBNAIL_DEBUG = DEBUG
 
 # REST settings
 REST_FRAMEWORK = {
