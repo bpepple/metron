@@ -13,6 +13,8 @@ class CreatorAdmin(AdminImageMixin, admin.ModelAdmin):
     list_filter = ("created_on", "modified")
     readonly_fields = ("modified",)
     field = ("name", "slug", "modified", "birth", "death", "alias", "desc", "image")
+    actions = ["remove_bad_image"]
+    actions_on_top = True
     inlines = [AttributionInline]
 
     @admin.action(description="Remove bad creator images")
