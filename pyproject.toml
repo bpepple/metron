@@ -8,7 +8,7 @@ multi_line_output = 3
 line_length = 95
 default_section = "THIRDPARTY"
 known_first_party = []
-known_third_party = ["boto3", "chartkick", "dal", "dateutil", "decouple", "django", "django_filters", "django_select2", "drf_spectacular", "esak", "pytest", "pytest_django", "requests", "rest_framework", "sorl", "storages"]
+known_third_party = ["chartkick", "dal", "decouple", "django", "django_filters", "django_select2", "drf_spectacular", "pytest", "pytest_django", "rest_framework", "sorl", "storages"]
 
 [tool.coverage.run]
 source = ["comicsdb", "users", "metron"]
