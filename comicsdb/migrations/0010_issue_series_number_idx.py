@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("comicsdb", "0009_add_rating_to_issue_model"),
     ]

@@ -43,6 +43,7 @@ def test_update_view_url_accessible_by_name(auto_login_user, john_byrne):
 #     john_byrne.refresh_from_db()
 #     assert john_byrne.name == new_name
 
+
 # Create View
 def test_creator_create_view(auto_login_user, walter_simonson):
     name = "Jack Kirby"

@@ -76,7 +76,6 @@ def migrate_wikipedia_field(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     replaces = []
 
     initial = True

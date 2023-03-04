@@ -21,7 +21,6 @@ def remove_ratings(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("comicsdb", "0001_squashed_0007_issue_isbn"),
     ]
