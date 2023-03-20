@@ -5,7 +5,7 @@ from users.models import CustomUser
 
 def test_user_creation(create_user):
     user = create_user()
-    assert isinstance(user, CustomUser) is True
+    assert isinstance(user, CustomUser)
     assert str(user) == user.username
 
 
@@ -23,7 +23,7 @@ def test_superuser_creation(test_password, test_email):
     obj = CustomUser.objects.create_superuser(
         username="Foo", password=test_password, email=test_email
     )
-    assert isinstance(obj, CustomUser) is True
+    assert isinstance(obj, CustomUser)
     assert obj.is_superuser is True
     assert obj.is_staff is True
 
