@@ -6,6 +6,35 @@ from django.forms import ClearableFileInput, EmailField, EmailInput, Textarea, T
 
 from .models import CustomUser
 
+temp_email = [
+    "mailto.plus",
+    "fexpost.com",
+    "fexbox.org",
+    "mailbox.in.ua",
+    "rover.info",
+    "inpwa.com",
+    "intowa.com",
+    "tofeat.com",
+    "chitthi.in",
+    "mozmail.com",
+    "clayeastx.com",
+    "sharklasers.com",
+    "guerrillamail.info",
+    "grr.la",
+    "guerrillamail.biz",
+    "guerrillamail.com",
+    "guerrillamail.de",
+    "guerrillamail.net",
+    "guerrillamail.org",
+    "guerrillamailblock.com",
+    "pokemail.net",
+    "spam4.me",
+    "loongwin.com",
+    "oniecan.com",
+    "kaudat.com",
+    "tcwlm.com",
+]
+
 
 class CustomUserCreationForm(UserCreationForm):
     email = EmailField(
@@ -15,7 +44,10 @@ class CustomUserCreationForm(UserCreationForm):
     )
 
     def clean(self) -> Dict[str, Any]:
-        email = self.cleaned_data.get("email")
+        email: str = self.cleaned_data.get("email")
+        for i in temp_email:
+            if email.endswith(i):
+                raise ValidationError("Disposable temporary email address not allowed.")
         if CustomUser.objects.filter(email=email).exists():
             raise ValidationError("Email already exists")
         return super().clean()
