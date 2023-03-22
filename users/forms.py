@@ -46,8 +46,11 @@ class CustomUserCreationForm(UserCreationForm):
     def clean(self) -> Dict[str, Any]:
         email: str = self.cleaned_data.get("email")
         for i in temp_email:
-            if email.endswith(i):
-                raise ValidationError("Disposable temporary email address not allowed.")
+            try:
+                if email.endswith(i):
+                    raise ValidationError("Disposable temporary email address not allowed.")
+            except AttributeError as e:
+                raise ValidationError("Invalid email address.") from e
         if CustomUser.objects.filter(email=email).exists():
             raise ValidationError("Email already exists")
         return super().clean()
