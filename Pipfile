@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
+django = "==4.1.7"
 pillow = "*"
 redis = "*"
 sorl-thumbnail = "*"
@@ -20,7 +20,7 @@ django-autocomplete-light = "*"
 drf-spectacular = "*"
 django-simple-bulma = "<=2.4"
 django-select2 = "*"
-chartkick = "~=0.5.0"
+chartkick = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
