@@ -1,11 +1,10 @@
 {% extends parent_template|default:"base.html" %}
 {% load static %}
-{% load chartkick %}
 {% load humanize %}
 
 {% block headscripts %}
-<script src="https://www.gstatic.com/charts/loader.js"></script>
-<script src="{% static 'chartkick.js' %}"></script>
+<script src="{% static 'chartkick/Chart.bundle.js' %}"></script>
+<script src="{% static 'chartkick/chartkick.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -21,32 +20,32 @@
   </header>
   <ul>
     <li class="tag is-size-6">
-      <span class="mr-1">Publisher{{ publishers|pluralize}}:</span>
-      <strong>{{ publishers|intcomma }}</strong>
+      <span class="mr-1">Publisher{{ publishers_total|pluralize}}:</span>
+      <strong>{{ publishers_total|intcomma }}</strong>
     </li>
     <li class="tag is-size-6">
       <span class="mr-1">Series:</span>
-      <strong>{{ series|intcomma }}</strong>
+      <strong>{{ series_total|intcomma }}</strong>
     </li>
     <li class="tag is-size-6">
-      <span class="mr-1">Issue{{ issues|pluralize }}:</span>
-      <strong>{{ issues|intcomma }}</strong>
+      <span class="mr-1">Issue{{ issues_total|pluralize }}:</span>
+      <strong>{{ issues_total|intcomma }}</strong>
     </li>
     <li class="tag is-size-6">
-      <span class="mr-1">Character{{ characters|pluralize }}:</span>
-      <strong>{{ characters|intcomma }}</strong>
+      <span class="mr-1">Character{{ characters_total|pluralize }}:</span>
+      <strong>{{ characters_total|intcomma }}</strong>
     </li>
     <li class="tag is-size-6">
-      <span class="mr-1">Creator{{ creators|pluralize }}:</span>
-      <strong>{{ creators|intcomma }}</strong>
+      <span class="mr-1">Creator{{ creators_total|pluralize }}:</span>
+      <strong>{{ creators_total|intcomma }}</strong>
     </li>
     <li class="tag is-size-6">
-      <span class="mr-1">Team{{ teams|pluralize }}:</span>
-      <strong>{{ teams|intcomma }}</strong>
+      <span class="mr-1">Team{{ teams_total|pluralize }}:</span>
+      <strong>{{ teams_total|intcomma }}</strong>
     </li>
     <li class="tag is-size-6">
-      <span class="mr-1">Story Arc{{ arcs|pluralize }}:</span>
-      <strong>{{ arcs|intcomma }}</strong>
+      <span class="mr-1">Story Arc{{ arcs_total|pluralize }}:</span>
+      <strong>{{ arcs_total|intcomma }}</strong>
     </li>
   </ul>
 </div>
@@ -54,34 +53,22 @@
 <!-- graphs -->
 <section>
   <div class="tile is-ancestor">
-    <div class="tile is-parent">
-      <div class="tile is-child">
-        {% pie_chart yearly_count with id='chart-1' library={"title": "Number of Issues Added per Year",} %}
-      </div>
-      <div class="tile is-child">
-        {% pie_chart publisher_counts with id='chart-2', library={'title':'Percentage of Issues by Publisher', 'sliceVisibilityThreshold': '.02'} %}
-      </div>
-    </div>
+    <div class="tile is-parent">{{ year_count }}</div>
   </div>
   <div class="tile is-ancestor">
-    <div class="tile is-child">
-      {% column_chart daily_issue_count with id='chart-3' library={"title":"Number of Issue Added by Date",} %}
-    </div>
+    <div class="tile is-parent">{{ publisher_count }}</div>
   </div>
   <div class="tile is-ancestor">
-    <div class="tile is-child">
-      {% column_chart monthly_issue_count with id='chart-4' library={"title":"Number of Issues Added by Month",} %}
-    </div>
+    <div class="tile is-parent">{{ daily_chart }}</div>
   </div>
   <div class="tile is-ancestor">
-    <div class="tile is-child">
-      {% column_chart monthly_creator with id='chart-5' library={"title":"Number of Creators Added by Month",} %}
-    </div>
+    <div class="tile is-parent">{{ monthly_chart }}</div>
   </div>
   <div class="tile is-ancestor">
-    <div class="tile is-child">
-      {% column_chart monthly_character with id='chart-6' library={"title":"Number of Characters Add by Month",} %}
-    </div>
+    <div class="tile is-parent">{{ creator_chart }}</div>
+  </div>
+  <div class="tile is-ancestor">
+    <div class="tile is-parent">{{ character_chart }}</div>
   </div>
 </section>
 <!-- end graphs -->
