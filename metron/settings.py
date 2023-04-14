@@ -14,7 +14,6 @@ import logging.config
 from os import environ
 from pathlib import Path
 
-import chartkick
 from decouple import Csv, config
 from django.utils.log import DEFAULT_LOGGING
 
@@ -66,7 +65,7 @@ INSTALLED_APPS = [
     "django_select2",
     "sorl.thumbnail",
     "django_simple_bulma",
-    "chartkick",
+    "chartkick.django",
     "comicsdb",
     "users",
 ]
@@ -315,12 +314,12 @@ if not DEBUG:
 
     STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
-    STATICFILES_DIRS = (chartkick.js(), BASE_DIR / "static")
+    STATICFILES_DIRS = (BASE_DIR / "static",)
     STATIC_URL = f"{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
 
     DEFAULT_FILE_STORAGE = "metron.storage_backends.MediaStorage"
 else:
-    STATICFILES_DIRS = (chartkick.js(), BASE_DIR / "static")
+    STATICFILES_DIRS = (BASE_DIR / "static",)
     STATIC_URL = "/static/"
     STATIC_ROOT = config("STATIC_ROOT")
 
