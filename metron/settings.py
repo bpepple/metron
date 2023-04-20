@@ -317,6 +317,7 @@ if not DEBUG:
         "staticfiles": {"BACKEND": "storages.backends.s3boto3.S3Boto3Storage"},
     }
 
+    STATICFILES_DIRS = (BASE_DIR / "static",)
     STATIC_URL = f"{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
 
 else:
