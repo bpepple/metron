@@ -158,6 +158,11 @@
       {% if publisher.series_count > 0 %}
       <p><b>Number of Series:</b> {{ publisher.series_count }}</p>
       {% endif %}
+      <br />
+      <p><b>Metron ID:</b> {{ publisher.id }}</p>
+      {% if publisher.cv_id %}
+      <p><b>Comic Vine ID:</b> {{ publisher.cv_id }}</p>
+      {% endif %}
     </div>
   </div>
   {% endif %}
