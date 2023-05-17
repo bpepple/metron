@@ -185,6 +185,11 @@
         </p>
         {% endwith %}
       {% endif %}
+      <br />
+      <p><b>Metron ID:</b> {{ creator.id }}</p>
+      {% if creator.cv_id %}
+      <p><b>Comic Vine ID:</b> {{ creator.cv_id }}</p>
+      {% endif %}
     </div>
   </div>
   <!-- end misc info -->

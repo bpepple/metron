@@ -20,6 +20,7 @@ class CreatorForm(ModelForm):
             "alias",
             "birth",
             "death",
+            "cv_id",
             "image",
         )
         widgets = {
@@ -32,6 +33,7 @@ class CreatorForm(ModelForm):
             "death": DateInput(
                 attrs={"class": "input", "type": "date"},
             ),
+            "cv_id": TextInput(attrs={"class": "input"}),
             "image": ClearableFileInput(),
         }
         help_texts = {
