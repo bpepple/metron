@@ -28,6 +28,9 @@ class SeriesFilter(filters.FilterSet):
     modified_gt = filters.DateTimeFilter(
         label="Greater than Modified DateTime", field_name="modified", lookup_expr="gt"
     )
+    cv_id = filters.filters.NumberFilter(
+        label="Comic Vine ID", field_name="cv_id", lookup_expr="exact"
+    )
 
     class Meta:
         model = Series

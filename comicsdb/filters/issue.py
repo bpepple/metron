@@ -53,6 +53,9 @@ class IssueFilter(df.rest_framework.FilterSet):
     upc = df.rest_framework.CharFilter(
         label="UPC Code", field_name="upc", lookup_expr="iexact"
     )
+    cv_id = df.rest_framework.NumberFilter(
+        label="Comic Vine ID", field_name="cv_id", lookup_expr="exact"
+    )
 
     class Meta:
         model = Issue
@@ -90,6 +93,9 @@ class IssueViewFilter(df.FilterSet):
     )
     sku = df.CharFilter(label="Distributor SKU", field_name="sku", lookup_expr="iexact")
     upc = df.CharFilter(label="UPC Code", field_name="upc", lookup_expr="iexact")
+    cv_id = df.rest_framework.NumberFilter(
+        label="Comic Vine ID", field_name="cv_id", lookup_expr="exact"
+    )
 
     class Meta:
         model = Issue

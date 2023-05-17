@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from comicsdb.filters.issue import IssueFilter
-from comicsdb.filters.name import NameFilter
+from comicsdb.filters.name import ComicVineFilter, NameFilter
 from comicsdb.filters.series import SeriesFilter
 from comicsdb.models import (
     Arc,
@@ -58,7 +58,7 @@ class ArcViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Arc.objects.all()
-    filterset_class = NameFilter
+    filterset_class = ComicVineFilter
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
@@ -113,7 +113,7 @@ class CharacterViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Character.objects.all()
-    filterset_class = NameFilter
+    filterset_class = ComicVineFilter
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
@@ -170,7 +170,7 @@ class CreatorViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Creator.objects.all()
-    filterset_class = NameFilter
+    filterset_class = ComicVineFilter
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
@@ -298,7 +298,7 @@ class PublisherViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Publisher.objects.prefetch_related("series_set")
-    filterset_class = NameFilter
+    filterset_class = ComicVineFilter
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
@@ -439,7 +439,7 @@ class TeamViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Team.objects.all()
-    filterset_class = NameFilter
+    filterset_class = ComicVineFilter
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
