@@ -397,6 +397,9 @@
         {% endwith %}
         <br />
         <p><b>Metron ID:</b> {{ issue.id }}</p>
+        {% if issue.cv_id %}
+        <p><b>Comic Vine ID:</b> {{ issue.cv_id }}</p>
+        {% endif %}
       </div>
     </div>
     <!-- end misc info -->
