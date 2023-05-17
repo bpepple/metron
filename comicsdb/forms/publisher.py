@@ -11,7 +11,8 @@ class PublisherForm(ModelForm):
             "name": TextInput(attrs={"class": "input"}),
             "desc": Textarea(attrs={"class": "textarea"}),
             "founded": TextInput(attrs={"class": "input"}),
+            "cv_id": TextInput(attrs={"class": "input"}),
             "image": ClearableFileInput(),
         }
 
-    field_order = ["name", "desc", "founded", "image"]
+    field_order = ["name", "desc", "founded", "cv_id", "image"]

@@ -131,12 +131,13 @@ class ArcSerializer(serializers.ModelSerializer):
         instance.name = validated_data.get("name", instance.name)
         instance.desc = validated_data.get("desc", instance.desc)
         instance.image = validated_data.get("image", instance.image)
+        instance.cv_id = validated_data.get("cv_id", instance.cv_id)
         instance.save()
         return instance
 
     class Meta:
         model = Arc
-        fields = ("id", "name", "desc", "image", "resource_url", "modified")
+        fields = ("id", "name", "desc", "image", "cv_id", "resource_url", "modified")
 
 
 class CharacterSerializer(serializers.ModelSerializer):
@@ -170,6 +171,7 @@ class CharacterSerializer(serializers.ModelSerializer):
         instance.desc = validated_data.get("desc", instance.desc)
         instance.image = validated_data.get("image", instance.image)
         instance.alias = validated_data.get("alias", instance.alias)
+        instance.cv_id = validated_data.get("cv_id", instance.cv_id)
         if creators_data := validated_data.get("creators", None):
             for creator in creators_data:
                 instance.creators.add(creator)
@@ -189,6 +191,7 @@ class CharacterSerializer(serializers.ModelSerializer):
             "image",
             "creators",
             "teams",
+            "cv_id",
             "resource_url",
             "modified",
         )
@@ -223,6 +226,7 @@ class CreatorSerializer(serializers.ModelSerializer):
         instance.alias = validated_data.get("alias", instance.alias)
         instance.birth = validated_data.get("birth", instance.birth)
         instance.death = validated_data.get("death", instance.death)
+        instance.cv_id = validated_data.get("cv_id", instance.cv_id)
         return instance
 
     class Meta:
@@ -235,6 +239,7 @@ class CreatorSerializer(serializers.ModelSerializer):
             "desc",
             "image",
             "alias",
+            "cv_id",
             "resource_url",
             "modified",
         )
@@ -335,6 +340,7 @@ class IssueSerializer(serializers.ModelSerializer):
         instance.page = validated_data.get("page", instance.page)
         instance.desc = validated_data.get("desc", instance.desc)
         instance.image = validated_data.get("image", instance.image)
+        instance.cv_id = validated_data.get("cv_id", instance.cv_id)
         if arcs_data := validated_data.pop("arcs", None):
             for arc in arcs_data:
                 instance.arcs.add(arc)
@@ -372,6 +378,7 @@ class IssueSerializer(serializers.ModelSerializer):
             "characters",
             "teams",
             "reprints",
+            "cv_id",
             "resource_url",
         )
 
@@ -416,6 +423,7 @@ class IssueReadSerializer(serializers.ModelSerializer):
             "teams",
             "reprints",
             "variants",
+            "cv_id",
             "resource_url",
             "modified",
         )
@@ -443,12 +451,22 @@ class PublisherSerializer(serializers.ModelSerializer):
         instance.founded = validated_data.get("founded", instance.founded)
         instance.desc = validated_data.get("desc", instance.desc)
         instance.image = validated_data.get("image", instance.image)
+        instance.cv_id = validated_data.get("cv_id", instance.cv_id)
         instance.save()
         return instance
 
     class Meta:
         model = Publisher
-        fields = ("id", "name", "founded", "desc", "image", "resource_url", "modified")
+        fields = (
+            "id",
+            "name",
+            "founded",
+            "desc",
+            "image",
+            "cv_id",
+            "resource_url",
+            "modified",
+        )
 
 
 class SeriesImageSerializer(serializers.ModelSerializer):
@@ -503,6 +521,7 @@ class SeriesSerializer(serializers.ModelSerializer):
         instance.year_end = validated_data.get("year_end", instance.year_end)
         instance.series_type = validated_data.get("series_type", instance.series_type)
         instance.publisher = validated_data.get("publisher", instance.publisher)
+        instance.cv_id = validated_data.get("cv_id", instance.cv_id)
         if genres_data := validated_data.pop("genres", None):
             for g in genres_data:
                 instance.genres.add(g)
@@ -527,6 +546,7 @@ class SeriesSerializer(serializers.ModelSerializer):
             "issue_count",
             "genres",
             "associated",
+            "cv_id",
             "resource_url",
             "modified",
         )
@@ -567,6 +587,7 @@ class TeamSerializer(serializers.ModelSerializer):
         instance.name = validated_data.get("name", instance.name)
         instance.desc = validated_data.get("desc", instance.desc)
         instance.image = validated_data.get("image", instance.image)
+        instance.cv_id = validated_data.get("cv_id", instance.cv_id)
         if creators_data := validated_data.pop("creators", None):
             for creator in creators_data:
                 instance.creators.add(creator)
@@ -575,7 +596,16 @@ class TeamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Team
-        fields = ("id", "name", "desc", "image", "creators", "resource_url", "modified")
+        fields = (
+            "id",
+            "name",
+            "desc",
+            "image",
+            "creators",
+            "cv_id",
+            "resource_url",
+            "modified",
+        )
 
 
 class TeamReadSerializer(TeamSerializer):

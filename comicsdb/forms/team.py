@@ -12,10 +12,11 @@ class TeamsWidget(s2forms.ModelSelect2MultipleWidget):
 class TeamForm(ModelForm):
     class Meta:
         model = Team
-        fields = ("name", "desc", "creators", "image")
+        fields = ("name", "desc", "creators", "cv_id", "image")
         widgets = {
             "name": TextInput(attrs={"class": "input"}),
             "desc": Textarea(attrs={"class": "textarea"}),
             "creators": CreatorsWidget(attrs={"class": "input"}),
+            "cv_id": TextInput(attrs={"class": "input"}),
             "image": ClearableFileInput(),
         }

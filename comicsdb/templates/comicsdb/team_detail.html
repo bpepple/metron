@@ -193,6 +193,11 @@
         </div>
         {% endif %}
       {% endwith %}
+      <br />
+      <p><b>Metron ID:</b> {{ team.id }}</p>
+      {% if team.cv_id %}
+      <p><b>Comic Vine ID:</b> {{ team.cv_id }}</p>
+      {% endif %}
     </div>
     <!-- end misc info -->
   </div>

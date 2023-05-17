@@ -14,6 +14,7 @@ class CharacterForm(ModelForm):
             "alias",
             "creators",
             "teams",
+            "cv_id",
             "image",
         )
         widgets = {
@@ -22,6 +23,7 @@ class CharacterForm(ModelForm):
             "alias": TextInput(attrs={"class": "input"}),
             "creators": CreatorsWidget(attrs={"class": "input"}),
             "teams": TeamsWidget(attrs={"class": "input"}),
+            "cv_id": TextInput(attrs={"class": "input"}),
             "image": ClearableFileInput(),
         }
         help_texts = {

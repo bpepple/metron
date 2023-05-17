@@ -158,6 +158,11 @@
     <div class="box">
       <h1 class="title is-6">Story Arc Details</h1>
       <p><b>Number of Issue:</b> {{ arc.issue_count }}</p>
+      <br />
+      <p><b>Metron ID:</b> {{ arc.id }}</p>
+      {% if arc.cv_id %}
+      <p><b>Comic Vine ID:</b> {{ arc.cv_id }}</p>
+      {% endif %}
     </div>
   </div>
   <!-- end misc info -->

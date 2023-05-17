@@ -9,6 +9,7 @@ class ArcForm(ModelForm):
         exclude = ("edited_by", "slug")
         widgets = {
             "name": TextInput(attrs={"class": "input"}),
+            "cv_id": TextInput(attrs={"class": "input"}),
             "desc": Textarea(attrs={"class": "textarea"}),
             "image": ClearableFileInput(),
         }

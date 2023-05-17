@@ -251,6 +251,11 @@
         </div>
         {% endif %}
       {% endwith %}
+      <br />
+      <p><b>Metron ID:</b> {{ series.id }}</p>
+      {% if series.cv_id %}
+      <p><b>Comic Vine ID:</b> {{ series.cv_id }}</p>
+      {% endif %}
     </div>
     <!-- end series detail info -->
     <!-- associated series -->
