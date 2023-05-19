@@ -68,12 +68,19 @@ class CreatorListSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "modified")
 
 
+class IssueListSeriesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Series
+        fields = ("name", "volume", "year_began")
+
+
 class IssueListSerializer(serializers.ModelSerializer):
     issue = serializers.CharField(source="__str__")
+    series = IssueListSeriesSerializer(read_only=True)
 
     class Meta:
         model = Issue
-        fields = ("id", "issue", "cover_date", "modified")
+        fields = ("id", "series", "number", "issue", "cover_date", "image", "modified")
 
 
 class PublisherListSerializer(serializers.ModelSerializer):
@@ -98,10 +105,12 @@ class RoleSerializer(serializers.ModelSerializer):
 
 class SeriesListSerializer(serializers.ModelSerializer):
     series = serializers.CharField(source="__str__")
+    publisher = serializers.ReadOnlyField(source="publisher.name")
+    issue_count = serializers.ReadOnlyField
 
     class Meta:
         model = Series
-        fields = ("id", "series", "modified")
+        fields = ("id", "series", "year_began", "issue_count", "publisher", "modified")
 
 
 class TeamListSerializer(serializers.ModelSerializer):
