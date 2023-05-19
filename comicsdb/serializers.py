@@ -105,12 +105,11 @@ class RoleSerializer(serializers.ModelSerializer):
 
 class SeriesListSerializer(serializers.ModelSerializer):
     series = serializers.CharField(source="__str__")
-    publisher = serializers.ReadOnlyField(source="publisher.name")
     issue_count = serializers.ReadOnlyField
 
     class Meta:
         model = Series
-        fields = ("id", "series", "year_began", "issue_count", "publisher", "modified")
+        fields = ("id", "series", "year_began", "issue_count", "modified")
 
 
 class TeamListSerializer(serializers.ModelSerializer):
