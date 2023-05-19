@@ -56,6 +56,7 @@ class IssueFilter(df.rest_framework.FilterSet):
     cv_id = df.rest_framework.NumberFilter(
         label="Comic Vine ID", field_name="cv_id", lookup_expr="exact"
     )
+    missing_cv_id = df.rest_framework.BooleanFilter(field_name="cv_id", lookup_expr="isnull")
 
     class Meta:
         model = Issue
