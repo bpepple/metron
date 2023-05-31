@@ -3,6 +3,8 @@ from django.core.management import call_command
 
 from comicsdb.models.arc import Arc
 from comicsdb.models.character import Character
+from comicsdb.models.issue import Issue
+from comicsdb.models.team import Team
 from users.models import CustomUser
 
 FAKE_CVID = 9999
@@ -22,12 +24,17 @@ def other_character(create_user: CustomUser) -> Character:
     )
 
 
-def test_merge_characters(superman: Character, other_character: Character) -> None:
+def test_merge_characters(
+    superman: Character, other_character: Character, basic_issue: Issue
+) -> None:
+    basic_issue.characters.add(other_character)
     call_command("merge_characters", canonical=superman.id, other=other_character.id)
     superman.refresh_from_db()
+    basic_issue.refresh_from_db()
     assert superman.cv_id == FAKE_CVID
     assert superman.desc == FAKE_DESC
     assert superman.alias == FAKE_ALIAS
+    assert superman in basic_issue.characters.all()
 
 
 @pytest.fixture
@@ -38,8 +45,29 @@ def other_arc(create_user: CustomUser) -> Arc:
     )
 
 
-def test_merge_arcs(fc_arc: Arc, other_arc: Arc) -> None:
+def test_merge_arcs(fc_arc: Arc, other_arc: Arc, basic_issue: Issue) -> None:
+    basic_issue.arcs.add(other_arc)
     call_command("merge_arcs", canonical=fc_arc.id, other=other_arc.id)
     fc_arc.refresh_from_db()
+    basic_issue.refresh_from_db()
     assert fc_arc.cv_id == FAKE_CVID
     assert fc_arc.desc == FAKE_DESC
+    assert fc_arc in basic_issue.arcs.all()
+
+
+@pytest.fixture
+def other_team(create_user: CustomUser) -> Team:
+    user = create_user()
+    return Team.objects.create(
+        name="Teen Titans", desc=FAKE_DESC, cv_id=FAKE_CVID, edited_by=user
+    )
+
+
+def test_merge_teams(teen_titans: Team, other_team: Team, basic_issue: Issue) -> None:
+    basic_issue.teams.add(other_team)
+    call_command("merge_teams", canonical=teen_titans.id, other=other_team.id)
+    teen_titans.refresh_from_db()
+    basic_issue.refresh_from_db()
+    assert teen_titans.cv_id == FAKE_CVID
+    assert teen_titans.desc == FAKE_DESC
+    assert teen_titans in basic_issue.teams.all()

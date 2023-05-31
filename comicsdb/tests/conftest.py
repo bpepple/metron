@@ -161,6 +161,19 @@ def issue_with_arc(create_user, fc_series, fc_arc, superman):
 
 
 @pytest.fixture
+def basic_issue(create_user, fc_series):
+    user = create_user()
+    return Issue.objects.create(
+        series=fc_series,
+        number="1",
+        slug="final-crisis-1",
+        cover_date=timezone.now().date(),
+        edited_by=user,
+        created_by=user,
+    )
+
+
+@pytest.fixture
 def list_of_issues(create_user, fc_series):
     user = create_user()
 
