@@ -2,6 +2,7 @@ import pytest
 from django.core.management import call_command
 
 from comicsdb.models.arc import Arc
+from comicsdb.models.attribution import Attribution
 from comicsdb.models.character import Character
 from comicsdb.models.issue import Issue
 from comicsdb.models.team import Team
@@ -15,18 +16,24 @@ FAKE_ALIAS = ["Clark Kent"]
 @pytest.fixture()
 def other_character(create_user: CustomUser) -> Character:
     user = create_user()
-    return Character.objects.create(
+    supes = Character.objects.create(
         name="Superman",
         desc=FAKE_DESC,
         cv_id=FAKE_CVID,
         alias=FAKE_ALIAS,
         edited_by=user,
     )
+    at1 = Attribution(source="W", url="https://foo.com")
+    at2 = Attribution(source="M", url="https://marvel.com/foo")
+    supes.attribution.add(at1, bulk=False)
+    supes.attribution.add(at2, bulk=False)
+    return supes
 
 
 def test_merge_characters(
     superman: Character, other_character: Character, basic_issue: Issue
 ) -> None:
+    assert other_character.attribution.count() == 2
     basic_issue.characters.add(other_character)
     call_command("merge_characters", canonical=superman.id, other=other_character.id)
     superman.refresh_from_db()
@@ -35,6 +42,7 @@ def test_merge_characters(
     assert superman.desc == FAKE_DESC
     assert superman.alias == FAKE_ALIAS
     assert superman in basic_issue.characters.all()
+    assert superman.attribution.count() == 0
 
 
 @pytest.fixture

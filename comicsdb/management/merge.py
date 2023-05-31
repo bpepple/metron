@@ -45,8 +45,17 @@ def copy_data(canonical, obj):
     canonical.save()
 
 
+def remove_attribution(obj):
+    # For now let's remove any attribution records on the dup obj.
+    att_count = obj.attribution.count()
+    if att_count > 0:
+        print(f"Removed {att_count} attribution records for {obj}")
+        obj.attribution.clear()
+
+
 def merge_objects(canonical, obj):
     copy_data(canonical, obj)
     update_related(canonical, obj)
+    remove_attribution(obj)
     # remove the outdated entry
     obj.delete()
