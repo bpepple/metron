@@ -4,6 +4,8 @@ from django.core.management import call_command
 from comicsdb.models.arc import Arc
 from comicsdb.models.attribution import Attribution
 from comicsdb.models.character import Character
+from comicsdb.models.creator import Creator
+from comicsdb.models.credits import Credits, Role
 from comicsdb.models.issue import Issue
 from comicsdb.models.team import Team
 from users.models import CustomUser
@@ -79,3 +81,24 @@ def test_merge_teams(teen_titans: Team, other_team: Team, basic_issue: Issue) ->
     assert teen_titans.cv_id == FAKE_CVID
     assert teen_titans.desc == FAKE_DESC
     assert teen_titans in basic_issue.teams.all()
+
+
+@pytest.fixture
+def other_creator(create_user: CustomUser) -> Creator:
+    user = create_user()
+    return Creator.objects.create(
+        name="John Byre", desc=FAKE_DESC, cv_id=FAKE_CVID, edited_by=user
+    )
+
+
+def test_merge_creators(
+    john_byrne: Creator, other_creator: Creator, basic_issue: Issue, writer: Role
+) -> None:
+    credit_obj = Credits.objects.create(issue=basic_issue, creator=other_creator)
+    credit_obj.role.add(writer)
+    call_command("merge_creators", canonical=john_byrne.id, other=other_creator.id)
+    john_byrne.refresh_from_db()
+    credit_obj.refresh_from_db()
+    assert john_byrne.desc == FAKE_DESC
+    assert john_byrne.cv_id == FAKE_CVID
+    assert credit_obj.creator == john_byrne
