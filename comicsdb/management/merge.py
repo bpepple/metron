@@ -34,9 +34,11 @@ def update_related(canonical, obj):
 def copy_data(canonical, obj):
     """try to get the most data possible"""
     for data_field in obj._meta.get_fields():
-        if isinstance(data_field, ManyToManyRel):
+        if isinstance(data_field, (ManyToManyRel, ManyToOneRel)):
             continue
-        if isinstance(data_field, ManyToOneRel):
+        # Skip any images in the other obj since it will be remove
+        # when the object is deleted.
+        if data_field.name == "image":
             continue
         data_value = getattr(obj, data_field.name)
         if not data_value:
