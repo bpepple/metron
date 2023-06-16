@@ -51,6 +51,7 @@ class Issue(CommonInfo):
     upc = models.CharField("UPC Code", max_length=20, blank=True)
     page = models.PositiveSmallIntegerField("Page Count", null=True, blank=True)
     image = ImageField("Cover", upload_to="issue/%Y/%m/%d/", blank=True)
+    cover_hash = models.CharField("Cover Hash", max_length=25, blank=True)
     arcs = models.ManyToManyField(Arc, blank=True)
     creators = models.ManyToManyField(Creator, through="Credits", blank=True)
     characters = models.ManyToManyField(Character, blank=True)
@@ -80,7 +81,7 @@ class Issue(CommonInfo):
     def save(self, *args, **kwargs) -> None:
         # Let's delete the original image if we're replacing it by uploading a new one.
         with contextlib.suppress(ObjectDoesNotExist):
-            this = Issue.objects.get(id=self.id)
+            this: Issue = Issue.objects.get(id=self.id)
             if this.image and this.image != self.image:
                 LOGGER.info(
                     f"Replacing {this.image} with {img if (img:=self.image) else 'None'}."
