@@ -132,12 +132,16 @@ def generate_cover_hash(instance: Issue) -> str:
 
 
 def pre_save_cover_hash(sender, instance: Issue, *args, **kwargs):
-    if instance.image and not instance.cover_hash:
-        instance.cover_hash = generate_cover_hash(instance)
-        LOGGER.info(f"Adding cover hash: '{instance.cover_hash}' to '{instance}'")
+    if instance.image:
+        ch = generate_cover_hash(instance)
+        if instance.cover_hash != ch:
+            LOGGER.info(
+                f"Updating cover hash from '{instance.cover_hash}' to '{ch}' for {instance}"
+            )
+            instance.cover_hash = ch
 
     if not instance.image and instance.cover_hash:
-        LOGGER.info(f"Removing old cover hash: '{instance.cover_hash}' from '{instance}'")
+        LOGGER.info(f"Updating cover hash from '{instance.cover_hash}' to '' for {instance}")
         instance.cover_hash = ""
 
 
