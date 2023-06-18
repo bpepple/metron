@@ -117,7 +117,7 @@ def generate_issue_slug(instance: Issue):
     return slug_candidate
 
 
-def pre_save_issue_slug(sender, instance: Issue, *args, **kwargs):
+def pre_save_issue_slug(sender, instance: Issue, *args, **kwargs) -> None:
     if not instance.slug:
         instance.slug = generate_issue_slug(instance)
 
@@ -131,7 +131,7 @@ def generate_cover_hash(instance: Issue) -> str:
     return str(cover_hash)
 
 
-def pre_save_cover_hash(sender, instance: Issue, *args, **kwargs):
+def pre_save_cover_hash(sender, instance: Issue, *args, **kwargs) -> None:
     if instance.image:
         ch = generate_cover_hash(instance)
         if instance.cover_hash != ch:
@@ -139,10 +139,12 @@ def pre_save_cover_hash(sender, instance: Issue, *args, **kwargs):
                 f"Updating cover hash from '{instance.cover_hash}' to '{ch}' for {instance}"
             )
             instance.cover_hash = ch
+        return
 
-    if not instance.image and instance.cover_hash:
+    if instance.cover_hash:
         LOGGER.info(f"Updating cover hash from '{instance.cover_hash}' to '' for {instance}")
         instance.cover_hash = ""
+        return
 
 
 pre_save.connect(pre_save_issue_slug, sender=Issue)
