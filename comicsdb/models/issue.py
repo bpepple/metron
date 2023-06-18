@@ -2,6 +2,7 @@ import contextlib
 import itertools
 import logging
 
+import imagehash
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ObjectDoesNotExist
@@ -9,6 +10,7 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
 from django.utils.text import slugify
+from PIL import Image
 from sorl.thumbnail import ImageField
 
 from users.models import CustomUser
@@ -105,8 +107,8 @@ class Issue(CommonInfo):
         unique_together = ["series", "number"]
 
 
-def generate_issue_slug(issue):
-    slug_candidate = slug_original = slugify(f"{issue.series.slug}-{issue.number}")
+def generate_issue_slug(instance: Issue):
+    slug_candidate = slug_original = slugify(f"{instance.series.slug}-{instance.number}")
     for i in itertools.count(1):
         if not Issue.objects.filter(slug=slug_candidate).exists():
             break
@@ -115,9 +117,29 @@ def generate_issue_slug(issue):
     return slug_candidate
 
 
-def pre_save_issue_slug(sender, instance, *args, **kwargs):
+def pre_save_issue_slug(sender, instance: Issue, *args, **kwargs):
     if not instance.slug:
         instance.slug = generate_issue_slug(instance)
 
 
+def generate_cover_hash(instance: Issue) -> str:
+    try:
+        cover_hash = imagehash.phash(Image.open(instance.image))
+    except OSError as e:
+        LOGGER.error(f"Unable to generate cover hash for '{instance}': {e}")
+        return ""
+    return str(cover_hash)
+
+
+def pre_save_cover_hash(sender, instance: Issue, *args, **kwargs):
+    if instance.image and not instance.cover_hash:
+        instance.cover_hash = generate_cover_hash(instance)
+        LOGGER.info(f"Adding cover hash: '{instance.cover_hash}' to '{instance}'")
+
+    if not instance.image and instance.cover_hash:
+        LOGGER.info(f"Removing old cover hash: '{instance.cover_hash}' from '{instance}'")
+        instance.cover_hash = ""
+
+
 pre_save.connect(pre_save_issue_slug, sender=Issue)
+pre_save.connect(pre_save_cover_hash, sender=Issue)
