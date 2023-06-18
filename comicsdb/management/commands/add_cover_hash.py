@@ -22,7 +22,6 @@ class Command(BaseCommand):
 
     def handle(self, *args: Any, **options: Any) -> None:
         missing_count = Issue.objects.all().exclude(image="").filter(cover_hash="").count()
-        print(f"Bath: {options['batch']}")
         while missing_count > 0:
             issues = Issue.objects.exclude(image="").filter(cover_hash="")[: options["batch"]]
             for i in issues:
