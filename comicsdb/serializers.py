@@ -80,7 +80,16 @@ class IssueListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Issue
-        fields = ("id", "series", "number", "issue", "cover_date", "image", "modified")
+        fields = (
+            "id",
+            "series",
+            "number",
+            "issue",
+            "cover_date",
+            "image",
+            "cover_hash",
+            "modified",
+        )
 
 
 class PublisherListSerializer(serializers.ModelSerializer):
@@ -425,6 +434,7 @@ class IssueReadSerializer(serializers.ModelSerializer):
             "page",
             "desc",
             "image",
+            "cover_hash",
             "arcs",
             "credits",
             "characters",

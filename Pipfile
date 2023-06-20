@@ -21,6 +21,7 @@ drf-spectacular = "*"
 django-simple-bulma = "<=2.4"
 django-select2 = "*"
 chartkick = "*"
+imagehash = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"

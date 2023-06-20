@@ -2,6 +2,7 @@ import contextlib
 import itertools
 import logging
 
+import imagehash
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ObjectDoesNotExist
@@ -9,6 +10,7 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.urls import reverse
 from django.utils.text import slugify
+from PIL import Image
 from sorl.thumbnail import ImageField
 
 from users.models import CustomUser
@@ -51,6 +53,7 @@ class Issue(CommonInfo):
     upc = models.CharField("UPC Code", max_length=20, blank=True)
     page = models.PositiveSmallIntegerField("Page Count", null=True, blank=True)
     image = ImageField("Cover", upload_to="issue/%Y/%m/%d/", blank=True)
+    cover_hash = models.CharField("Cover Hash", max_length=16, blank=True)
     arcs = models.ManyToManyField(Arc, blank=True)
     creators = models.ManyToManyField(Creator, through="Credits", blank=True)
     characters = models.ManyToManyField(Character, blank=True)
@@ -80,7 +83,7 @@ class Issue(CommonInfo):
     def save(self, *args, **kwargs) -> None:
         # Let's delete the original image if we're replacing it by uploading a new one.
         with contextlib.suppress(ObjectDoesNotExist):
-            this = Issue.objects.get(id=self.id)
+            this: Issue = Issue.objects.get(id=self.id)
             if this.image and this.image != self.image:
                 LOGGER.info(
                     f"Replacing {this.image} with {img if (img:=self.image) else 'None'}."
@@ -104,8 +107,8 @@ class Issue(CommonInfo):
         unique_together = ["series", "number"]
 
 
-def generate_issue_slug(issue):
-    slug_candidate = slug_original = slugify(f"{issue.series.slug}-{issue.number}")
+def generate_issue_slug(instance: Issue):
+    slug_candidate = slug_original = slugify(f"{instance.series.slug}-{instance.number}")
     for i in itertools.count(1):
         if not Issue.objects.filter(slug=slug_candidate).exists():
             break
@@ -114,9 +117,35 @@ def generate_issue_slug(issue):
     return slug_candidate
 
 
-def pre_save_issue_slug(sender, instance, *args, **kwargs):
+def pre_save_issue_slug(sender, instance: Issue, *args, **kwargs) -> None:
     if not instance.slug:
         instance.slug = generate_issue_slug(instance)
 
 
+def generate_cover_hash(instance: Issue) -> str:
+    try:
+        cover_hash = imagehash.phash(Image.open(instance.image))
+    except OSError as e:
+        LOGGER.error(f"Unable to generate cover hash for '{instance}': {e}")
+        return ""
+    return str(cover_hash)
+
+
+def pre_save_cover_hash(sender, instance: Issue, *args, **kwargs) -> None:
+    if instance.image:
+        ch = generate_cover_hash(instance)
+        if instance.cover_hash != ch:
+            LOGGER.info(
+                f"Updating cover hash from '{instance.cover_hash}' to '{ch}' for {instance}"
+            )
+            instance.cover_hash = ch
+        return
+
+    if instance.cover_hash:
+        LOGGER.info(f"Updating cover hash from '{instance.cover_hash}' to '' for {instance}")
+        instance.cover_hash = ""
+        return
+
+
 pre_save.connect(pre_save_issue_slug, sender=Issue)
+pre_save.connect(pre_save_cover_hash, sender=Issue)

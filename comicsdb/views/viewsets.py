@@ -236,6 +236,9 @@ class IssueViewSet(viewsets.ModelViewSet):
 
     retrieve:
     Returns the information of an individual issue.
+
+    Note: cover_hash is a Perceptual hashing created with
+    ImageHash. https://github.com/JohannesBuchner/imagehash
     """
 
     queryset = Issue.objects.select_related(
