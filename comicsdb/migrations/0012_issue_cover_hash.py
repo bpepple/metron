@@ -12,6 +12,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="issue",
             name="cover_hash",
-            field=models.CharField(blank=True, max_length=25, verbose_name="Cover Hash"),
+            field=models.CharField(blank=True, max_length=16, verbose_name="Cover Hash"),
         ),
     ]

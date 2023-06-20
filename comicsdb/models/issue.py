@@ -53,7 +53,7 @@ class Issue(CommonInfo):
     upc = models.CharField("UPC Code", max_length=20, blank=True)
     page = models.PositiveSmallIntegerField("Page Count", null=True, blank=True)
     image = ImageField("Cover", upload_to="issue/%Y/%m/%d/", blank=True)
-    cover_hash = models.CharField("Cover Hash", max_length=25, blank=True)
+    cover_hash = models.CharField("Cover Hash", max_length=16, blank=True)
     arcs = models.ManyToManyField(Arc, blank=True)
     creators = models.ManyToManyField(Creator, through="Credits", blank=True)
     characters = models.ManyToManyField(Character, blank=True)
