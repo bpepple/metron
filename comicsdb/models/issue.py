@@ -123,12 +123,13 @@ def pre_save_issue_slug(sender, instance: Issue, *args, **kwargs) -> None:
 
 
 def generate_cover_hash(instance: Issue) -> str:
-    try:
-        cover_hash = imagehash.phash(Image.open(instance.image))
-    except OSError as e:
-        LOGGER.error(f"Unable to generate cover hash for '{instance}': {e}")
-        return ""
-    return str(cover_hash)
+    with Image.open(instance.image) as img:
+        try:
+            cover_hash = str(imagehash.phash(img))
+        except OSError as e:
+            cover_hash = ""
+            LOGGER.error(f"Unable to generate cover hash for '{instance}': {e}")
+    return cover_hash
 
 
 def pre_save_cover_hash(sender, instance: Issue, *args, **kwargs) -> None:
