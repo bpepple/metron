@@ -15,7 +15,8 @@ class Command(BaseCommand):
         qs = Issue.objects.filter(series=series)
         for i in qs:
             i.desc = ""
-        Issue.objects.bulk_update(qs, "desc")
+        Issue.objects.bulk_update(qs, ["desc"])
+        print(f"Removed story summary for {len(qs)} issues")
 
     @staticmethod
     def _fix_writer(credit: Credits) -> bool:
@@ -71,12 +72,12 @@ class Command(BaseCommand):
         return super().add_arguments(parser)
 
     def handle(self, *args: Any, **options: Any) -> None:
-        if not options["delete-desc"] and not options["fix-credits"]:
+        if not options["delete_desc"] and not options["fix_credits"]:
             print("No action options given. Exiting...")
             return
         series = Series.objects.get(slug=options["slug"][0])
-        if options["fix-credits"]:
+        if options["fix_credits"]:
             self._fix_credits(series)
 
-        if options["delete-desc"]:
+        if options["delete_desc"]:
             self._remove_desc(series)
