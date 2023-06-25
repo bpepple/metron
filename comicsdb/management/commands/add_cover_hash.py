@@ -25,13 +25,15 @@ class Command(BaseCommand):
         while missing_count > 0:
             issues = Issue.objects.exclude(image="").filter(cover_hash="")[: options["batch"]]
             for i in issues:
-                try:
-                    cover_hash = imagehash.phash(Image.open(i.image))
-                except OSError as e:
-                    print(f"Skipping {i}. Error: {e}")
-                    continue
-                i.cover_hash = str(cover_hash)
-                print(f"Set cover hash of '{cover_hash}' for '{i}'")
+                with Image.open(i.image) as img:
+                    try:
+                        cover_hash = str(imagehash.phash(img))
+                    except OSError as e:
+                        cover_hash = ""
+                        print(f"Skipping {i}. Error: {e}")
+                    if cover_hash:
+                        i.cover_hash = cover_hash
+                        print(f"Set cover hash of '{cover_hash}' for '{i}'")
 
             update_count = Issue.objects.bulk_update(issues, ["cover_hash"])
             print(f"Updated {update_count} issues in the database")
