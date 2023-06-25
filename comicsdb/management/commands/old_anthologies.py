@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 
 from django.core.management.base import BaseCommand, CommandParser
 
@@ -19,44 +19,32 @@ class Command(BaseCommand):
         print(f"Removed story summary for {len(qs)} issues")
 
     @staticmethod
-    def _fix_writer(credit: Credits) -> bool:
+    def _correct_roles(credit: Credits, good: Role, bad: List[Role]) -> bool:
         fix = False
-        writer = Role.objects.get(name__iexact="writer")
-        story = Role.objects.get(name__iexact="story")
-
-        if writer in credit.role.all():
+        if all(i in credit.role.all() for i in bad):
             fix = True
-            credit.role.remove(writer)
-            if story not in credit.role.all():
-                credit.role.add(story)
-            print(f"Fixed {writer} role in {credit.issue} for {credit.creator}")
+            for role in bad:
+                credit.role.remove(role)
+            if good not in credit.role.all():
+                credit.role.add(good)
+            print(f"Fixed {good} credit in {credit.issue} for {credit.creator}")
         return fix
 
-    @staticmethod
-    def _fix_artist(credit: Credits) -> bool:
-        fix = False
+    def _fix_credits(self, series: Series) -> None:
+        writer = Role.objects.get(name__iexact="writer")
+        story = Role.objects.get(name__iexact="story")
         pencil = Role.objects.get(name__iexact="penciller")
         ink = Role.objects.get(name__iexact="inker")
         artist = Role.objects.get(name__iexact="artist")
 
-        if pencil in credit.role.all() and ink in credit.role.all():
-            fix = True
-            credit.role.remove(pencil)
-            credit.role.remove(ink)
-            if artist not in credit.role.all():
-                credit.role.add(artist)
-            print(f"Fixed artist credit in {credit.issue} for {credit.creator}")
-        return fix
-
-    def _fix_credits(self, series: Series) -> None:
         qs = Credits.objects.filter(issue__series=series)
 
         for i in qs:
             # Fix writing credits.
-            fix_writer = self._fix_writer(i)
+            fix_writer = self._correct_roles(i, story, [writer])
 
             # Fix art credits
-            fix_artist = self._fix_artist(i)
+            fix_artist = self._correct_roles(i, artist, [pencil, ink])
 
             if not fix_writer and not fix_artist:
                 print(f"Nothing to fix in {i.issue} for {i.creator}")
