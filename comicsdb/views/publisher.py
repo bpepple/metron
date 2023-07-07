@@ -145,7 +145,7 @@ class PublisherUpdate(LoginRequiredMixin, UpdateView):
         with transaction.atomic():
             form.instance.edited_by = self.request.user
             if attribution_form.is_valid():
-                self.object = form.save()
+                self.object = form.save(commit=False)
                 attribution_form.instance = self.object
                 attribution_form.save()
             else:

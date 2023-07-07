@@ -191,7 +191,7 @@ class IssueUpdate(LoginRequiredMixin, UpdateView):
         variants_form = context["variants"]
         with transaction.atomic():
             form.instance.edited_by = self.request.user
-            self.object = form.save()
+            self.object = form.save(commit=False)
 
             if credits_form.is_valid() and variants_form.is_valid():
                 credits_form.instance = self.object
