@@ -95,13 +95,14 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
         marie = Creator.objects.get(slug="marie-javins")
         eic = Role.objects.get(name__iexact="editor in chief")
         pub = Role.objects.get(name__iexact="publisher")
+        prez = Role.objects.get(name__iexact="president")
         chief = Role.objects.get(name__iexact="Chief Creative Officer")
         count = 0
         for i in queryset:
             modified = False
             jc, create = Credits.objects.get_or_create(issue=i, creator=jim)
             if create:
-                jc.role.add(pub, chief)
+                jc.role.add(pub, chief, prez)
                 modified = True
             mc, create = Credits.objects.get_or_create(issue=i, creator=marie)
             if create:
