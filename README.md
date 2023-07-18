@@ -8,8 +8,8 @@ Currently the only comic book database the provides a REST API for users is <a h
 
 ## 🔊 <a href="community">Community</a>
 
-* [Matrix Chat](https://matrix.to/#/#metron:matrix.org)
-* [GitHub Discussions](https://github.com/bpepple/metron/discussions)
+[![Social - Matrix](https://img.shields.io/matrix/metron-general:matrix.org?label=Metron%20General&logo=matrix&style=for-the-badge)](https://matrix.to/#/#metron-general:matrix.org)\
+[![Social - Mastodon](https://img.shields.io/badge/%40Metron-teal?label=Mastodon.Social&logo=mastodon&style=for-the-badge)](https://mastodon.social/@metron)
 
 ## 🤝 <a href="contributing">Contributing</a>
  
