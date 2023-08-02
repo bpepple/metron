@@ -14,7 +14,7 @@ def loggedin_user(db):
     user.save()
 
     client = Client()
-    client.login(username="foo", password="1234")
+    client.login(username="foo", password="1234")  # noqa: S106
     return client
 
 
