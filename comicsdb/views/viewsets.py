@@ -99,8 +99,7 @@ class ArcViewSet(viewsets.ModelViewSet):
         if page is not None:
             serializer = IssueListSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
-        else:
-            raise Http404()
+        raise Http404
 
 
 class CharacterViewSet(viewsets.ModelViewSet):
@@ -156,8 +155,7 @@ class CharacterViewSet(viewsets.ModelViewSet):
         if page is not None:
             serializer = IssueListSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
-        else:
-            raise Http404()
+        raise Http404
 
 
 class CreatorViewSet(viewsets.ModelViewSet):
@@ -342,8 +340,7 @@ class PublisherViewSet(viewsets.ModelViewSet):
         if page is not None:
             serializer = SeriesListSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
-        else:
-            raise Http404()
+        raise Http404
 
 
 class RoleViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -416,8 +413,7 @@ class SeriesViewSet(viewsets.ModelViewSet):
         if page is not None:
             serializer = IssueListSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
-        else:
-            raise Http404()
+        raise Http404
 
 
 class SeriesTypeViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -485,8 +481,7 @@ class TeamViewSet(viewsets.ModelViewSet):
         if page is not None:
             serializer = IssueListSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
-        else:
-            raise Http404()
+        raise Http404
 
 
 class VariantViewset(

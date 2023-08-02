@@ -49,7 +49,7 @@ def activate(request, uidb64, token):
     return redirect("home")
 
 
-def signup(request):
+def signup(request):  # sourcery skip: extract-method
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -89,8 +89,7 @@ def change_password(request):
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, "Your password was successfully updated!")
             return redirect("change_password")
-        else:
-            messages.error(request, "Please correct the error below.")
+        messages.error(request, "Please correct the error below.")
     else:
         form = PasswordChangeForm(request.user)
     return render(request, "change_password.html", {"form": form})
@@ -104,8 +103,7 @@ def change_profile(request):
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, "Your profile was successfully updated!")
             return redirect("change_profile")
-        else:
-            messages.error(request, "Please correct the error below.")
+        messages.error(request, "Please correct the error below.")
     else:
         form = CustomUserChangeForm(instance=request.user)
     return render(request, "change_profile.html", {"form": form})
