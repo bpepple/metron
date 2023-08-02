@@ -20,6 +20,7 @@ from comicsdb.models.series import SeriesType
 from comicsdb.models.variant import Variant
 
 PAGINATE = 28
+TOTAL_WEEKS_YEAR = 52
 LOGGER = logging.getLogger(__name__)
 
 
@@ -241,7 +242,7 @@ class WeekList(ListView):
 class NextWeekList(ListView):
     year, week, _ = date.today().isocalendar()
     # Check if we're at the last week of the year.
-    if week != 52:
+    if week != TOTAL_WEEKS_YEAR:
         week += 1
     else:
         year += 1
@@ -270,7 +271,7 @@ class NextWeekList(ListView):
 class FutureList(ListView):
     year, week, _ = date.today().isocalendar()
     # Check if we're at the last week of the year.
-    if week != 52:
+    if week != TOTAL_WEEKS_YEAR:
         week += 1
     else:
         year += 1

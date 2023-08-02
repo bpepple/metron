@@ -9,6 +9,8 @@ from sorl.thumbnail.admin.current import AdminImageMixin
 from comicsdb.admin.util import AttributionInline
 from comicsdb.models import Creator, Credits, Issue, Role, Variant
 
+MAX_STORIES = 1
+
 
 class FutureStoreDateListFilter(admin.SimpleListFilter):
     title = "future store week"
@@ -151,7 +153,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
             modified = False
             for reprint in i.reprints.all():
                 # If reprint is not a single story let's bail.
-                if len(reprint.name) < 2:
+                if len(reprint.name) <= MAX_STORIES:
                     modified = True
                     # Add stories
                     if reprint.name:
