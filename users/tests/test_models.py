@@ -29,13 +29,13 @@ def test_superuser_creation(test_password, test_email):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("super, staff", [(True, False), (False, True)])
-def test_superuser_creation_without_roles(super, staff, test_password, test_email):
+@pytest.mark.parametrize("superuser, staff", [(True, False), (False, True)])
+def test_superuser_creation_without_roles(superuser, staff, test_password, test_email):
     with pytest.raises(ValueError):
         assert CustomUser.objects.create_superuser(
             username="Foo",
             password=test_password,
             email=test_email,
-            is_superuser=super,
+            is_superuser=superuser,
             is_staff=staff,
         )

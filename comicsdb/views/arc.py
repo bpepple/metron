@@ -36,7 +36,7 @@ class ArcIssueList(ListView):
         return self.arc.issue_set.all().select_related("series", "series__series_type")
 
     def get_context_data(self, **kwargs):
-        context = super(ArcIssueList, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = self.arc
         return context
 
@@ -53,7 +53,7 @@ class ArcDetail(DetailView):
     )
 
     def get_context_data(self, **kwargs):
-        context = super(ArcDetail, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         arc = self.get_object()
         try:
             next_arc = Arc.objects.order_by("name").filter(name__gt=arc.name).first()
@@ -71,7 +71,7 @@ class ArcDetail(DetailView):
 
 class SearchArcList(ArcList):
     def get_queryset(self):
-        result = super(SearchArcList, self).get_queryset()
+        result = super().get_queryset()
         if query := self.request.GET.get("q"):
             query_list = query.split()
             result = result.filter(
@@ -87,7 +87,7 @@ class ArcCreate(LoginRequiredMixin, CreateView):
     template_name = "comicsdb/model_with_attribution_form.html"
 
     def get_context_data(self, **kwargs):
-        context = super(ArcCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = "Add Story Arc"
         if self.request.POST:
             context["attribution"] = AttributionFormSet(self.request.POST)
@@ -117,7 +117,7 @@ class ArcUpdate(LoginRequiredMixin, UpdateView):
     template_name = "comicsdb/model_with_attribution_form.html"
 
     def get_context_data(self, **kwargs):
-        context = super(ArcUpdate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = f"Edit information for {context['arc']}"
         if self.request.POST:
             context["attribution"] = AttributionFormSet(
@@ -148,7 +148,7 @@ class ArcUpdate(LoginRequiredMixin, UpdateView):
                 return super().form_invalid(form)
 
         LOGGER.info(f"Arc: {form.instance.name} was updated by {self.request.user}")
-        return super(ArcUpdate, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class ArcDelete(PermissionRequiredMixin, DeleteView):

@@ -48,7 +48,7 @@ class CharacterIssueList(ListView):
         return self.character.issue_set.all().select_related("series", "series__series_type")
 
     def get_context_data(self, **kwargs):
-        context = super(CharacterIssueList, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = self.character
         return context
 
@@ -65,7 +65,7 @@ class CharacterDetail(DetailView):
     )
 
     def get_context_data(self, **kwargs):
-        context = super(CharacterDetail, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         character = self.get_object()
         qs = Character.objects.order_by("name")
         try:
@@ -106,7 +106,7 @@ class CharacterDetail(DetailView):
 
 class SearchCharacterList(CharacterList):
     def get_queryset(self):
-        result = super(SearchCharacterList, self).get_queryset()
+        result = super().get_queryset()
         if query := self.request.GET.get("q"):
             query_list = query.split()
             result = result.filter(
@@ -125,7 +125,7 @@ class CharacterCreate(LoginRequiredMixin, CreateView):
     template_name = "comicsdb/model_with_attribution_form.html"
 
     def get_context_data(self, **kwargs):
-        context = super(CharacterCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = "Add Character"
         if self.request.POST:
             context["attribution"] = AttributionFormSet(self.request.POST)
@@ -155,7 +155,7 @@ class CharacterUpdate(LoginRequiredMixin, UpdateView):
     template_name = "comicsdb/model_with_attribution_form.html"
 
     def get_context_data(self, **kwargs):
-        context = super(CharacterUpdate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = f"Edit information for {context['character']}"
         if self.request.POST:
             context["attribution"] = AttributionFormSet(
@@ -186,7 +186,7 @@ class CharacterUpdate(LoginRequiredMixin, UpdateView):
                 return super().form_invalid(form)
 
             LOGGER.info(f"Character: {form.instance.name} was updated by {self.request.user}")
-        return super(CharacterUpdate, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class CharacterDelete(PermissionRequiredMixin, DeleteView):

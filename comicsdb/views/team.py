@@ -35,7 +35,7 @@ class TeamIssueList(ListView):
         return self.team.issue_set.all().select_related("series", "series__series_type")
 
     def get_context_data(self, **kwargs):
-        context = super(TeamIssueList, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = self.team
         return context
 
@@ -45,7 +45,7 @@ class TeamDetail(DetailView):
     queryset = Team.objects.select_related("edited_by")
 
     def get_context_data(self, **kwargs):
-        context = super(TeamDetail, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         team = self.get_object()
         try:
             next_team = Team.objects.filter(name__gt=team.name).order_by("name").first()
@@ -63,7 +63,7 @@ class TeamDetail(DetailView):
 
 class SearchTeamList(TeamList):
     def get_queryset(self):
-        result = super(SearchTeamList, self).get_queryset()
+        result = super().get_queryset()
         if query := self.request.GET.get("q"):
             query_list = query.split()
             result = result.filter(
@@ -79,7 +79,7 @@ class TeamCreate(LoginRequiredMixin, CreateView):
     template_name = "comicsdb/model_with_attribution_form.html"
 
     def get_context_data(self, **kwargs):
-        context = super(TeamCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = "Add Team"
         if self.request.POST:
             context["attribution"] = AttributionFormSet(self.request.POST)
@@ -109,7 +109,7 @@ class TeamUpdate(LoginRequiredMixin, UpdateView):
     template_name = "comicsdb/model_with_attribution_form.html"
 
     def get_context_data(self, **kwargs):
-        context = super(TeamUpdate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = f"Edit information for {context['team']}"
         if self.request.POST:
             context["attribution"] = AttributionFormSet(

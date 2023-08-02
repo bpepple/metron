@@ -33,7 +33,7 @@ class Team(CommonInfo):
                 )
 
                 this.image.delete(save=False)
-        return super(Team, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("team:detail", args=[self.slug])

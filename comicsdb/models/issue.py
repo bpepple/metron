@@ -90,7 +90,7 @@ class Issue(CommonInfo):
                 )
 
                 this.image.delete(save=False)
-        return super(Issue, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return f"{self.series} #{self.number}"

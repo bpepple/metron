@@ -34,7 +34,7 @@ class ComicsdbConfig(AppConfig):
         variant = self.get_model("Variant")
         pre_delete.connect(pre_delete_image, sender=variant, dispatch_uid="pre_delete_variant")
 
-        credits = self.get_model("Credits")
+        credits_ = self.get_model("Credits")
         pre_delete.connect(
-            pre_delete_credit, sender=credits, dispatch_uid="pre_delete_credits"
+            pre_delete_credit, sender=credits_, dispatch_uid="pre_delete_credits"
         )

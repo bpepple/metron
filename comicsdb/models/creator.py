@@ -35,7 +35,7 @@ class Creator(CommonInfo):
                 )
 
                 this.image.delete(save=False)
-        return super(Creator, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     @property
     def issue_count(self):

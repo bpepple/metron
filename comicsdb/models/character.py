@@ -37,7 +37,7 @@ class Character(CommonInfo):
                 )
 
                 this.image.delete(save=False)
-        return super(Character, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("character:detail", args=[self.slug])

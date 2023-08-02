@@ -31,7 +31,7 @@ class Arc(CommonInfo):
                 )
 
                 this.image.delete(save=False)
-        return super(Arc, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     @property
     def issue_count(self):

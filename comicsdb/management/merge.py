@@ -21,7 +21,8 @@ def update_related(canonical, obj):
         related_objs = related_model.objects.filter(**{related_field: obj})
         for related_obj in related_objs:
             print(
-                f"Replacing in '{related_model.__name__}' model '{related_field}' field with ID '{related_obj.id}'"
+                f"Replacing in '{related_model.__name__}' model '{related_field}' "
+                f"field with ID '{related_obj.id}'"
             )
             try:
                 setattr(related_obj, related_field, canonical)
@@ -34,7 +35,7 @@ def update_related(canonical, obj):
 def copy_data(canonical, obj):
     """try to get the most data possible"""
     for data_field in obj._meta.get_fields():
-        if isinstance(data_field, (ManyToManyRel, ManyToOneRel)):
+        if isinstance(data_field, ManyToManyRel | ManyToOneRel):
             continue
         # Skip any images in the other obj since it will be remove
         # when the object is deleted.

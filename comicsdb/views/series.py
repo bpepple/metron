@@ -35,7 +35,7 @@ class SeriesIssueList(ListView):
         return self.series.issue_set.all()
 
     def get_context_data(self, **kwargs):
-        context = super(SeriesIssueList, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = self.series
         return context
 
@@ -47,7 +47,7 @@ class SeriesDetail(DetailView):
     ).prefetch_related("issue_set")
 
     def get_context_data(self, **kwargs):
-        context = super(SeriesDetail, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         series = self.get_object()
 
         # Set the initial value for the navigation variables
@@ -120,7 +120,7 @@ class SeriesDetail(DetailView):
 
 class SearchSeriesList(SeriesList):
     def get_queryset(self):
-        result = super(SearchSeriesList, self).get_queryset()
+        result = super().get_queryset()
         if query := self.request.GET.get("q"):
             query_list = query.split()
             result = result.filter(
@@ -136,7 +136,7 @@ class SeriesCreate(LoginRequiredMixin, CreateView):
     template_name = "comicsdb/model_with_attribution_form.html"
 
     def get_context_data(self, **kwargs):
-        context = super(SeriesCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = "Add Series"
         if self.request.POST:
             context["attribution"] = AttributionFormSet(self.request.POST)
@@ -166,7 +166,7 @@ class SeriesUpdate(LoginRequiredMixin, UpdateView):
     template_name = "comicsdb/model_with_attribution_form.html"
 
     def get_context_data(self, **kwargs):
-        context = super(SeriesUpdate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = f"Edit information for {context['series']}"
         if self.request.POST:
             context["attribution"] = AttributionFormSet(

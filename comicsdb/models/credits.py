@@ -10,11 +10,11 @@ class Role(models.Model):
     notes = models.TextField(blank=True)
     modified = models.DateTimeField(auto_now=True)
 
-    def __str__(self) -> str:
-        return self.name
-
     class Meta:
         ordering = ["order"]
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class Credits(models.Model):
@@ -28,3 +28,6 @@ class Credits(models.Model):
         ordering = ["issue", "creator__name"]
         unique_together = ["issue", "creator"]
         verbose_name_plural = "Credits"
+
+    def __str__(self) -> str:
+        return f"{self.issue}: {self.creator}"

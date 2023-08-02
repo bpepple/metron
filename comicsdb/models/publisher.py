@@ -32,7 +32,7 @@ class Publisher(CommonInfo):
                 )
 
                 this.image.delete(save=False)
-        return super(Publisher, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("publisher:detail", args=[self.slug])

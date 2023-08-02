@@ -18,11 +18,11 @@ class SeriesType(models.Model):
     notes = models.TextField(blank=True)
     modified = models.DateTimeField(auto_now=True)
 
-    def __str__(self) -> str:
-        return self.name
-
     class Meta:
         ordering = ["name"]
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class Series(CommonInfo):

@@ -40,7 +40,7 @@ class PublisherSeriesList(ListView):
         )
 
     def get_context_data(self, **kwargs):
-        context = super(PublisherSeriesList, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = self.publisher
         return context
 
@@ -50,7 +50,7 @@ class PublisherDetail(DetailView):
     queryset = Publisher.objects.select_related("edited_by").prefetch_related("series_set")
 
     def get_context_data(self, **kwargs):
-        context = super(PublisherDetail, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         publisher = self.get_object()
         try:
             next_publisher = (
@@ -75,7 +75,7 @@ class PublisherDetail(DetailView):
 
 class SearchPublisherList(PublisherList):
     def get_queryset(self):
-        result = super(SearchPublisherList, self).get_queryset()
+        result = super().get_queryset()
         if query := self.request.GET.get("q"):
             query_list = query.split()
             result = result.filter(
@@ -91,7 +91,7 @@ class PublisherCreate(LoginRequiredMixin, CreateView):
     template_name = "comicsdb/model_with_attribution_form.html"
 
     def get_context_data(self, **kwargs):
-        context = super(PublisherCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = "Add Publisher"
         if self.request.POST:
             context["attribution"] = AttributionFormSet(self.request.POST)
@@ -121,7 +121,7 @@ class PublisherUpdate(LoginRequiredMixin, UpdateView):
     template_name = "comicsdb/model_with_attribution_form.html"
 
     def get_context_data(self, **kwargs):
-        context = super(PublisherUpdate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = f"Edit information for {context['publisher']}"
         if self.request.POST:
             context["attribution"] = AttributionFormSet(

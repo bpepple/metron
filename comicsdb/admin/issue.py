@@ -1,5 +1,5 @@
 import datetime
-from typing import Any, Optional
+from typing import Any
 
 from django.contrib import admin, messages
 from django.db.models.query import QuerySet
@@ -18,7 +18,7 @@ class FutureStoreDateListFilter(admin.SimpleListFilter):
     def lookups(self, request: Any, model_admin: Any):
         return (("thisWeek", "This week"), ("nextWeek", "Next week"))
 
-    def queryset(self, request: Any, queryset: QuerySet) -> Optional[QuerySet]:
+    def queryset(self, request: Any, queryset: QuerySet) -> QuerySet | None:
         today = datetime.date.today()
         year, week, _ = today.isocalendar()
 

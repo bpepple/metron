@@ -121,8 +121,9 @@ def test_create_arc_view(auto_login_user):
     client, _ = auto_login_user()
     resp = client.get(reverse("arc:create"))
     assert (
-        '<input type="text" name="comicsdb-attribution-content_type-object_id-0-url" class="input" maxlength="200" id="id_comicsdb-attribution-content_type-object_id-0-url">'
-        in str(resp.content)
+        '<input type="text" name="comicsdb-attribution-content_type-object_id-0-url" '
+        'class="input" maxlength="200" '
+        'id="id_comicsdb-attribution-content_type-object_id-0-url">' in str(resp.content)
     )
     assert resp.status_code == HTML_OK_CODE
     assertTemplateUsed(resp, "comicsdb/model_with_attribution_form.html")
@@ -173,6 +174,7 @@ def test_arc_update_view(auto_login_user, wwh_arc):
 #             "image": "",
 #         },
 #     )
-#     # Should this really be HTTP 302? Probably need to see if we should be redirecting or not.
+#     # Should this really be HTTP 302? Probably need to see if we should be redirecting or
+#       not.
 #     assert resp.status_code == 302
 #     assert Arc.objects.count() == arc_count
