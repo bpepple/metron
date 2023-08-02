@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import Any
 
 from django.core.management.base import BaseCommand, CommandParser
 
@@ -19,7 +19,7 @@ class Command(BaseCommand):
         print(f"Removed story summary for {len(qs)} issues")
 
     @staticmethod
-    def _correct_roles(credit: Credits, good: Role, bad: List[Role]) -> bool:
+    def _correct_roles(credit: Credits, good: Role, bad: list[Role]) -> bool:
         fix = False
         if all(i in credit.role.all() for i in bad):
             fix = True

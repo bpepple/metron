@@ -11,10 +11,9 @@ class IssueSeriesName(df.rest_framework.CharFilter):
     def filter(self, qs, value):
         if value:
             query_list = value.split()
-            qs = qs.filter(
+            return qs.filter(
                 reduce(operator.and_, (Q(series__name__icontains=q) for q in query_list))
             )
-            return qs
         return super().filter(qs, value)
 
 

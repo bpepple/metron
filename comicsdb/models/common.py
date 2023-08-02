@@ -6,9 +6,9 @@ from django.utils.text import slugify
 
 def generate_slug_from_name(instance):
     slug_candidate = slug_original = slugify(instance.name)
-    Klass = instance.__class__
+    klass = instance.__class__
     for i in itertools.count(1):
-        if not Klass.objects.filter(slug=slug_candidate).exists():
+        if not klass.objects.filter(slug=slug_candidate).exists():
             break
         slug_candidate = f"{slug_original}-{i}"
 

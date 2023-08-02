@@ -8,11 +8,10 @@ from django.db.models.signals import pre_save
 from django.urls import reverse
 from sorl.thumbnail import ImageField
 
+from comicsdb.models.attribution import Attribution
+from comicsdb.models.common import CommonInfo, pre_save_slug
+from comicsdb.models.creator import Creator
 from users.models import CustomUser
-
-from .attribution import Attribution
-from .common import CommonInfo, pre_save_slug
-from .creator import Creator
 
 LOGGER = logging.getLogger(__name__)
 
@@ -33,7 +32,7 @@ class Team(CommonInfo):
                 )
 
                 this.image.delete(save=False)
-        return super(Team, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("team:detail", args=[self.slug])

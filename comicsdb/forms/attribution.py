@@ -10,7 +10,7 @@ from comicsdb.models.attribution import Attribution
 class AttributionForm(ModelForm):
     class Meta:
         model = Attribution
-        fields = "__all__"
+        fields = ["source", "url"]
         widgets = {
             "url": TextInput(attrs={"class": "input"}),
         }

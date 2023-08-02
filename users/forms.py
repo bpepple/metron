@@ -1,10 +1,10 @@
-from typing import Any, Dict
+from typing import Any
 
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import ValidationError
 from django.forms import ClearableFileInput, EmailField, EmailInput, Textarea, TextInput
 
-from .models import CustomUser
+from users.models import CustomUser
 
 temp_email = [
     "mailto.plus",
@@ -43,7 +43,7 @@ class CustomUserCreationForm(UserCreationForm):
         required=True,
     )
 
-    def clean(self) -> Dict[str, Any]:
+    def clean(self) -> dict[str, Any]:
         email: str = self.cleaned_data.get("email")
         for i in temp_email:
             try:

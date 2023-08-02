@@ -1,6 +1,6 @@
 import logging
 from datetime import date, datetime
-from typing import Any, Dict
+from typing import Any
 
 from dal import autocomplete
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -20,6 +20,7 @@ from comicsdb.models.series import SeriesType
 from comicsdb.models.variant import Variant
 
 PAGINATE = 28
+TOTAL_WEEKS_YEAR = 52
 LOGGER = logging.getLogger(__name__)
 
 
@@ -59,8 +60,8 @@ class IssueList(ListView):
     # TODO: Let's look into limiting fields returned since we don't use most of them.
     queryset = Issue.objects.select_related("series", "series__series_type")
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context = super(IssueList, self).get_context_data(**kwargs)
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
         context["series_type"] = SeriesType.objects.values("id", "name")
         return context
 
@@ -86,7 +87,7 @@ class IssueDetail(DetailView):
     )
 
     def get_context_data(self, **kwargs):
-        context = super(IssueDetail, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         issue = self.get_object()
         try:
             next_issue = issue.get_next_by_cover_date(series=issue.series)
@@ -107,7 +108,7 @@ class IssueDetail(DetailView):
 
 class SearchIssueList(IssueList):
     def get_queryset(self):
-        result = super(SearchIssueList, self).get_queryset()
+        result = super().get_queryset()
         issue_result = IssueViewFilter(self.request.GET, queryset=result)
 
         return issue_result.qs
@@ -118,7 +119,7 @@ class IssueCreate(LoginRequiredMixin, CreateView):
     form_class = IssueForm
 
     def get_context_data(self, **kwargs):
-        context = super(IssueCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if self.request.POST:
             context["credits"] = CreditsFormSet(self.request.POST, prefix="credits")
             context["variants"] = VariantFormset(
@@ -145,9 +146,10 @@ class IssueCreate(LoginRequiredMixin, CreateView):
                 variants_form.save()
 
             LOGGER.info(
-                f"Issue: {form.instance.series} #{form.instance.number} was created by {self.request.user}"
+                f"Issue: {form.instance.series} #{form.instance.number} was created by "
+                "{self.request.user}"
             )
-        return super(IssueCreate, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class IssueUpdate(LoginRequiredMixin, UpdateView):
@@ -155,7 +157,7 @@ class IssueUpdate(LoginRequiredMixin, UpdateView):
     form_class = IssueForm
 
     def get_context_data(self, **kwargs):
-        context = super(IssueUpdate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if self.request.POST:
             context["credits"] = CreditsFormSet(
                 self.request.POST,
@@ -202,9 +204,10 @@ class IssueUpdate(LoginRequiredMixin, UpdateView):
                 return super().form_invalid(form)
 
             LOGGER.info(
-                f"Issue: {form.instance.series} #{form.instance.number} was updated by {self.request.user}"
+                f"Issue: {form.instance.series} #{form.instance.number} was updated by "
+                "{self.request.user}"
             )
-        return super(IssueUpdate, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class IssueDelete(PermissionRequiredMixin, DeleteView):
@@ -239,7 +242,7 @@ class WeekList(ListView):
 class NextWeekList(ListView):
     year, week, _ = date.today().isocalendar()
     # Check if we're at the last week of the year.
-    if week != 52:
+    if week != TOTAL_WEEKS_YEAR:
         week += 1
     else:
         year += 1
@@ -268,7 +271,7 @@ class NextWeekList(ListView):
 class FutureList(ListView):
     year, week, _ = date.today().isocalendar()
     # Check if we're at the last week of the year.
-    if week != 52:
+    if week != TOTAL_WEEKS_YEAR:
         week += 1
     else:
         year += 1

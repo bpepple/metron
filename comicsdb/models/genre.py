@@ -6,8 +6,8 @@ class Genre(models.Model):
     desc = models.TextField("Description", blank=True)
     modified = models.DateTimeField(auto_now=True)
 
-    def __str__(self) -> str:
-        return self.name
-
     class Meta:
         ordering = ["name"]
+
+    def __str__(self) -> str:
+        return self.name

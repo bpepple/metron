@@ -18,7 +18,7 @@ class CreditsForm(ModelForm):
 
     class Meta:
         model = Credits
-        fields = "__all__"
+        fields = ["issue", "creator", "role"]
         widgets = {"role": SelectMultiple(attrs={"size": 5})}
 
 

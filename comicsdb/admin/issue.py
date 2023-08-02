@@ -1,5 +1,5 @@
 import datetime
-from typing import Any, Optional
+from typing import Any
 
 from django.contrib import admin, messages
 from django.db.models.query import QuerySet
@@ -8,6 +8,8 @@ from sorl.thumbnail.admin.current import AdminImageMixin
 
 from comicsdb.admin.util import AttributionInline
 from comicsdb.models import Creator, Credits, Issue, Role, Variant
+
+MAX_STORIES = 1
 
 
 class FutureStoreDateListFilter(admin.SimpleListFilter):
@@ -18,7 +20,7 @@ class FutureStoreDateListFilter(admin.SimpleListFilter):
     def lookups(self, request: Any, model_admin: Any):
         return (("thisWeek", "This week"), ("nextWeek", "Next week"))
 
-    def queryset(self, request: Any, queryset: QuerySet) -> Optional[QuerySet]:
+    def queryset(self, request: Any, queryset: QuerySet) -> QuerySet | None:
         today = datetime.date.today()
         year, week, _ = today.isocalendar()
 
@@ -27,6 +29,7 @@ class FutureStoreDateListFilter(admin.SimpleListFilter):
 
         if self.value() == "nextWeek":
             return queryset.filter(store_date__week=week + 1, store_date__year=year)
+        return None
 
 
 class CreditsInline(admin.TabularInline):
@@ -151,7 +154,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
             modified = False
             for reprint in i.reprints.all():
                 # If reprint is not a single story let's bail.
-                if len(reprint.name) < 2:
+                if len(reprint.name) <= MAX_STORIES:
                     modified = True
                     # Add stories
                     if reprint.name:

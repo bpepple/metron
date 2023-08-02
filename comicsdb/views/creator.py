@@ -41,7 +41,7 @@ class CreatorIssueList(ListView):
         return self.creator.issue_set.all().select_related("series", "series__series_type")
 
     def get_context_data(self, **kwargs):
-        context = super(CreatorIssueList, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = self.creator
         return context
 
@@ -57,7 +57,7 @@ class CreatorDetail(DetailView):
     queryset = Creator.objects.select_related("edited_by")
 
     def get_context_data(self, **kwargs):
-        context = super(CreatorDetail, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         creator = self.get_object()
         qs = Creator.objects.order_by("name")
         try:
@@ -93,7 +93,7 @@ class CreatorDetail(DetailView):
 
 class SearchCreatorList(CreatorList):
     def get_queryset(self):
-        result = super(SearchCreatorList, self).get_queryset()
+        result = super().get_queryset()
         if query := self.request.GET.get("q"):
             query_list = query.split()
             result = result.filter(
@@ -116,7 +116,7 @@ class CreatorCreate(LoginRequiredMixin, CreateView):
     template_name = "comicsdb/model_with_attribution_form.html"
 
     def get_context_data(self, **kwargs):
-        context = super(CreatorCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if self.request.POST:
             context["attribution"] = AttributionFormSet(self.request.POST)
         else:
@@ -145,7 +145,7 @@ class CreatorUpdate(LoginRequiredMixin, UpdateView):
     template_name = "comicsdb/model_with_attribution_form.html"
 
     def get_context_data(self, **kwargs):
-        context = super(CreatorUpdate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["title"] = "Edit Creator Information"
         if self.request.POST:
             context["attribution"] = AttributionFormSet(

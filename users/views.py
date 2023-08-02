@@ -11,11 +11,10 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views.generic import DetailView
 
 from metron.utils import get_recaptcha_auth
-
-from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import CustomUser
-from .tokens import account_activation_token
-from .utils import send_pushover
+from users.forms import CustomUserChangeForm, CustomUserCreationForm
+from users.models import CustomUser
+from users.tokens import account_activation_token
+from users.utils import send_pushover
 
 logger = logging.getLogger(__name__)
 
@@ -44,12 +43,12 @@ def activate(request, uidb64, token):
     login(request, user)
     # Send pushover notification tha user activated account
     send_pushover(f"{user} activated their account on Metron.")
-    logger.info(f"{user} activated their account on Metron")
+    logger.info("%s activated their account on Metron", user)
 
     return redirect("home")
 
 
-def signup(request):
+def signup(request):  # sourcery skip: extract-method
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -73,7 +72,7 @@ def signup(request):
                 user.email_user(subject, message)
                 # Let's send a pushover notice that a user requested an account.
                 send_pushover(f"{user} signed up for an account on Metron.")
-                logger.info(f"{user} signed up for an account on Metron")
+                logger.info("%s signed up for an account on Metron", user)
 
             return redirect("account_activation_sent")
     else:
@@ -89,8 +88,7 @@ def change_password(request):
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, "Your password was successfully updated!")
             return redirect("change_password")
-        else:
-            messages.error(request, "Please correct the error below.")
+        messages.error(request, "Please correct the error below.")
     else:
         form = PasswordChangeForm(request.user)
     return render(request, "change_password.html", {"form": form})
@@ -104,8 +102,7 @@ def change_profile(request):
             update_session_auth_hash(request, user)  # Important!
             messages.success(request, "Your profile was successfully updated!")
             return redirect("change_profile")
-        else:
-            messages.error(request, "Please correct the error below.")
+        messages.error(request, "Please correct the error below.")
     else:
         form = CustomUserChangeForm(instance=request.user)
     return render(request, "change_profile.html", {"form": form})

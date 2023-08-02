@@ -18,17 +18,17 @@ from users.models import CustomUser
 NUMBER_OF_ISSUES = 35
 
 
-@pytest.fixture
+@pytest.fixture()
 def test_password():
     return "strong-test-pass"
 
 
-@pytest.fixture
+@pytest.fixture()
 def test_email():
     return "foo@bar.com"
 
 
-@pytest.fixture
+@pytest.fixture()
 def create_user(db, test_password, test_email):
     def make_user(**kwargs):
         kwargs["password"] = test_password
@@ -48,7 +48,7 @@ def create_staff_user(create_user):
     return user
 
 
-@pytest.fixture
+@pytest.fixture()
 def auto_login_user(db, client, create_user, test_password):
     def make_auto_login(user=None):
         if user is None:
@@ -59,14 +59,14 @@ def auto_login_user(db, client, create_user, test_password):
     return make_auto_login
 
 
-@pytest.fixture
+@pytest.fixture()
 def api_client():
     from rest_framework.test import APIClient
 
     return APIClient()
 
 
-@pytest.fixture
+@pytest.fixture()
 def api_client_with_credentials(db, create_user, api_client):
     user = create_user()
     api_client.force_authenticate(user=user)
@@ -74,32 +74,32 @@ def api_client_with_credentials(db, create_user, api_client):
     api_client.force_authenticate(user=None)
 
 
-@pytest.fixture
+@pytest.fixture()
 def api_client_with_staff_credentials(db, create_staff_user, api_client):
     api_client.force_authenticate(user=create_staff_user)
     yield api_client
     api_client.force_authenticate(user=None)
 
 
-@pytest.fixture
+@pytest.fixture()
 def wwh_arc(create_user):
     user = create_user()
     return Arc.objects.create(name="World War Hulk", slug="world-war-hulk", edited_by=user)
 
 
-@pytest.fixture
+@pytest.fixture()
 def fc_arc(create_user):
     user = create_user()
     return Arc.objects.create(name="Final Crisis", slug="final-crisis", edited_by=user)
 
 
-@pytest.fixture
+@pytest.fixture()
 def dc_comics(create_user):
     user = create_user()
     return Publisher.objects.create(name="DC Comics", slug="dc-comics", edited_by=user)
 
 
-@pytest.fixture
+@pytest.fixture()
 def marvel(create_user):
     user = create_user()
     return Publisher.objects.create(name="Marvel", slug="marvel", edited_by=user)
@@ -111,12 +111,12 @@ def django_db_setup(django_db_setup, django_db_blocker):
         call_command("loaddata", "../fixtures/series_type.yaml")
 
 
-@pytest.fixture
+@pytest.fixture()
 def cancelled_type(db):
     return SeriesType.objects.get(name="Cancelled Series")
 
 
-@pytest.fixture
+@pytest.fixture()
 def fc_series(create_user, dc_comics, cancelled_type):
     user = create_user()
     return Series.objects.create(
@@ -130,7 +130,7 @@ def fc_series(create_user, dc_comics, cancelled_type):
     )
 
 
-@pytest.fixture
+@pytest.fixture()
 def bat_sups_series(create_user, dc_comics, cancelled_type):
     user = create_user()
     return Series.objects.create(
@@ -144,7 +144,7 @@ def bat_sups_series(create_user, dc_comics, cancelled_type):
     )
 
 
-@pytest.fixture
+@pytest.fixture()
 def issue_with_arc(create_user, fc_series, fc_arc, superman):
     user = create_user()
     i = Issue.objects.create(
@@ -160,7 +160,7 @@ def issue_with_arc(create_user, fc_series, fc_arc, superman):
     return i
 
 
-@pytest.fixture
+@pytest.fixture()
 def basic_issue(create_user, fc_series):
     user = create_user()
     return Issue.objects.create(
@@ -173,7 +173,7 @@ def basic_issue(create_user, fc_series):
     )
 
 
-@pytest.fixture
+@pytest.fixture()
 def list_of_issues(create_user, fc_series):
     user = create_user()
 
@@ -197,25 +197,25 @@ def list_of_issues(create_user, fc_series):
         )
 
 
-@pytest.fixture
+@pytest.fixture()
 def superman(create_user):
     user = create_user()
     return Character.objects.create(name="Superman", slug="superman", edited_by=user)
 
 
-@pytest.fixture
+@pytest.fixture()
 def batman(create_user):
     user = create_user()
     return Character.objects.create(name="Batman", slug="batman", edited_by=user)
 
 
-@pytest.fixture
+@pytest.fixture()
 def john_byrne(create_user):
     user = create_user()
     return Creator.objects.create(name="John Byrne", slug="john-byrne", edited_by=user)
 
 
-@pytest.fixture
+@pytest.fixture()
 def walter_simonson(create_user):
     user = create_user()
     return Creator.objects.create(
@@ -223,18 +223,18 @@ def walter_simonson(create_user):
     )
 
 
-@pytest.fixture
+@pytest.fixture()
 def teen_titans(create_user):
     user = create_user()
     return Team.objects.create(name="Teen Titans", slug="teen-titans", edited_by=user)
 
 
-@pytest.fixture
+@pytest.fixture()
 def avengers(create_user):
     user = create_user()
     return Team.objects.create(name="The Avengers", slug="the-avengers", edited_by=user)
 
 
-@pytest.fixture
+@pytest.fixture()
 def writer(db):
     return Role.objects.create(name="Writer", notes="Nothing here.", order=20)

@@ -13,16 +13,15 @@ from django.utils.text import slugify
 from PIL import Image
 from sorl.thumbnail import ImageField
 
+from comicsdb.models.arc import Arc
+from comicsdb.models.attribution import Attribution
+from comicsdb.models.character import Character
+from comicsdb.models.common import CommonInfo
+from comicsdb.models.creator import Creator
+from comicsdb.models.rating import Rating
+from comicsdb.models.series import Series
+from comicsdb.models.team import Team
 from users.models import CustomUser
-
-from .arc import Arc
-from .attribution import Attribution
-from .character import Character
-from .common import CommonInfo
-from .creator import Creator
-from .rating import Rating
-from .series import Series
-from .team import Team
 
 LOGGER = logging.getLogger(__name__)
 
@@ -90,7 +89,7 @@ class Issue(CommonInfo):
                 )
 
                 this.image.delete(save=False)
-        return super(Issue, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return f"{self.series} #{self.number}"

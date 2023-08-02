@@ -1,7 +1,7 @@
 from django.db import models
 from sorl.thumbnail import ImageField
 
-from .issue import Issue
+from comicsdb.models.issue import Issue
 
 
 class Variant(models.Model):
@@ -11,9 +11,9 @@ class Variant(models.Model):
     sku = models.CharField("Distributor SKU", max_length=9, blank=True)
     upc = models.CharField("UPC Code", max_length=20, blank=True)
 
-    def __str__(self) -> str:
-        return self.name
-
     class Meta:
         indexes = [models.Index(fields=["issue"], name="issue_idx")]
         ordering = ["issue"]
+
+    def __str__(self) -> str:
+        return self.name

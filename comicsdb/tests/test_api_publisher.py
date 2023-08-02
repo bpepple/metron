@@ -5,7 +5,7 @@ from rest_framework import status
 from comicsdb.serializers import SeriesListSerializer
 
 
-@pytest.fixture
+@pytest.fixture()
 def create_publisher_data():
     return {
         "name": "Soulside",
@@ -14,7 +14,7 @@ def create_publisher_data():
     }
 
 
-@pytest.fixture
+@pytest.fixture()
 def create_put_data():
     return {
         "name": "Marvel",
@@ -43,7 +43,8 @@ def test_group_user_post_url(db, api_client_with_staff_credentials, create_publi
         reverse("api:publisher-list"), data=create_publisher_data
     )
     assert resp.status_code == status.HTTP_201_CREATED
-    # TODO: Fix test to compare data. Specifically the KeyError: 'request' for the get_resource_url()
+    # TODO: Fix test to compare data. Specifically the KeyError: 'request' for the
+    #       get_resource_url()
     # new_pub = Publisher.objects.get(name=create_publisher_data["name"])
     # serializer = PublisherSerializer(new_pub)
     # assert resp.data == serializer.data
@@ -69,7 +70,8 @@ def test_group_user_put_url(api_client_with_staff_credentials, marvel, create_pu
         reverse("api:publisher-detail", kwargs={"pk": marvel.pk}), data=create_put_data
     )
     assert resp.status_code == status.HTTP_200_OK
-    # TODO: Fix test to compare data. Specifically the KeyError: 'request' for the get_resource_url()
+    # TODO: Fix test to compare data. Specifically the KeyError: 'request' for the
+    #       get_resource_url()
     # publisher = Publisher.objects.get(pk=marvel.pk)
     # serializer = PublisherSerializer(publisher)
     # assert resp.data == serializer.data
@@ -91,7 +93,8 @@ def test_get_valid_single_publisher(api_client_with_credentials, dc_comics):
         reverse("api:publisher-detail", kwargs={"pk": dc_comics.pk})
     )
     assert response.status_code == status.HTTP_200_OK
-    # TODO: Fix test to compare data. Specifically the KeyError: 'request' for the get_resource_url()
+    # TODO: Fix test to compare data. Specifically the KeyError: 'request' for
+    #       the get_resource_url()
     # publisher = Publisher.objects.get(pk=dc_comics.pk)
     # serializer = PublisherSerializer(publisher)
     # assert response.data == serializer.data

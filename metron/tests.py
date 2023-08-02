@@ -7,14 +7,14 @@ from users.models import CustomUser
 HTML_OK_CODE = 200
 
 
-@pytest.fixture
+@pytest.fixture()
 def loggedin_user(db):
     user = CustomUser.objects.create(username="foo", email="foo@bar.com")
     user.set_password("1234")
     user.save()
 
     client = Client()
-    client.login(username="foo", password="1234")
+    client.login(username="foo", password="1234")  # noqa: S106
     return client
 
 

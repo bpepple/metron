@@ -31,16 +31,36 @@ from comicsdb.sitemaps import (
     StaticViewSitemap,
     TeamSitemap,
 )
-from comicsdb.urls import api as api_urls
-from comicsdb.urls import arc as arc_urls
-from comicsdb.urls import character as character_urls
-from comicsdb.urls import creator as creator_urls
-from comicsdb.urls import flatpage as flatpage_urls
-from comicsdb.urls import home as home_urls
-from comicsdb.urls import issue as issue_urls
-from comicsdb.urls import publisher as publisher_urls
-from comicsdb.urls import series as series_urls
-from comicsdb.urls import team as team_urls
+from comicsdb.urls import (
+    api as api_urls,
+)
+from comicsdb.urls import (
+    arc as arc_urls,
+)
+from comicsdb.urls import (
+    character as character_urls,
+)
+from comicsdb.urls import (
+    creator as creator_urls,
+)
+from comicsdb.urls import (
+    flatpage as flatpage_urls,
+)
+from comicsdb.urls import (
+    home as home_urls,
+)
+from comicsdb.urls import (
+    issue as issue_urls,
+)
+from comicsdb.urls import (
+    publisher as publisher_urls,
+)
+from comicsdb.urls import (
+    series as series_urls,
+)
+from comicsdb.urls import (
+    team as team_urls,
+)
 
 handler404 = "metron.views.handler404"
 

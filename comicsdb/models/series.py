@@ -18,11 +18,11 @@ class SeriesType(models.Model):
     notes = models.TextField(blank=True)
     modified = models.DateTimeField(auto_now=True)
 
-    def __str__(self) -> str:
-        return self.name
-
     class Meta:
         ordering = ["name"]
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class Series(CommonInfo):
@@ -73,9 +73,9 @@ class Series(CommonInfo):
 
 def generate_series_slug(instance):
     slug_candidate = slug_original = slugify(f"{instance.name}-{instance.year_began}")
-    Klass = instance.__class__
+    klass = instance.__class__
     for i in itertools.count(1):
-        if not Klass.objects.filter(slug=slug_candidate).exists():
+        if not klass.objects.filter(slug=slug_candidate).exists():
             break
         slug_candidate = f"{slug_original}-{i}"
 

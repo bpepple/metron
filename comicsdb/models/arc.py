@@ -9,9 +9,8 @@ from django.urls import reverse
 from sorl.thumbnail import ImageField
 
 from comicsdb.models.attribution import Attribution
+from comicsdb.models.common import CommonInfo, pre_save_slug
 from users.models import CustomUser
-
-from .common import CommonInfo, pre_save_slug
 
 LOGGER = logging.getLogger(__name__)
 
@@ -31,7 +30,7 @@ class Arc(CommonInfo):
                 )
 
                 this.image.delete(save=False)
-        return super(Arc, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     @property
     def issue_count(self):

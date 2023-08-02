@@ -6,7 +6,7 @@ from comicsdb.models import Arc
 class ArcForm(ModelForm):
     class Meta:
         model = Arc
-        exclude = ("edited_by", "slug")
+        fields = ("name", "desc", "cv_id", "image")
         widgets = {
             "name": TextInput(attrs={"class": "input"}),
             "cv_id": TextInput(attrs={"class": "input"}),

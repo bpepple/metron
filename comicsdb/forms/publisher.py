@@ -6,7 +6,7 @@ from comicsdb.models import Publisher
 class PublisherForm(ModelForm):
     class Meta:
         model = Publisher
-        exclude = ("edited_by", "slug")
+        fields = ["name", "desc", "founded", "cv_id", "image"]
         widgets = {
             "name": TextInput(attrs={"class": "input"}),
             "desc": Textarea(attrs={"class": "textarea"}),

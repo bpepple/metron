@@ -7,7 +7,7 @@ class HomePageView(TemplateView):
     template_name = "comicsdb/home.html"
 
     def get_context_data(self, **kwargs):
-        context = super(HomePageView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["recently_edited"] = (
             Issue.objects.prefetch_related("series", "series__series_type")
             .order_by("-modified")
