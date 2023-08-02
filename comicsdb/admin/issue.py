@@ -29,6 +29,7 @@ class FutureStoreDateListFilter(admin.SimpleListFilter):
 
         if self.value() == "nextWeek":
             return queryset.filter(store_date__week=week + 1, store_date__year=year)
+        return None
 
 
 class CreditsInline(admin.TabularInline):
