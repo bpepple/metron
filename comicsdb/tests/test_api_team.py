@@ -5,12 +5,12 @@ from django.urls import reverse
 from rest_framework import status
 
 
-@pytest.fixture
+@pytest.fixture()
 def create_team_data():
     return {"name": "The Crazies", "desc": "Blah Blah", "creators": [1]}
 
 
-@pytest.fixture
+@pytest.fixture()
 def create_put_data():
     return {"name": "Still Crazy", "slug": "still-crazy"}
 
