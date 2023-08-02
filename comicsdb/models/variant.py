@@ -1,7 +1,7 @@
 from django.db import models
 from sorl.thumbnail import ImageField
 
-from .issue import Issue
+from comicsdb.models.issue import Issue
 
 
 class Variant(models.Model):

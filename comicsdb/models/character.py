@@ -9,12 +9,11 @@ from django.db.models.signals import pre_save
 from django.urls import reverse
 from sorl.thumbnail import ImageField
 
+from comicsdb.models.attribution import Attribution
+from comicsdb.models.common import CommonInfo, pre_save_slug
+from comicsdb.models.creator import Creator
+from comicsdb.models.team import Team
 from users.models import CustomUser
-
-from .attribution import Attribution
-from .common import CommonInfo, pre_save_slug
-from .creator import Creator
-from .team import Team
 
 LOGGER = logging.getLogger(__name__)
 

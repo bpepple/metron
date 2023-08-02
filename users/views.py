@@ -11,11 +11,10 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views.generic import DetailView
 
 from metron.utils import get_recaptcha_auth
-
-from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import CustomUser
-from .tokens import account_activation_token
-from .utils import send_pushover
+from users.forms import CustomUserChangeForm, CustomUserCreationForm
+from users.models import CustomUser
+from users.tokens import account_activation_token
+from users.utils import send_pushover
 
 logger = logging.getLogger(__name__)
 

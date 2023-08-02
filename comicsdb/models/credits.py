@@ -1,7 +1,7 @@
 from django.db import models
 
-from .creator import Creator
-from .issue import Issue
+from comicsdb.models.creator import Creator
+from comicsdb.models.issue import Issue
 
 
 class Role(models.Model):

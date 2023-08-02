@@ -1,15 +1,15 @@
-from .arc import Arc
-from .attribution import Attribution
-from .character import Character
-from .creator import Creator
-from .credits import Credits, Role
-from .genre import Genre
-from .issue import Issue
-from .publisher import Publisher
-from .rating import Rating
-from .series import Series, SeriesType
-from .team import Team
-from .variant import Variant
+from comicsdb.models.arc import Arc
+from comicsdb.models.attribution import Attribution
+from comicsdb.models.character import Character
+from comicsdb.models.creator import Creator
+from comicsdb.models.credits import Credits, Role
+from comicsdb.models.genre import Genre
+from comicsdb.models.issue import Issue
+from comicsdb.models.publisher import Publisher
+from comicsdb.models.rating import Rating
+from comicsdb.models.series import Series, SeriesType
+from comicsdb.models.team import Team
+from comicsdb.models.variant import Variant
 
 __all__ = [
     "Arc",

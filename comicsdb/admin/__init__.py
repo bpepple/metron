@@ -1,13 +1,13 @@
-from .arc import ArcAdmin
-from .character import CharacterAdmin
-from .creator import CreatorAdmin
-from .genre import GenreAdmin
-from .issue import IssueAdmin
-from .publisher import PublisherAdmin
-from .rating import RatingAdmin
-from .role import RoleAdmin
-from .series import SeriesAdmin, SeriesTypeAdmin
-from .team import TeamAdmin
+from comicsdb.admin.arc import ArcAdmin
+from comicsdb.admin.character import CharacterAdmin
+from comicsdb.admin.creator import CreatorAdmin
+from comicsdb.admin.genre import GenreAdmin
+from comicsdb.admin.issue import IssueAdmin
+from comicsdb.admin.publisher import PublisherAdmin
+from comicsdb.admin.rating import RatingAdmin
+from comicsdb.admin.role import RoleAdmin
+from comicsdb.admin.series import SeriesAdmin, SeriesTypeAdmin
+from comicsdb.admin.team import TeamAdmin
 
 __all__ = [
     "ArcAdmin",

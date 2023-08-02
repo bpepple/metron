@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import ValidationError
 from django.forms import ClearableFileInput, EmailField, EmailInput, Textarea, TextInput
 
-from .models import CustomUser
+from users.models import CustomUser
 
 temp_email = [
     "mailto.plus",
