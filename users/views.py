@@ -44,7 +44,7 @@ def activate(request, uidb64, token):
     login(request, user)
     # Send pushover notification tha user activated account
     send_pushover(f"{user} activated their account on Metron.")
-    logger.info(f"{user} activated their account on Metron")
+    logger.info("%s activated their account on Metron", user)
 
     return redirect("home")
 
@@ -73,7 +73,7 @@ def signup(request):
                 user.email_user(subject, message)
                 # Let's send a pushover notice that a user requested an account.
                 send_pushover(f"{user} signed up for an account on Metron.")
-                logger.info(f"{user} signed up for an account on Metron")
+                logger.info("%s signed up for an account on Metron", user)
 
             return redirect("account_activation_sent")
     else:
