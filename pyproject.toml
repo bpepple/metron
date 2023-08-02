@@ -1,6 +1,6 @@
 [tool.black]
 line-length = 95
-target-version = [ "py310",]
+target-version = ["py310"]
 
 [tool.isort]
 profile = "black"
@@ -15,12 +15,53 @@ fix = true
 line-length = 95
 show-fixes = true
 target-version = "py310"
-ignore = ["A003",]
-select = ["A", "DJ", "E", "F", "I", "UP"]
+ignore = ["A003", "RUF012", "SLF001"]
+select = [
+    "A",
+    "B",
+    "BLE",
+    "C40",
+    "DJ",
+    "E",
+    "F",
+    "G",
+    "I",
+    "ICN",
+    "INP",
+    "ISC",
+    "N",
+    "PIE",
+    "PL",
+    "PT",
+    "PTH",
+    "PYI",
+    "Q",
+    "RET",
+    "RSE",
+    "RUF",
+    "S",
+    "SIM",
+    "SLF",
+    "TID",
+    "UP",
+    "W",
+    "YTT",
+]
+
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.isort]
+combine-as-imports = true
+
 
 [tool.ruff.per-file-ignores]
-"users/migrations/*.py" = ["E501"]
-"comicsdb/migrations/*.py" = ["E501"]
+"users/migrations/*.py" = ["E501", "N806"]
+"comicsdb/migrations/*.py" = ["E501", "N806"]
+"comicsdb/tests/*.py" = ["PLR2004", "PT004", "S101"]
+"metron/tests.py" = ["S101"]
+"users/tests/*.py" = ["S101"]
+
 
 [tool.coverage.run]
 source = ["comicsdb", "users", "metron"]
