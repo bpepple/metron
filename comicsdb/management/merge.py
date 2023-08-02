@@ -8,10 +8,10 @@ def update_related(canonical, obj):
         (r.remote_field.name, r.related_model) for r in canonical._meta.related_objects
     ]
     for related_field, related_model in related_models:
-        # Skip the ManyToMany fields that aren’t auto-created. These
+        # Skip the ManyToMany fields that aren`t auto-created. These
         # should have a corresponding OneToMany field in the model for
         # the linking table anyway. If we update it through that model
-        # instead then we won’t lose the extra fields in the linking
+        # instead then we won`t lose the extra fields in the linking
         # table.
         related_field_obj = related_model._meta.get_field(related_field)
         if isinstance(related_field_obj, ManyToManyField):

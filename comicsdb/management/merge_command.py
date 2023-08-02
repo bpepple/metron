@@ -19,12 +19,12 @@ class MergeCommand(BaseCommand):
         try:
             canonical = model.objects.get(id=options["canonical"])
         except model.DoesNotExist:
-            print(f"{model.__name__} doesn’t exist!")
+            print(f"{model.__name__} doesn`t exist!")
             return
         try:
             other = model.objects.get(id=options["other"])
         except model.DoesNotExist:
-            print(f"Other {model.__name__} doesn’t exist!")
+            print(f"Other {model.__name__} doesn`t exist!")
             return
 
         merge_objects(canonical, other)
