@@ -14,6 +14,6 @@ class Command(BaseCommand):
             for i in qs:
                 i.name = []
             fix_count = Issue.objects.bulk_update(qs, ["name"])
-            print(f"Fixed {fix_count} issues.")
+            self.stdout.write(self.style.SUCCESS(f"Fixed {fix_count} issues."))
         else:
-            print("Nothing to fix.")
+            self.stdout.write(self.style.WARNING("Nothing to fix."))

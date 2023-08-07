@@ -10,16 +10,14 @@ from comicsdb.models.issue import Issue
 class Command(BaseCommand):
     help = "Fix old anthology roles"
 
-    @staticmethod
-    def _remove_desc(series: Series) -> None:
+    def _remove_desc(self, series: Series) -> None:
         qs = Issue.objects.filter(series=series)
         for i in qs:
             i.desc = ""
         Issue.objects.bulk_update(qs, ["desc"])
-        print(f"Removed story summary for {len(qs)} issues")
+        self.stdout.write(self.style.SUCCESS(f"Removed story summary for {len(qs)} issues"))
 
-    @staticmethod
-    def _correct_roles(credit: Credits, good: Role, bad: list[Role]) -> bool:
+    def _correct_roles(self, credit: Credits, good: Role, bad: list[Role]) -> bool:
         fix = False
         if all(i in credit.role.all() for i in bad):
             fix = True
@@ -27,7 +25,11 @@ class Command(BaseCommand):
                 credit.role.remove(role)
             if good not in credit.role.all():
                 credit.role.add(good)
-            print(f"Fixed {good} credit in {credit.issue} for {credit.creator}")
+            self.stdout.write(
+                self.style.SUCCESS(
+                    f"Fixed {good} credit in {credit.issue} for {credit.creator}"
+                )
+            )
         return fix
 
     def _fix_credits(self, series: Series) -> None:
@@ -47,7 +49,9 @@ class Command(BaseCommand):
             fix_artist = self._correct_roles(i, artist, [pencil, ink])
 
             if not fix_writer and not fix_artist:
-                print(f"Nothing to fix in {i.issue} for {i.creator}")
+                self.stdout.write(
+                    self.style.WARNING(f"Nothing to fix in {i.issue} for {i.creator}")
+                )
 
     def add_arguments(self, parser: CommandParser) -> None:
         parser.add_argument("slug", nargs="+", type=str)
@@ -61,7 +65,7 @@ class Command(BaseCommand):
 
     def handle(self, *args: Any, **options: Any) -> None:
         if not options["delete_desc"] and not options["fix_credits"]:
-            print("No action options given. Exiting...")
+            self.stdout.write(self.style.WARNING("No action options given. Exiting..."))
             return
         series = Series.objects.get(slug=options["slug"][0])
         if options["fix_credits"]:

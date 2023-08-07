@@ -12,4 +12,8 @@ class Command(BaseCommand):
         issues = Issue.objects.all()
         total = issues.count()
         missing = issues.filter(cv_id__isnull=True).count()
-        print(f"Missing CV ID: {missing}\nWith CV ID: {total-missing}\nTotal Issues: {total}")
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"Missing CV ID: {missing}\nWith CV ID: {total-missing}\nTotal Issues: {total}"
+            )
+        )
