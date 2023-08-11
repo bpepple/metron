@@ -147,7 +147,7 @@ class IssueCreate(LoginRequiredMixin, CreateView):
 
             LOGGER.info(
                 f"Issue: {form.instance.series} #{form.instance.number} was created by "
-                "{self.request.user}"
+                f"{self.request.user}"
             )
         return super().form_valid(form)
 
@@ -205,7 +205,7 @@ class IssueUpdate(LoginRequiredMixin, UpdateView):
 
             LOGGER.info(
                 f"Issue: {form.instance.series} #{form.instance.number} was updated by "
-                "{self.request.user}"
+                f"{self.request.user}"
             )
         return super().form_valid(form)
 
