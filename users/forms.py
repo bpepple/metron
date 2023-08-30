@@ -6,6 +6,7 @@ from django.forms import ClearableFileInput, EmailField, EmailInput, Textarea, T
 
 from users.models import CustomUser
 
+# Common temporary email addresses.
 temp_email = [
     "mailto.plus",
     "fexpost.com",
@@ -35,6 +36,11 @@ temp_email = [
     "tcwlm.com",
 ]
 
+# E-Mail providers that block e-mail we send.
+bad_email = [
+    "outlook.com",
+]
+
 
 class CustomUserCreationForm(UserCreationForm):
     email = EmailField(
@@ -49,6 +55,12 @@ class CustomUserCreationForm(UserCreationForm):
             try:
                 if email.endswith(i):
                     raise ValidationError("Disposable temporary email address not allowed.")
+            except AttributeError as e:
+                raise ValidationError("Invalid email address.") from e
+        for e in bad_email:
+            try:
+                if email.endswith(e):
+                    raise ValidationError(f"E-Mail address from '{e}' not allowed.")
             except AttributeError as e:
                 raise ValidationError("Invalid email address.") from e
         if CustomUser.objects.filter(email=email).exists():
