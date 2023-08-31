@@ -72,10 +72,11 @@ class ArcViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         permission_classes = []
-        if self.action in ["create", "update", "partial_update", "delete"]:
-            permission_classes = [IsAdminUser]
-        elif self.action in ["retrieve", "list", "series_list"]:
+        if self.action in ["retrieve", "list", "issue_list"]:
             permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsAdminUser]
+
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: ArcSerializer) -> None:
@@ -128,10 +129,10 @@ class CharacterViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         permission_classes = []
-        if self.action in ["create", "update", "partial_update", "delete"]:
-            permission_classes = [IsAdminUser]
-        elif self.action in ["retrieve", "list", "series_list"]:
+        if self.action in ["retrieve", "list", "issue_list"]:
             permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: CharacterSerializer) -> None:
@@ -180,10 +181,11 @@ class CreatorViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         permission_classes = []
-        if self.action in ["create", "update", "partial_update", "delete"]:
-            permission_classes = [IsAdminUser]
-        elif self.action in ["retrieve", "list", "series_list"]:
+        if self.action in ["retrieve", "list"]:
             permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsAdminUser]
+
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: CreatorSerializer) -> None:
@@ -268,10 +270,10 @@ class IssueViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         permission_classes = []
-        if self.action in ["create", "update", "partial_update", "delete"]:
-            permission_classes = [IsAdminUser]
-        elif self.action in ["retrieve", "list", "series_list"]:
+        if self.action in ["retrieve", "list"]:
             permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: IssueSerializer) -> None:
@@ -313,10 +315,10 @@ class PublisherViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         permission_classes = []
-        if self.action in ["create", "update", "partial_update", "delete"]:
-            permission_classes = [IsAdminUser]
-        elif self.action in ["retrieve", "list", "series_list"]:
+        if self.action in ["retrieve", "list", "series_list"]:
             permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: PublisherSerializer) -> None:
@@ -388,10 +390,10 @@ class SeriesViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         permission_classes = []
-        if self.action in ["create", "update", "partial_update", "delete"]:
-            permission_classes = [IsAdminUser]
-        elif self.action in ["retrieve", "list", "series_list"]:
+        if self.action in ["retrieve", "list", "issue_list"]:
             permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: SeriesSerializer) -> None:
@@ -454,10 +456,10 @@ class TeamViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         permission_classes = []
-        if self.action in ["create", "update", "partial_update", "delete"]:
-            permission_classes = [IsAdminUser]
-        elif self.action in ["retrieve", "list", "series_list"]:
+        if self.action in ["retrieve", "list", "issue_list"]:
             permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsAdminUser]
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: TeamSerializer) -> None:
