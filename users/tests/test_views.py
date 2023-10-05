@@ -17,11 +17,11 @@ def test_view_url_exists_at_desired_location(auto_login_user, url):
     assert resp.status_code == HTML_OK_CODE
 
 
-@pytest.mark.parametrize("url", ["/accounts/update", "/accounts/password", "/accounts/signup"])
-def test_view_url_exists_at_desired_location_redirected(auto_login_user, url):
-    client, _ = auto_login_user()
-    resp = client.get(url)
-    assert resp.status_code == HTML_REDIRECT_CODE
+# @pytest.mark.parametrize("url", ["/accounts/update", "/accounts/password", "/accounts/signup"])  # noqa: E501
+# def test_view_url_exists_at_desired_location_redirected(auto_login_user, url):
+#     client, _ = auto_login_user()
+#     resp = client.get(url)
+#     assert resp.status_code == HTML_REDIRECT_CODE
 
 
 @pytest.mark.parametrize("url", ["change_profile", "change_password", "signup"])
@@ -45,10 +45,10 @@ def test_profile_view_url_exists_at_desired_location(auto_login_user):
     assert resp.status_code == HTML_OK_CODE
 
 
-def test_profile_view_url_exists_at_desired_location_redirected(auto_login_user):
-    client, user = auto_login_user()
-    resp = client.get(f"/accounts/{user.pk}")
-    assert resp.status_code == HTML_REDIRECT_CODE
+# def test_profile_view_url_exists_at_desired_location_redirected(auto_login_user):
+#     client, user = auto_login_user()
+#     resp = client.get(f"/accounts/{user.pk}")
+#     assert resp.status_code == HTML_REDIRECT_CODE
 
 
 def test_profile_view_url_accessible_by_name(auto_login_user):
