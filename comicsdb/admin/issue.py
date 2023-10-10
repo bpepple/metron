@@ -52,9 +52,11 @@ class CreatedOnDateListFilter(admin.SimpleListFilter):
 
         match self.value():
             case "today":
-                return queryset.filter(created_on=today)
+                return queryset.filter(created_on__date=today)
             case "yesterday":
-                return queryset.filter(created_on=date(today.year, today.month, today.day - 1))
+                return queryset.filter(
+                    created_on__date=date(today.year, today.month, today.day - 1)
+                )
             case "7day":
                 return queryset.filter(
                     created_on__date__gte=date(today.year, today.month, today.day - 7)
