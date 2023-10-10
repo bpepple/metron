@@ -1,4 +1,4 @@
-import datetime
+from datetime import date
 from typing import Any
 
 from django.contrib import admin, messages
@@ -21,15 +21,52 @@ class FutureStoreDateListFilter(admin.SimpleListFilter):
         return (("thisWeek", "This week"), ("nextWeek", "Next week"))
 
     def queryset(self, request: Any, queryset: QuerySet) -> QuerySet | None:
-        today = datetime.date.today()
+        today = date.today()
         year, week, _ = today.isocalendar()
 
-        if self.value() == "thisWeek":
-            return queryset.filter(store_date__week=week, store_date__year=year)
+        match self.value():
+            case "thisWeek":
+                return queryset.filter(store_date__week=week, store_date__year=year)
+            case "nextWeek":
+                return queryset.filter(store_date__week=week + 1, store_date__year=year)
+            case _:
+                return None
 
-        if self.value() == "nextWeek":
-            return queryset.filter(store_date__week=week + 1, store_date__year=year)
-        return None
+
+class CreatedOnDateListFilter(admin.SimpleListFilter):
+    title = "created on"
+
+    parameter_name = "created_on"
+
+    def lookups(self, request: Any, model_admin: Any) -> list[tuple[Any, str]]:
+        return (
+            ("today", "Today"),
+            ("yesterday", "Yesterday"),
+            ("7day", "Past 7 days"),
+            ("thisMonth", "This month"),
+            ("thisYear", "This year"),
+        )
+
+    def queryset(self, request: Any, queryset: QuerySet[Any]) -> QuerySet[Any] | None:
+        today = date.today()
+
+        match self.value():
+            case "today":
+                return queryset.filter(created_on=today)
+            case "yesterday":
+                return queryset.filter(created_on=date(today.year, today.month, today.day - 1))
+            case "7day":
+                return queryset.filter(
+                    created_on__date__gte=date(today.year, today.month, today.day - 7)
+                )
+            case "thisMonth":
+                return queryset.filter(
+                    created_on__year=today.year, created_on__month=today.month
+                )
+            case "thisYear":
+                return queryset.filter(created_on__year=today.year)
+            case _:
+                return None
 
 
 class CreditsInline(admin.TabularInline):
@@ -46,10 +83,10 @@ class VariantInline(admin.TabularInline):
 @admin.register(Issue)
 class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
     search_fields = ("series__name", "number")
-    list_display = ("__str__", "cover_date", "store_date")
+    list_display = ("__str__", "cover_date", "store_date", "created_on")
     list_filter = (
         FutureStoreDateListFilter,
-        "created_on",
+        CreatedOnDateListFilter,
         "modified",
         "store_date",
         "cover_date",
