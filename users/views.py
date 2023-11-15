@@ -44,6 +44,12 @@ def activate(request, uidb64, token):
     # Send pushover notification tha user activated account
     send_pushover(f"{user} activated their account on Metron.")
     logger.info("%s activated their account on Metron", user)
+    # Add a message asking the user to star the repository.
+    msg = (
+        "If you have a GitHub account, the project would appreciate it if you could <strong>star</strong> the "
+        "<a href='https://github.com/bpepple/metron'>Metron</a> repository. Thanks!"
+    )
+    messages.success(request, msg)
 
     return redirect("home")
 

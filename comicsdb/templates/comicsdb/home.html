@@ -13,6 +13,16 @@
 {% block title %}Metron{% endblock %}
 
 {% block content %}
+<!-- messages -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="notification is-{{ message.tags }}">
+      <button class="delete"></button>
+      {{ message|safe }}
+    </div>
+  {% endfor %}
+{% endif %}
+<!-- end messages -->
 <!-- header-->
 <header class="block has-text-centered">
   <h1 class="title">Metron</h1>
