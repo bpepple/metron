@@ -439,6 +439,8 @@ User-agent: Image Fetch
 Disallow:/
 User-agent: Image Sucker
 Disallow:/
+User-agent: ImagesiftBot
+Disallow:/
 User-agent: IndeedBot
 Disallow:/
 User-agent: Indy Library
