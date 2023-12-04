@@ -54,7 +54,7 @@ class Command(BaseCommand):
                 )
 
     def add_arguments(self, parser: CommandParser) -> None:
-        parser.add_argument("slug", nargs="+", type=str)
+        parser.add_argument("--series", type=int, required=True, help="Series ID")
         parser.add_argument(
             "--delete-desc", action="store_true", help="Delete issue descriptions for series."
         )
@@ -67,7 +67,7 @@ class Command(BaseCommand):
         if not options["delete_desc"] and not options["fix_credits"]:
             self.stdout.write(self.style.WARNING("No action options given. Exiting..."))
             return
-        series = Series.objects.get(slug=options["slug"][0])
+        series = Series.objects.get(id=options["series"])
         if options["fix_credits"]:
             self._fix_credits(series)
 
