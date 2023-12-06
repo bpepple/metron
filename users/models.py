@@ -33,7 +33,7 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser):
-    email_confirmed = models.BooleanField(default=False)
+    email_confirmed = models.BooleanField(db_default=False)
     bio = models.TextField(blank=True)
     image = ImageField(upload_to="user/", blank=True)
 

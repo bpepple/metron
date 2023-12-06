@@ -1,6 +1,7 @@
 import itertools
 
 from django.db import models
+from django.db.models.functions import Now
 from django.utils.text import slugify
 
 
@@ -26,7 +27,7 @@ class CommonInfo(models.Model):
     desc = models.TextField("Description", blank=True)
     cv_id = models.PositiveIntegerField("Comic Vine ID", null=True, blank=True)
     modified = models.DateTimeField(auto_now=True)
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField(db_default=Now())
 
     class Meta:
         abstract = True
