@@ -48,7 +48,8 @@ def activate(request, uidb64, token):
     msg = (
         "If you are planning on adding new information to the database, please refer to the "
         "<strong>Editing Guidelines</strong>.<br/><br/>"
-        "If you have a GitHub account, the project would appreciate it if you could <strong>star</strong> the "
+        "If you have a GitHub account, the project would appreciate it if you could "
+        "<strong>star</strong> the "
         "<a href='https://github.com/bpepple/metron'>Metron</a> repository. Thanks!"
     )
     messages.success(request, msg)
