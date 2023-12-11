@@ -1,13 +1,8 @@
 from dal import autocomplete
 from django.forms import (
     ClearableFileInput,
-    DateInput,
     ModelChoiceField,
     ModelForm,
-    NumberInput,
-    Select,
-    Textarea,
-    TextInput,
     ValidationError,
 )
 from django_select2 import forms as s2forms
