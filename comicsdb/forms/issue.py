@@ -69,26 +69,9 @@ class IssueForm(ModelForm):
             "image",
         )
         widgets = {
-            "series": Select(),
-            "name": TextInput(attrs={"class": "input"}),
-            "title": TextInput(attrs={"class": "input"}),
-            "number": TextInput(attrs={"class": "input"}),
             "arcs": ArcsWidget(attrs={"class": "input"}),
             "characters": CharactersWidget(attrs={"class": "input"}),
             "teams": TeamsWidget(attrs={"class": "input"}),
-            "cover_date": DateInput(
-                attrs={"class": "input", "type": "date"},
-            ),
-            "store_date": DateInput(
-                attrs={"class": "input", "type": "date"},
-            ),
-            "price": NumberInput(attrs={"class": "input"}),
-            "isbn": TextInput(attrs={"class": "input"}),
-            "sku": TextInput(attrs={"class": "input"}),
-            "upc": TextInput(attrs={"class": "input"}),
-            "page": TextInput(attrs={"class": "input"}),
-            "cv_id": TextInput(attrs={"class": "input"}),
-            "desc": Textarea(attrs={"class": "textarea"}),
             "reprints": IssuesWidget(attrs={"class": "input"}),
             "image": ClearableFileInput(),
         }

@@ -80,3 +80,33 @@ def bulma_message_tag(tag):
     return {
         'error': 'danger'
     }.get(tag, tag)
+
+
+@register.filter
+def set_input_type(field, field_type=None):
+    """
+    changes the type by the widget, where django puts text-input by default instead of time/date/...
+    but you can also pass your own field type if you want
+    """
+    if field_type:
+        pass
+    elif isinstance(field.field.widget, forms.DateInput):
+        field_type = 'date'
+    elif isinstance(field.field.widget, forms.TimeInput):
+        field_type = 'time'
+    elif isinstance(field.field.widget, forms.SplitDateTimeWidget):
+        for subfield in field.field.widget.widgets:
+            if isinstance(subfield, forms.DateInput):
+                subfield.input_type = 'date'
+            elif isinstance(subfield, forms.TimeInput):
+                subfield.input_type = 'time'
+    elif isinstance(field.field.widget, forms.DateTimeInput):
+        # field_type = 'datetime-local'  # can't work with passing/returning ISO format
+        # field_type = 'datetime'  # is deprecated, doesn't work in many browsers
+        # use widget=forms.SplitDateTimeWidget() instead
+        pass
+
+    if field_type:
+        field.field.widget.input_type = field_type
+
+    return field

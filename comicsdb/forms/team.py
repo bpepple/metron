@@ -1,4 +1,4 @@
-from django.forms import ClearableFileInput, ModelForm, Textarea, TextInput
+from django.forms import ClearableFileInput, ModelForm
 from django_select2 import forms as s2forms
 
 from comicsdb.forms.creator import CreatorsWidget
@@ -14,9 +14,6 @@ class TeamForm(ModelForm):
         model = Team
         fields = ("name", "desc", "creators", "cv_id", "image")
         widgets = {
-            "name": TextInput(attrs={"class": "input"}),
-            "desc": Textarea(attrs={"class": "textarea"}),
             "creators": CreatorsWidget(attrs={"class": "input"}),
-            "cv_id": TextInput(attrs={"class": "input"}),
             "image": ClearableFileInput(),
         }
