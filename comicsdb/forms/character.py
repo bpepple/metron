@@ -1,4 +1,4 @@
-from django.forms import ClearableFileInput, ModelForm, Textarea, TextInput
+from django.forms import ClearableFileInput, ModelForm
 
 from comicsdb.forms.creator import CreatorsWidget
 from comicsdb.forms.team import TeamsWidget
@@ -18,12 +18,8 @@ class CharacterForm(ModelForm):
             "image",
         )
         widgets = {
-            "name": TextInput(attrs={"class": "input"}),
-            "desc": Textarea(attrs={"class": "textarea"}),
-            "alias": TextInput(attrs={"class": "input"}),
             "creators": CreatorsWidget(attrs={"class": "input"}),
             "teams": TeamsWidget(attrs={"class": "input"}),
-            "cv_id": TextInput(attrs={"class": "input"}),
             "image": ClearableFileInput(),
         }
         help_texts = {
