@@ -90,15 +90,15 @@
                   class="select{% if field|is_multiple %} is-multiple{% endif %}{% if field.errors|length > 0 %} is-danger{% endif %} is-fullwidth">
                   {{ field }}
                 </span>
+                {% for error in field.errors %}
+                  <span class="help is-danger {{ form.error_css_class }}">{{ error }}</span>
+                {% endfor %}
+                {% if field.help_text %}
+                  <p class="help">
+                    {{ field.help_text|safe }}
+                  </p>
+                {% endif %}
               </div>
-              {% for error in field.errors %}
-                <span class="help is-danger {{ form.error_css_class }}">{{ error }}</span>
-              {% endfor %}
-              {% if field.help_text %}
-                <p class="help">
-                  {{ field.help_text|safe }}
-                </p>
-              {% endif %}
             </div>
           </div>
         {% elif field|is_field_type:"textarea" %}
