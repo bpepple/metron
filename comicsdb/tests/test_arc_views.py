@@ -121,9 +121,8 @@ def test_create_arc_view(auto_login_user):
     client, _ = auto_login_user()
     resp = client.get(reverse("arc:create"))
     assert (
-        '<input type="text" name="comicsdb-attribution-content_type-object_id-0-url" '
-        'class="input" maxlength="200" '
-        'id="id_comicsdb-attribution-content_type-object_id-0-url">' in str(resp.content)
+        '<input type="url" name="comicsdb-attribution-content_type-object_id-0-url" maxlength="200" '
+        'class="input is-fullwidth" id="id_comicsdb-attribution-content_type-object_id-0-url">' in str(resp.content)
     )
     assert resp.status_code == HTML_OK_CODE
     assertTemplateUsed(resp, "comicsdb/model_with_attribution_form.html")
