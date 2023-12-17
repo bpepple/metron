@@ -91,16 +91,15 @@
                   {{ field }}
                 </span>
               </div>
+              {% for error in field.errors %}
+                <span class="help is-danger {{ form.error_css_class }}">{{ error }}</span>
+              {% endfor %}
+              {% if field.help_text %}
+                <p class="help">
+                  {{ field.help_text|safe }}
+                </p>
+              {% endif %}
             </div>
-          </div>
-          {% for error in field.errors %}
-            <span class="help is-danger {{ form.error_css_class }}">{{ error }}</span>
-          {% endfor %}
-          {% if field.help_text %}
-            <p class="help">
-              {{ field.help_text|safe }}
-            </p>
-          {% endif %}
           </div>
         {% elif field|is_field_type:"textarea" %}
           <label class="label{% if field.field.required %} {{ form.required_css_class }}{% endif %}"
