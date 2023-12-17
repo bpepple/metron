@@ -32,6 +32,11 @@ class Series(CommonInfo):
     year_end = models.PositiveSmallIntegerField("Year Ended", null=True, blank=True)
     series_type = models.ForeignKey(SeriesType, on_delete=models.CASCADE)
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+    collection = models.BooleanField(
+        "Allow Collection Title",
+        db_default=False,
+        help_text="Whether a series has a collection title. Normally this only applies to Trade Paperbacks.",
+    )
     genres = models.ManyToManyField(Genre, blank=True)
     associated = models.ManyToManyField("self", blank=True)
     attribution = GenericRelation(Attribution, related_query_name="series")

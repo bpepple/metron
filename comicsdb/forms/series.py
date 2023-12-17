@@ -22,6 +22,7 @@ class SeriesForm(ModelForm):
             "year_began",
             "year_end",
             "series_type",
+            "collection",
             "publisher",
             "cv_id",
             "desc",
@@ -41,8 +42,12 @@ class SeriesForm(ModelForm):
                 "an annual with it's primary series."
             ),
             "genres": "Hold down “Control”, or “Command” on a Mac, to select more than one.",
+            "collection": (
+                "Whether a series has a collection title. Normally this only applies to Trade Paperbacks. "
+                "For example, the 2015 Deathstroke Trade Paperback which has a collection title of 'Gods of War'."
+            ),
         }
-        labels = {"associated": "Associated Series"}
+        labels = {"associated": "Associated Series", "collection": "Allow collection title?"}
 
     field_order = [
         "name",
@@ -51,6 +56,7 @@ class SeriesForm(ModelForm):
         "year_began",
         "year_end",
         "series_type",
+        "collection",
         "publisher",
         "cv_id",
         "desc",
