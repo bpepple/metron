@@ -95,7 +95,7 @@ class IssueForm(ModelForm):
             series: Series = self.cleaned_data["series"]
             if collection_title and not series.collection:
                 raise ValidationError("Collection Title field is not allowed for this series..")
-            return collection_title
+        return collection_title
 
     def clean_arcs(self):
         arcs = self.cleaned_data["arcs"]
@@ -103,4 +103,4 @@ class IssueForm(ModelForm):
             series: Series = self.cleaned_data["series"]
             if series.series_type.id in self.collections and arcs:
                 raise ValidationError("Arcs cannot be added to Trade Paperbacks.")
-            return arcs
+        return arcs
