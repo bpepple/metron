@@ -3,6 +3,7 @@ import operator
 from functools import reduce
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models import Count, Prefetch, Q
@@ -108,14 +109,18 @@ class SearchCharacterList(CharacterList):
     def get_queryset(self):
         result = super().get_queryset()
         if query := self.request.GET.get("q"):
-            query_list = query.split()
-            result = result.filter(
-                reduce(
-                    operator.and_,
-                    (Q(name__icontains=q) | Q(alias__icontains=q) for q in query_list),
-                )
+            # Give 'name' a higher weight in the search results.
+            search_vector = SearchVector("name", weight="A") + SearchVector(
+                "alias", weight="B"
             )
-
+            search_query = SearchQuery(query)
+            return (
+                result.annotate(
+                    rank=SearchRank(search_vector, search_query)
+                )
+                .filter(rank__gte=0.1)
+                .order_by("-rank")
+            )
         return result
 
 
