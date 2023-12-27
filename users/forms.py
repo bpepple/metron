@@ -34,6 +34,14 @@ temp_email = [
     "oniecan.com",
     "kaudat.com",
     "tcwlm.com",
+    "usoplay.com",
+    "cwmxc.com",
+    "cazlv.com",
+    "ourbillion.net",
+    "lifebeyondservice.com",
+    "inkmoto.com",
+    "vasteron.com",
+    "haizail.com",
 ]
 
 # E-Mail providers that block e-mail we send.
