@@ -1,3 +1,4 @@
+import logging
 from typing import Any
 
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
@@ -5,6 +6,8 @@ from django.core.exceptions import ValidationError
 from django.forms import ClearableFileInput, EmailField, EmailInput, Textarea, TextInput
 
 from users.models import CustomUser
+
+LOGGER = logging.getLogger(__name__)
 
 # Common temporary email addresses.
 temp_email = {
@@ -1301,14 +1304,18 @@ class CustomUserCreationForm(UserCreationForm):
         if len(split_email) != 2:
             domain = split_email[1]
         else:
+            LOGGER.error(f"'{email}' fails the split() function.")
             raise ValidationError("Invalid email address")
         if domain in temp_email:
+            LOGGER.error(f"'{email}' is a temporary email address.")
             raise ValidationError("Temporary email addresses are not allowed.")
         if domain in bad_email:
+            LOGGER.error(f"'{email}' from a outlook.com")
             raise ValidationError(
                 f"E-Mail address from '{domain}' not allowed, since they block our verification email."
             )
         if CustomUser.objects.filter(email=email).exists():
+            LOGGER.error(f"'{email}' already exists")
             raise ValidationError("Email already exists")
         return super().clean()
 
