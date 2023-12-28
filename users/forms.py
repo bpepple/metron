@@ -1302,10 +1302,9 @@ class CustomUserCreationForm(UserCreationForm):
         email: str = self.cleaned_data.get("email")
         split_email = email.split("@")
         if len(split_email) != 2:
-            domain = split_email[1]
-        else:
             LOGGER.error(f"'{email}' fails the split() function.")
             raise ValidationError("Invalid email address")
+        domain = split_email[1]
         if domain in temp_email:
             LOGGER.error(f"'{email}' is a temporary email address.")
             raise ValidationError("Temporary email addresses are not allowed.")
