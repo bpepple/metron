@@ -279,6 +279,8 @@ BULMA_SETTINGS = {
 }
 
 HCAPTCHA_SECRET_KEY = config("HCAPTCHA_SECRET_KEY")
+RAPID_API_KEY = config("RAPID_API_KEY")
+RAPID_API_HOST = config("RAPID_API_HOST")
 
 if not DEBUG:
     # Production Security
