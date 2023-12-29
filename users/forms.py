@@ -28,13 +28,13 @@ class CustomUserCreationForm(UserCreationForm):
             raise ValidationError("Error creating account. Contact the site administrator.")
         if resp["block"] is True:
             if resp["disposable"] is True:
-                LOGGER.error(f"'{email}' is a temporary email address.")
+                LOGGER.warning(f"'{email}' is a temporary email address.")
                 raise ValidationError("Temporary email addresses are not allowed.")
-            LOGGER.error(f"'{email}'is not a valid email address.")
+            LOGGER.warning(f"'{email}'is not a valid email address.")
             raise ValidationError("Email address is ")
 
         if CustomUser.objects.filter(email=email).exists():
-            LOGGER.error(f"'{email}' already exists")
+            LOGGER.warning(f"'{email}' already exists")
             raise ValidationError("Email already exists")
         return super().clean()
 

@@ -12,6 +12,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 def check_email_domain(email: str):
+    result = None
     try:
         conn = http.client.HTTPSConnection("mailcheck.p.rapidapi.com")
 
@@ -28,14 +29,11 @@ def check_email_domain(email: str):
                 data = res.read()
                 result = json.loads(data.decode("utf-8"))
             case _:
-                LOGGER.warning(f"Bad response from RapidAPI: {res.status} {res.reason}")
-                result = None
+                LOGGER.error(f"Bad response from RapidAPI: {res.status} {res.reason}")
     except http.client.HTTPException as e:
         LOGGER.error(f"HTTP error: {e}")
-        result = None
     except Exception as e:  # NOQA: BLE001
         LOGGER.error(f"An error occurred: {e}")
-        result = None
     finally:
         conn.close()
 
