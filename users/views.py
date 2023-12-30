@@ -2,10 +2,12 @@ import logging
 
 from django.contrib import messages
 from django.contrib.auth import login, update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.views.generic import DetailView
@@ -86,21 +88,13 @@ def signup(request):  # sourcery skip: extract-method
             return redirect("account_activation_sent")
     else:
         form = CustomUserCreationForm()
-    return render(request, "signup.html", {"form": form})
+    return render(request, "registration/signup.html", {"form": form})
 
 
-def change_password(request):
-    if request.method == "POST":
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # Important!
-            messages.success(request, "Your password was successfully updated!")
-            return redirect("change_password")
-        messages.error(request, "Please correct the error below.")
-    else:
-        form = PasswordChangeForm(request.user)
-    return render(request, "change_password.html", {"form": form})
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = "users/change_password.html"
+    success_message = "Successfully Changed Your Password"
+    success_url = reverse_lazy("home")
 
 
 def change_profile(request):
@@ -114,7 +108,7 @@ def change_profile(request):
         messages.error(request, "Please correct the error below.")
     else:
         form = CustomUserChangeForm(instance=request.user)
-    return render(request, "change_profile.html", {"form": form})
+    return render(request, "users/change_profile.html", {"form": form})
 
 
 class UserProfile(DetailView):

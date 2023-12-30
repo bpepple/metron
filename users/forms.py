@@ -3,7 +3,7 @@ from typing import Any
 
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.core.exceptions import ValidationError
-from django.forms import ClearableFileInput, EmailField, EmailInput, Textarea, TextInput
+from django.forms import ClearableFileInput, EmailField, EmailInput
 
 from users.models import CustomUser
 from users.utils import check_email_domain
@@ -31,7 +31,7 @@ class CustomUserCreationForm(UserCreationForm):
                 LOGGER.warning(f"'{email}' is a temporary email address.")
                 raise ValidationError("Temporary email addresses are not allowed.")
             LOGGER.warning(f"'{email}'is not a valid email address.")
-            raise ValidationError("Email address is ")
+            raise ValidationError("Email address is not valid.")
 
         if CustomUser.objects.filter(email=email).exists():
             LOGGER.warning(f"'{email}' already exists")
@@ -56,9 +56,5 @@ class CustomUserChangeForm(UserChangeForm):
         model = CustomUser
         fields = ("username", "first_name", "last_name", "email", "bio", "image")
         widgets = {
-            "username": TextInput(attrs={"class": "input"}),
-            "first_name": TextInput(attrs={"class": "input"}),
-            "last_name": TextInput(attrs={"class": "input"}),
-            "bio": Textarea(attrs={"class": "textarea"}),
             "image": ClearableFileInput(),
         }

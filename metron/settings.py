@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_spectacular",
     "django_filters",
-    "widget_tweaks",
     "django_select2",
     "sorl.thumbnail",
     "django_simple_bulma",
@@ -90,7 +89,11 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-            ]
+            ],
+            # Bulma templatetags for project.
+            "libraries": {
+                "bulma_tags": "templatetags.bulma_tags",
+            },
         },
     }
 ]
