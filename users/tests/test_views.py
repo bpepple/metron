@@ -31,12 +31,20 @@ def test_view_url_accessible_by_name(auto_login_user, url):
     assert resp.status_code == HTML_OK_CODE
 
 
-@pytest.mark.parametrize("url", ["change_profile", "change_password", "signup"])
+@pytest.mark.parametrize("url", ["change_profile", "change_password"])
 def test_view_uses_correct_template(auto_login_user, url):
     client, _ = auto_login_user()
     resp = client.get(reverse(url))
     assert resp.status_code == HTML_OK_CODE
-    assertTemplateUsed(resp, f"{url}.html")
+    assertTemplateUsed(resp, f"users/{url}.html")
+
+
+@pytest.mark.parametrize("url", ["signup"])
+def test_signup_view_uses_correct_template(auto_login_user, url):
+    client, _ = auto_login_user()
+    resp = client.get(reverse(url))
+    assert resp.status_code == HTML_OK_CODE
+    assertTemplateUsed(resp, f"registration/{url}.html")
 
 
 def test_profile_view_url_exists_at_desired_location(auto_login_user):

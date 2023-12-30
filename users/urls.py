@@ -14,7 +14,7 @@ urlpatterns = [
         views.activate,
         name="activate",
     ),
-    path("password/", views.change_password, name="change_password"),
+    path("password/", views.ChangePasswordView.as_view(), name="change_password"),
     path("update/", views.change_profile, name="change_profile"),
     path("<int:pk>/", views.UserProfile.as_view(), name="user-detail"),
 ]
