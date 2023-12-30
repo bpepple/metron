@@ -90,7 +90,11 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-            ]
+            ],
+            # Bulma templatetags for project.
+            "libraries": {
+                "bulma_tags": "templatetags.bulma_tags",
+            },
         },
     }
 ]
