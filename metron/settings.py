@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_spectacular",
     "django_filters",
-    "widget_tweaks",
     "django_select2",
     "sorl.thumbnail",
     "django_simple_bulma",
