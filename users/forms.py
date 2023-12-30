@@ -31,7 +31,7 @@ class CustomUserCreationForm(UserCreationForm):
                 LOGGER.warning(f"'{email}' is a temporary email address.")
                 raise ValidationError("Temporary email addresses are not allowed.")
             LOGGER.warning(f"'{email}'is not a valid email address.")
-            raise ValidationError("Email address is ")
+            raise ValidationError("Email address is not valid.")
 
         if CustomUser.objects.filter(email=email).exists():
             LOGGER.warning(f"'{email}' already exists")
