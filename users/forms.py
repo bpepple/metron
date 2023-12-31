@@ -23,19 +23,24 @@ class CustomUserCreationForm(UserCreationForm):
 
     def clean(self) -> dict[str, Any]:
         email: str = self.cleaned_data.get("email")
-        resp = check_email_domain(email)
-        if resp is None:
-            raise ValidationError("Error creating account. Contact the site administrator.")
-        if resp["block"] is True:
-            if resp["disposable"] is True:
-                LOGGER.warning(f"'{email}' is a temporary email address.")
-                raise ValidationError("Temporary email addresses are not allowed.")
-            LOGGER.warning(f"'{email}'is not a valid email address.")
-            raise ValidationError("Email address is not valid.")
-
         if CustomUser.objects.filter(email=email).exists():
             LOGGER.warning(f"'{email}' already exists")
             raise ValidationError("Email already exists")
+
+        whitelist = {"gmail.com", "yahoo.com", "proton.me"}
+        _, domain = email.split("@")
+        if domain not in whitelist:
+            resp = check_email_domain(email)
+            if resp is None:
+                raise ValidationError(
+                    "Error creating account. Contact the site administrator."
+                )
+            if resp["block"] is True:
+                if resp["disposable"] is True:
+                    LOGGER.warning(f"'{email}' is a temporary email address.")
+                    raise ValidationError("Temporary email addresses are not allowed.")
+                LOGGER.warning(f"'{email}'is not a valid email address.")
+                raise ValidationError("Email address is not valid.")
         return super().clean()
 
     class Meta(UserCreationForm):
