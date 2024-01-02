@@ -23,12 +23,21 @@ class CustomUserCreationForm(UserCreationForm):
 
     def clean(self) -> dict[str, Any]:
         email: str = self.cleaned_data.get("email")
+        if email is None:
+            LOGGER.error("User didn't add an email address")
+            raise ValidationError("Email address is not valid.")
+
         if CustomUser.objects.filter(email=email).exists():
             LOGGER.warning(f"'{email}' already exists")
             raise ValidationError("Email already exists")
 
         whitelist = {"gmail.com", "yahoo.com", "proton.me"}
-        _, domain = email.split("@")
+        try:
+            _, domain = email.split("@")
+        except ValueError as exc:
+            LOGGER.warning(f"Email: {email} | Error: {exc}")
+            raise ValidationError("Email address is not valid.") from exc
+
         if domain not in whitelist:
             resp = check_email_domain(email)
             if resp is None:
