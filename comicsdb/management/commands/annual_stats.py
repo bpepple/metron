@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandParser
 
-from comicsdb.models import Character, Creator, Issue
+from comicsdb.models import Arc, Character, Creator, Issue, Publisher, Series, Team
 from users.models import CustomUser
 
 
@@ -12,14 +12,26 @@ class Command(BaseCommand):
         return super().add_arguments(parser)
 
     def handle(self, *args: any, **options: any) -> None:
-        year_comics = Issue.objects.filter(created_on__year=options["year"]).count()
-        year_users = CustomUser.objects.filter(date_joined__year=options["year"]).count()
-        year_characters = Character.objects.filter(created_on__year=options["year"]).count()
-        year_creators = Creator.objects.filter(created_on__year=options["year"]).count()
+        users = CustomUser.objects.filter(date_joined__year=options["year"]).count()
+        comics = Issue.objects.filter(created_on__year=options["year"]).count()
+        characters = Character.objects.filter(created_on__year=options["year"]).count()
+        creators = Creator.objects.filter(created_on__year=options["year"]).count()
+        teams = Team.objects.filter(created_on__year=options["year"]).count()
+        arcs = Arc.objects.filter(created_on__year=options["year"]).count()
+        publishers = Publisher.objects.filter(created_on__year=options["year"]).count()
+        series = Series.objects.filter(created_on__year=options["year"]).count()
 
-        title = f"{options['year']} Statistics"
-        print(f"{title}\n{len(title) * '-'}")
-        print(
-            f"New Comics: {year_comics}\nNew Users: {year_users}\n"
-            f"New Characters: {year_characters}\nNew Creators: {year_creators}"
+        title = f"{options['year']} New Additions Statistics"
+        self.stdout.write(self.style.SUCCESS(f"{title}\n{len(title) * '-'}"))
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"Users: {users:,}\n"
+                f"Publishers: {publishers:,}\n"
+                f"Series: {series:,}\n"
+                f"Comics: {comics:,}\n"
+                f"Characters: {characters:,}\n"
+                f"Creators: {creators:,}\n"
+                f"Teams: {teams:,}\n"
+                f"Arcs: {arcs:,}\n"
+            )
         )
