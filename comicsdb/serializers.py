@@ -173,11 +173,9 @@ class CharacterSerializer(serializers.ModelSerializer):
             validated_data["image"] = validated_data["image"].seek(0)
         character = Character.objects.create(**validated_data)
         if creators_data:
-            for creator in creators_data:
-                character.creators.add(creator)
+            character.creators.add(*creators_data)
         if teams_data:
-            for team in teams_data:
-                character.teams.add(team)
+            character.teams.add(*teams_data)
         return character
 
     def update(self, instance: Character, validated_data):
@@ -190,11 +188,9 @@ class CharacterSerializer(serializers.ModelSerializer):
         instance.alias = validated_data.get("alias", instance.alias)
         instance.cv_id = validated_data.get("cv_id", instance.cv_id)
         if creators_data := validated_data.get("creators", None):
-            for creator in creators_data:
-                instance.creators.add(creator)
+            instance.creators.add(*creators_data)
         if teams_data := validated_data.get("teams", None):
-            for team in teams_data:
-                instance.teams.add(team)
+            instance.teams.add(*teams_data)
         instance.save()
         return instance
 
@@ -269,8 +265,8 @@ class CreditSerializer(serializers.ModelSerializer):
         """
         roles_data = validated_data.pop("role", None)
         credit = Credits.objects.create(**validated_data)
-        for role in roles_data:
-            credit.role.add(role)
+        if roles_data:
+            credit.role.add(*roles_data)
         return credit
 
     def update(self, instance: Credits, validated_data):
@@ -280,8 +276,7 @@ class CreditSerializer(serializers.ModelSerializer):
         instance.issue = validated_data.get("issue", instance.issue)
         instance.creator = validated_data.get("creator", instance.creator)
         if roles_data := validated_data.pop("role", None):
-            for role in roles_data:
-                instance.role.add(role)
+            instance.role.add(*roles_data)
         instance.save()
         return instance
 
@@ -326,17 +321,13 @@ class IssueSerializer(serializers.ModelSerializer):
             validated_data["image"] = validated_data["image"].seek(0)
         issue: Issue = Issue.objects.create(**validated_data)
         if arcs_data:
-            for arc in arcs_data:
-                issue.arcs.add(arc)
+            issue.arcs.add(*arcs_data)
         if characters_data:
-            for character in characters_data:
-                issue.characters.add(character)
+            issue.characters.add(*characters_data)
         if teams_data:
-            for team in teams_data:
-                issue.teams.add(team)
+            issue.teams.add(*teams_data)
         if reprints_data:
-            for reprint in reprints_data:
-                issue.reprints.add(reprint)
+            issue.reprints.add(*reprints_data)
         return issue
 
     def update(self, instance: Issue, validated_data):
@@ -359,17 +350,13 @@ class IssueSerializer(serializers.ModelSerializer):
         instance.image = validated_data.get("image", instance.image)
         instance.cv_id = validated_data.get("cv_id", instance.cv_id)
         if arcs_data := validated_data.pop("arcs", None):
-            for arc in arcs_data:
-                instance.arcs.add(arc)
+            instance.arcs.add(*arcs_data)
         if characters_data := validated_data.pop("characters", None):
-            for character in characters_data:
-                instance.characters.add(character)
+            instance.characters.add(*characters_data)
         if teams_data := validated_data.pop("teams", None):
-            for team in teams_data:
-                instance.teams.add(team)
+            instance.teams.add(*teams_data)
         if reprints_data := validated_data.pop("reprints", None):
-            for reprint in reprints_data:
-                instance.reprints.add(reprint)
+            instance.reprints.add(*reprints_data)
         instance.save()
         return instance
 
@@ -519,12 +506,9 @@ class SeriesSerializer(serializers.ModelSerializer):
         assoc_data = validated_data.pop("associated", None)
         series = Series.objects.create(**validated_data)
         if genres_data:
-            for g in genres_data:
-                series.genres.add(g)
+            series.genres.add(*genres_data)
         if assoc_data:
-            for a in assoc_data:
-                series.associated.add(a)
-
+            series.associated.add(*assoc_data)
         return series
 
     def update(self, instance: Series, validated_data):
@@ -541,11 +525,9 @@ class SeriesSerializer(serializers.ModelSerializer):
         instance.publisher = validated_data.get("publisher", instance.publisher)
         instance.cv_id = validated_data.get("cv_id", instance.cv_id)
         if genres_data := validated_data.pop("genres", None):
-            for g in genres_data:
-                instance.genres.add(g)
+            instance.genres.add(*genres_data)
         if assoc_data := validated_data.pop("associated", None):
-            for a in assoc_data:
-                instance.associated.add(a)
+            instance.associated.add(*assoc_data)
         instance.save()
         return instance
 
@@ -593,9 +575,7 @@ class TeamSerializer(serializers.ModelSerializer):
             validated_data["image"] = validated_data["image"].seek(0)
         team = Team.objects.create(**validated_data)
         if creators_data:
-            for creator in creators_data:
-                team.creators.add(creator)
-
+            team.creators.add(*creators_data)
         return team
 
     def update(self, instance: Team, validated_data):
@@ -607,8 +587,7 @@ class TeamSerializer(serializers.ModelSerializer):
         instance.image = validated_data.get("image", instance.image)
         instance.cv_id = validated_data.get("cv_id", instance.cv_id)
         if creators_data := validated_data.pop("creators", None):
-            for creator in creators_data:
-                instance.creators.add(creator)
+            instance.creators.add(*creators_data)
         instance.save()
         return instance
 
