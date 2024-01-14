@@ -142,14 +142,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379",
+        "LOCATION": config("REDIS_URL"),
     },
     "select2": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379",
+        "LOCATION": config("REDIS_URL"),
     },
 }
-
 
 # Tell select2 which cache configuration to use:
 SELECT2_CACHE_BACKEND = "select2"
@@ -223,7 +222,6 @@ logging.config.dictConfig(
     }
 )
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -259,7 +257,6 @@ SPECTACULAR_SETTINGS = {
         "url": "https://creativecommons.org/licenses/by-sa/4.0/",
     },
 }
-
 
 STATICFILES_FINDERS = [
     # First add the two default Finders, since this will overwrite the default.
