@@ -130,43 +130,49 @@
   </div>
   <!-- end info-->
   <!-- recently edited issues -->
-  <div class="columns is-multiline">
-    {% for issue in recently_edited %}
-      <div class="column is-one-quarter">
-        <!-- issue card-->
-        <div class="card">
-          <!-- card header -->
-          <header class="card-header">
-            {% with issue.created_on|is_new as is_new %}
-              <p class="card-header-title is is-centered">
-                {{ issue }}{% if is_new %}&nbsp;<span class="tag is-primary is-rounded">New!</span>{% endif %}
-              </p>
-            {% endwith %}
-          </header>
-          <!-- end card header -->
-          <!-- card image -->
-          <div class="card-image">
-            <figure class="image is-2by3">
-              {% if issue.image %}
-                {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
-                  <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ issue }}">
-                {% endthumbnail %}
-              {% else %}
-                <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ issue }}">
-              {% endif %}
-            </figure>
+  <div class="box">
+    <header class="block">
+      <p class="title is-4">Recently Edited Issues</p>
+      <p class="subtitle is-7">Last updated at: {{ updated }}</p>
+    </header>
+    <div class="columns is-multiline">
+      {% for issue in recently_edited %}
+        <div class="column is-one-quarter">
+          <!-- issue card-->
+          <div class="card">
+            <!-- card header -->
+            <header class="card-header">
+              {% with issue.created_on|is_new as is_new %}
+                <p class="card-header-title is is-centered">
+                  {{ issue }}{% if is_new %}&nbsp;<span class="tag is-primary is-rounded">New!</span>{% endif %}
+                </p>
+              {% endwith %}
+            </header>
+            <!-- end card header -->
+            <!-- card image -->
+            <div class="card-image">
+              <figure class="image is-2by3">
+                {% if issue.image %}
+                  {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
+                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ issue }}">
+                  {% endthumbnail %}
+                {% else %}
+                  <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ issue }}">
+                {% endif %}
+              </figure>
+            </div>
+            <!-- end card image -->
+            <!-- card footer -->
+            <footer class="card-footer">
+              <p class="card-footer-item">{{ issue.cover_date|date:"M Y" }}</p>
+              <a href="{% url 'issue:detail' issue.slug %}" class="card-footer-item">Info</a>
+            </footer>
+            <!-- end card footer -->
           </div>
-          <!-- end card image -->
-          <!-- card footer -->
-          <footer class="card-footer">
-            <p class="card-footer-item">{{ issue.cover_date|date:"M Y" }}</p>
-            <a href="{% url 'issue:detail' issue.slug %}" class="card-footer-item">Info</a>
-          </footer>
-          <!-- end card footer -->
+          <!-- end issue card -->
         </div>
-        <!-- end issue card -->
-      </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
   </div>
   <!-- end recent issues -->
 {% endblock %}
