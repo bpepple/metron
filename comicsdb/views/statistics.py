@@ -1,7 +1,10 @@
+from datetime import datetime
+
 from chartkick.django import ColumnChart, PieChart
 from django.db.models import Count
 from django.db.models.functions import TruncDate, TruncMonth, TruncYear
 from django.shortcuts import render
+from django.views.decorators.cache import cache_page
 
 from comicsdb.models import Arc, Character, Creator, Issue, Publisher, Series, Team
 
@@ -86,8 +89,10 @@ def create_year_count_dict():
     return year_count_dict
 
 
+@cache_page(timeout=60 * 30)  # Cache for 30 minutes
 def statistics(request):
     # Resource totals
+    update_time = datetime.now()
     publishers_total = Publisher.objects.count()
     series_total = Series.objects.count()
     issues_total = Issue.objects.count()
@@ -137,5 +142,6 @@ def statistics(request):
             "creators_total": creators_total,
             "teams_total": teams_total,
             "arcs_total": arcs_total,
+            "update_time": update_time,
         },
     )

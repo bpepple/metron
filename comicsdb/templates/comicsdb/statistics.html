@@ -3,73 +3,74 @@
 {% load humanize %}
 
 {% block headscripts %}
-<script src="{% static 'chartkick/Chart.bundle.js' %}"></script>
-<script src="{% static 'chartkick/chartkick.js' %}"></script>
+  <script src="{% static 'chartkick/Chart.bundle.js' %}"></script>
+  <script src="{% static 'chartkick/chartkick.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-<!-- header -->
-<header class="block has-text-centered">
-  <h1 class="title">Metron Database Statistics</h1>
-</header>
-<!-- end header -->
-<!-- totals -->
-<div class="box">
+  <!-- header -->
   <header class="block has-text-centered">
-    <h2 class="subtitle">Totals</h2>
+    <h1 class="title">Metron Database Statistics</h1>
+    <h2 class="subtitle">Last Updated at: {{ update_time }}</h2>
   </header>
-  <ul>
-    <li class="tag is-size-6">
-      <span class="mr-1">Publisher{{ publishers_total|pluralize}}:</span>
-      <strong>{{ publishers_total|intcomma }}</strong>
-    </li>
-    <li class="tag is-size-6">
-      <span class="mr-1">Series:</span>
-      <strong>{{ series_total|intcomma }}</strong>
-    </li>
-    <li class="tag is-size-6">
-      <span class="mr-1">Issue{{ issues_total|pluralize }}:</span>
-      <strong>{{ issues_total|intcomma }}</strong>
-    </li>
-    <li class="tag is-size-6">
-      <span class="mr-1">Character{{ characters_total|pluralize }}:</span>
-      <strong>{{ characters_total|intcomma }}</strong>
-    </li>
-    <li class="tag is-size-6">
-      <span class="mr-1">Creator{{ creators_total|pluralize }}:</span>
-      <strong>{{ creators_total|intcomma }}</strong>
-    </li>
-    <li class="tag is-size-6">
-      <span class="mr-1">Team{{ teams_total|pluralize }}:</span>
-      <strong>{{ teams_total|intcomma }}</strong>
-    </li>
-    <li class="tag is-size-6">
-      <span class="mr-1">Story Arc{{ arcs_total|pluralize }}:</span>
-      <strong>{{ arcs_total|intcomma }}</strong>
-    </li>
-  </ul>
-</div>
-<!-- end totals -->
-<!-- graphs -->
-<section>
-  <div class="tile is-ancestor">
-    <div class="tile is-parent">{{ year_count }}</div>
+  <!-- end header -->
+  <!-- totals -->
+  <div class="box">
+    <header class="block has-text-centered">
+      <h2 class="subtitle">Totals</h2>
+    </header>
+    <ul>
+      <li class="tag is-size-6">
+        <span class="mr-1">Publisher{{ publishers_total|pluralize }}:</span>
+        <strong>{{ publishers_total|intcomma }}</strong>
+      </li>
+      <li class="tag is-size-6">
+        <span class="mr-1">Series:</span>
+        <strong>{{ series_total|intcomma }}</strong>
+      </li>
+      <li class="tag is-size-6">
+        <span class="mr-1">Issue{{ issues_total|pluralize }}:</span>
+        <strong>{{ issues_total|intcomma }}</strong>
+      </li>
+      <li class="tag is-size-6">
+        <span class="mr-1">Character{{ characters_total|pluralize }}:</span>
+        <strong>{{ characters_total|intcomma }}</strong>
+      </li>
+      <li class="tag is-size-6">
+        <span class="mr-1">Creator{{ creators_total|pluralize }}:</span>
+        <strong>{{ creators_total|intcomma }}</strong>
+      </li>
+      <li class="tag is-size-6">
+        <span class="mr-1">Team{{ teams_total|pluralize }}:</span>
+        <strong>{{ teams_total|intcomma }}</strong>
+      </li>
+      <li class="tag is-size-6">
+        <span class="mr-1">Story Arc{{ arcs_total|pluralize }}:</span>
+        <strong>{{ arcs_total|intcomma }}</strong>
+      </li>
+    </ul>
   </div>
-  <div class="tile is-ancestor">
-    <div class="tile is-parent">{{ publisher_count }}</div>
-  </div>
-  <div class="tile is-ancestor">
-    <div class="tile is-parent">{{ daily_chart }}</div>
-  </div>
-  <div class="tile is-ancestor">
-    <div class="tile is-parent">{{ monthly_chart }}</div>
-  </div>
-  <div class="tile is-ancestor">
-    <div class="tile is-parent">{{ creator_chart }}</div>
-  </div>
-  <div class="tile is-ancestor">
-    <div class="tile is-parent">{{ character_chart }}</div>
-  </div>
-</section>
-<!-- end graphs -->
+  <!-- end totals -->
+  <!-- graphs -->
+  <section>
+    <div class="tile is-ancestor">
+      <div class="tile is-parent">{{ year_count }}</div>
+    </div>
+    <div class="tile is-ancestor">
+      <div class="tile is-parent">{{ publisher_count }}</div>
+    </div>
+    <div class="tile is-ancestor">
+      <div class="tile is-parent">{{ daily_chart }}</div>
+    </div>
+    <div class="tile is-ancestor">
+      <div class="tile is-parent">{{ monthly_chart }}</div>
+    </div>
+    <div class="tile is-ancestor">
+      <div class="tile is-parent">{{ creator_chart }}</div>
+    </div>
+    <div class="tile is-ancestor">
+      <div class="tile is-parent">{{ character_chart }}</div>
+    </div>
+  </section>
+  <!-- end graphs -->
 {% endblock %}
