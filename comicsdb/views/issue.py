@@ -21,6 +21,7 @@ from comicsdb.models.variant import Variant
 
 PAGINATE = 28
 TOTAL_WEEKS_YEAR = 52
+
 LOGGER = logging.getLogger(__name__)
 
 
