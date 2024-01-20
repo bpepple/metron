@@ -7,8 +7,9 @@ from django.db import models
 from django.db.models.signals import pre_save
 from sorl.thumbnail import ImageField
 
-from comicsdb.models import Attribution, Publisher
+from comicsdb.models.attribution import Attribution
 from comicsdb.models.common import CommonInfo, pre_save_slug
+from comicsdb.models.publisher import Publisher
 from users.models import CustomUser
 
 LOGGER = logging.getLogger(__name__)
