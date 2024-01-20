@@ -11,6 +11,7 @@ from sorl.thumbnail import ImageField
 from comicsdb.models.attribution import Attribution
 from comicsdb.models.common import CommonInfo, pre_save_slug
 from comicsdb.models.creator import Creator
+from comicsdb.models.universe import Universe
 from users.models import CustomUser
 
 LOGGER = logging.getLogger(__name__)
@@ -19,6 +20,7 @@ LOGGER = logging.getLogger(__name__)
 class Team(CommonInfo):
     image = ImageField(upload_to="team/%Y/%m/%d/", blank=True)
     creators = models.ManyToManyField(Creator, blank=True)
+    universes = models.ManyToManyField(Universe, blank=True)
     attribution = GenericRelation(Attribution, related_query_name="teams")
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
 

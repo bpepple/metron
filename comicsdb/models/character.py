@@ -13,6 +13,7 @@ from comicsdb.models.attribution import Attribution
 from comicsdb.models.common import CommonInfo, pre_save_slug
 from comicsdb.models.creator import Creator
 from comicsdb.models.team import Team
+from comicsdb.models.universe import Universe
 from users.models import CustomUser
 
 LOGGER = logging.getLogger(__name__)
@@ -23,6 +24,7 @@ class Character(CommonInfo):
     alias = ArrayField(models.CharField(max_length=100), null=True, blank=True)
     creators = models.ManyToManyField(Creator, blank=True)
     teams = models.ManyToManyField(Team, blank=True)
+    universes = models.ManyToManyField(Universe, blank=True)
     attribution = GenericRelation(Attribution, related_query_name="characters")
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
 

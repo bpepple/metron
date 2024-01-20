@@ -21,6 +21,7 @@ from comicsdb.models.creator import Creator
 from comicsdb.models.rating import Rating
 from comicsdb.models.series import Series
 from comicsdb.models.team import Team
+from comicsdb.models.universe import Universe
 from users.models import CustomUser
 
 LOGGER = logging.getLogger(__name__)
@@ -57,6 +58,7 @@ class Issue(CommonInfo):
     creators = models.ManyToManyField(Creator, through="Credits", blank=True)
     characters = models.ManyToManyField(Character, blank=True)
     teams = models.ManyToManyField(Team, blank=True)
+    universes = models.ManyToManyField(Universe, blank=True)
     reprints = models.ManyToManyField("self", blank=True)
     attribution = GenericRelation(Attribution, related_query_name="issues")
     created_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
