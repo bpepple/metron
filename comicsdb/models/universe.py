@@ -52,7 +52,7 @@ class Universe(CommonInfo):
         return self.name
 
     def __str__(self) -> str:
-        return f"{self.publisher}: {self.universe_name}"
+        return self.universe_name
 
     class Meta:
         indexes = [models.Index(fields=["name"], name="universe_name_idx")]
