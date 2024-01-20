@@ -39,6 +39,14 @@ class Universe(CommonInfo):
         return reverse("universe:detail", args=[self.slug])
 
     @property
+    def issue_count(self):
+        return self.issue_set.all().count()
+
+    @property
+    def first_appearance(self):
+        return self.issue_set.order_by("cover_date").all().first
+
+    @property
     def wikipedia(self):
         return self.attribution.filter(source=Attribution.Source.WIKIPEDIA)
 
