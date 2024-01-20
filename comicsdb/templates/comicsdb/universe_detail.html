@@ -1,0 +1,174 @@
+{% extends parent_template|default:"base.html" %}
+{% load thumbnail %}
+{% load static %}
+
+{% block title %}{{ universe.name }}{% endblock title %}
+
+{% block content %}
+  <!-- universe title -->
+  <nav class="level">
+    <div class="level-left">
+      <div class="level-item">
+        <p class="title">{{ universe }}</p>
+      </div>
+    </div>
+  </nav>
+  <!--  end universe title -->
+  <!-- universe nav -->
+  <nav class="level">
+    <div class="level-left">
+      <div class="level-item">
+        {% if navigation.previous_universe %}
+          <a class="button is-link" href="{% url 'universe:detail' navigation.previous_universe.slug %}">
+            <span class="icon is-small"><i class="fas fa-arrow-left"></i></span>
+            <span>Previous Universe</span>
+          </a>
+        {% else %}
+          <a class="button" disabled>
+            <span class="icon is-small"><i class="fas fa-arrow-left"></i></span>
+            <span>Previous Universe</span>
+          </a>
+        {% endif %}
+      </div>
+      <div class="level-item">
+        {% if navigation.next_universe %}
+          <a class="button is-link" href="{% url 'universe:detail' navigation.next_universe.slug %}">
+            <span class="icon is-small"><i class="fas fa-arrow-right"></i></span>
+            <span>Next Universe</span>
+          </a>
+        {% else %}
+          <a class="button" disabled>
+            <span class="icon is-small"><i class="fas fa-arrow-right"></i></span>
+            <span>Next Universe</span>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="level-right">
+      {% if user.is_authenticated %}
+        <p class="level-item">
+          <a class="button is-primary" href="{% url 'universe:create' %}" title="Add a new universe">
+            <span class="icon is-small"><i class="fas fa-plus"></i></span>
+            <span>New</span>
+          </a>
+        </p>
+        <p class="level-item">
+          <a class="button is-info" href="{% url 'universe:update' universe.slug %}" title="Edit universe">
+            <span class="icon is-small"><i class="fas fa-edit"></i></span>
+            <span>Edit</span>
+          </a>
+        </p>
+        {% if perms.comicsdb.delete_universe %}
+          <p class="level-item">
+            <a class="button is-danger" href="{% url 'universe:delete' universe.slug %}" title="Delete universe">
+              <span class="icon is-small"><i class="fas fa-trash"></i></span>
+              <span>Delete</span>
+            </a>
+          </p>
+        {% else %}
+          <p class="level-item">
+            <a class="button is-danger" title="Delete universe" disabled>
+              <span class="icon is-small"><i class="fas fa-trash"></i></span>
+              <span>Delete</span>
+            </a>
+          </p>
+        {% endif %}
+      {% endif %}
+    </div>
+  </nav>
+  <!-- end of universe nav -->
+  <!-- main page content -->
+  <div class="columns">
+    <!-- universe image -->
+    <div class="column is-one-fifth">
+      <div class="box">
+        <figure class="image is-2by3">
+          {% if universe.image %}
+            {% thumbnail universe.image "320x480" crop="top" format="WEBP" as im %}
+              <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ universe.name }}">
+            {% endthumbnail %}
+          {% else %}
+            <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ universe.name }}">
+          {% endif %}
+        </figure>
+      </div>
+    </div>
+    <!-- end of universe image -->
+    <!-- center column -->
+    <div class="column">
+      <!-- desc -->
+      <div class="box">
+        <h1 class="title is-5">Summary</h1>
+        {% if universe.desc %}
+          <p>{{ universe.desc|linebreaksbr }}</p><br/>
+        {% else %}
+          <p>No information available.</p><br/>
+        {% endif %}
+        <div class="content is-small is-italic">
+          Last edited on {{ universe.modified }} by
+          <a href="{% url 'user-detail' universe.edited_by.id %}">
+            {{ universe.edited_by.username }}
+          </a>
+        </div>
+      </div>
+      <!-- end desc -->
+      <!-- series -->
+      {% with series=appearances %}
+        {% if series %}
+          <div class="box">
+            <h1 class="title is-5">Series Appearances</h1>
+            <div class="content">
+              <ul>
+                {% for i in series %}
+                  <li>
+                    <a href="{% url 'series:detail' slug=i.issue__series__slug %}">
+                      {{ i.issue__series__name }}
+                      {% if i.issue__series__series_type == 10 %}TPB
+                      {% elif i.issue__series__series_type == 9 %}GN
+                      {% elif i.issue__series__series_type == 8 %}HC
+                      {% endif %}
+                      ({{ i.issue__series__year_began }})
+                    </a>:
+                    <a href="{% url 'universe:series' universe=universe.slug series=i.issue__series__slug %}">
+                      {{ i.issue__count }} issue{{ i.issue__count|pluralize }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        {% endif %}
+      {% endwith %}
+      <!-- end series -->
+      <!-- attribution -->
+      {% with attribution=universe.attribution.all %}
+        {% if attribution|length > 0 %}
+          {% include "comicsdb/attribution.html" with object=attribution %}
+        {% endif %}
+      {% endwith %}
+      <!-- end attribution-->
+    </div>
+    <!-- end of center column -->
+    <!-- misc info -->
+    <div class="column is-one-fifth">
+      <div class="box">
+        <h1 class="title is-6">Universe Details</h1>
+        {% if universe.issue_count > 0 %}
+          <p><b>Number of Issue:</b> {{ universe.issue_count }}</p>
+          {% with first=universe.first_appearance %}
+            <p>
+              <b>First Appearance:</b> <a href="{% url 'issue:detail' first.slug %}">{{ first }}</a>
+            </p>
+          {% endwith %}
+          <br/>
+        {% endif %}
+        <p><b>Metron ID:</b> {{ universe.id }}</p>
+        {% if universe.cv_id %}
+          <p><b>Comic Vine ID:</b> {{ universe.cv_id }}</p>
+        {% endif %}
+      </div>
+    </div>
+    <!-- end misc info -->
+  </div>
+  <!-- end of main page content -->
+{% endblock %}
