@@ -5,6 +5,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.signals import pre_save
+from django.urls import reverse
 from sorl.thumbnail import ImageField
 
 from comicsdb.models.attribution import Attribution
@@ -35,7 +36,7 @@ class Universe(CommonInfo):
         return super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        pass
+        return reverse("universe:detail", args=[self.slug])
 
     @property
     def wikipedia(self):
