@@ -8,6 +8,7 @@ from comicsdb.admin.rating import RatingAdmin
 from comicsdb.admin.role import RoleAdmin
 from comicsdb.admin.series import SeriesAdmin, SeriesTypeAdmin
 from comicsdb.admin.team import TeamAdmin
+from comicsdb.admin.universe import UniverseAdmin
 
 __all__ = [
     "ArcAdmin",
@@ -21,4 +22,5 @@ __all__ = [
     "SeriesAdmin",
     "SeriesTypeAdmin",
     "TeamAdmin",
+    "UniverseAdmin",
 ]
