@@ -2,9 +2,11 @@
 {% load thumbnail %}
 {% load static %}
 
-{% block sitedesc %}<meta name="description" content="{{ issue }} Information">{% endblock %}
+{% block sitedesc %}
+  <meta name="description" content="{{ issue }} Information">{% endblock %}
 {% block sitekeywords %}
-<meta name="keywords" content="{{ issue.series.publisher }}, {{ issue.series.name }}, {{ issue.cover_date|date:'F Y' }}{% with characters=issue.characters.all %}{% if characters %}{% for character in characters %}, {{ character.name }}{% endfor %}{% endif %}{% endwith %}">
+  <meta name="keywords" content="{{ issue.series.publisher }}, {{ issue.series.name }}, 
+    {{ issue.cover_date|date:'F Y' }}{% with characters=issue.characters.all %}{% if characters %}{% for character in characters %}, {{ character.name }}{% endfor %}{% endif %}{% endwith %}">
 {% endblock %}
 {% block title %}{{ issue }}{% endblock title %}
 
@@ -14,9 +16,9 @@
     <div class="modal-background"></div>
     <div class="modal-content">
       <p class="image is-2by3">
-      {% thumbnail issue.image "640x960" crop="center" format="WEBP" as im %}
-        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt = "{{ issue }}">
-      {% endthumbnail %}
+        {% thumbnail issue.image "640x960" crop="center" format="WEBP" as im %}
+          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ issue }}">
+        {% endthumbnail %}
       </p>
     </div>
     <button class="modal-close is-large" aria-label="close"></button>
@@ -41,59 +43,49 @@
           <a class="button is-link" href="{% url 'issue:detail' navigation.previous_issue.slug %}">
         {% else %}
           <a class="button" disabled>
-        {% endif %}           
-            <span class="icon is-small">
-              <i class="fas fa-arrow-left"></i>
-            </span>
-            <span>Previous Issue</span>
-          </a>
+        {% endif %}
+        <span>Previous Issue</span>
+        <span class="icon is-small"><i class="fas fa-arrow-left"></i></span>
+        </a>
       </div>
       <div class="level-item">
         {% if navigation.next_issue %}
           <a class="button is-link" href="{% url 'issue:detail' navigation.next_issue.slug %}">
         {% else %}
           <a class="button" disabled>
-        {% endif %}        
-            <span>Next Issue</span>
-            <span class="icon is-small">
-              <i class="fas fa-arrow-right"></i>
-            </span>
-          </a>
+        {% endif %}
+        <span class="icon is-small"><i class="fas fa-arrow-right"></i></span>
+        <span>Next Issue</span>
+        </a>
       </div>
     </div>
     <div class="level-right">
-    {% if user.is_authenticated %}
-      <p class="level-item">
-        <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">
-          <span class="icon is-small">
-            <i class="fas fa-plus"></i>
-          </span>
-          <span>New</span>
-        </a>
-      </p>
-      <p class="level-item">
-        <a class="button is-info" href="{% url 'issue:update' issue.slug %}" title="Edit Issue">
-          <span class="icon is-small">
-            <i class="fas fa-edit"></i>
-          </span>
-          <span>Edit</span>
-        </a>
-      </p>
-      {% if perms.comicsdb.delete_issue %}
-      <p class="level-item">
-        <a class="button is-danger" href="{% url 'issue:delete' issue.slug %}" title="Delete Issue">
-          <span class="icon is-small">
-            <i class="fas fa-trash"></i>
-          </span>
-          <span>Delete</span>
-        </a>
-      </p>
-      {% else %}
-      <p class="level-item">
-        <a class="button is-danger" title="Delete Issue" disabled>Delete</a>
-      </p>
+      {% if user.is_authenticated %}
+        <p class="level-item">
+          <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">
+            <span class="icon is-small"><i class="fas fa-plus"></i></span>
+            <span>New</span>
+          </a>
+        </p>
+        <p class="level-item">
+          <a class="button is-info" href="{% url 'issue:update' issue.slug %}" title="Edit Issue">
+            <span class="icon is-small"><i class="fas fa-edit"></i></span>
+            <span>Edit</span>
+          </a>
+        </p>
+        {% if perms.comicsdb.delete_issue %}
+          <p class="level-item">
+            <a class="button is-danger" href="{% url 'issue:delete' issue.slug %}" title="Delete Issue">
+              <span class="icon is-small"><i class="fas fa-trash"></i></span>
+              <span>Delete</span>
+            </a>
+          </p>
+        {% else %}
+          <p class="level-item">
+            <a class="button is-danger" title="Delete Issue" disabled>Delete</a>
+          </p>
+        {% endif %}
       {% endif %}
-    {% endif %}
     </div>
   </nav>
   <!-- end of issue navigation -->
@@ -107,18 +99,18 @@
         <figure class="image is-2by3">
           {% if issue.image %}
             {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
-            <a class="modal-button" data-target="modal-bis">
-              <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt = "{{ issue }}">
-            </a>
+              <a class="modal-button" data-target="modal-bis">
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ issue }}">
+              </a>
             {% endthumbnail %}
           {% else %}
             <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ issue }}">
           {% endif %}
         </figure>
         {% if issue.image %}
-        <br/>
-        <p class="title is-6 has-text-centered"><strong>Main Cover</strong></p>
-        <p class="subtitle is-6 has-text-centered">Click cover to view larger version</p>
+          <br/>
+          <p class="title is-6 has-text-centered"><strong>Main Cover</strong></p>
+          <p class="subtitle is-6 has-text-centered">Click cover to view larger version</p>
         {% endif %}
       </div>
       <!-- end of main cover -->
@@ -131,7 +123,7 @@
               <figure class="image is-2by3">
                 {% if variant.image %}
                   {% thumbnail variant.image "320x480" crop="center" format="WEBP" as im %}
-                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt = "{{ variant }}">
+                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ variant }}">
                   {% endthumbnail %}
                 {% else %}
                   <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ variant }}">
@@ -140,11 +132,11 @@
               <br/>
               <p class="title is-6 has-text-centered"><strong>{{ variant.name }}</strong></p>
               {% if variant.sku or variant.upc %}
-              <p class="subtitle is-6 has-text-centered">
-                {% if variant.sku %}Distributor SKU: {{ variant.sku }}{% endif %}
-                {% if variant.sku and variant.upc %}<br />{% endif %}
-                {% if variant.upc %}UPC Code: {{ variant.upc }}{% endif %}
-              </p>
+                <p class="subtitle is-6 has-text-centered">
+                  {% if variant.sku %}Distributor SKU: {{ variant.sku }}{% endif %}
+                  {% if variant.sku and variant.upc %}<br/>{% endif %}
+                  {% if variant.upc %}UPC Code: {{ variant.upc }}{% endif %}
+                </p>
               {% endif %}
             </div>
           {% endfor %}
@@ -161,22 +153,22 @@
       <div class="box">
         <!-- collection title -->
         {% if issue.title %}
-        <h1 class="title is-5">Collection Title</h1>
-        <p>{{ issue.title }}</p>
-        <br/>
+          <h1 class="title is-5">Collection Title</h1>
+          <p>{{ issue.title }}</p>
+          <br/>
         {% endif %}
         <!-- end collection title -->
         <!-- stories -->
         {% if issue.name %}
           {% with names=issue.name %}
-          <h1 class="title is-5">Stor{{ names|pluralize:"y,ies" }} Title{{ names|pluralize}}</h1>
-          <div class="content">
-            <ul>
-              {% for story in names %}
-              <li>{{ story }}</li>
-              {% endfor %}
-            </ul>
-          </div>
+            <h1 class="title is-5">Stor{{ names|pluralize:"y,ies" }} Title{{ names|pluralize }}</h1>
+            <div class="content">
+              <ul>
+                {% for story in names %}
+                  <li>{{ story }}</li>
+                {% endfor %}
+              </ul>
+            </div>
           {% endwith %}
         {% endif %}
         <!-- end stores -->
@@ -185,11 +177,12 @@
         {% if issue.desc %}
           <p>{{ issue.desc|linebreaksbr }}</p>
         {% else %}
-           <p>No summary available.</p>
+          <p>No summary available.</p>
         {% endif %}
         <br/>
         <div class="content is-small is-italic">
-          Last edited on {{ issue.modified }} by <a href="{% url 'user-detail' issue.edited_by.id %}">{{ issue.edited_by.username }}</a>
+          Last edited on {{ issue.modified }} by <a
+          href="{% url 'user-detail' issue.edited_by.id %}">{{ issue.edited_by.username }}</a>
         </div>
         <!-- end summary -->
       </div>
@@ -209,26 +202,29 @@
                       <article class="media">
                         <div class="media-left">
                           <figure class="image is-64x64">
-                          {% if credit.creator.image %}
-                            {% thumbnail credit.creator.image "64x64" crop="top" format="WEBP" as im %}
-                            <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"  alt="{{ credit.creator }}">
-                            {% endthumbnail %}
-                          {% else %}
-                            <img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ credit.creator }}">
-                          {% endif %}
+                            {% if credit.creator.image %}
+                              {% thumbnail credit.creator.image "64x64" crop="top" format="WEBP" as im %}
+                                <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}"
+                                     height="{{ im.height }}" alt="{{ credit.creator }}">
+                              {% endthumbnail %}
+                            {% else %}
+                              <img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}"
+                                   alt="No image for {{ credit.creator }}">
+                            {% endif %}
                           </figure>
                         </div>
                         <div class="media-content">
                           <div class="content">
                             <p><a href="{% url 'creator:detail' credit.creator.slug %}">{{ credit.creator }}</a>
-                            <br>
-                            <!-- creator roles -->
-                            {% with roles=credit.role.all %}
-                              {% if roles %}
-                                <small><em>{% for role in roles %}{% if not forloop.first %}, {% endif %}{{ role.name }}{% endfor %}</em></small>
-                              {% endif %}
-                            {% endwith %}
-                            <!-- end creator roles -->
+                              <br>
+                              <!-- creator roles -->
+                              {% with roles=credit.role.all %}
+                                {% if roles %}
+                                  <small><em>{% for role in roles %}{% if not forloop.first %}, {% endif %}
+                                    {{ role.name }}{% endfor %}</em></small>
+                                {% endif %}
+                              {% endwith %}
+                              <!-- end creator roles -->
                             </p>
                           </div>
                         </div>
@@ -247,37 +243,39 @@
       <!-- characters -->
       {% with characters=issue.characters.all %}
         {% if characters %}
-        <div class="box">
-          <div class="columns">
-            <div class="column">
-              <h1 class="title is-5">Character{{ characters|pluralize }}</h1>
-              <div class="columns is-multiline">
-              {% for character in characters %}
-                <div class="column is-4">
-                  <article class="media">
-                    <div class="media-left">
-                      <figure class="image is-64x64">
-                      {% if character.image %}
-                        {% thumbnail character.image "64x64" crop="top" format="WEBP" as im %}
-                        <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ character }}">
-                        {% endthumbnail %}
-                      {% else %}
-                        <img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ character }}">
-                      {% endif %}
-                      </figure>
+          <div class="box">
+            <div class="columns">
+              <div class="column">
+                <h1 class="title is-5">Character{{ characters|pluralize }}</h1>
+                <div class="columns is-multiline">
+                  {% for character in characters %}
+                    <div class="column is-4">
+                      <article class="media">
+                        <div class="media-left">
+                          <figure class="image is-64x64">
+                            {% if character.image %}
+                              {% thumbnail character.image "64x64" crop="top" format="WEBP" as im %}
+                                <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}"
+                                     height="{{ im.height }}" alt="{{ character }}">
+                              {% endthumbnail %}
+                            {% else %}
+                              <img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}"
+                                   alt="No image for {{ character }}">
+                            {% endif %}
+                          </figure>
+                        </div>
+                        <div class="media-content">
+                          <div class="content">
+                            <p><a href="{% url 'character:detail' character.slug %}">{{ character }}</a></p>
+                          </div>
+                        </div>
+                      </article>
                     </div>
-                    <div class="media-content">
-                      <div class="content">
-                        <p><a href="{% url 'character:detail' character.slug %}">{{ character }}</a></p>
-                      </div>
-                    </div>
-                  </article>
+                  {% endfor %}
                 </div>
-              {% endfor %}
               </div>
             </div>
           </div>
-        </div>
         {% endif %}
       {% endwith %}
       <!-- end characters -->
@@ -285,61 +283,103 @@
       <!-- teams -->
       {% with teams=issue.teams.all %}
         {% if teams %}
-        <div class="box">
-          <div class="columns">
-            <div class="column">
-              <h1 class="title is-5">Team{{ teams|pluralize }}</h1>
-              <div class="columns is-multiline">
-              {% for team in teams %}
-                <div class="column is-4">
-                  <article class="media">
-                    <div class="media-left">
-                      <figure class="image is-64x64">
-                      {% if team.image %}
-                        {% thumbnail team.image "64x64" crop="center" format="WEBP" as im %}
-                          <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ team }}">
-                        {% endthumbnail %}
-                      {% else %}
-                        <img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ character }}">
-                      {% endif %}
-                      </figure>
+          <div class="box">
+            <div class="columns">
+              <div class="column">
+                <h1 class="title is-5">Team{{ teams|pluralize }}</h1>
+                <div class="columns is-multiline">
+                  {% for team in teams %}
+                    <div class="column is-4">
+                      <article class="media">
+                        <div class="media-left">
+                          <figure class="image is-64x64">
+                            {% if team.image %}
+                              {% thumbnail team.image "64x64" crop="center" format="WEBP" as im %}
+                                <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}"
+                                     height="{{ im.height }}" alt="{{ team }}">
+                              {% endthumbnail %}
+                            {% else %}
+                              <img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}"
+                                   alt="No image for {{ character }}">
+                            {% endif %}
+                          </figure>
+                        </div>
+                        <div class="media-content">
+                          <div class="content">
+                            <p><a href="{% url 'team:detail' team.slug %}">{{ team }}</a></p>
+                          </div>
+                        </div>
+                      </article>
                     </div>
-                    <div class="media-content">
-                      <div class="content">
-                        <p><a href="{% url 'team:detail' team.slug %}">{{ team }}</a></p>
-                      </div>
-                    </div>
-                  </article>
+                  {% endfor %}
                 </div>
-              {% endfor %}
               </div>
             </div>
           </div>
-        </div>
         {% endif %}
       {% endwith %}
       <!-- end teams -->
 
+      <!-- universes -->
+      {% with universes=issue.universes.all %}
+        {% if universes %}
+          <div class="box">
+            <div class="columns">
+              <div class="column">
+                <h1 class="title is-5">Universe{{ universes|pluralize }}</h1>
+                <div class="columns is-multiline">
+                  {% for universe in universes %}
+                    <div class="column is-4">
+                      <article class="media">
+                        <div class="media-left">
+                          <figure class="image is-64x64">
+                            {% if universe.image %}
+                              {% thumbnail universe.image "64x64" crop="center" format="WEBP" as im %}
+                                <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}"
+                                     height="{{ im.height }}" alt="{{ universe }}">
+                              {% endthumbnail %}
+                            {% else %}
+                              <img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}"
+                                   alt="No image for {{ universe }}">
+                            {% endif %}
+                          </figure>
+                        </div>
+                        <div class="media-content">
+                          <div class="content">
+                            <p><a href="{% url 'universe:detail' universe.slug %}">{{ universe }}</a></p>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endwith %}
+      <!-- end universes -->
+
       <!-- reprints -->
       {% with reprints=issue.reprints.all %}
         {% if reprints %}
-        <div class="box">
-          <h1 class="title is-5">Reprint{{ reprints|pluralize }}</h1>
-          <div class="content">
-            <ul>
-            {% for reprint in reprints %}
-              <li>
-                {% if reprint.cover_date < issue.cover_date %}
-                from
-                {% else %}
-                in
-                {% endif %}
-                <a href="{% url 'issue:detail' reprint.slug %}">{{ reprint }}</a>
-              </li>
-            {% endfor %}
-            </ul>
+          <div class="box">
+            <h1 class="title is-5">Reprint{{ reprints|pluralize }}</h1>
+            <div class="content">
+              <ul>
+                {% for reprint in reprints %}
+                  <li>
+                    {% if reprint.cover_date < issue.cover_date %}
+                      from
+                    {% else %}
+                      in
+                    {% endif %}
+                    <a href="{% url 'issue:detail' reprint.slug %}">{{ reprint }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
           </div>
-        </div>
         {% endif %}
       {% endwith %}
       <!-- end reprints-->
@@ -371,7 +411,7 @@
         {% if issue.page %}
           <p><b>Page Count:</b> {{ issue.page }}</p>
         {% endif %}
-        <!-- Ratings are alway present -->
+        <!-- Ratings are always present -->
         <p><b>Rating:</b> <span title="{{ issue.rating.short_description }}">{{ issue.rating.name }}</span></p>
         {% if issue.sku %}
           <p><b>Distributor SKU:</b> {{ issue.sku }}</p>
@@ -388,17 +428,17 @@
             <p><b>Story Arcs</b></p>
             <div class="content">
               <ul>
-              {% for arc in arcs %}
-                <li><a href="{% url 'arc:detail' arc.slug %}">{{ arc.name }}</a></li>
-              {% endfor %}
+                {% for arc in arcs %}
+                  <li><a href="{% url 'arc:detail' arc.slug %}">{{ arc.name }}</a></li>
+                {% endfor %}
               </ul>
             </div>
           {% endif %}
         {% endwith %}
-        <br />
+        <br/>
         <p><b>Metron ID:</b> {{ issue.id }}</p>
         {% if issue.cv_id %}
-        <p><b>Comic Vine ID:</b> {{ issue.cv_id }}</p>
+          <p><b>Comic Vine ID:</b> {{ issue.cv_id }}</p>
         {% endif %}
       </div>
     </div>
