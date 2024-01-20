@@ -10,9 +10,22 @@ class TeamAdmin(AdminImageMixin, admin.ModelAdmin):
     search_fields = ("name",)
     prepopulated_fields = {"slug": ("name",)}
     list_filter = ("created_on", "modified")
-    autocomplete_fields = ["creators"]
+    autocomplete_fields = ["creators", "universes"]
     # form view
     fieldsets = (
-        (None, {"fields": ("name", "slug", "desc", "creators", "image", "edited_by")}),
+        (
+            None,
+            {
+                "fields": (
+                    "name",
+                    "slug",
+                    "desc",
+                    "creators",
+                    "universes",
+                    "image",
+                    "edited_by",
+                )
+            },
+        ),
     )
     inlines = [AttributionInline]

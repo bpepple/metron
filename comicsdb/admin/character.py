@@ -10,7 +10,7 @@ class CharacterAdmin(AdminImageMixin, admin.ModelAdmin):
     search_fields = ("name", "alias")
     prepopulated_fields = {"slug": ("name",)}
     list_filter = ("created_on", "modified")
-    autocomplete_fields = ["creators", "teams"]
+    autocomplete_fields = ["creators", "teams", "universes"]
     # form view
     fieldsets = (
         (
