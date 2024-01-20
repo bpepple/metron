@@ -94,7 +94,9 @@ class IssueForm(ModelForm):
         if collection_title:
             series: Series = self.cleaned_data["series"]
             if collection_title and not series.collection:
-                raise ValidationError("Collection Title field is not allowed for this series..")
+                raise ValidationError(
+                    "Collection Title field is not allowed for this series.."
+                )
         return collection_title
 
     def clean_arcs(self):

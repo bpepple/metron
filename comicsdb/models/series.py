@@ -35,7 +35,7 @@ class Series(CommonInfo):
     collection = models.BooleanField(
         "Allow Collection Title",
         db_default=False,
-        help_text="Whether a series has a collection title. Normally this only applies to Trade Paperbacks.",
+        help_text="Whether a series has a collection title. Normally this only applies to Trade Paperbacks.",  # NOQA: E501
     )
     genres = models.ManyToManyField(Genre, blank=True)
     associated = models.ManyToManyField("self", blank=True)

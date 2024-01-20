@@ -43,8 +43,8 @@ class SeriesForm(ModelForm):
             ),
             "genres": "Hold down “Control”, or “Command” on a Mac, to select more than one.",
             "collection": (
-                "Whether a series has a collection title. Normally this only applies to Trade Paperbacks. "
-                "For example, the 2015 Deathstroke Trade Paperback which has a collection title of 'Gods of War'."
+                "Whether a series has a collection title. Normally this only applies to Trade Paperbacks. "  # NOQA: E501
+                "For example, the 2015 Deathstroke Trade Paperback which has a collection title of 'Gods of War'."  # NOQA: E501
             ),
         }
         labels = {"associated": "Associated Series", "collection": "Allow collection title?"}
