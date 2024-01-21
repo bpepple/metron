@@ -585,11 +585,14 @@ class TeamSerializer(serializers.ModelSerializer):
         Create and return a new `Team` instance, given the validated data.
         """
         creators_data = validated_data.pop("creators", None)
+        universes_data = validated_data.pop("universes", None)
         if "image" in validated_data and validated_data["image"] is not None:
             validated_data["image"] = validated_data["image"].seek(0)
         team = Team.objects.create(**validated_data)
         if creators_data:
             team.creators.add(*creators_data)
+        if universes_data:
+            team.universes.add(*universes_data)
         return team
 
     def update(self, instance: Team, validated_data):
@@ -602,6 +605,8 @@ class TeamSerializer(serializers.ModelSerializer):
         instance.cv_id = validated_data.get("cv_id", instance.cv_id)
         if creators_data := validated_data.pop("creators", None):
             instance.creators.add(*creators_data)
+        if universes_data := validated_data.pop("universes", None):
+            instance.universes.add(*universes_data)
         instance.save()
         return instance
 
@@ -613,6 +618,7 @@ class TeamSerializer(serializers.ModelSerializer):
             "desc",
             "image",
             "creators",
+            "universes",
             "cv_id",
             "resource_url",
             "modified",
@@ -621,6 +627,7 @@ class TeamSerializer(serializers.ModelSerializer):
 
 class TeamReadSerializer(TeamSerializer):
     creators = CreatorListSerializer(many=True, read_only=True)
+    universes = UniverseListSerializer(many=True, read_only=True)
 
 
 class UniverseSerializer(serializers.ModelSerializer):
