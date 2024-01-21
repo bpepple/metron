@@ -5,6 +5,7 @@ import pytest
 from django.core.management import call_command
 from django.utils import timezone
 
+from comicsdb.models import Universe
 from comicsdb.models.arc import Arc
 from comicsdb.models.character import Character
 from comicsdb.models.creator import Creator
@@ -103,6 +104,20 @@ def dc_comics(create_user):
 def marvel(create_user):
     user = create_user()
     return Publisher.objects.create(name="Marvel", slug="marvel", edited_by=user)
+
+
+@pytest.fixture()
+def earth_2_universe(create_user, dc_comics):
+    desc = "Home to modernized versions of the Justice Society of Earth."
+    user = create_user()
+    return Universe.objects.create(
+        publisher=dc_comics,
+        name="Earth 2",
+        slug="earth-2",
+        designation="Earth 2",
+        desc=desc,
+        edited_by=user,
+    )
 
 
 @pytest.fixture(scope="session")
