@@ -12,6 +12,7 @@ from comicsdb.views.viewsets import (
     SeriesTypeViewSet,
     SeriesViewSet,
     TeamViewSet,
+    UniverseViewSet,
     VariantViewset,
 )
 
@@ -26,6 +27,7 @@ ROUTER.register("role", RoleViewset)
 ROUTER.register("series", SeriesViewSet)
 ROUTER.register("series_type", SeriesTypeViewSet)
 ROUTER.register("team", TeamViewSet)
+ROUTER.register("universe", UniverseViewSet)
 ROUTER.register("variant", VariantViewset)
 
 app_name = "api"
