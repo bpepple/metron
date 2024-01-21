@@ -191,6 +191,9 @@
     <div class="column is-one-fifth">
       <div class="box">
         <h1 class="title is-6">Universe Details</h1>
+        <p>
+          <b>Publisher:</b> <a href="{% url 'publisher:detail' universe.publisher.slug %}">{{ universe.publisher }}</a>
+        </p>
         {% if universe.issue_count > 0 %}
           <p><b>Number of Issue:</b> {{ universe.issue_count }}</p>
           {% with first=universe.first_appearance %}
