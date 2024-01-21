@@ -176,6 +176,7 @@ class CharacterSerializer(serializers.ModelSerializer):
         """
         creators_data = validated_data.pop("creators", None)
         teams_data = validated_data.pop("teams", None)
+        universes_data = validated_data.pop("universes", None)
         if "image" in validated_data and validated_data["image"] is not None:
             validated_data["image"] = validated_data["image"].seek(0)
         character = Character.objects.create(**validated_data)
@@ -183,6 +184,8 @@ class CharacterSerializer(serializers.ModelSerializer):
             character.creators.add(*creators_data)
         if teams_data:
             character.teams.add(*teams_data)
+        if universes_data:
+            character.universes.add(*universes_data)
         return character
 
     def update(self, instance: Character, validated_data):
@@ -198,6 +201,8 @@ class CharacterSerializer(serializers.ModelSerializer):
             instance.creators.add(*creators_data)
         if teams_data := validated_data.get("teams", None):
             instance.teams.add(*teams_data)
+        if universes_data := validated_data.get("universes", None):
+            instance.universes.add(*universes_data)
         instance.save()
         return instance
 
@@ -211,6 +216,7 @@ class CharacterSerializer(serializers.ModelSerializer):
             "image",
             "creators",
             "teams",
+            "universes",
             "cv_id",
             "resource_url",
             "modified",
@@ -220,6 +226,7 @@ class CharacterSerializer(serializers.ModelSerializer):
 class CharacterReadSerializer(CharacterSerializer):
     creators = CreatorListSerializer(many=True, read_only=True)
     teams = TeamListSerializer(many=True, read_only=True)
+    universes = UniverseListSerializer(many=True, read_only=True)
 
 
 class CreatorSerializer(serializers.ModelSerializer):
