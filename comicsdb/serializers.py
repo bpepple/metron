@@ -330,6 +330,7 @@ class IssueSerializer(serializers.ModelSerializer):
         arcs_data = validated_data.pop("arcs", None)
         characters_data = validated_data.pop("characters", None)
         teams_data = validated_data.pop("teams", None)
+        universes_data = validated_data.pop("universes", None)
         reprints_data = validated_data.pop("reprints", None)
         if "image" in validated_data and validated_data["image"] is not None:
             validated_data["image"] = validated_data["image"].seek(0)
@@ -340,6 +341,8 @@ class IssueSerializer(serializers.ModelSerializer):
             issue.characters.add(*characters_data)
         if teams_data:
             issue.teams.add(*teams_data)
+        if universes_data:
+            issue.universes.add(*universes_data)
         if reprints_data:
             issue.reprints.add(*reprints_data)
         return issue
@@ -369,6 +372,8 @@ class IssueSerializer(serializers.ModelSerializer):
             instance.characters.add(*characters_data)
         if teams_data := validated_data.pop("teams", None):
             instance.teams.add(*teams_data)
+        if universes_data := validated_data.pop("universes", None):
+            instance.universes.add(*universes_data)
         if reprints_data := validated_data.pop("reprints", None):
             instance.reprints.add(*reprints_data)
         instance.save()
@@ -395,6 +400,7 @@ class IssueSerializer(serializers.ModelSerializer):
             "arcs",
             "characters",
             "teams",
+            "universes",
             "reprints",
             "cv_id",
             "resource_url",
@@ -407,6 +413,7 @@ class IssueReadSerializer(serializers.ModelSerializer):
     arcs = ArcListSerializer(many=True, read_only=True)
     characters = CharacterListSerializer(many=True, read_only=True)
     teams = TeamListSerializer(many=True, read_only=True)
+    universes = UniverseListSerializer(many=True, read_only=True)
     publisher = IssuePublisherSerializer(source="series.publisher", read_only=True)
     series = IssueSeriesSerializer(read_only=True)
     reprints = ReprintSerializer(many=True, read_only=True)
@@ -440,6 +447,7 @@ class IssueReadSerializer(serializers.ModelSerializer):
             "credits",
             "characters",
             "teams",
+            "universes",
             "reprints",
             "variants",
             "cv_id",
