@@ -112,8 +112,12 @@ class SearchUniverseList(UniverseList):
         result = super().get_queryset()
         if query := self.request.GET.get("q"):
             query_list = query.split()
+            # Should we also look up with the unaccent filter? For now, let's not.
             result = result.filter(
-                reduce(operator.and_, (Q(name__icontains=q) for q in query_list))
+                reduce(
+                    operator.and_,
+                    (Q(name__icontains=q) | Q(designation__icontains=q) for q in query_list),
+                )
             )
 
         return result
