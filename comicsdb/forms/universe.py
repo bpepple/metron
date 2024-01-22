@@ -5,7 +5,7 @@ from comicsdb.models import Universe
 
 
 class UniversesWidget(s2forms.ModelSelect2MultipleWidget):
-    search_fields = ["name__icontains"]
+    search_fields = ["name__icontains", "designation__icontains"]
 
 
 class UniverseForm(ModelForm):
