@@ -434,7 +434,7 @@
 - model: comicsdb.universe
   pk: 33
   fields:
-    name: Earth-Prime
+    name: Earth Prime
     slug: earth-prime
     desc: Our own Earth, where superheroes exist only in fiction.
     cv_id: null
@@ -806,7 +806,7 @@
     created_on: 2024-01-22 16:54:52.928465+00:00
     publisher: 2
     image: ''
-    designation: Earth-118
+    designation: Earth 118
     edited_by: 1
 - model: comicsdb.universe
   pk: 61
@@ -1058,7 +1058,7 @@
     created_on: 2024-01-22 17:16:57.982395+00:00
     publisher: 2
     image: ''
-    designation: Earth-50
+    designation: Earth 50
     edited_by: 1
 - model: comicsdb.universe
   pk: 80
@@ -1071,7 +1071,7 @@
     created_on: 2024-01-22 17:18:44.932626+00:00
     publisher: 2
     image: ''
-    designation: Earth-52
+    designation: Earth 52
     edited_by: 1
 - model: comicsdb.universe
   pk: 81
@@ -1084,12 +1084,12 @@
     created_on: 2024-01-22 17:19:34.463117+00:00
     publisher: 2
     image: ''
-    designation: Earth-52
+    designation: Earth 52
     edited_by: 1
 - model: comicsdb.universe
   pk: 82
   fields:
-    name: Earth-54
+    name: Earth 54
     slug: earth-54
     desc: An Earth where Tommy Tomorrow became the first man on Mars in 1960.
     cv_id: null
@@ -1097,7 +1097,7 @@
     created_on: 2024-01-22 17:20:28.332464+00:00
     publisher: 2
     image: ''
-    designation: Earth-54
+    designation: Earth 54
     edited_by: 1
 - model: comicsdb.universe
   pk: 83
@@ -1137,7 +1137,7 @@
     created_on: 2024-01-22 17:23:08.653747+00:00
     publisher: 2
     image: ''
-    designation: Earth-6
+    designation: Earth 6
     edited_by: 1
 - model: comicsdb.universe
   pk: 86
@@ -1191,7 +1191,7 @@
     created_on: 2024-01-22 17:26:06.179391+00:00
     publisher: 2
     image: ''
-    designation: Earth-898
+    designation: Earth 898
     edited_by: 1
 - model: comicsdb.universe
   pk: 90
@@ -1204,12 +1204,12 @@
     created_on: 2024-01-22 17:27:14.325173+00:00
     publisher: 2
     image: ''
-    designation: Earth-898
+    designation: Earth 898
     edited_by: 1
 - model: comicsdb.universe
   pk: 91
   fields:
-    name: Earth-M
+    name: Earth M
     slug: earth-m
     desc: Home to the updated versions of characters and story-lines present in Milestone
       Comics.
@@ -1244,7 +1244,7 @@
     created_on: 2024-01-22 17:30:19.451889+00:00
     publisher: 2
     image: ''
-    designation: Earth-97
+    designation: Earth 97
     edited_by: 1
 - model: comicsdb.universe
   pk: 94
@@ -1262,7 +1262,7 @@
 - model: comicsdb.universe
   pk: 95
   fields:
-    name: Earth-C
+    name: Earth C
     slug: earth-c
     desc: Home of Captain Carrot and the Zoo Crew.
     cv_id: null
@@ -1270,12 +1270,12 @@
     created_on: 2024-01-22 17:31:37.505659+00:00
     publisher: 2
     image: ''
-    designation: Earth-C
+    designation: Earth C
     edited_by: 1
 - model: comicsdb.universe
   pk: 96
   fields:
-    name: Earth-C‐Minus
+    name: Earth C‐Minus
     slug: earth-cminus
     desc: Home of Just'a Lotta Animals.
     cv_id: null
@@ -1283,12 +1283,12 @@
     created_on: 2024-01-22 17:32:37.019057+00:00
     publisher: 2
     image: ''
-    designation: Earth-C‐Minus
+    designation: Earth C‐Minus
     edited_by: 1
 - model: comicsdb.universe
   pk: 97
   fields:
-    name: Earth-D
+    name: Earth D
     slug: earth-d
     desc: Justice Alliance of America
     cv_id: null
@@ -1296,7 +1296,7 @@
     created_on: 2024-01-22 17:33:01.520669+00:00
     publisher: 2
     image: ''
-    designation: Earth-D
+    designation: Earth D
     edited_by: 1
 - model: comicsdb.universe
   pk: 98
@@ -1309,12 +1309,12 @@
     created_on: 2024-01-22 17:33:56.599082+00:00
     publisher: 2
     image: ''
-    designation: Earth-I
+    designation: Earth I
     edited_by: 1
 - model: comicsdb.universe
   pk: 99
   fields:
-    name: Earth-Prime
+    name: Earth Prime
     slug: earth-prime-1
     desc: The origin universe of Ultraa and Superboy-Prime.
     cv_id: null
@@ -1322,12 +1322,12 @@
     created_on: 2024-01-22 17:34:51.074651+00:00
     publisher: 2
     image: ''
-    designation: Earth-Prime
+    designation: Earth Prime
     edited_by: 1
 - model: comicsdb.universe
   pk: 100
   fields:
-    name: Earth-S
+    name: Earth S
     slug: earth-s
     desc: Home of the Marvel Family.
     cv_id: null
@@ -1335,12 +1335,12 @@
     created_on: 2024-01-22 17:35:37.100138+00:00
     publisher: 2
     image: ''
-    designation: Earth-S
+    designation: Earth S
     edited_by: 1
 - model: comicsdb.universe
   pk: 101
   fields:
-    name: Earth-Seven
+    name: Earth Seven
     slug: earth-seven
     desc: Home to the Dark Angel, an evil analogue of Donna Troy
     cv_id: null
@@ -1348,12 +1348,12 @@
     created_on: 2024-01-22 21:49:39.352910+00:00
     publisher: 2
     image: ''
-    designation: Earth-Seven
+    designation: Earth Seven
     edited_by: 1
 - model: comicsdb.universe
   pk: 102
   fields:
-    name: Earth-Six
+    name: Earth Six
     slug: earth-six
     desc: Home of Lady Quark, Lord Volt and their daughter Princess Fern.
     cv_id: null
@@ -1361,12 +1361,12 @@
     created_on: 2024-01-22 21:50:20.221797+00:00
     publisher: 2
     image: ''
-    designation: Earth-Six
+    designation: Earth Six
     edited_by: 1
 - model: comicsdb.universe
   pk: 103
   fields:
-    name: Earth-Three
+    name: Earth Three
     slug: earth-three
     desc: Home of The Crime Syndicate of America, evil versions of the Earth-One heroes.
     cv_id: null
@@ -1374,12 +1374,12 @@
     created_on: 2024-01-22 21:51:06.993700+00:00
     publisher: 2
     image: ''
-    designation: Earth-Three
+    designation: Earth Three
     edited_by: 1
 - model: comicsdb.universe
   pk: 104
   fields:
-    name: Earth-Twelve
+    name: Earth Twelve
     slug: earth-twelve
     desc: Home of The Inferior Five.
     cv_id: null
@@ -1387,12 +1387,12 @@
     created_on: 2024-01-22 21:51:41.305934+00:00
     publisher: 2
     image: ''
-    designation: Earth-Twelve
+    designation: Earth Twelve
     edited_by: 1
 - model: comicsdb.universe
   pk: 105
   fields:
-    name: Earth-Two
+    name: Earth Two
     slug: earth-two
     desc: DC's Golden Age heroes, including the Justice Society of America, whose
       careers began at the dawn of World War II.
@@ -1401,12 +1401,12 @@
     created_on: 2024-01-22 21:52:32.932244+00:00
     publisher: 2
     image: ''
-    designation: Earth-Two
+    designation: Earth Two
     edited_by: 1
 - model: comicsdb.universe
   pk: 106
   fields:
-    name: Earth-X
+    name: Earth X
     slug: earth-x
     desc: Home of The Freedom Fighters. The Nazis won World War II on this world.
     cv_id: null
@@ -1414,5 +1414,268 @@
     created_on: 2024-01-22 21:53:37.475832+00:00
     publisher: 2
     image: ''
-    designation: Earth-X
+    designation: Earth X
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 107
+  fields:
+    name: Ultimate
+    slug: ultimate
+    desc: The original Ultimate Marvel universe is the reinvention of the Marvel Universe
+      for the modern age, Initially beginning with Ultimate Spider-Man and Ultimate
+      X-Men.
+    cv_id: null
+    modified: 2024-01-23 15:26:13.724859+00:00
+    created_on: 2024-01-23 15:26:13.715285+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 1610
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 108
+  fields:
+    name: MCU
+    slug: mcu
+    desc: Home to the Marvel Cinematic Universe.
+    cv_id: null
+    modified: 2024-01-23 15:27:26.517400+00:00
+    created_on: 2024-01-23 15:27:26.509856+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 199999
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 109
+  fields:
+    name: Marvel Zombies
+    slug: marvel-zombies
+    desc: Reality of the original Marvel Zombies series, where an outbreak of a zombie
+      virus that came from another alternate Earth turned all of its superheroes and
+      supervillains into cannibalistic, flesh-eating zombies.
+    cv_id: null
+    modified: 2024-01-23 15:28:40.839021+00:00
+    created_on: 2024-01-23 15:28:40.831997+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 2149
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 110
+  fields:
+    name: Age of Apocalypse
+    slug: age-of-apocalypse
+    desc: Reality where the villain Apocalypse has successfully conquered North America,
+      causing chaos & destruction across most of the world.
+    cv_id: null
+    modified: 2024-01-23 15:29:44.858372+00:00
+    created_on: 2024-01-23 15:29:44.850673+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 295
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 111
+  fields:
+    name: Marvel 1602
+    slug: marvel-1602
+    desc: 'Primary setting for the 1602 limited series written by Neil Gaiman, and
+      the spin-off titles 1602: New World, 1602: Fantastick Four and 1602: Spider-Man'
+    cv_id: null
+    modified: 2024-01-23 15:30:24.704620+00:00
+    created_on: 2024-01-23 15:30:24.697004+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 311
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 112
+  fields:
+    name: Medieval
+    slug: medieval
+    desc: This world was created when Morgan le Fay warped reality where it is trapped
+      in the Medieval ages
+    cv_id: null
+    modified: 2024-01-23 15:31:25.366348+00:00
+    created_on: 2024-01-23 15:31:25.358769+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 398
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 113
+  fields:
+    name: House of M (2005)
+    slug: house-of-m-2005
+    desc: An alternate version of Earth-616 created by Wanda Maximoff, who wished
+      mutants were the dominant species instead of humans.
+    cv_id: null
+    modified: 2024-01-23 15:32:15.067362+00:00
+    created_on: 2024-01-23 15:32:15.059125+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 58163
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 114
+  fields:
+    name: Spider-Gwen's Universe
+    slug: spider-gwens-universe
+    desc: Home universe of Spider-Woman (Gwen Stacy).
+    cv_id: null
+    modified: 2024-01-23 15:33:17.452476+00:00
+    created_on: 2024-01-23 15:33:17.444487+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 65
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 115
+  fields:
+    name: Days of Future Past
+    slug: days-of-future-past
+    desc: The setting of Days of Future Past, a dystopic version of the near-distant
+      future where mutants are actively hunted and sent to concentration camps, and
+      whose timeline diverges from Earth-616 in occasion of the assassination of Senator
+      Kelly.
+    cv_id: null
+    modified: 2024-01-23 15:34:32.717600+00:00
+    created_on: 2024-01-23 15:34:32.706887+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 811
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 116
+  fields:
+    name: Shadowline
+    slug: shadowline
+    desc: The setting of Shadowline.
+    cv_id: null
+    modified: 2024-01-23 15:38:31.731129+00:00
+    created_on: 2024-01-23 15:38:31.723584+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 88194
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 117
+  fields:
+    name: Marvel Noir
+    slug: marvel-noir
+    desc: The setting of Marvel Noir, a universe in the 1920s–1930s that has few superhumans
+      who developed superpowers.
+    cv_id: null
+    modified: 2024-01-23 15:39:10.424830+00:00
+    created_on: 2024-01-23 15:39:10.416465+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 90214
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 118
+  fields:
+    name: Marvel 2099
+    slug: marvel-2099
+    desc: An alternate future of Earth-616 set in 2099, with futuristic incarnations
+      of Marvel heroes, villains and teams.
+    cv_id: null
+    modified: 2024-01-23 15:40:03.740519+00:00
+    created_on: 2024-01-23 15:40:03.732907+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 928
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 119
+  fields:
+    name: Ultraverse
+    slug: ultraverse
+    desc: Home of the Ultraverse.
+    cv_id: null
+    modified: 2024-01-23 15:40:45.588079+00:00
+    created_on: 2024-01-23 15:40:45.580694+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 93060
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 120
+  fields:
+    name: MC2
+    slug: mc2
+    desc: The home of MC2.
+    cv_id: null
+    modified: 2024-01-23 15:42:28.032982+00:00
+    created_on: 2024-01-23 15:42:28.024756+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 982
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 121
+  fields:
+    name: Universe X
+    slug: universe-x
+    desc: The setting for Earth X.
+    cv_id: null
+    modified: 2024-01-23 15:43:37.239347+00:00
+    created_on: 2024-01-23 15:43:37.232362+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 9997
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 122
+  fields:
+    name: Earth 616
+    slug: earth-616
+    desc: The primary continuity in which most Marvel Comics titles take place.
+    cv_id: null
+    modified: 2024-01-23 15:45:50.282075+00:00
+    created_on: 2024-01-23 15:45:50.274410+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 616
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 123
+  fields:
+    name: Massive-Verse
+    slug: massive-verse
+    desc: A fictional shared universe, created by Kyle Higgins as an offshoot/relaunch
+      of the Image Universe (IU), which spans a line of comic books (Radiant Black
+      and its spin-offs) published by Image Comics since February 2021, later retroactively
+      established to have begun with C.O.W.L., first published in May 2014.
+    cv_id: null
+    modified: 2024-01-23 15:47:53.009920+00:00
+    created_on: 2024-01-23 15:47:52.999238+00:00
+    publisher: 4
+    image: ''
+    designation: ''
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 124
+  fields:
+    name: Invincible Universe
+    slug: invincible-universe
+    desc: A fictional universe created by Robert Kirkman.
+    cv_id: null
+    modified: 2024-01-23 15:49:38.866566+00:00
+    created_on: 2024-01-23 15:49:38.859458+00:00
+    publisher: 4
+    image: ''
+    designation: ''
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 125
+  fields:
+    name: Millarworld Universe
+    slug: millarworld-universe
+    desc: ''
+    cv_id: null
+    modified: 2024-01-23 15:50:05.067548+00:00
+    created_on: 2024-01-23 15:50:05.059270+00:00
+    publisher: 4
+    image: ''
+    designation: ''
     edited_by: 1
