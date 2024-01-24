@@ -66,6 +66,7 @@ class Universe(CommonInfo):
     class Meta:
         indexes = [models.Index(fields=["name"], name="universe_name_idx")]
         ordering = ["name", "designation"]
+        unique_together = ["publisher", "name", "designation"]
         db_table_comment = "Publisher Universes"
 
 
