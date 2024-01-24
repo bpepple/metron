@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from comicsdb.filters.issue import IssueFilter
-from comicsdb.filters.name import ComicVineFilter, NameFilter
+from comicsdb.filters.name import ComicVineFilter, NameFilter, UniverseFilter
 from comicsdb.filters.series import SeriesFilter
 from comicsdb.models import (
     Arc,
@@ -499,7 +499,7 @@ class UniverseViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Universe.objects.all()
-    filterset_class = NameFilter
+    filterset_class = UniverseFilter
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
