@@ -13,3 +13,9 @@ class UniverseForm(ModelForm):
         model = Universe
         fields = ("publisher", "name", "designation", "desc", "image")
         widgets = {"image": ClearableFileInput()}
+        help_texts = {
+            "name": "Do not use a hyphen to separate text in this field. For example, "
+            "<i>'Earth 2'</i> should <b>not</b> be <i>'Earth-2'</i>.",
+            "designation": "Do not use a hyphen to separate text in this field. For example, "
+            "<i>'Earth 2'</i> should <b>not</b> be <i>'Earth-2'</i>.",
+        }
