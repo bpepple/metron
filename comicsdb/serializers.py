@@ -13,6 +13,7 @@ from comicsdb.models import (
     Series,
     SeriesType,
     Team,
+    Universe,
     Variant,
 )
 
@@ -127,6 +128,12 @@ class TeamListSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "modified")
 
 
+class UniverseListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Universe
+        fields = ("id", "name", "modified")
+
+
 class ArcSerializer(serializers.ModelSerializer):
     resource_url = serializers.SerializerMethodField("get_resource_url")
 
@@ -169,6 +176,7 @@ class CharacterSerializer(serializers.ModelSerializer):
         """
         creators_data = validated_data.pop("creators", None)
         teams_data = validated_data.pop("teams", None)
+        universes_data = validated_data.pop("universes", None)
         if "image" in validated_data and validated_data["image"] is not None:
             validated_data["image"] = validated_data["image"].seek(0)
         character = Character.objects.create(**validated_data)
@@ -176,6 +184,8 @@ class CharacterSerializer(serializers.ModelSerializer):
             character.creators.add(*creators_data)
         if teams_data:
             character.teams.add(*teams_data)
+        if universes_data:
+            character.universes.add(*universes_data)
         return character
 
     def update(self, instance: Character, validated_data):
@@ -191,6 +201,8 @@ class CharacterSerializer(serializers.ModelSerializer):
             instance.creators.add(*creators_data)
         if teams_data := validated_data.get("teams", None):
             instance.teams.add(*teams_data)
+        if universes_data := validated_data.get("universes", None):
+            instance.universes.add(*universes_data)
         instance.save()
         return instance
 
@@ -204,6 +216,7 @@ class CharacterSerializer(serializers.ModelSerializer):
             "image",
             "creators",
             "teams",
+            "universes",
             "cv_id",
             "resource_url",
             "modified",
@@ -213,6 +226,7 @@ class CharacterSerializer(serializers.ModelSerializer):
 class CharacterReadSerializer(CharacterSerializer):
     creators = CreatorListSerializer(many=True, read_only=True)
     teams = TeamListSerializer(many=True, read_only=True)
+    universes = UniverseListSerializer(many=True, read_only=True)
 
 
 class CreatorSerializer(serializers.ModelSerializer):
@@ -316,6 +330,7 @@ class IssueSerializer(serializers.ModelSerializer):
         arcs_data = validated_data.pop("arcs", None)
         characters_data = validated_data.pop("characters", None)
         teams_data = validated_data.pop("teams", None)
+        universes_data = validated_data.pop("universes", None)
         reprints_data = validated_data.pop("reprints", None)
         if "image" in validated_data and validated_data["image"] is not None:
             validated_data["image"] = validated_data["image"].seek(0)
@@ -326,6 +341,8 @@ class IssueSerializer(serializers.ModelSerializer):
             issue.characters.add(*characters_data)
         if teams_data:
             issue.teams.add(*teams_data)
+        if universes_data:
+            issue.universes.add(*universes_data)
         if reprints_data:
             issue.reprints.add(*reprints_data)
         return issue
@@ -355,6 +372,8 @@ class IssueSerializer(serializers.ModelSerializer):
             instance.characters.add(*characters_data)
         if teams_data := validated_data.pop("teams", None):
             instance.teams.add(*teams_data)
+        if universes_data := validated_data.pop("universes", None):
+            instance.universes.add(*universes_data)
         if reprints_data := validated_data.pop("reprints", None):
             instance.reprints.add(*reprints_data)
         instance.save()
@@ -381,6 +400,7 @@ class IssueSerializer(serializers.ModelSerializer):
             "arcs",
             "characters",
             "teams",
+            "universes",
             "reprints",
             "cv_id",
             "resource_url",
@@ -393,6 +413,7 @@ class IssueReadSerializer(serializers.ModelSerializer):
     arcs = ArcListSerializer(many=True, read_only=True)
     characters = CharacterListSerializer(many=True, read_only=True)
     teams = TeamListSerializer(many=True, read_only=True)
+    universes = UniverseListSerializer(many=True, read_only=True)
     publisher = IssuePublisherSerializer(source="series.publisher", read_only=True)
     series = IssueSeriesSerializer(read_only=True)
     reprints = ReprintSerializer(many=True, read_only=True)
@@ -426,6 +447,7 @@ class IssueReadSerializer(serializers.ModelSerializer):
             "credits",
             "characters",
             "teams",
+            "universes",
             "reprints",
             "variants",
             "cv_id",
@@ -571,11 +593,14 @@ class TeamSerializer(serializers.ModelSerializer):
         Create and return a new `Team` instance, given the validated data.
         """
         creators_data = validated_data.pop("creators", None)
+        universes_data = validated_data.pop("universes", None)
         if "image" in validated_data and validated_data["image"] is not None:
             validated_data["image"] = validated_data["image"].seek(0)
         team = Team.objects.create(**validated_data)
         if creators_data:
             team.creators.add(*creators_data)
+        if universes_data:
+            team.universes.add(*universes_data)
         return team
 
     def update(self, instance: Team, validated_data):
@@ -588,6 +613,8 @@ class TeamSerializer(serializers.ModelSerializer):
         instance.cv_id = validated_data.get("cv_id", instance.cv_id)
         if creators_data := validated_data.pop("creators", None):
             instance.creators.add(*creators_data)
+        if universes_data := validated_data.pop("universes", None):
+            instance.universes.add(*universes_data)
         instance.save()
         return instance
 
@@ -599,6 +626,7 @@ class TeamSerializer(serializers.ModelSerializer):
             "desc",
             "image",
             "creators",
+            "universes",
             "cv_id",
             "resource_url",
             "modified",
@@ -607,6 +635,48 @@ class TeamSerializer(serializers.ModelSerializer):
 
 class TeamReadSerializer(TeamSerializer):
     creators = CreatorListSerializer(many=True, read_only=True)
+    universes = UniverseListSerializer(many=True, read_only=True)
+
+
+class UniverseSerializer(serializers.ModelSerializer):
+    resource_url = serializers.SerializerMethodField("get_resource_url")
+
+    def get_resource_url(self, obj: Team) -> str:
+        return self.context["request"].build_absolute_uri(obj.get_absolute_url())
+
+    def create(self, validated_data):
+        """
+        Create and return a new `Universe` instance, given the validated data.
+        """
+
+        if "image" in validated_data and validated_data["image"] is not None:
+            validated_data["image"] = validated_data["image"].seek(0)
+        return Universe.objects.create(**validated_data)
+
+    def update(self, instance: Universe, validated_data):
+        """
+        Update and return an existing `Universe` instance, given the validated data.
+        """
+        instance.publisher = validated_data.get("publisher", instance.publisher)
+        instance.name = validated_data.get("name", instance.name)
+        instance.designation = validated_data.get("designation", instance.designation)
+        instance.desc = validated_data.get("desc", instance.desc)
+        instance.image = validated_data.get("image", instance.image)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = Universe
+        fields = (
+            "id",
+            "publisher",
+            "name",
+            "designation",
+            "desc",
+            "image",
+            "resource_url",
+            "modified",
+        )
 
 
 class VariantSerializer(serializers.ModelSerializer):

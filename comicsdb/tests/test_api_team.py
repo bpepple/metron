@@ -1,13 +1,16 @@
-# from comicsdb.models import Team
-# from comicsdb.serializers import TeamSerializer
 import pytest
 from django.urls import reverse
 from rest_framework import status
 
 
 @pytest.fixture()
-def create_team_data():
-    return {"name": "The Crazies", "desc": "Blah Blah", "creators": [1]}
+def create_team_data(john_byrne, earth_2_universe):
+    return {
+        "name": "The Crazies",
+        "desc": "Blah Blah",
+        "creators": [john_byrne.id],
+        "universes": [earth_2_universe.id],
+    }
 
 
 @pytest.fixture()
@@ -26,11 +29,15 @@ def test_user_post_url(api_client_with_credentials, create_team_data):
     assert resp.status_code == status.HTTP_403_FORBIDDEN
 
 
-# def test_group_user_post_url(db, api_client_with_staff_credentials, create_team_data):
-#     resp = api_client_with_staff_credentials.post(
-#         reverse("api:team-list"), data=create_team_data
-#     )
-#     assert resp.status_code == status.HTTP_201_CREATED
+def test_group_user_post_url(db, api_client_with_staff_credentials, create_team_data):
+    resp = api_client_with_staff_credentials.post(
+        reverse("api:team-list"), data=create_team_data
+    )
+    assert resp.status_code == status.HTTP_201_CREATED
+    assert resp.data["name"] == create_team_data["name"]
+    assert resp.data["desc"] == create_team_data["desc"]
+    assert resp.data["creators"] == create_team_data["creators"]
+    assert resp.data["universes"] == create_team_data["universes"]
 
 
 # Put Tests

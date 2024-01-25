@@ -6,10 +6,13 @@ from rest_framework import status
 
 from comicsdb.models.creator import Creator
 from comicsdb.models.team import Team
+from comicsdb.models.universe import Universe
 
 
 @pytest.fixture()
-def create_character_data(john_byrne: Creator, teen_titans: Team) -> dict[str, Any]:
+def create_character_data(
+    john_byrne: Creator, teen_titans: Team, earth_2_universe: Universe
+) -> dict[str, Any]:
     return {
         "name": "Wolverine",
         "desc": "Blah Blah",
@@ -18,6 +21,7 @@ def create_character_data(john_byrne: Creator, teen_titans: Team) -> dict[str, A
         ],
         "creators": [john_byrne.id],
         "teams": [teen_titans.id],
+        "universes": [earth_2_universe.id],
     }
 
 
@@ -67,6 +71,8 @@ def test_admin_user_post_url(db, api_client_with_staff_credentials, create_chara
         reverse("api:character-list"), data=create_character_data
     )
     assert resp.status_code == status.HTTP_201_CREATED
+    assert resp.data.get("name") == create_character_data["name"]
+    assert resp.data.get("universes") == create_character_data["universes"]
 
 
 def test_view_url_accessible_by_name(api_client_with_credentials, batman, superman):

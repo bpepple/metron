@@ -18,21 +18,15 @@
         <a class="navbar-link">Releases</a>
         <div class="navbar-dropdown">
           <a class="navbar-item" href="{% url 'issue:thisweek' %}">
-            <span class="icon">
-              <i class="fas fa-star"></i>
-            </span>
+            <span class="icon"><i class="fas fa-star"></i></span>
             <span>This Week</span>
           </a>
           <a class="navbar-item" href="{% url 'issue:nextweek' %}">
-            <span class="icon">
-              <i class="fas fa-bolt"></i>
-            </span>
+            <span class="icon"><i class="fas fa-bolt"></i></span>
             <span>Next Week</span>
           </a>
           <a class="navbar-item" href="{% url 'issue:future' %}">
-            <span class="icon">
-              <i class="fas fa-gem"></i>
-            </span>
+            <span class="icon"><i class="fas fa-gem"></i></span>
             <span>Future</span>
           </a>
         </div>
@@ -41,46 +35,36 @@
         <a class="navbar-link">Browse</a>
         <div class="navbar-dropdown">
           <a class="navbar-item" href="{% url 'publisher:list' %}">
-            <span class="icon">
-              <i class="fas fa-building"></i>
-            </span>
+            <span class="icon"><i class="fas fa-building"></i></span>
             <span>Publishers</span>
           </a>
           <a class="navbar-item" href="{% url 'series:list' %}">
-            <span class="icon">
-              <i class="fas fa-archive"></i>
-            </span>
+            <span class="icon"><i class="fas fa-archive"></i></span>
             <span>Series</span>
           </a>
           <a class="navbar-item" href="{% url 'issue:list' %}">
-            <span class="icon">
-              <i class="fas fa-book"></i>
-            </span>
+            <span class="icon"><i class="fas fa-book"></i></span>
             <span>Issues</span>
           </a>
           <a class="navbar-item" href="{% url 'creator:list' %}">
-            <span class="icon">
-              <i class="fas fa-user-edit"></i>
-            </span>
+            <span class="icon"><i class="fas fa-user-edit"></i></span>
             <span>Creators</span>
           </a>
           <a class="navbar-item" href="{% url 'character:list' %}">
-            <span class="icon">
-              <i class="fas fa-user-astronaut"></i>
-            </span>
+            <span class="icon"><i class="fas fa-user-astronaut"></i></span>
             <span>Characters</span>
           </a>
           <a class="navbar-item" href="{% url 'arc:list' %}">
-            <span class="icon">
-              <i class="fas fa-lightbulb"></i>
-            </span>
+            <span class="icon"><i class="fas fa-lightbulb"></i></span>
             <span>Story Arcs</span>
           </a>
           <a class="navbar-item" href="{% url 'team:list' %}">
-            <span class="icon">
-              <i class="fas fa-users"></i>
-            </span>
+            <span class="icon"><i class="fas fa-users"></i></span>
             <span>Teams</span>
+          </a>
+          <a class="navbar-item" href="{% url 'universe:list' %}">
+            <span class="icon"><i class="fas fa-globe-americas"></i></span>
+            <span>Universes</span>
           </a>
         </div>
       </div>
@@ -88,48 +72,34 @@
         <a class="navbar-link">More</a>
         <div class="navbar-dropdown">
           <a class="navbar-item" href="{% url 'flatpage:editing-guidelines' %}">
-            <span class="icon">
-              <i class="fas fa-edit"></i>
-            </span>
+            <span class="icon"><i class="fas fa-edit"></i></span>
             <span>Editing Guidelines</span>
           </a>
           <a class="navbar-item" href="{% url 'flatpage:api-guidelines' %}">
-            <span class="icon">
-              <i class="fas fa-satellite"></i>
-            </span>
+            <span class="icon"><i class="fas fa-satellite"></i></span>
             <span>API Guidelines</span>
           </a>
           {% if user.is_authenticated %}
             <a class="navbar-item" href="/docs/">
-            <span class="icon">
-              <i class="fas fa-file"></i>
-            </span>
+              <span class="icon"><i class="fas fa-file"></i></span>
               <span>API Docs</span>
             </a>
           {% endif %}
           <a class="navbar-item" href="{% url 'flatpage:privacy' %}">
-            <span class="icon">
-              <i class="fas fa-user-secret"></i>
-            </span>
+            <span class="icon"><i class="fas fa-user-secret"></i></span>
             <span>Privacy Policy</span>
           </a>
           <a class="navbar-item" href="{% url 'statistics' %}">
-            <span class="icon">
-              <i class="fas fa-chart-bar"></i>
-            </span>
+            <span class="icon"><i class="fas fa-chart-bar"></i></span>
             <span>Statistics</span>
           </a>
           <a class="navbar-item" href="https://metron-project.github.io/blog" target="_blank">
-            <span class="icon">
-              <i class="fas fa-blog"></i>
-            </span>
+            <span class="icon"><i class="fas fa-blog"></i></span>
             <span>Blog</span>
           </a>
           <hr class="navbar-divider">
           <a class="navbar-item" href="https://github.com/bpepple/metron/issues/new/choose">
-            <span class="icon">
-              <i class="fas fa-bug"></i>
-            </span>
+            <span class="icon"><i class="fas fa-bug"></i></span>
             <span>Report an issue</span>
           </a>
         </div>
@@ -137,21 +107,15 @@
     </div>
     <div class="navbar-end">
       <a class="navbar-item" href="https://metron-project.github.io" target="_blank">
-        <span class="icon">
-        <i class="fab fa-lg fa-github"></i>
-        </span>
+        <span class="icon"><i class="fab fa-lg fa-github"></i></span>
       </a>
       <a class="navbar-item" rel="me" href="https://mastodon.social/@metron" target="_blank">
-        <span class="icon">
-          <i class="fab fa-lg fa-mastodon"></i>
-        </span>
+        <span class="icon"><i class="fab fa-lg fa-mastodon"></i></span>
       </a>
       <div class="navbar-end">
-      {% if user.is_authenticated %}
-        <a class="navbar-item" href="{% url 'change_profile' %}">
-          Account
-        </a>
-      {% endif %}
+        {% if user.is_authenticated %}
+          <a class="navbar-item" href="{% url 'change_profile' %}">Account</a>
+        {% endif %}
         <div class="navbar-item">
           <div class="buttons">
             {% if user.is_authenticated %}
@@ -162,12 +126,8 @@
                 </button>
               </form>
             {% else %}
-              <a class="button is-primary" href="{% url 'signup' %}">
-                <strong>Sign up</strong>
-              </a>
-              <a class="button is-light" href="{% url 'login' %}">
-                Log in
-              </a>
+              <a class="button is-primary" href="{% url 'signup' %}"><strong>Sign up</strong></a>
+              <a class="button is-light" href="{% url 'login' %}">Log in</a>
             {% endif %}
           </div>
         </div>

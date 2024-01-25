@@ -94,7 +94,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
         "cover_date",
         "series__publisher",
     )
-    autocomplete_fields = ["series", "characters", "teams", "arcs", "reprints"]
+    autocomplete_fields = ["series", "characters", "teams", "arcs", "universes", "reprints"]
     list_select_related = ("series",)
     date_hierarchy = "cover_date"
     actions = ["add_dc_credits", "add_marvel_credits", "add_reprint_info"]
@@ -122,6 +122,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
                     "characters",
                     "teams",
                     "arcs",
+                    "universes",
                     "reprints",
                     "image",
                     "created_by",

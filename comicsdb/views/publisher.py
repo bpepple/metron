@@ -47,7 +47,9 @@ class PublisherSeriesList(ListView):
 
 class PublisherDetail(DetailView):
     model = Publisher
-    queryset = Publisher.objects.select_related("edited_by").prefetch_related("series_set")
+    queryset = Publisher.objects.select_related("edited_by").prefetch_related(
+        "series_set", "universe_set__issue_set"
+    )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

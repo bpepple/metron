@@ -9,6 +9,7 @@ from comicsdb.models import (
     Series,
     SeriesType,
     Team,
+    Universe,
 )
 from comicsdb.models.common import generate_slug_from_name
 from comicsdb.models.genre import Genre
@@ -19,7 +20,7 @@ HTTP_200_OK = 200
 def test_team_creation(avengers):
     assert isinstance(avengers, Team)
     assert str(avengers) == avengers.name
-    # test generatte slug function
+    # test generate slug function
     new_slug = generate_slug_from_name(avengers)
     expected_slug = f"{avengers.slug}-1"
     assert new_slug == expected_slug
@@ -154,3 +155,17 @@ def test_fantasy_genre(db):
 def test_unknown_rating(db):
     unknown = Rating.objects.get(name="Unknown")
     assert isinstance(unknown, Rating)
+
+
+def test_universe_creation(earth_2_universe):
+    assert isinstance(earth_2_universe, Universe)
+    assert str(earth_2_universe) == "Earth 2"
+
+
+def test_universe_verbose_name_plural(earth_2_universe):
+    assert str(earth_2_universe._meta.verbose_name_plural) == "universes"
+
+
+def test_universe_absolute_url(client, earth_2_universe):
+    resp = client.get(earth_2_universe.get_absolute_url())
+    assert resp.status_code == HTTP_200_OK

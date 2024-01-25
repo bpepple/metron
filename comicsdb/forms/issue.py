@@ -8,6 +8,7 @@ from django.forms import (
 from django_select2 import forms as s2forms
 
 from comicsdb.forms.team import TeamsWidget
+from comicsdb.forms.universe import UniversesWidget
 from comicsdb.models import Issue, Rating, Series
 
 
@@ -60,6 +61,7 @@ class IssueForm(ModelForm):
             "characters",
             "teams",
             "arcs",
+            "universes",
             "reprints",
             "image",
         )
@@ -67,6 +69,7 @@ class IssueForm(ModelForm):
             "arcs": ArcsWidget(attrs={"class": "input"}),
             "characters": CharactersWidget(attrs={"class": "input"}),
             "teams": TeamsWidget(attrs={"class": "input"}),
+            "universes": UniversesWidget(attrs={"class": "input"}),
             "reprints": IssuesWidget(attrs={"class": "input"}),
             "image": ClearableFileInput(),
         }
@@ -94,7 +97,9 @@ class IssueForm(ModelForm):
         if collection_title:
             series: Series = self.cleaned_data["series"]
             if collection_title and not series.collection:
-                raise ValidationError("Collection Title field is not allowed for this series..")
+                raise ValidationError(
+                    "Collection Title field is not allowed for this series.."
+                )
         return collection_title
 
     def clean_arcs(self):

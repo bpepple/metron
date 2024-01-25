@@ -1,0 +1,1681 @@
+- model: comicsdb.universe
+  pk: 1
+  fields:
+    name: 'Dark Multiverse: Devastator'
+    slug: dark-multiverse-devastator
+    desc: On this Earth, Batman infected himself with the Doomsday virus and became
+      a version of Doomsday in order to kill a rogue Superman.
+    cv_id: null
+    modified: 2024-01-20 16:03:59.724756+00:00
+    created_on: 2024-01-20 16:03:59.725119+00:00
+    publisher: 2
+    image: ''
+    designation: Earth -1
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 2
+  fields:
+    name: 'Dark Multiverse: Drowned'
+    slug: dark-multiverse-drowned
+    desc: On this world, Bryce Wayne mass-murdered all meta-humans in revenge for
+      the death of her lover Sylvester Kyle. When Atlantis made contact with the surface
+      world, Bryce murdered their queen, Aquawoman, starting a war with Atlantis.
+      She then had herself surgically altered to gain Atlantean powers.
+    cv_id: null
+    modified: 2024-01-20 16:06:25.005247+00:00
+    created_on: 2024-01-20 16:06:25.005679+00:00
+    publisher: 2
+    image: ''
+    designation: Earth -11
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 3
+  fields:
+    name: 'Dark Multiverse: Merciless'
+    slug: dark-multiverse-merciless
+    desc: Like the core Multiverse's Earth 12, an alternate future-related reality,
+      in which Wonder Woman dies in the course of unspecified combat, and in which
+      Batman engineers a fusion with Ares in revenge for her death.
+    cv_id: null
+    modified: 2024-01-20 16:07:14.788540+00:00
+    created_on: 2024-01-20 16:07:14.788951+00:00
+    publisher: 2
+    image: ''
+    designation: Earth -12
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 4
+  fields:
+    name: 'Dark Multiverse: Batman Who Laughs'
+    slug: dark-multiverse-batman-who-laughs
+    desc: The Earth -22 Batman became the Batman Who Laughs following a climatic confrontation
+      between the two antagonists, which drove an insane Batman into killing the Joker,
+      while turning him into a new Joker from being subjected to a purified form of
+      Joker venom.
+    cv_id: null
+    modified: 2024-01-20 16:07:56.856219+00:00
+    created_on: 2024-01-20 16:07:56.856565+00:00
+    publisher: 2
+    image: ''
+    designation: Earth -22
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 5
+  fields:
+    name: 'Dark Multiverse: Dawnbreaker'
+    slug: dark-multiverse-dawnbreaker
+    desc: On this Earth, young Bruce Wayne became a Green Lantern immediately following
+      the death of his parents. Filled with rage, he disabled his ring's safeguard
+      against lethal force and used its powers to murder criminals.
+    cv_id: null
+    modified: 2024-01-20 16:08:51.132347+00:00
+    created_on: 2024-01-20 16:08:51.133487+00:00
+    publisher: 2
+    image: ''
+    designation: Earth -32
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 6
+  fields:
+    name: 'Dark Multiverse: Red Death'
+    slug: dark-multiverse-red-death
+    desc: On this Earth, Batman forcibly merged himself with the Flash to gain the
+      power of the Speed Force, becoming the Red Death, after he had lost his significant
+      family members, friends and non-metahuman allies.
+    cv_id: null
+    modified: 2024-01-20 16:11:46.311560+00:00
+    created_on: 2024-01-20 16:11:46.313006+00:00
+    publisher: 2
+    image: ''
+    designation: Earth -52
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 7
+  fields:
+    name: 'Dark Multiverse: Murder Machine'
+    slug: dark-multiverse-murder-machine
+    desc: On this Earth, Batman merged himself with a digital copy of Alfred Pennyworth's
+      mind after the real Alfred Pennyworth's death, becoming a murderous cyborg.
+    cv_id: null
+    modified: 2024-01-20 16:13:03.434885+00:00
+    created_on: 2024-01-20 16:13:03.435175+00:00
+    publisher: 2
+    image: ''
+    designation: Earth -44
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 8
+  fields:
+    name: DC Animated Universe
+    slug: dc-animated-universe
+    desc: This world is home to the heroes of the DC Animated Universe, including
+      Batman Beyond.
+    cv_id: null
+    modified: 2024-01-20 16:14:50.280922+00:00
+    created_on: 2024-01-20 16:14:50.281325+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 12
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 9
+  fields:
+    name: Earth 10
+    slug: earth-10
+    desc: Home to the New Freedom Fighters
+    cv_id: null
+    modified: 2024-01-20 16:18:20.855454+00:00
+    created_on: 2024-01-20 16:18:20.855873+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 10
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 10
+  fields:
+    name: Earth 11
+    slug: earth-11
+    desc: Home to the Justice Guild.
+    cv_id: null
+    modified: 2024-01-20 16:19:02.084373+00:00
+    created_on: 2024-01-20 16:19:02.084935+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 11
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 11
+  fields:
+    name: Earth 13
+    slug: earth-13
+    desc: Home to the League of Shadows.
+    cv_id: null
+    modified: 2024-01-20 16:20:21.986927+00:00
+    created_on: 2024-01-20 16:20:21.987276+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 13
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 12
+  fields:
+    name: Earth 14
+    slug: earth-14
+    desc: Home to the Justice League of Assassins.
+    cv_id: null
+    modified: 2024-01-20 16:20:58.076691+00:00
+    created_on: 2024-01-20 16:20:58.077078+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 14
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 13
+  fields:
+    name: Earth 15
+    slug: earth-15
+    desc: A "perfect" universe that was destroyed by Superboy-Prime in Countdown to
+      Final Crisis.
+    cv_id: null
+    modified: 2024-01-20 16:21:59.395656+00:00
+    created_on: 2024-01-20 16:21:59.396002+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 15
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 14
+  fields:
+    name: Earth 16
+    slug: earth-16
+    desc: Home to the Just, a team of celebrity youngsters.
+    cv_id: null
+    modified: 2024-01-20 16:23:07.982091+00:00
+    created_on: 2024-01-20 16:23:07.982530+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 16
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 15
+  fields:
+    name: Earth 17
+    slug: earth-17
+    desc: Home to the Atomic Knights of Justice.
+    cv_id: null
+    modified: 2024-01-20 16:24:07.512708+00:00
+    created_on: 2024-01-20 16:24:07.513036+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 17
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 16
+  fields:
+    name: Justice Riders
+    slug: justice-riders
+    desc: Home to the Elseworld's Justice Riders.
+    cv_id: null
+    modified: 2024-01-20 16:25:17.658210+00:00
+    created_on: 2024-01-20 16:25:17.659499+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 18
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 17
+  fields:
+    name: Gotham by Gaslight
+    slug: gotham-by-gaslight
+    desc: Home to steampunk heroes based on the setting of Gotham by Gaslight
+    cv_id: null
+    modified: 2024-01-20 16:26:08.220566+00:00
+    created_on: 2024-01-20 16:26:08.220992+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 19
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 18
+  fields:
+    name: Earth 2
+    slug: earth-2
+    desc: Home to modernized versions of the Justice Society of Earth.
+    cv_id: null
+    modified: 2024-01-21 19:20:20.633301+00:00
+    created_on: 2024-01-20 16:27:50.174349+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 2
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 19
+  fields:
+    name: Earth 20
+    slug: earth-20
+    desc: Home to pulp versions of DC heroes.
+    cv_id: null
+    modified: 2024-01-20 16:29:08.004024+00:00
+    created_on: 2024-01-20 16:29:08.004527+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 20
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 20
+  fields:
+    name: New Frontier
+    slug: new-frontier
+    desc: 'Home to the events of DC: New Frontier mini-series.'
+    cv_id: null
+    modified: 2024-01-20 16:30:30.852183+00:00
+    created_on: 2024-01-20 16:30:14.940496+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 21
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 21
+  fields:
+    name: Kingdom Come
+    slug: kingdom-come
+    desc: Home to the heroes depicted in the Kingdom Come mini-series.
+    cv_id: null
+    modified: 2024-01-20 16:31:39.110717+00:00
+    created_on: 2024-01-20 16:31:39.111037+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 22
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 22
+  fields:
+    name: Earth 23
+    slug: earth-23
+    desc: Home to black versions of several DC characters.
+    cv_id: null
+    modified: 2024-01-21 19:06:09.626968+00:00
+    created_on: 2024-01-21 19:06:09.617257+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 23
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 23
+  fields:
+    name: Bombshells
+    slug: bombshells
+    desc: Home to the Earth depicted in DC Comics Bombshells.
+    cv_id: null
+    modified: 2024-01-21 19:07:07.133609+00:00
+    created_on: 2024-01-21 19:07:07.122315+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 24
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 24
+  fields:
+    name: ABC
+    slug: abc
+    desc: Home to the characters from Alan Moore's America's Best Comics imprint.
+    cv_id: null
+    modified: 2024-01-21 19:07:52.164511+00:00
+    created_on: 2024-01-21 19:07:52.157065+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 25
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 25
+  fields:
+    name: Earth 26
+    slug: earth-26
+    desc: Home to the characters from the Zoo Crew.
+    cv_id: null
+    modified: 2024-01-21 19:08:34.945348+00:00
+    created_on: 2024-01-21 19:08:34.937934+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 26
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 26
+  fields:
+    name: Jurassic League
+    slug: jurassic-league
+    desc: Home to the Earth depicted in The Jurassic League.
+    cv_id: null
+    modified: 2024-01-21 19:09:23.289300+00:00
+    created_on: 2024-01-21 19:09:23.281942+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 27
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 27
+  fields:
+    name: 'DC: Mech'
+    slug: dc-mech
+    desc: 'Home to the Earth depicted in DC: Mech.'
+    cv_id: null
+    modified: 2024-01-21 19:10:03.286726+00:00
+    created_on: 2024-01-21 19:10:03.279507+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 28
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 28
+  fields:
+    name: Htrae
+    slug: htrae
+    desc: Home to Bizarro versions of DC Comics characters.
+    cv_id: null
+    modified: 2024-01-21 19:14:34.873774+00:00
+    created_on: 2024-01-21 19:14:34.866790+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 29
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 29
+  fields:
+    name: Earth 3
+    slug: earth-3
+    desc: Home to the Crime Syndicate.
+    cv_id: null
+    modified: 2024-01-21 19:15:11.201776+00:00
+    created_on: 2024-01-21 19:15:11.193495+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 3
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 30
+  fields:
+    name: Red Son
+    slug: red-son
+    desc: 'The universe depicted in Superman: Red Son'
+    cv_id: null
+    modified: 2024-01-21 19:21:34.741621+00:00
+    created_on: 2024-01-21 19:21:34.733714+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 30
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 31
+  fields:
+    name: Pirate Universe
+    slug: pirate-universe
+    desc: Pirate versions of DC Comics characters
+    cv_id: null
+    modified: 2024-01-21 19:22:17.142422+00:00
+    created_on: 2024-01-21 19:22:17.135481+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 31
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 32
+  fields:
+    name: In Darkest Knight
+    slug: in-darkest-knight
+    desc: Every superhero of this Earth is an amalgamation of two characters from
+      the regular DC Universe.
+    cv_id: null
+    modified: 2024-01-21 19:23:07.573740+00:00
+    created_on: 2024-01-21 19:23:07.565847+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 32
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 33
+  fields:
+    name: Earth Prime
+    slug: earth-prime
+    desc: Our own Earth, where superheroes exist only in fiction.
+    cv_id: null
+    modified: 2024-01-21 19:24:04.597627+00:00
+    created_on: 2024-01-21 19:24:04.590584+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 33
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 34
+  fields:
+    name: Cosmoville
+    slug: cosmoville
+    desc: The Busiek pastiche universe.
+    cv_id: null
+    modified: 2024-01-21 19:25:35.635538+00:00
+    created_on: 2024-01-21 19:25:35.625727+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 34
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 35
+  fields:
+    name: Earth 35
+    slug: earth-35
+    desc: The Liefeld pastiche universe.
+    cv_id: null
+    modified: 2024-01-21 19:26:07.440911+00:00
+    created_on: 2024-01-21 19:26:07.434388+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 35
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 36
+  fields:
+    name: Earth 36
+    slug: earth-36
+    desc: A pastiche of Big Bang Comics, which itself featured homages of the Golden
+      Age and Silver Age superheroes from DC Comics
+    cv_id: null
+    modified: 2024-01-21 19:26:46.009666+00:00
+    created_on: 2024-01-21 19:26:46.002850+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 36
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 37
+  fields:
+    name: Thrillkiller
+    slug: thrillkiller
+    desc: 'Home to the Earth based on the works of Howard Chaykin, including Batman:
+      Thrillkiller, Twilight and Weird Worlds'
+    cv_id: null
+    modified: 2024-01-21 19:27:27.641878+00:00
+    created_on: 2024-01-21 19:27:27.634113+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 37
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 38
+  fields:
+    name: Earth 38
+    slug: earth-38
+    desc: 'A real-time Earth where Batman and Superman debuted in the 1930s, as in
+      Superman & Batman: Generations.'
+    cv_id: null
+    modified: 2024-01-21 19:27:52.905285+00:00
+    created_on: 2024-01-21 19:27:52.897351+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 38
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 39
+  fields:
+    name: Earth 39
+    slug: earth-39
+    desc: A pastiche of the T.H.U.N.D.E.R. Agents
+    cv_id: null
+    modified: 2024-01-21 19:28:15.141178+00:00
+    created_on: 2024-01-21 19:28:15.134679+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 39
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 40
+  fields:
+    name: Earth 4
+    slug: earth-4
+    desc: Home to versions of the Charlton Comics line of DC characters presented
+      in the style of the graphic novel Watchmen
+    cv_id: null
+    modified: 2024-01-21 19:29:23.058723+00:00
+    created_on: 2024-01-21 19:29:23.051576+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 4
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 41
+  fields:
+    name: Society of Super-Villains
+    slug: society-of-super-villains
+    desc: Home to a "binary universe" to Earth-20, containing evil counterparts of
+      those characters, including Vandal Savage, Lady Shiva, the Blockbuster, Felix
+      Faust, and Count Sinestro
+    cv_id: null
+    modified: 2024-01-21 19:30:54.556869+00:00
+    created_on: 2024-01-21 19:30:54.548992+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 40
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 42
+  fields:
+    name: Earth 41
+    slug: earth-41
+    desc: Characters on this Earth are based on characters published by Image Comics,
+      such as Spawn and the Savage Dragon
+    cv_id: null
+    modified: 2024-01-21 19:31:19.437275+00:00
+    created_on: 2024-01-21 19:31:19.429695+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 41
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 43
+  fields:
+    name: Earth 42
+    slug: earth-42
+    desc: Home to versions of DC Heroes in manga style.
+    cv_id: null
+    modified: 2024-01-21 19:32:55.727023+00:00
+    created_on: 2024-01-21 19:32:55.719614+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 42
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 44
+  fields:
+    name: Vampire World
+    slug: vampire-world
+    desc: Home to vampiric versions of the Justice League.
+    cv_id: null
+    modified: 2024-01-21 19:34:13.448925+00:00
+    created_on: 2024-01-21 19:34:13.441365+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 43
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 45
+  fields:
+    name: Earth 44
+    slug: earth-44
+    desc: Home to robotic versions of the Justice League.
+    cv_id: null
+    modified: 2024-01-21 19:34:43.625797+00:00
+    created_on: 2024-01-21 19:34:43.619030+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 44
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 46
+  fields:
+    name: Earth 45
+    slug: earth-45
+    desc: Home to Superdoomsday.
+    cv_id: null
+    modified: 2024-01-21 19:36:07.667079+00:00
+    created_on: 2024-01-21 19:36:07.659047+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 45
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 47
+  fields:
+    name: Gargoyle of Gotham
+    slug: gargoyle-of-gotham
+    desc: 'The Earth depicted in Batman: Gargoyle of Gotham.'
+    cv_id: null
+    modified: 2024-01-21 19:36:33.886417+00:00
+    created_on: 2024-01-21 19:36:33.878618+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 46
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 48
+  fields:
+    name: Dreamworld
+    slug: dreamworld
+    desc: Home to the Love Syndicate of Dreamworld, Prez Rickard, and Brother Power
+      the Geek.
+    cv_id: null
+    modified: 2024-01-21 19:37:08.308764+00:00
+    created_on: 2024-01-21 19:37:08.301556+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 47
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 49
+  fields:
+    name: Warworld
+    slug: warworld
+    desc: Home to genetically engineered warriors bred to wage war against Lord Darkseid.
+    cv_id: null
+    modified: 2024-01-21 19:37:37.007466+00:00
+    created_on: 2024-01-21 19:37:37.000695+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 48
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 50
+  fields:
+    name: WildStorm (Original)
+    slug: wildstorm-original
+    desc: Home to the first version of the WildStorm characters. This universe was
+      destroyed in 2006, and replaced by Earth-50.
+    cv_id: null
+    modified: 2024-01-21 19:43:05.563618+00:00
+    created_on: 2024-01-21 19:43:05.556620+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 483
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 51
+  fields:
+    name: Injustice
+    slug: injustice
+    desc: 'The Earth depicted in Injustice: Gods Among Us.'
+    cv_id: null
+    modified: 2024-01-21 19:44:05.487064+00:00
+    created_on: 2024-01-21 19:44:05.479620+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 49
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 52
+  fields:
+    name: Earth 5
+    slug: earth-5
+    desc: Home to versions of the Fawcett Comics line of DC characters. Also known
+      as "Thunderworld"
+    cv_id: null
+    modified: 2024-01-21 19:44:46.199640+00:00
+    created_on: 2024-01-21 19:44:46.192552+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 5
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 53
+  fields:
+    name: Justice Lords
+    slug: justice-lords
+    desc: Home to characters based on the Justice Lords' universe depicted in the
+      Justice League animated series.
+    cv_id: null
+    modified: 2024-01-21 19:45:51.115045+00:00
+    created_on: 2024-01-21 19:45:51.107824+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 50
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 54
+  fields:
+    name: Earth A.D.
+    slug: earth-ad
+    desc: The setting of Kamandi, the Last Boy on Earth
+    cv_id: null
+    modified: 2024-01-22 16:45:36.763853+00:00
+    created_on: 2024-01-22 16:45:36.754829+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 51
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 55
+  fields:
+    name: Just Imagine
+    slug: just-imagine
+    desc: Home to the  Stan Lee's Just Imagine... Heroes.
+    cv_id: null
+    modified: 2024-01-22 16:47:03.524694+00:00
+    created_on: 2024-01-22 16:47:03.514891+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 6
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 56
+  fields:
+    name: Earth 7
+    slug: earth-7
+    desc: Pastiches of characters featured in Marvel Comics' Ultimate Marvel line
+      of superhero stories
+    cv_id: null
+    modified: 2024-01-22 16:47:54.660934+00:00
+    created_on: 2024-01-22 16:47:54.653163+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 7
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 57
+  fields:
+    name: Angor
+    slug: angor
+    desc: Pastiches of characters featured in rival publisher Marvel Comics' mainstream
+      line of superhero stories
+    cv_id: null
+    modified: 2024-01-22 16:52:54.831085+00:00
+    created_on: 2024-01-22 16:52:54.824060+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 8
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 58
+  fields:
+    name: Tangent
+    slug: tangent
+    desc: Home to the characters depicted in the Tangent Comics line.
+    cv_id: null
+    modified: 2024-01-22 16:53:31.532561+00:00
+    created_on: 2024-01-22 16:53:31.523758+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 9
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 59
+  fields:
+    name: DC Ink Teen Titans
+    slug: dc-ink-teen-titans
+    desc: Home of the Teen Titans
+    cv_id: null
+    modified: 2024-01-22 16:56:50.461576+00:00
+    created_on: 2024-01-22 16:54:19.850009+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 100
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 60
+  fields:
+    name: Dark Knights of Steel
+    slug: dark-knights-of-steel
+    desc: Home to medieval versions of DC Comics characters.
+    cv_id: null
+    modified: 2024-01-22 16:54:52.935616+00:00
+    created_on: 2024-01-22 16:54:52.928465+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 118
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 61
+  fields:
+    name: Wonder Woman Impossible Tales
+    slug: wonder-woman-impossible-tales
+    desc: Home of the Wonder Family
+    cv_id: null
+    modified: 2024-01-22 16:56:02.331205+00:00
+    created_on: 2024-01-22 16:56:02.324079+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 124
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 62
+  fields:
+    name: Earth 148
+    slug: earth-148
+    desc: Earth 0 counterpart heroes are villains, and vice versa.
+    cv_id: null
+    modified: 2024-01-22 16:57:56.111854+00:00
+    created_on: 2024-01-22 16:57:56.103731+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 148
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 63
+  fields:
+    name: Earth 154
+    slug: earth-154
+    desc: "On this world, Bruce Wayne married Kathy Kane and Clark Kent married Lois
+      Lane. The Waynes had a son, Bruce Jr., and the Kents had a son, Kal‐El Jr.\r\n\r\nNote:
+      Not be confused with Earth-216."
+    cv_id: null
+    modified: 2024-01-22 16:59:36.753918+00:00
+    created_on: 2024-01-22 16:59:36.747095+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 154
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 64
+  fields:
+    name: Earth 162
+    slug: earth-162
+    desc: Superman and, later, Batman are divided into two separate beings.
+    cv_id: null
+    modified: 2024-01-22 17:00:40.960000+00:00
+    created_on: 2024-01-22 17:00:40.952057+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 162
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 65
+  fields:
+    name: Super-Savage
+    slug: super-savage
+    desc: Home to the Earth where Superman was raised by apes.
+    cv_id: null
+    modified: 2024-01-22 17:01:20.947403+00:00
+    created_on: 2024-01-22 17:01:20.940541+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 183
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 66
+  fields:
+    name: Super Friends
+    slug: super-friends
+    desc: Home to the Super Friends.
+    cv_id: null
+    modified: 2024-01-22 17:02:09.452482+00:00
+    created_on: 2024-01-22 17:02:09.445620+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 1956
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 67
+  fields:
+    name: Earth 1985
+    slug: earth-1985
+    desc: Home to the Earth that is identical to that of Pre-Crisis Earth-One just
+      prior to the start of the Crisis on Infinite Earths.
+    cv_id: null
+    modified: 2024-01-22 17:07:09.172565+00:00
+    created_on: 2024-01-22 17:07:09.164991+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 1985
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 68
+  fields:
+    name: Dakotaverse
+    slug: dakotaverse
+    desc: Contains the original versions of characters and storylines present in Milestone
+      Comics
+    cv_id: null
+    modified: 2024-01-22 17:08:05.323512+00:00
+    created_on: 2024-01-22 17:08:05.316581+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 1993
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 69
+  fields:
+    name: Amalgam
+    slug: amalgam
+    desc: Home to the characters and stories published by Amalgam Comics.
+    cv_id: null
+    modified: 2024-01-22 17:08:44.213803+00:00
+    created_on: 2024-01-22 17:08:44.205273+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 1996
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 70
+  fields:
+    name: Superman 2020
+    slug: superman-2020
+    desc: Home to three generations of Supermen
+    cv_id: null
+    modified: 2024-01-22 17:09:25.846684+00:00
+    created_on: 2024-01-22 17:09:25.839175+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 2020
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 71
+  fields:
+    name: Earth 216
+    slug: earth-216
+    desc: Home of the Super Sons
+    cv_id: null
+    modified: 2024-01-22 17:09:56.343836+00:00
+    created_on: 2024-01-22 17:09:56.336939+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 216
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 72
+  fields:
+    name: Reboot Legion
+    slug: reboot-legion
+    desc: Home of the post-Zero Hour Legion of Superheroes
+    cv_id: null
+    modified: 2024-01-22 17:10:23.698311+00:00
+    created_on: 2024-01-22 17:10:23.691498+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 247
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 73
+  fields:
+    name: Dark Knight Returns
+    slug: dark-knight-returns
+    desc: Home to the characters shown in Frank Miller's The Dark Knight Returns and
+      its various spin-off titles.
+    cv_id: null
+    modified: 2024-01-22 17:11:45.138729+00:00
+    created_on: 2024-01-22 17:11:35.305417+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 31
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 74
+  fields:
+    name: League of Shamans
+    slug: league-of-shamans
+    desc: Home to magical versions of several DC characters.
+    cv_id: null
+    modified: 2024-01-22 17:12:26.183832+00:00
+    created_on: 2024-01-22 17:12:26.175561+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 33
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 75
+  fields:
+    name: Amazonia
+    slug: amazonia
+    desc: 'Home to the characters shown in the Wonder Woman: Amazonia graphic novel.'
+    cv_id: null
+    modified: 2024-01-22 17:12:58.928120+00:00
+    created_on: 2024-01-22 17:12:58.921258+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 34
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 76
+  fields:
+    name: Wolf World
+    slug: wolf-world
+    desc: Home to werewolf versions of DC Comics characters.
+    cv_id: null
+    modified: 2024-01-22 17:13:54.423008+00:00
+    created_on: 2024-01-22 17:13:54.413291+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 387
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 77
+  fields:
+    name: 'JSA: Liberty Files'
+    slug: jsa-liberty-files
+    desc: 'Home to characters shown in the JSA: The Liberty Files.'
+    cv_id: null
+    modified: 2024-01-22 17:14:42.403129+00:00
+    created_on: 2024-01-22 17:14:42.396262+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 40
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 78
+  fields:
+    name: Earth 462
+    slug: earth-462
+    desc: Home to the Cathy Lee Crosby Wonder Woman and Debra Winger Wonder Girl.
+    cv_id: null
+    modified: 2024-01-22 17:15:35.178691+00:00
+    created_on: 2024-01-22 17:15:35.171116+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 462
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 79
+  fields:
+    name: WildStorm (DC 52)
+    slug: wildstorm-dc-52
+    desc: Home to the second version of the WildStorm characters.
+    cv_id: null
+    modified: 2024-01-22 17:16:57.989061+00:00
+    created_on: 2024-01-22 17:16:57.982395+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 50
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 80
+  fields:
+    name: New 52
+    slug: new-52
+    desc: The history of the New 52 Prime Earth was moved to this new universe.
+    cv_id: null
+    modified: 2024-01-22 17:18:44.939912+00:00
+    created_on: 2024-01-22 17:18:44.932626+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 52
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 81
+  fields:
+    name: Primate League
+    slug: primate-league
+    desc: Home to the Primate League.
+    cv_id: null
+    modified: 2024-01-22 17:19:34.471004+00:00
+    created_on: 2024-01-22 17:19:34.463117+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 52
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 82
+  fields:
+    name: Earth 54
+    slug: earth-54
+    desc: An Earth where Tommy Tomorrow became the first man on Mars in 1960.
+    cv_id: null
+    modified: 2024-01-22 17:20:28.339607+00:00
+    created_on: 2024-01-22 17:20:28.332464+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 54
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 83
+  fields:
+    name: DCeased
+    slug: dceased
+    desc: Home to Zombie versions of DC Comics characters.
+    cv_id: null
+    modified: 2024-01-22 17:21:04.740554+00:00
+    created_on: 2024-01-22 17:21:04.730229+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 55
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 84
+  fields:
+    name: Earth 59
+    slug: earth-59
+    desc: Home to an alternate version of Wonder Woman named Tara Terruna.
+    cv_id: null
+    modified: 2024-01-22 17:21:46.935829+00:00
+    created_on: 2024-01-22 17:21:46.928698+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 59
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 85
+  fields:
+    name: The Ray
+    slug: the-ray
+    desc: Home to an alternate version of the Atom (Ray Palmer), who after an accident
+      developed light powers and called himself the Ray.
+    cv_id: null
+    modified: 2024-01-22 17:23:08.661032+00:00
+    created_on: 2024-01-22 17:23:08.653747+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 6
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 86
+  fields:
+    name: DC vs. Vampires
+    slug: dc-vs-vampires
+    desc: Home to vampire versions of DC Comics characters.
+    cv_id: null
+    modified: 2024-01-22 17:24:12.649349+00:00
+    created_on: 2024-01-22 17:24:12.642276+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 63
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 87
+  fields:
+    name: Batman '66
+    slug: batman-66
+    desc: The Earth of the 1960's Batman TV series.
+    cv_id: null
+    modified: 2024-01-22 17:24:49.469659+00:00
+    created_on: 2024-01-22 17:24:49.462068+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 66
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 88
+  fields:
+    name: Superman '78 / Batman '89
+    slug: superman-78-batman-89
+    desc: An Earth where the classic Superman and Batman films take place in the same
+      universe.
+    cv_id: null
+    modified: 2024-01-22 17:25:16.433252+00:00
+    created_on: 2024-01-22 17:25:16.425853+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 789
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 89
+  fields:
+    name: 'JLA: The Nail'
+    slug: jla-the-nail
+    desc: 'Home to the Earth of the JLA: The Nail and Justice League of America: Another
+      Nail Elseworlds mini-series.'
+    cv_id: null
+    modified: 2024-01-22 17:27:36.916875+00:00
+    created_on: 2024-01-22 17:26:06.179391+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 898
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 90
+  fields:
+    name: Western World
+    slug: western-world
+    desc: Home to a version of the 19th century western heroes.
+    cv_id: null
+    modified: 2024-01-22 17:27:14.332655+00:00
+    created_on: 2024-01-22 17:27:14.325173+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 898
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 91
+  fields:
+    name: Earth M
+    slug: earth-m
+    desc: Home to the updated versions of characters and story-lines present in Milestone
+      Comics.
+    cv_id: null
+    modified: 2024-01-22 17:28:55.052904+00:00
+    created_on: 2024-01-22 17:28:55.045940+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 93
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 92
+  fields:
+    name: DC Super Hero Girls
+    slug: dc-super-hero-girls
+    desc: The Earth depicted in DC Super Hero Girls.
+    cv_id: null
+    modified: 2024-01-22 17:29:21.413805+00:00
+    created_on: 2024-01-22 17:29:21.406654+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 96
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 93
+  fields:
+    name: Tangent
+    slug: tangent-1
+    desc: Home to the events of the various Tangent Comics one-shots.
+    cv_id: null
+    modified: 2024-01-22 17:30:19.459609+00:00
+    created_on: 2024-01-22 17:30:19.451889+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 97
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 94
+  fields:
+    name: 'Green Lantern: Legacy'
+    slug: green-lantern-legacy
+    desc: 'The Earth depicted in Green Lantern: Legacy.'
+    cv_id: null
+    modified: 2024-01-22 17:31:08.814213+00:00
+    created_on: 2024-01-22 17:31:08.806682+00:00
+    publisher: 2
+    image: ''
+    designation: Earth 98
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 95
+  fields:
+    name: Earth C
+    slug: earth-c
+    desc: Home of Captain Carrot and the Zoo Crew.
+    cv_id: null
+    modified: 2024-01-22 17:31:37.512961+00:00
+    created_on: 2024-01-22 17:31:37.505659+00:00
+    publisher: 2
+    image: ''
+    designation: Earth C
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 96
+  fields:
+    name: Earth C‐Minus
+    slug: earth-cminus
+    desc: Home of Just'a Lotta Animals.
+    cv_id: null
+    modified: 2024-01-22 17:32:37.026544+00:00
+    created_on: 2024-01-22 17:32:37.019057+00:00
+    publisher: 2
+    image: ''
+    designation: Earth C‐Minus
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 97
+  fields:
+    name: Earth D
+    slug: earth-d
+    desc: Justice Alliance of America
+    cv_id: null
+    modified: 2024-01-22 17:33:01.527870+00:00
+    created_on: 2024-01-22 17:33:01.520669+00:00
+    publisher: 2
+    image: ''
+    designation: Earth D
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 98
+  fields:
+    name: Earth‐Immortality
+    slug: earthimmortality
+    desc: World of Immortals
+    cv_id: null
+    modified: 2024-01-22 17:33:56.606443+00:00
+    created_on: 2024-01-22 17:33:56.599082+00:00
+    publisher: 2
+    image: ''
+    designation: Earth I
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 99
+  fields:
+    name: Earth Prime
+    slug: earth-prime-1
+    desc: The origin universe of Ultraa and Superboy-Prime.
+    cv_id: null
+    modified: 2024-01-22 17:34:51.081976+00:00
+    created_on: 2024-01-22 17:34:51.074651+00:00
+    publisher: 2
+    image: ''
+    designation: Earth Prime
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 100
+  fields:
+    name: Earth S
+    slug: earth-s
+    desc: Home of the Marvel Family.
+    cv_id: null
+    modified: 2024-01-22 17:35:37.107080+00:00
+    created_on: 2024-01-22 17:35:37.100138+00:00
+    publisher: 2
+    image: ''
+    designation: Earth S
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 101
+  fields:
+    name: Earth Seven
+    slug: earth-seven
+    desc: Home to the Dark Angel, an evil analogue of Donna Troy
+    cv_id: null
+    modified: 2024-01-22 21:49:39.359922+00:00
+    created_on: 2024-01-22 21:49:39.352910+00:00
+    publisher: 2
+    image: ''
+    designation: Earth Seven
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 102
+  fields:
+    name: Earth Six
+    slug: earth-six
+    desc: Home of Lady Quark, Lord Volt and their daughter Princess Fern.
+    cv_id: null
+    modified: 2024-01-22 21:50:20.231404+00:00
+    created_on: 2024-01-22 21:50:20.221797+00:00
+    publisher: 2
+    image: ''
+    designation: Earth Six
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 103
+  fields:
+    name: Earth Three
+    slug: earth-three
+    desc: Home of The Crime Syndicate of America, evil versions of the Earth-One heroes.
+    cv_id: null
+    modified: 2024-01-22 21:51:07.001567+00:00
+    created_on: 2024-01-22 21:51:06.993700+00:00
+    publisher: 2
+    image: ''
+    designation: Earth Three
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 104
+  fields:
+    name: Earth Twelve
+    slug: earth-twelve
+    desc: Home of The Inferior Five.
+    cv_id: null
+    modified: 2024-01-22 21:51:41.312797+00:00
+    created_on: 2024-01-22 21:51:41.305934+00:00
+    publisher: 2
+    image: ''
+    designation: Earth Twelve
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 105
+  fields:
+    name: Earth Two
+    slug: earth-two
+    desc: DC's Golden Age heroes, including the Justice Society of America, whose
+      careers began at the dawn of World War II.
+    cv_id: null
+    modified: 2024-01-22 21:52:32.939295+00:00
+    created_on: 2024-01-22 21:52:32.932244+00:00
+    publisher: 2
+    image: ''
+    designation: Earth Two
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 106
+  fields:
+    name: Earth X
+    slug: earth-x
+    desc: Home of The Freedom Fighters. The Nazis won World War II on this world.
+    cv_id: null
+    modified: 2024-01-22 21:53:37.483580+00:00
+    created_on: 2024-01-22 21:53:37.475832+00:00
+    publisher: 2
+    image: ''
+    designation: Earth X
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 107
+  fields:
+    name: Ultimate
+    slug: ultimate
+    desc: The original Ultimate Marvel universe is the reinvention of the Marvel Universe
+      for the modern age, Initially beginning with Ultimate Spider-Man and Ultimate
+      X-Men.
+    cv_id: null
+    modified: 2024-01-23 15:26:13.724859+00:00
+    created_on: 2024-01-23 15:26:13.715285+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 1610
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 108
+  fields:
+    name: MCU
+    slug: mcu
+    desc: Home to the Marvel Cinematic Universe.
+    cv_id: null
+    modified: 2024-01-23 15:27:26.517400+00:00
+    created_on: 2024-01-23 15:27:26.509856+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 199999
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 109
+  fields:
+    name: Marvel Zombies
+    slug: marvel-zombies
+    desc: Reality of the original Marvel Zombies series, where an outbreak of a zombie
+      virus that came from another alternate Earth turned all of its superheroes and
+      supervillains into cannibalistic, flesh-eating zombies.
+    cv_id: null
+    modified: 2024-01-23 15:28:40.839021+00:00
+    created_on: 2024-01-23 15:28:40.831997+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 2149
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 110
+  fields:
+    name: Age of Apocalypse
+    slug: age-of-apocalypse
+    desc: Reality where the villain Apocalypse has successfully conquered North America,
+      causing chaos & destruction across most of the world.
+    cv_id: null
+    modified: 2024-01-23 15:29:44.858372+00:00
+    created_on: 2024-01-23 15:29:44.850673+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 295
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 111
+  fields:
+    name: Marvel 1602
+    slug: marvel-1602
+    desc: 'Primary setting for the 1602 limited series written by Neil Gaiman, and
+      the spin-off titles 1602: New World, 1602: Fantastick Four and 1602: Spider-Man'
+    cv_id: null
+    modified: 2024-01-23 15:30:24.704620+00:00
+    created_on: 2024-01-23 15:30:24.697004+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 311
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 112
+  fields:
+    name: Medieval
+    slug: medieval
+    desc: This world was created when Morgan le Fay warped reality where it is trapped
+      in the Medieval ages
+    cv_id: null
+    modified: 2024-01-23 15:31:25.366348+00:00
+    created_on: 2024-01-23 15:31:25.358769+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 398
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 113
+  fields:
+    name: House of M (2005)
+    slug: house-of-m-2005
+    desc: An alternate version of Earth-616 created by Wanda Maximoff, who wished
+      mutants were the dominant species instead of humans.
+    cv_id: null
+    modified: 2024-01-23 15:32:15.067362+00:00
+    created_on: 2024-01-23 15:32:15.059125+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 58163
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 114
+  fields:
+    name: Spider-Gwen's Universe
+    slug: spider-gwens-universe
+    desc: Home universe of Spider-Woman (Gwen Stacy).
+    cv_id: null
+    modified: 2024-01-23 15:33:17.452476+00:00
+    created_on: 2024-01-23 15:33:17.444487+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 65
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 115
+  fields:
+    name: Days of Future Past
+    slug: days-of-future-past
+    desc: The setting of Days of Future Past, a dystopic version of the near-distant
+      future where mutants are actively hunted and sent to concentration camps, and
+      whose timeline diverges from Earth-616 in occasion of the assassination of Senator
+      Kelly.
+    cv_id: null
+    modified: 2024-01-23 15:34:32.717600+00:00
+    created_on: 2024-01-23 15:34:32.706887+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 811
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 116
+  fields:
+    name: Shadowline
+    slug: shadowline
+    desc: The setting of Shadowline.
+    cv_id: null
+    modified: 2024-01-23 15:38:31.731129+00:00
+    created_on: 2024-01-23 15:38:31.723584+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 88194
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 117
+  fields:
+    name: Marvel Noir
+    slug: marvel-noir
+    desc: The setting of Marvel Noir, a universe in the 1920s–1930s that has few superhumans
+      who developed superpowers.
+    cv_id: null
+    modified: 2024-01-23 15:39:10.424830+00:00
+    created_on: 2024-01-23 15:39:10.416465+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 90214
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 118
+  fields:
+    name: Marvel 2099
+    slug: marvel-2099
+    desc: An alternate future of Earth-616 set in 2099, with futuristic incarnations
+      of Marvel heroes, villains and teams.
+    cv_id: null
+    modified: 2024-01-23 15:40:03.740519+00:00
+    created_on: 2024-01-23 15:40:03.732907+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 928
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 119
+  fields:
+    name: Ultraverse
+    slug: ultraverse
+    desc: Home of the Ultraverse.
+    cv_id: null
+    modified: 2024-01-23 15:40:45.588079+00:00
+    created_on: 2024-01-23 15:40:45.580694+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 93060
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 120
+  fields:
+    name: MC2
+    slug: mc2
+    desc: The home of MC2.
+    cv_id: null
+    modified: 2024-01-23 15:42:28.032982+00:00
+    created_on: 2024-01-23 15:42:28.024756+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 982
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 121
+  fields:
+    name: Universe X
+    slug: universe-x
+    desc: The setting for Earth X.
+    cv_id: null
+    modified: 2024-01-23 15:43:37.239347+00:00
+    created_on: 2024-01-23 15:43:37.232362+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 9997
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 122
+  fields:
+    name: Earth 616
+    slug: earth-616
+    desc: The primary continuity in which most Marvel Comics titles take place.
+    cv_id: null
+    modified: 2024-01-23 15:45:50.282075+00:00
+    created_on: 2024-01-23 15:45:50.274410+00:00
+    publisher: 1
+    image: ''
+    designation: Earth 616
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 123
+  fields:
+    name: Massive-Verse
+    slug: massive-verse
+    desc: A fictional shared universe, created by Kyle Higgins as an offshoot/relaunch
+      of the Image Universe (IU), which spans a line of comic books (Radiant Black
+      and its spin-offs) published by Image Comics since February 2021, later retroactively
+      established to have begun with C.O.W.L., first published in May 2014.
+    cv_id: null
+    modified: 2024-01-23 15:47:53.009920+00:00
+    created_on: 2024-01-23 15:47:52.999238+00:00
+    publisher: 4
+    image: ''
+    designation: ''
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 124
+  fields:
+    name: Invincible Universe
+    slug: invincible-universe
+    desc: A fictional universe created by Robert Kirkman.
+    cv_id: null
+    modified: 2024-01-23 15:49:38.866566+00:00
+    created_on: 2024-01-23 15:49:38.859458+00:00
+    publisher: 4
+    image: ''
+    designation: ''
+    edited_by: 1
+- model: comicsdb.universe
+  pk: 125
+  fields:
+    name: Millarworld Universe
+    slug: millarworld-universe
+    desc: ''
+    cv_id: null
+    modified: 2024-01-23 15:50:05.067548+00:00
+    created_on: 2024-01-23 15:50:05.059270+00:00
+    publisher: 4
+    image: ''
+    designation: ''
+    edited_by: 1

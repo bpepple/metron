@@ -7,10 +7,11 @@ from rest_framework import status
 
 from comicsdb.models.arc import Arc
 from comicsdb.models.series import Series
+from comicsdb.models.universe import Universe
 
 
 @pytest.fixture()
-def create_issue_data(fc_series: Series, fc_arc: Arc):
+def create_issue_data(fc_series: Series, fc_arc: Arc, earth_2_universe: Universe):
     return {
         "series": fc_series.id,
         "name": ["This Man, This Monster"],
@@ -22,12 +23,16 @@ def create_issue_data(fc_series: Series, fc_arc: Arc):
         "upc": "76194137738400111",
         "page": 32,
         "arcs": [fc_arc.id],
+        "universes": [earth_2_universe.id],
     }
 
 
 @pytest.fixture()
-def create_put_data():
-    return {"name": ["This Man, This Monster", "Blah, Blah"]}
+def create_put_data(earth_2_universe: Universe):
+    return {
+        "name": ["This Man, This Monster", "Blah, Blah"],
+        "universes": [earth_2_universe.id],
+    }
 
 
 # Post Tests
@@ -71,6 +76,7 @@ def test_staff_user_put_url(
         reverse("api:issue-detail", kwargs={"pk": issue_with_arc.pk}), data=create_put_data
     )
     assert resp.status_code == status.HTTP_200_OK
+    assert resp.data.get("universes") == create_put_data.get("universes")
 
 
 # Regular Tests

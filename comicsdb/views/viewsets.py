@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from comicsdb.filters.issue import IssueFilter
-from comicsdb.filters.name import ComicVineFilter, NameFilter
+from comicsdb.filters.name import ComicVineFilter, NameFilter, UniverseFilter
 from comicsdb.filters.series import SeriesFilter
 from comicsdb.models import (
     Arc,
@@ -18,6 +18,7 @@ from comicsdb.models import (
     Role,
     Series,
     Team,
+    Universe,
 )
 from comicsdb.models.series import SeriesType
 from comicsdb.models.variant import Variant
@@ -43,6 +44,8 @@ from comicsdb.serializers import (
     TeamListSerializer,
     TeamReadSerializer,
     TeamSerializer,
+    UniverseListSerializer,
+    UniverseSerializer,
     VariantSerializer,
 )
 from metron.throttle import GetUserRateThrottle, PostUserRateThrottle
@@ -484,6 +487,45 @@ class TeamViewSet(viewsets.ModelViewSet):
             serializer = IssueListSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
         raise Http404
+
+
+class UniverseViewSet(viewsets.ModelViewSet):
+    """
+    list:
+    Return a list of all the universes.
+
+    retrieve:
+    Returns the information of an individual universe.
+    """
+
+    queryset = Universe.objects.all()
+    filterset_class = UniverseFilter
+    throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
+
+    def get_serializer_class(self):
+        match self.action:
+            case "list":
+                return UniverseListSerializer
+            case "retrieve":
+                return UniverseSerializer
+            case _:
+                return UniverseSerializer
+
+    def get_permissions(self):
+        permission_classes = []
+        if self.action in ["retrieve", "list"]:
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+
+    def perform_create(self, serializer: UniverseSerializer) -> None:
+        serializer.save(edited_by=self.request.user)
+        return super().perform_create(serializer)
+
+    def perform_update(self, serializer: UniverseSerializer) -> None:
+        serializer.save(edited_by=self.request.user)
+        return super().perform_update(serializer)
 
 
 class VariantViewset(

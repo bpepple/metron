@@ -42,6 +42,7 @@ from comicsdb.urls import (
     publisher as publisher_urls,
     series as series_urls,
     team as team_urls,
+    universe as universe_urls,
 )
 
 handler404 = "metron.views.handler404"
@@ -78,6 +79,7 @@ urlpatterns = [
     path("select2/", include("django_select2.urls")),
     path("series/", include(series_urls)),
     path("team/", include(team_urls)),
+    path("universe/", include(universe_urls)),
     path("accounts/", include("users.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
     path(
