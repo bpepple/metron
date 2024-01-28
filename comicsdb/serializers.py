@@ -36,7 +36,7 @@ class SeriesTypeSerializer(serializers.ModelSerializer):
         fields = ("id", "name")
 
 
-class IssuePublisherSerializer(serializers.ModelSerializer):
+class BasicPublisherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publisher
         fields = ("id", "name")
@@ -414,7 +414,7 @@ class IssueReadSerializer(serializers.ModelSerializer):
     characters = CharacterListSerializer(many=True, read_only=True)
     teams = TeamListSerializer(many=True, read_only=True)
     universes = UniverseListSerializer(many=True, read_only=True)
-    publisher = IssuePublisherSerializer(source="series.publisher", read_only=True)
+    publisher = BasicPublisherSerializer(source="series.publisher", read_only=True)
     series = IssueSeriesSerializer(read_only=True)
     reprints = ReprintSerializer(many=True, read_only=True)
     rating = RatingSerializer(read_only=True)
@@ -575,7 +575,7 @@ class SeriesSerializer(serializers.ModelSerializer):
 
 
 class SeriesReadSerializer(SeriesSerializer):
-    publisher = IssuePublisherSerializer(read_only=True)
+    publisher = BasicPublisherSerializer(read_only=True)
     series_type = SeriesTypeSerializer(read_only=True)
     issue_count = serializers.ReadOnlyField
     associated = AssociatedSeriesSerializer(many=True, read_only=True)
@@ -677,6 +677,10 @@ class UniverseSerializer(serializers.ModelSerializer):
             "resource_url",
             "modified",
         )
+
+
+class UniverseReadSerializer(UniverseSerializer):
+    publisher = BasicPublisherSerializer(read_only=True)
 
 
 class VariantSerializer(serializers.ModelSerializer):

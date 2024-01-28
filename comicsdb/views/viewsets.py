@@ -45,6 +45,7 @@ from comicsdb.serializers import (
     TeamReadSerializer,
     TeamSerializer,
     UniverseListSerializer,
+    UniverseReadSerializer,
     UniverseSerializer,
     VariantSerializer,
 )
@@ -507,7 +508,7 @@ class UniverseViewSet(viewsets.ModelViewSet):
             case "list":
                 return UniverseListSerializer
             case "retrieve":
-                return UniverseSerializer
+                return UniverseReadSerializer
             case _:
                 return UniverseSerializer
 
