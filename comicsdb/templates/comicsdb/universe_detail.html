@@ -150,6 +150,44 @@
         {% endif %}
       {% endwith %}
       <!-- end characters -->
+      <!-- teams -->
+      {% with teams=universe.team_set.all %}
+        {% if teams %}
+          <div class="box">
+            <div class="columns">
+              <div class="column">
+                <h1 class="title is-5">Team{{ teams|pluralize }}</h1>
+                <div class="columns is-multiline">
+                  {% for team in teams %}
+                    <div class="column is-4">
+                      <article class="media">
+                        <div class="media-left">
+                          <figure class="image is-64x64">
+                            {% if team.image %}
+                              {% thumbnail team.image "64x64" crop="center" format="WEBP" as im %}
+                                <img class="is-rounded" src="{{ im.url }}" alt="{{ team }}">
+                              {% endthumbnail %}
+                            {% else %}
+                              <img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}"
+                                   alt="No image for {{ team }}">
+                            {% endif %}
+                          </figure>
+                        </div>
+                        <div class="media-content">
+                          <div class="content">
+                            <p><a href="{% url 'team:detail' team.slug %}">{{ team }}</a></p>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endwith %}
+      <!-- end teams -->
       <!-- series -->
       {% with series=appearances %}
         {% if series %}
