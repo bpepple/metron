@@ -1,5 +1,7 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Permission
+from django.utils.translation import ngettext
 
 from users.forms import CustomUserChangeForm, CustomUserCreationForm
 from users.models import CustomUser
@@ -19,6 +21,7 @@ class CustomUserAdmin(UserAdmin):
         "date_joined",
         "groups",
     )
+    actions = ["grant_add_creator_perm"]
     fieldsets = (
         (None, {"fields": ("username", "password")}),
         (
@@ -48,3 +51,32 @@ class CustomUserAdmin(UserAdmin):
             },
         ),
     )
+
+    @admin.action(description="Grant 'add creator' permission to user")
+    def grant_add_creator_perm(self, request, queryset) -> None:
+        count = 0
+        try:
+            permission = Permission.objects.get(name="Can add creator")
+        except Permission.DoesNotExist:
+            permission = None
+
+        if permission is not None:
+            for i in queryset:
+                modified = False
+                if permission not in i.user_permissions.all():
+                    i.user_permissions.add(permission)
+                    modified = True
+
+                if modified:
+                    count += 1
+
+            self.message_user(
+                request,
+                ngettext(
+                    "%d user was updated.",
+                    "%d users were updated.",
+                    count,
+                )
+                % count,
+                messages.SUCCESS,
+            )
