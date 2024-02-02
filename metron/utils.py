@@ -1,3 +1,4 @@
+# ruff: noqa: S310
 import json
 import urllib.parse
 import urllib.request
@@ -14,6 +15,6 @@ def get_recaptcha_auth(request):
     }
     data = urllib.parse.urlencode(values).encode()
     req = urllib.request.Request(url, data=data)
-    response = urllib.request.urlopen(req)  # noqa: S310
+    response = urllib.request.urlopen(req)
 
     return json.loads(response.read().decode())
