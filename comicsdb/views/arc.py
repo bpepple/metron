@@ -107,7 +107,7 @@ class ArcCreate(LoginRequiredMixin, CreateView):
             else:
                 return super().form_invalid(form)
 
-        LOGGER.info(f"Arc: {form.instance.name} was created by {self.request.user}")
+        LOGGER.info("Arc: %s was created by %s", form.instance.name, self.request.user)
         return super().form_valid(form)
 
 
@@ -147,7 +147,7 @@ class ArcUpdate(LoginRequiredMixin, UpdateView):
             else:
                 return super().form_invalid(form)
 
-        LOGGER.info(f"Arc: {form.instance.name} was updated by {self.request.user}")
+        LOGGER.info("Arc: %s was updated by %s", form.instance.name, self.request.user)
         return super().form_valid(form)
 
 

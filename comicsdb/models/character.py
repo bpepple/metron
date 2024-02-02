@@ -1,5 +1,6 @@
 import contextlib
 import logging
+from pathlib import Path
 
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.postgres.fields import ArrayField
@@ -33,10 +34,11 @@ class Character(CommonInfo):
         with contextlib.suppress(ObjectDoesNotExist):
             this = Character.objects.get(id=self.id)
             if this.image and this.image != self.image:
-                LOGGER.info(
-                    f"Replacing {this.image} with {img if (img:=self.image) else 'None'}."
-                )
-
+                current_image = Path(this.image.path).name
+                if self.image:
+                    LOGGER.info("Replacing '%s' with '%s'", current_image, self.image)
+                else:
+                    LOGGER.info("Replacing '%s' with 'None'", current_image)
                 this.image.delete(save=False)
         return super().save(*args, **kwargs)
 

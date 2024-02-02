@@ -99,7 +99,7 @@ class TeamCreate(LoginRequiredMixin, CreateView):
             else:
                 return super().form_invalid(form)
 
-        LOGGER.info(f"Team: {form.instance.name} was created by {self.request.user}")
+        LOGGER.info("Team: %s was created by %s", form.instance.name, self.request.user)
         return super().form_valid(form)
 
 
@@ -139,7 +139,7 @@ class TeamUpdate(LoginRequiredMixin, UpdateView):
             else:
                 return super().form_invalid(form)
 
-        LOGGER.info(f"Team: {form.instance.name} was updated by {self.request.user}")
+        LOGGER.info("Team: %s was updated by %s", form.instance.name, self.request.user)
         return super().form_valid(form)
 
 

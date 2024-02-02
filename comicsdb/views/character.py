@@ -145,7 +145,7 @@ class CharacterCreate(LoginRequiredMixin, CreateView):
             else:
                 return super().form_invalid(form)
 
-            LOGGER.info(f"Character: {form.instance.name} was created by {self.request.user}")
+            LOGGER.info("Character: %s was created by %s", form.instance.name, self.request.user)
         return super().form_valid(form)
 
 
@@ -185,7 +185,7 @@ class CharacterUpdate(LoginRequiredMixin, UpdateView):
             else:
                 return super().form_invalid(form)
 
-            LOGGER.info(f"Character: {form.instance.name} was updated by {self.request.user}")
+            LOGGER.info("Character: %s was updated by %s", form.instance.name, self.request.user)
         return super().form_valid(form)
 
 

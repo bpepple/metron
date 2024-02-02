@@ -100,9 +100,7 @@ class SeriesDetail(DetailView):
 
         # Top 10 character appearances for series.
         characters = (
-            series.issue_set.values(
-                "characters__name", "characters__image", "characters__slug"
-            )
+            series.issue_set.values("characters__name", "characters__image", "characters__slug")
             .order_by("characters")
             .annotate(count=Count("characters"))
             .order_by("-count", "characters__name")
@@ -156,7 +154,7 @@ class SeriesCreate(LoginRequiredMixin, CreateView):
             else:
                 return super().form_invalid(form)
 
-        LOGGER.info(f"Series: {form.instance.name} was created by {self.request.user}")
+        LOGGER.info("Series: %s was created by %s", form.instance.name, self.request.user)
         return super().form_valid(form)
 
 
@@ -196,7 +194,7 @@ class SeriesUpdate(LoginRequiredMixin, UpdateView):
             else:
                 return super().form_invalid(form)
 
-        LOGGER.info(f"Series: {form.instance.name} was updated by {self.request.user}")
+        LOGGER.info("Series: %s was updated by %s", form.instance.name, self.request.user)
         return super().form_valid(form)
 
 

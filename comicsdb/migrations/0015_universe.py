@@ -39,9 +39,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "image",
-                    sorl.thumbnail.fields.ImageField(
-                        blank=True, upload_to="universe/%Y/%m/%d/"
-                    ),
+                    sorl.thumbnail.fields.ImageField(blank=True, upload_to="universe/%Y/%m/%d/"),
                 ),
                 ("designation", models.CharField(blank=True, max_length=255)),
                 (

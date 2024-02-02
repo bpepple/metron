@@ -1,21 +1,17 @@
-[tool.black]
-line-length = 95
-target-version = ["py310"]
-
 [tool.isort]
 profile = "black"
 multi_line_output = 3
-line_length = 95
+line_length = 100
 default_section = "THIRDPARTY"
 known_first_party = []
 known_third_party = ["PIL", "chartkick", "dal", "decouple", "django", "django_filters", "django_select2", "drf_spectacular", "imagehash", "pytest", "pytest_django", "rest_framework", "sorl", "storages"]
 
 [tool.ruff]
 fix = true
-line-length = 95
+line-length = 100
 show-fixes = true
 target-version = "py310"
-lint.ignore = ["A003", "RUF012", "SLF001", "ISC001", "G004"]  # TODO: Look at modifying logging f-strings.
+lint.ignore = ["A003", "RUF012", "SLF001", "ISC001"]
 lint.select = [
     "A",
     "B",
