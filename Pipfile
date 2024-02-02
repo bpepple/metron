@@ -30,6 +30,7 @@ pytest-cov = "*"
 pre-commit = "*"
 seed-isort-config = "*"
 pytest-django = "*"
+black = "*"
 ruff = "*"
 
 [requires]
