@@ -17,9 +17,13 @@ class SeriesNameFilter(filters.CharFilter):
 
 class SeriesFilter(filters.FilterSet):
     name = SeriesNameFilter(lookup_expr="icontains")
-    publisher_id = filters.filters.NumberFilter(field_name="publisher__id", lookup_expr="exact")
+    publisher_id = filters.filters.NumberFilter(
+        field_name="publisher__id", lookup_expr="exact"
+    )
     publisher_name = filters.CharFilter(field_name="publisher__name", lookup_expr="icontains")
-    series_type_id = filters.filters.NumberFilter(field_name="series_type__id", lookup_expr="exact")
+    series_type_id = filters.filters.NumberFilter(
+        field_name="series_type__id", lookup_expr="exact"
+    )
     series_type = filters.CharFilter(field_name="series_type__name", lookup_expr="icontains")
     modified_gt = filters.DateTimeFilter(
         label="Greater than Modified DateTime", field_name="modified", lookup_expr="gt"

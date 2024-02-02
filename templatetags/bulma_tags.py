@@ -56,7 +56,10 @@ def is_field_type(field, field_type):  # NOQA: PLR0911
         case "any_datetime":
             return isinstance(
                 field.field.widget,
-                forms.DateInput | forms.TimeInput | forms.DateTimeInput | forms.SplitDateTimeWidget,
+                forms.DateInput
+                | forms.TimeInput
+                | forms.DateTimeInput
+                | forms.SplitDateTimeWidget,
             )  # there is also forms.SplitHiddenDateTimeWidget, but we'll skip it
         case _:
             raise ValueError(f"Unsupported field_type on |is_field_type:'{field_type}'")

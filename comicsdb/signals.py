@@ -11,4 +11,4 @@ def pre_delete_image(sender, instance, **kwargs):
 
 
 def pre_delete_credit(sender, instance, **kwargs):
-    LOGGER.info("Deleting %s credit for %s", instance.creator, instance.issue)
+    LOGGER.info(f"Deleting {instance.creator} credit for {instance.issue}")

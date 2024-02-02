@@ -153,9 +153,9 @@ class CharacterViewSet(viewsets.ModelViewSet):
         Returns a list of issues for a character.
         """
         character = self.get_object()
-        queryset = character.issue_set.select_related("series", "series__series_type").order_by(
-            "cover_date", "series", "number"
-        )
+        queryset = character.issue_set.select_related(
+            "series", "series__series_type"
+        ).order_by("cover_date", "series", "number")
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = IssueListSerializer(page, many=True, context={"request": request})
@@ -339,7 +339,9 @@ class PublisherViewSet(viewsets.ModelViewSet):
         Returns a list of series for a publisher.
         """
         publisher = self.get_object()
-        queryset = publisher.series_set.select_related("series_type").prefetch_related("issue_set")
+        queryset = publisher.series_set.select_related("series_type").prefetch_related(
+            "issue_set"
+        )
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = SeriesListSerializer(page, many=True, context={"request": request})

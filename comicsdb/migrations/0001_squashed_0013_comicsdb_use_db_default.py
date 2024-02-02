@@ -14,11 +14,15 @@ def add_ratings(apps, schema_editor):
     ratings = [
         rating_model(name="Unknown"),
         rating_model(name="Everyone", short_description="Appropriate for readers of all ages"),
-        rating_model(name="Teen", short_description="Appropriate for readers age 12 and older"),
+        rating_model(
+            name="Teen", short_description="Appropriate for readers age 12 and older"
+        ),
         rating_model(
             name="Teen Plus", short_description="Appropriate for readers age 15 and older"
         ),
-        rating_model(name="Mature", short_description="Appropriate for readers age 17 and older"),
+        rating_model(
+            name="Mature", short_description="Appropriate for readers age 17 and older"
+        ),
     ]
     rating_model.objects.bulk_create(ratings)
 
@@ -159,11 +163,15 @@ class Migration(migrations.Migration):
                 ("created_on", models.DateTimeField(auto_now_add=True)),
                 (
                     "wikipedia",
-                    models.CharField(blank=True, max_length=255, verbose_name="Wikipedia Slug"),
+                    models.CharField(
+                        blank=True, max_length=255, verbose_name="Wikipedia Slug"
+                    ),
                 ),
                 (
                     "image",
-                    sorl.thumbnail.fields.ImageField(blank=True, upload_to="character/%Y/%m/%d/"),
+                    sorl.thumbnail.fields.ImageField(
+                        blank=True, upload_to="character/%Y/%m/%d/"
+                    ),
                 ),
                 (
                     "alias",
@@ -196,7 +204,9 @@ class Migration(migrations.Migration):
                 ("created_on", models.DateTimeField(auto_now_add=True)),
                 (
                     "wikipedia",
-                    models.CharField(blank=True, max_length=255, verbose_name="Wikipedia Slug"),
+                    models.CharField(
+                        blank=True, max_length=255, verbose_name="Wikipedia Slug"
+                    ),
                 ),
                 (
                     "birth",
@@ -208,7 +218,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "image",
-                    sorl.thumbnail.fields.ImageField(blank=True, upload_to="creator/%Y/%m/%d/"),
+                    sorl.thumbnail.fields.ImageField(
+                        blank=True, upload_to="creator/%Y/%m/%d/"
+                    ),
                 ),
                 (
                     "alias",
@@ -271,7 +283,9 @@ class Migration(migrations.Migration):
                 (
                     "name",
                     django.contrib.postgres.fields.ArrayField(
-                        base_field=models.CharField(max_length=150, verbose_name="Story Title"),
+                        base_field=models.CharField(
+                            max_length=150, verbose_name="Story Title"
+                        ),
                         blank=True,
                         null=True,
                         size=None,
@@ -362,7 +376,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "wikipedia",
-                    models.CharField(blank=True, max_length=255, verbose_name="Wikipedia Slug"),
+                    models.CharField(
+                        blank=True, max_length=255, verbose_name="Wikipedia Slug"
+                    ),
                 ),
                 (
                     "image",
@@ -467,7 +483,9 @@ class Migration(migrations.Migration):
                 ("created_on", models.DateTimeField(auto_now_add=True)),
                 (
                     "wikipedia",
-                    models.CharField(blank=True, max_length=255, verbose_name="Wikipedia Slug"),
+                    models.CharField(
+                        blank=True, max_length=255, verbose_name="Wikipedia Slug"
+                    ),
                 ),
                 (
                     "image",
@@ -773,7 +791,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="issue",
             name="title",
-            field=models.CharField(blank=True, max_length=255, verbose_name="Collection Title"),
+            field=models.CharField(
+                blank=True, max_length=255, verbose_name="Collection Title"
+            ),
         ),
         migrations.AddField(
             model_name="issue",
@@ -814,37 +834,51 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="arc",
             name="cv_id",
-            field=models.PositiveIntegerField(blank=True, null=True, verbose_name="Comic Vine ID"),
+            field=models.PositiveIntegerField(
+                blank=True, null=True, verbose_name="Comic Vine ID"
+            ),
         ),
         migrations.AddField(
             model_name="character",
             name="cv_id",
-            field=models.PositiveIntegerField(blank=True, null=True, verbose_name="Comic Vine ID"),
+            field=models.PositiveIntegerField(
+                blank=True, null=True, verbose_name="Comic Vine ID"
+            ),
         ),
         migrations.AddField(
             model_name="creator",
             name="cv_id",
-            field=models.PositiveIntegerField(blank=True, null=True, verbose_name="Comic Vine ID"),
+            field=models.PositiveIntegerField(
+                blank=True, null=True, verbose_name="Comic Vine ID"
+            ),
         ),
         migrations.AddField(
             model_name="issue",
             name="cv_id",
-            field=models.PositiveIntegerField(blank=True, null=True, verbose_name="Comic Vine ID"),
+            field=models.PositiveIntegerField(
+                blank=True, null=True, verbose_name="Comic Vine ID"
+            ),
         ),
         migrations.AddField(
             model_name="publisher",
             name="cv_id",
-            field=models.PositiveIntegerField(blank=True, null=True, verbose_name="Comic Vine ID"),
+            field=models.PositiveIntegerField(
+                blank=True, null=True, verbose_name="Comic Vine ID"
+            ),
         ),
         migrations.AddField(
             model_name="series",
             name="cv_id",
-            field=models.PositiveIntegerField(blank=True, null=True, verbose_name="Comic Vine ID"),
+            field=models.PositiveIntegerField(
+                blank=True, null=True, verbose_name="Comic Vine ID"
+            ),
         ),
         migrations.AddField(
             model_name="team",
             name="cv_id",
-            field=models.PositiveIntegerField(blank=True, null=True, verbose_name="Comic Vine ID"),
+            field=models.PositiveIntegerField(
+                blank=True, null=True, verbose_name="Comic Vine ID"
+            ),
         ),
         migrations.AddField(
             model_name="issue",

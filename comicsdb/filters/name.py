@@ -9,7 +9,9 @@ class NameFilter(filters.FilterSet):
 
 
 class ComicVineFilter(NameFilter):
-    cv_id = filters.NumberFilter(label="Comic Vine ID", field_name="cv_id", lookup_expr="exact")
+    cv_id = filters.NumberFilter(
+        label="Comic Vine ID", field_name="cv_id", lookup_expr="exact"
+    )
 
 
 class UniverseFilter(NameFilter):

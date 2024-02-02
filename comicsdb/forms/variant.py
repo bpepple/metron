@@ -16,4 +16,6 @@ class VariantForm(ModelForm):
         }
 
 
-VariantFormset = inlineformset_factory(Issue, Variant, form=VariantForm, extra=3, can_delete=True)
+VariantFormset = inlineformset_factory(
+    Issue, Variant, form=VariantForm, extra=3, can_delete=True
+)

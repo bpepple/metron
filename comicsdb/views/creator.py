@@ -135,7 +135,7 @@ class CreatorCreate(LoginRequiredMixin, CreateView):
             else:
                 return super().form_invalid(form)
 
-        LOGGER.info("Creator: %s was created by %s", form.instance.name, self.request.user)
+        LOGGER.info(f"Creator: {form.instance.name} was created by {self.request.user}")
         return super().form_valid(form)
 
 
@@ -175,7 +175,7 @@ class CreatorUpdate(LoginRequiredMixin, UpdateView):
             else:
                 return super().form_invalid(form)
 
-            LOGGER.info("Creator: %s was updated by %s", form.instance.name, self.request.user)
+            LOGGER.info(f"Creator: {form.instance.name} was updated by {self.request.user}")
         return super().form_valid(form)
 
 

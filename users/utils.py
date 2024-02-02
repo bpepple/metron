@@ -29,11 +29,11 @@ def check_email_domain(email: str):
                 data = res.read()
                 result = json.loads(data.decode("utf-8"))
             case _:
-                LOGGER.error("Bad response from RapidAPI: %s %s", res.status, res.reason)
+                LOGGER.error(f"Bad response from RapidAPI: {res.status} {res.reason}")
     except http.client.HTTPException as e:
-        LOGGER.error("HTTP error: %s", e)
+        LOGGER.error(f"HTTP error: {e}")
     except Exception as e:  # NOQA: BLE001
-        LOGGER.error("An error occurred: %s", e)
+        LOGGER.error(f"An error occurred: {e}")
     finally:
         conn.close()
 

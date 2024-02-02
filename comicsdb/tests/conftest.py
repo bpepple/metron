@@ -233,7 +233,9 @@ def john_byrne(create_user):
 @pytest.fixture()
 def walter_simonson(create_user):
     user = create_user()
-    return Creator.objects.create(name="Walter Simonson", slug="walter-simonson", edited_by=user)
+    return Creator.objects.create(
+        name="Walter Simonson", slug="walter-simonson", edited_by=user
+    )
 
 
 @pytest.fixture()

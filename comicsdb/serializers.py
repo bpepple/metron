@@ -497,7 +497,9 @@ class PublisherSerializer(serializers.ModelSerializer):
 
 
 class SeriesImageSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField(max_length=None, use_url=True, allow_null=True, required=False)
+    image = serializers.ImageField(
+        max_length=None, use_url=True, allow_null=True, required=False
+    )
 
     class Meta:
         model = Issue

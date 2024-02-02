@@ -1,7 +1,6 @@
 import contextlib
 import itertools
 import logging
-from pathlib import Path
 
 import imagehash
 from django.contrib.contenttypes.fields import GenericRelation
@@ -87,11 +86,10 @@ class Issue(CommonInfo):
         with contextlib.suppress(ObjectDoesNotExist):
             this: Issue = Issue.objects.get(id=self.id)
             if this.image and this.image != self.image:
-                current_image = Path(this.image.path).name
-                if self.image:
-                    LOGGER.info("Replacing '%s' with '%s'", current_image, self.image)
-                else:
-                    LOGGER.info("Replacing '%s' with 'None'", current_image)
+                LOGGER.info(
+                    f"Replacing {this.image} with {img if (img:=self.image) else 'None'}."
+                )
+
                 this.image.delete(save=False)
         return super().save(*args, **kwargs)
 
@@ -131,7 +129,7 @@ def generate_cover_hash(instance: Issue) -> str:
             cover_hash = str(imagehash.phash(img))
         except OSError as e:
             cover_hash = ""
-            LOGGER.error("Unable to generate cover hash for '%s': %s", instance, e)
+            LOGGER.error(f"Unable to generate cover hash for '{instance}': {e}")
     return cover_hash
 
 
@@ -140,16 +138,13 @@ def pre_save_cover_hash(sender, instance: Issue, *args, **kwargs) -> None:
         ch = generate_cover_hash(instance)
         if instance.cover_hash != ch:
             LOGGER.info(
-                "Updating cover hash from '%s' to '%s' for %s",
-                instance.cover_hash,
-                ch,
-                instance,
+                f"Updating cover hash from '{instance.cover_hash}' to '{ch}' for {instance}"
             )
             instance.cover_hash = ch
         return
 
     if instance.cover_hash:
-        LOGGER.info("Updating cover hash from '%s' to '' for %s", instance.cover_hash, instance)
+        LOGGER.info(f"Updating cover hash from '{instance.cover_hash}' to '' for {instance}")
         instance.cover_hash = ""
         return
 

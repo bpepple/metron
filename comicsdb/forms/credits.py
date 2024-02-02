@@ -22,4 +22,6 @@ class CreditsForm(ModelForm):
         widgets = {"role": SelectMultiple(attrs={"size": 5})}
 
 
-CreditsFormSet = inlineformset_factory(Issue, Credits, form=CreditsForm, extra=1, can_delete=True)
+CreditsFormSet = inlineformset_factory(
+    Issue, Credits, form=CreditsForm, extra=1, can_delete=True
+)

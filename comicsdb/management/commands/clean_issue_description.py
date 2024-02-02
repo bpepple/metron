@@ -19,7 +19,9 @@ class Command(BaseCommand):
         split_len = len(split_txt)
         # If the description starts with a bad value let's return an empty string.
         if split_len < two_paragraphs and (
-            split_txt[0].lower().startswith(("content", "note", "story", "chapter", "synopsis"))
+            split_txt[0]
+            .lower()
+            .startswith(("content", "note", "story", "chapter", "synopsis"))
         ):
             return ""
         # If there are 2 or more paragraphs, loop through them looking for a bad starting
@@ -33,7 +35,9 @@ class Command(BaseCommand):
                     .startswith(("content", "note", "story", "chapter", "synopsis"))
                 ):
                     return (
-                        "\n\n".join(split_txt[:idx]) if split_len > two_paragraphs else split_txt[0]
+                        "\n\n".join(split_txt[:idx])
+                        if split_len > two_paragraphs
+                        else split_txt[0]
                     )
 
             return txt
