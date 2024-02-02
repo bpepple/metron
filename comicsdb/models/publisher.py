@@ -27,7 +27,7 @@ class Publisher(CommonInfo):
         with contextlib.suppress(ObjectDoesNotExist):
             this = Publisher.objects.get(id=self.id)
             if this.image and this.image != self.image:
-                current_image = Path(this.image.path).name
+                current_image = Path(this.image.path).name if this.image != 0 else "0"
                 if self.image:
                     LOGGER.info("Replacing '%s' with '%s'", current_image, self.image)
                 else:
