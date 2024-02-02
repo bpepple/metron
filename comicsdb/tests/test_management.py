@@ -51,9 +51,7 @@ def test_merge_characters(
 @pytest.fixture()
 def other_arc(create_user: CustomUser) -> Arc:
     user = create_user()
-    return Arc.objects.create(
-        name="Final Crisis", desc=FAKE_DESC, cv_id=FAKE_CVID, edited_by=user
-    )
+    return Arc.objects.create(name="Final Crisis", desc=FAKE_DESC, cv_id=FAKE_CVID, edited_by=user)
 
 
 def test_merge_arcs(fc_arc: Arc, other_arc: Arc, basic_issue: Issue) -> None:
@@ -69,9 +67,7 @@ def test_merge_arcs(fc_arc: Arc, other_arc: Arc, basic_issue: Issue) -> None:
 @pytest.fixture()
 def other_team(create_user: CustomUser) -> Team:
     user = create_user()
-    return Team.objects.create(
-        name="Teen Titans", desc=FAKE_DESC, cv_id=FAKE_CVID, edited_by=user
-    )
+    return Team.objects.create(name="Teen Titans", desc=FAKE_DESC, cv_id=FAKE_CVID, edited_by=user)
 
 
 def test_merge_teams(teen_titans: Team, other_team: Team, basic_issue: Issue) -> None:
@@ -87,9 +83,7 @@ def test_merge_teams(teen_titans: Team, other_team: Team, basic_issue: Issue) ->
 @pytest.fixture()
 def other_creator(create_user: CustomUser) -> Creator:
     user = create_user()
-    return Creator.objects.create(
-        name="John Byre", desc=FAKE_DESC, cv_id=FAKE_CVID, edited_by=user
-    )
+    return Creator.objects.create(name="John Byre", desc=FAKE_DESC, cv_id=FAKE_CVID, edited_by=user)
 
 
 def test_merge_creators(

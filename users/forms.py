@@ -15,8 +15,7 @@ class CustomUserCreationForm(UserCreationForm):
     email = EmailField(
         max_length=254,
         help_text=(
-            "Required. Enter a valid email address. "
-            "Temporary email addresses are not allowed."
+            "Required. Enter a valid email address. " "Temporary email addresses are not allowed."
         ),
         required=True,
     )
@@ -28,27 +27,25 @@ class CustomUserCreationForm(UserCreationForm):
             raise ValidationError("Email address is not valid.")
 
         if CustomUser.objects.filter(email=email).exists():
-            LOGGER.warning(f"'{email}' already exists")
+            LOGGER.warning("'%s' already exists", email)
             raise ValidationError("Email already exists")
 
         whitelist = {"gmail.com", "yahoo.com", "proton.me"}
         try:
             _, domain = email.split("@")
         except ValueError as exc:
-            LOGGER.warning(f"Email: {email} | Error: {exc}")
+            LOGGER.warning("Email: %s | Error: %s", email, exc)
             raise ValidationError("Email address is not valid.") from exc
 
         if domain not in whitelist:
             resp = check_email_domain(email)
             if resp is None:
-                raise ValidationError(
-                    "Error creating account. Contact the site administrator."
-                )
+                raise ValidationError("Error creating account. Contact the site administrator.")
             if resp["block"] is True:
                 if resp["disposable"] is True:
-                    LOGGER.warning(f"'{email}' is a temporary email address.")
+                    LOGGER.warning("'%s' is a temporary email address.", email)
                     raise ValidationError("Temporary email addresses are not allowed.")
-                LOGGER.warning(f"'{email}'is not a valid email address.")
+                LOGGER.warning("'%'is not a valid email address.", email)
                 raise ValidationError("Email address is not valid.")
         return super().clean()
 

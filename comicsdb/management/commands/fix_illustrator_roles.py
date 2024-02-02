@@ -22,6 +22,4 @@ class Command(BaseCommand):
             if artist in i.role.all():
                 i.role.add(illustrator)
                 i.role.remove(artist)
-                self.stdout.write(
-                    self.style.SUCCESS(f"Fixed role for {i.creator} in {i.issue}")
-                )
+                self.stdout.write(self.style.SUCCESS(f"Fixed role for {i.creator} in {i.issue}"))

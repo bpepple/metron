@@ -172,9 +172,7 @@ def statistics(request):
     monthly_chart = ColumnChart(
         create_monthly_issue_dict(), title="Number of Issues Added by Month", thousands=","
     )
-    creator_chart = ColumnChart(
-        create_creator_dict(), title="Number of Creators Added by Month"
-    )
+    creator_chart = ColumnChart(create_creator_dict(), title="Number of Creators Added by Month")
     character_chart = ColumnChart(
         create_character_dict(),
         title="Number of Characters Added by Month",
