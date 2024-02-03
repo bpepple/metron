@@ -28,10 +28,10 @@ class Universe(CommonInfo):
         with contextlib.suppress(ObjectDoesNotExist):
             this = Universe.objects.get(id=self.id)
             if this.image and this.image != self.image:
-                LOGGER.info(
-                    f"Replacing {this.image} with {img if (img := self.image) else 'None'}."
-                )
-
+                if self.image:
+                    LOGGER.info("Replacing '%s' with '%s'", this.image, self.image)
+                else:
+                    LOGGER.info("Replacing '%s' with 'None'.", this.image)
                 this.image.delete(save=False)
         return super().save(*args, **kwargs)
 
