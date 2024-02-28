@@ -72,7 +72,7 @@ class SeriesForm(ModelForm):
             series_type = self.cleaned_data["series_type"]
             # If adding an associated series and self.series_type is a TPB or HC
             # raise a validation error.
-            if series_type.id in [8, 10] and assoc:
+            if series_type.id in [8, 10]:
                 raise ValidationError(
                     "Collections are not allowed to have an associated series."
                 )
