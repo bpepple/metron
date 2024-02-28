@@ -16,7 +16,7 @@ line-length = 95
 show-fixes = true
 target-version = "py310"
 lint.ignore = ["A003", "RUF012", "SLF001", "ISC001"]
-select = [
+lint.select = [
     "A",
     "B",
     "BLE",
