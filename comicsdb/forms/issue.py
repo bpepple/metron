@@ -92,10 +92,16 @@ class IssueForm(ModelForm):
         self.fields["name"].delimiter = ";"
         self.collections = [8, 10]
 
+    def clean_sku(self):
+        sku = self.cleaned_data["sku"]
+        if sku and not sku.isalnum():
+            raise ValidationError("SKU must be alphanumeric. No spaces or hyphens allowed.")
+        return sku
+
     def clean_isbn(self):
         isbn = self.cleaned_data["isbn"]
-        if isbn and not isbn.isalnum():
-            raise ValidationError("ISBN must be alphanumeric. No spaces or hyphens allowed.")
+        if isbn and not isbn.isdigit():
+            raise ValidationError("ISBN must be numeric. No spaces or hyphens allowed.")
         return isbn
 
     def clean_upc(self):
