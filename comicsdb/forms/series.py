@@ -74,7 +74,7 @@ class SeriesForm(ModelForm):
         cvid = self.cleaned_data["cv_id"]
         if cvid:
             series_type = self.cleaned_data["series_type"]
-            # Don't cv_id for Trade Paperbacks. Refer to:
+            # Don't allow cv_id information for Trade Paperbacks. Refer to:
             # https://github.com/bpepple/metron/issues/219
             if series_type.id == TPB:
                 msg = (
