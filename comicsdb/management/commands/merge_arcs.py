@@ -1,6 +1,7 @@
 """
 PROCEED WITH CAUTION: uses deduplication fields to permanently merge Arc data objects
 """
+
 from comicsdb.management.merge_command import MergeCommand
 from comicsdb.models.arc import Arc
 
