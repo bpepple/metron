@@ -7,12 +7,7 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-    replaces = [
-        ("users", "0001_squashed_0006_alter_customuser_managers"),
-        ("users", "0002_customuser_bio"),
-        ("users", "0003_alter_customuser_email_confirmed"),
-        ("users", "0004_alter_customuser_email_confirmed"),
-    ]
+    replaces = []
 
     initial = True
 
