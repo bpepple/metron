@@ -111,15 +111,6 @@ ENV/
 # React files
 node_modules/
 
-# Ignore comic import script
-import_comics.py
-mini.py
-hulk.py
-thunder.py
-output.py
-cv_comics.py
-single_issue.py
-gcd_data.py
-import_gcd.py
-/.idea/dataSources.xml
-/.xml
+# pycharm
+.idea/
+.xml
