@@ -1,7 +1,13 @@
+import contextlib
+import logging
+
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from sorl.thumbnail import ImageField
 
 from comicsdb.models.issue import Issue
+
+LOGGER = logging.getLogger(__name__)
 
 
 class Variant(models.Model):
@@ -17,3 +23,15 @@ class Variant(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    def save(self, *args, **kwargs) -> None:
+        # Let's delete the original image if we're replacing it by uploading a new one.
+        with contextlib.suppress(ObjectDoesNotExist):
+            this = Variant.objects.get(id=self.id)
+            if this.image and this.image != self.image:
+                if self.image:
+                    LOGGER.info("Replacing '%s' with '%s'", this.image, self.image)
+                else:
+                    LOGGER.info("Replacing '%s' with 'None'.", this.image)
+                this.image.delete(save=False)
+        return super().save(*args, **kwargs)
