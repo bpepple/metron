@@ -22,9 +22,9 @@ LOGGER = logging.getLogger(__name__)
 class Character(CommonInfo):
     image = ImageField(upload_to="character/%Y/%m/%d/", blank=True)
     alias = ArrayField(models.CharField(max_length=100), null=True, blank=True)
-    creators = models.ManyToManyField(Creator, blank=True)
-    teams = models.ManyToManyField(Team, blank=True)
-    universes = models.ManyToManyField(Universe, blank=True)
+    creators = models.ManyToManyField(Creator, blank=True, related_name="characters")
+    teams = models.ManyToManyField(Team, blank=True, related_name="characters")
+    universes = models.ManyToManyField(Universe, blank=True, related_name="characters")
     attribution = GenericRelation(Attribution, related_query_name="characters")
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
