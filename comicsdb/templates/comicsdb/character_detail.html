@@ -121,16 +121,16 @@
               <ul>
                 {% for i in series %}
                   <li>
-                    <a href="{% url 'series:detail' slug=i.issue__series__slug %}">
-                      {{ i.issue__series__name }}
-                      {% if i.issue__series__series_type == 10 %}TPB
-                      {% elif i.issue__series__series_type == 9 %}GN
-                      {% elif i.issue__series__series_type == 8 %}HC
+                    <a href="{% url 'series:detail' slug=i.issues__series__slug %}">
+                      {{ i.issues__series__name }}
+                      {% if i.issues__series__series_type == 10 %}TPB
+                      {% elif i.issues__series__series_type == 9 %}GN
+                      {% elif i.issues__series__series_type == 8 %}HC
                       {% endif %}
-                      ({{ i.issue__series__year_began }})
+                      ({{ i.issues__series__year_began }})
                     </a>:
-                    <a href="{% url 'character:series' character=character.slug series=i.issue__series__slug %}">
-                      {{ i.issue__count }} issue{{ i.issue__count|pluralize }}
+                    <a href="{% url 'character:series' character=character.slug series=i.issues__series__slug %}">
+                      {{ i.issues__count }} issue{{ i.issues__count|pluralize }}
                     </a>
                   </li>
                 {% endfor %}

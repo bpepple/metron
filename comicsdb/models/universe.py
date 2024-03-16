@@ -40,11 +40,11 @@ class Universe(CommonInfo):
 
     @property
     def issue_count(self):
-        return self.issue_set.all().count()
+        return self.issues.all().count()
 
     @property
     def first_appearance(self):
-        return self.issue_set.order_by("cover_date").all().first
+        return self.issues.order_by("cover_date").all().first
 
     @property
     def wikipedia(self):

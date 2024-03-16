@@ -23,7 +23,7 @@ LOGGER = logging.getLogger(__name__)
 class SeriesList(ListView):
     model = Series
     paginate_by = PAGINATE
-    queryset = Series.objects.select_related("series_type").prefetch_related("issue_set")
+    queryset = Series.objects.select_related("series_type").prefetch_related("issues")
 
 
 class SeriesIssueList(ListView):
@@ -32,7 +32,7 @@ class SeriesIssueList(ListView):
 
     def get_queryset(self):
         self.series = get_object_or_404(Series, slug=self.kwargs["slug"])
-        return self.series.issue_set.all()
+        return self.series.issues.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -44,7 +44,7 @@ class SeriesDetail(DetailView):
     model = Series
     queryset = Series.objects.select_related(
         "publisher", "edited_by", "series_type"
-    ).prefetch_related("issue_set")
+    ).prefetch_related("issues")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -91,7 +91,7 @@ class SeriesDetail(DetailView):
 
         # Top 10 creator credits for series. Might be worthwhile to exclude editors, etc.
         creators = (
-            series.issue_set.values("creators__name", "creators__image", "creators__slug")
+            series.issues.values("creators__name", "creators__image", "creators__slug")
             .order_by("creators")
             .annotate(count=Count("creators"))
             .order_by("-count", "creators__name")
@@ -100,7 +100,7 @@ class SeriesDetail(DetailView):
 
         # Top 10 character appearances for series.
         characters = (
-            series.issue_set.values(
+            series.issues.values(
                 "characters__name", "characters__image", "characters__slug"
             )
             .order_by("characters")

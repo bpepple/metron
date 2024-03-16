@@ -36,7 +36,7 @@ class PublisherSeriesList(ListView):
         return (
             Series.objects.select_related("series_type")
             .filter(publisher=self.publisher)
-            .prefetch_related("issue_set")
+            .prefetch_related("issues")
         )
 
     def get_context_data(self, **kwargs):

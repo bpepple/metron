@@ -45,7 +45,7 @@ class UniverseIssueList(ListView):
 
     def get_queryset(self):
         self.universe = get_object_or_404(Universe, slug=self.kwargs["slug"])
-        return self.universe.issue_set.all().select_related("series", "series__series_type")
+        return self.universe.issues.all().select_related("series", "series__series_type")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -57,7 +57,7 @@ class UniverseDetail(DetailView):
     model = Universe
     queryset = Universe.objects.select_related("edited_by").prefetch_related(
         Prefetch(
-            "issue_set",
+            "issues",
             queryset=Issue.objects.order_by(
                 "series__sort_name", "cover_date", "number"
             ).select_related("series", "series__series_type"),
@@ -88,13 +88,13 @@ class UniverseDetail(DetailView):
             series_issues = (
                 Universe.objects.filter(id=universe.id)
                 .values(
-                    "issue__series__name",
-                    "issue__series__year_began",
-                    "issue__series__slug",
-                    "issue__series__series_type",
+                    "issues__series__name",
+                    "issues__series__year_began",
+                    "issues__series__slug",
+                    "issues__series__series_type",
                 )
-                .annotate(Count("issue"))
-                .order_by("issue__series__sort_name", "issue__series__year_began")
+                .annotate(Count("issues"))
+                .order_by("issues__series__sort_name", "issues__series__year_began")
             )
             context["appearances"] = series_issues
         else:

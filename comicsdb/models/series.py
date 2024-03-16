@@ -58,13 +58,13 @@ class Series(CommonInfo):
 
     def first_issue_cover(self):
         try:
-            return self.issue_set.all().first().image
+            return self.issues.all().first().image
         except AttributeError:
             return None
 
     @property
     def issue_count(self) -> int:
-        return self.issue_set.all().count()
+        return self.issues.all().count()
 
     class Meta:
         indexes = [

@@ -41,7 +41,7 @@ class Team(CommonInfo):
 
     @property
     def issue_count(self):
-        return self.issue_set.all().count()
+        return self.issues.all().count()
 
     @property
     def wikipedia(self):
