@@ -15,7 +15,7 @@ CACHE_TTL = 60 * 30
 def create_pub_dict() -> dict[str, int]:
     publishers = cache.get("publishers")
     if not publishers:
-        publishers = Publisher.objects.annotate(num_issues=Count("series__issue")).values(
+        publishers = Publisher.objects.annotate(num_issues=Count("series__issues")).values(
             "name", "num_issues"
         )
         cache.set("publishers", publishers, CACHE_TTL)
