@@ -24,7 +24,7 @@ LOGGER = logging.getLogger(__name__)
 class ArcList(ListView):
     model = Arc
     paginate_by = PAGINATE
-    queryset = Arc.objects.prefetch_related("issue_set")
+    queryset = Arc.objects.prefetch_related("issues")
 
 
 class ArcIssueList(ListView):
@@ -33,7 +33,7 @@ class ArcIssueList(ListView):
 
     def get_queryset(self):
         self.arc = get_object_or_404(Arc, slug=self.kwargs["slug"])
-        return self.arc.issue_set.all().select_related("series", "series__series_type")
+        return self.arc.issues.all().select_related("series", "series__series_type")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -45,7 +45,7 @@ class ArcDetail(DetailView):
     model = Arc
     queryset = Arc.objects.select_related("edited_by").prefetch_related(
         Prefetch(
-            "issue_set",
+            "issues",
             queryset=Issue.objects.order_by(
                 "cover_date", "store_date", "series__sort_name", "number"
             ).select_related("series", "series__series_type"),

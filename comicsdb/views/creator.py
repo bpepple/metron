@@ -38,7 +38,7 @@ class CreatorIssueList(ListView):
 
     def get_queryset(self):
         self.creator = get_object_or_404(Creator, slug=self.kwargs["slug"])
-        return self.creator.issue_set.all().select_related("series", "series__series_type")
+        return self.creator.issues.all().select_related("series", "series__series_type")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

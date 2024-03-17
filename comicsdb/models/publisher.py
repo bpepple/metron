@@ -38,7 +38,7 @@ class Publisher(CommonInfo):
 
     @property
     def series_count(self):
-        return self.series_set.all().count()
+        return self.series.all().count()
 
     @property
     def wikipedia(self):

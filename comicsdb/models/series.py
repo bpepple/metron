@@ -31,13 +31,13 @@ class Series(CommonInfo):
     year_began = models.PositiveSmallIntegerField("Year Began")
     year_end = models.PositiveSmallIntegerField("Year Ended", null=True, blank=True)
     series_type = models.ForeignKey(SeriesType, on_delete=models.CASCADE)
-    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE, related_name="series")
     collection = models.BooleanField(
         "Allow Collection Title",
         db_default=False,
         help_text="Whether a series has a collection title. Normally this only applies to Trade Paperbacks.",  # NOQA: E501
     )
-    genres = models.ManyToManyField(Genre, blank=True)
+    genres = models.ManyToManyField(Genre, blank=True, related_name="series")
     associated = models.ManyToManyField("self", blank=True)
     attribution = GenericRelation(Attribution, related_query_name="series")
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
@@ -58,13 +58,13 @@ class Series(CommonInfo):
 
     def first_issue_cover(self):
         try:
-            return self.issue_set.all().first().image
+            return self.issues.all().first().image
         except AttributeError:
             return None
 
     @property
     def issue_count(self) -> int:
-        return self.issue_set.all().count()
+        return self.issues.all().count()
 
     class Meta:
         indexes = [

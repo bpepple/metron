@@ -24,7 +24,7 @@ LOGGER = logging.getLogger(__name__)
 class PublisherList(ListView):
     model = Publisher
     paginate_by = PAGINATE
-    queryset = Publisher.objects.prefetch_related("series_set")
+    queryset = Publisher.objects.prefetch_related("series")
 
 
 class PublisherSeriesList(ListView):
@@ -36,7 +36,7 @@ class PublisherSeriesList(ListView):
         return (
             Series.objects.select_related("series_type")
             .filter(publisher=self.publisher)
-            .prefetch_related("issue_set")
+            .prefetch_related("issues")
         )
 
     def get_context_data(self, **kwargs):
@@ -48,7 +48,7 @@ class PublisherSeriesList(ListView):
 class PublisherDetail(DetailView):
     model = Publisher
     queryset = Publisher.objects.select_related("edited_by").prefetch_related(
-        "series_set", "universe_set__issue_set"
+        "series", "universes__issues"
     )
 
     def get_context_data(self, **kwargs):

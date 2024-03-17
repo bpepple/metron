@@ -116,7 +116,7 @@
       <!-- end of main cover -->
 
       <!-- variant covers -->
-      {% with variants=issue.variant_set.all %}
+      {% with variants=issue.variants.all %}
         {% if variants %}
           {% for variant in variants %}
             <div class="box">

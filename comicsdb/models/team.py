@@ -19,8 +19,8 @@ LOGGER = logging.getLogger(__name__)
 
 class Team(CommonInfo):
     image = ImageField(upload_to="team/%Y/%m/%d/", blank=True)
-    creators = models.ManyToManyField(Creator, blank=True)
-    universes = models.ManyToManyField(Universe, blank=True)
+    creators = models.ManyToManyField(Creator, blank=True, related_name="teams")
+    universes = models.ManyToManyField(Universe, blank=True, related_name="teams")
     attribution = GenericRelation(Attribution, related_query_name="teams")
     edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
 
@@ -41,7 +41,7 @@ class Team(CommonInfo):
 
     @property
     def issue_count(self):
-        return self.issue_set.all().count()
+        return self.issues.all().count()
 
     @property
     def wikipedia(self):

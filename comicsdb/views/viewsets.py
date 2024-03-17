@@ -97,7 +97,7 @@ class ArcViewSet(viewsets.ModelViewSet):
         Returns a list of issues for a story arc.
         """
         arc = self.get_object()
-        queryset = arc.issue_set.select_related("series", "series__series_type").order_by(
+        queryset = arc.issues.select_related("series", "series__series_type").order_by(
             "cover_date", "series", "number"
         )
         page = self.paginate_queryset(queryset)
@@ -153,7 +153,7 @@ class CharacterViewSet(viewsets.ModelViewSet):
         Returns a list of issues for a character.
         """
         character = self.get_object()
-        queryset = character.issue_set.select_related(
+        queryset = character.issues.select_related(
             "series", "series__series_type"
         ).order_by("cover_date", "series", "number")
         page = self.paginate_queryset(queryset)
@@ -304,7 +304,7 @@ class PublisherViewSet(viewsets.ModelViewSet):
     Update a publisher's information.
     """
 
-    queryset = Publisher.objects.prefetch_related("series_set")
+    queryset = Publisher.objects.prefetch_related("series")
     filterset_class = ComicVineFilter
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
@@ -339,8 +339,8 @@ class PublisherViewSet(viewsets.ModelViewSet):
         Returns a list of series for a publisher.
         """
         publisher = self.get_object()
-        queryset = publisher.series_set.select_related("series_type").prefetch_related(
-            "issue_set"
+        queryset = publisher.series.select_related("series_type").prefetch_related(
+            "issues"
         )
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -414,7 +414,7 @@ class SeriesViewSet(viewsets.ModelViewSet):
         Returns a list of issues for a series.
         """
         series = self.get_object()
-        queryset = series.issue_set.all()
+        queryset = series.issues.all()
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = IssueListSerializer(page, many=True, context={"request": request})
@@ -480,7 +480,7 @@ class TeamViewSet(viewsets.ModelViewSet):
         Returns a list of issues for a character.
         """
         team = self.get_object()
-        queryset = team.issue_set.select_related("series", "series__series_type").order_by(
+        queryset = team.issues.select_related("series", "series__series_type").order_by(
             "cover_date", "series", "number"
         )
         page = self.paginate_queryset(queryset)

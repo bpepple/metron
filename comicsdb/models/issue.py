@@ -38,7 +38,7 @@ class TradePaperbackManager(models.Manager):
 
 
 class Issue(CommonInfo):
-    series = models.ForeignKey(Series, on_delete=models.CASCADE)
+    series = models.ForeignKey(Series, on_delete=models.CASCADE, related_name="issues")
     name = ArrayField(models.CharField("Story Title", max_length=150), null=True, blank=True)
     title = models.CharField("Collection Title", max_length=255, blank=True)
     number = models.CharField(max_length=25)
@@ -54,11 +54,11 @@ class Issue(CommonInfo):
     page = models.PositiveSmallIntegerField("Page Count", null=True, blank=True)
     image = ImageField("Cover", upload_to="issue/%Y/%m/%d/", blank=True)
     cover_hash = models.CharField("Cover Hash", max_length=16, blank=True)
-    arcs = models.ManyToManyField(Arc, blank=True)
-    creators = models.ManyToManyField(Creator, through="Credits", blank=True)
-    characters = models.ManyToManyField(Character, blank=True)
-    teams = models.ManyToManyField(Team, blank=True)
-    universes = models.ManyToManyField(Universe, blank=True)
+    arcs = models.ManyToManyField(Arc, blank=True, related_name="issues")
+    creators = models.ManyToManyField(Creator, through="Credits", blank=True, related_name="issues")
+    characters = models.ManyToManyField(Character, blank=True, related_name="issues")
+    teams = models.ManyToManyField(Team, blank=True, related_name="issues")
+    universes = models.ManyToManyField(Universe, blank=True, related_name="issues")
     reprints = models.ManyToManyField("self", blank=True)
     attribution = GenericRelation(Attribution, related_query_name="issues")
     created_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)

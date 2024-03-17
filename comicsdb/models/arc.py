@@ -34,7 +34,7 @@ class Arc(CommonInfo):
 
     @property
     def issue_count(self):
-        return self.issue_set.all().count()
+        return self.issues.all().count()
 
     def get_absolute_url(self):
         return reverse("arc:detail", args=[self.slug])

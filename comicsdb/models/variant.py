@@ -11,7 +11,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class Variant(models.Model):
-    issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name="variants")
     image = ImageField("Variant Cover", upload_to="variants/%Y/%m/%d/")
     name = models.CharField("Name", max_length=255, blank=True)
     sku = models.CharField("Distributor SKU", max_length=9, blank=True)

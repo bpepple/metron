@@ -152,7 +152,7 @@ class IssueSerializer(serializers.ModelSerializer):
 
 
 class IssueReadSerializer(serializers.ModelSerializer):
-    variants = VariantsIssueSerializer(source="variant_set", many=True, read_only=True)
+    variants = VariantsIssueSerializer("variants", many=True, read_only=True)
     credits = CreditReadSerializer(source="credits_set", many=True, read_only=True)
     arcs = ArcListSerializer(many=True, read_only=True)
     characters = CharacterListSerializer(many=True, read_only=True)

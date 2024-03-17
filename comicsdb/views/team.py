@@ -23,7 +23,7 @@ LOGGER = logging.getLogger(__name__)
 class TeamList(ListView):
     model = Team
     paginate_by = PAGINATE
-    queryset = Team.objects.prefetch_related("issue_set")
+    queryset = Team.objects.prefetch_related("issues")
 
 
 class TeamIssueList(ListView):
@@ -32,7 +32,7 @@ class TeamIssueList(ListView):
 
     def get_queryset(self):
         self.team = get_object_or_404(Team, slug=self.kwargs["slug"])
-        return self.team.issue_set.all().select_related("series", "series__series_type")
+        return self.team.issues.all().select_related("series", "series__series_type")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
