@@ -17,7 +17,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class Universe(CommonInfo):
-    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE, related_name="universes")
     image = ImageField(upload_to="universe/%Y/%m/%d/", blank=True)
     designation = models.CharField(max_length=255, blank=True)
     attribution = GenericRelation(Attribution, related_query_name="universes")
