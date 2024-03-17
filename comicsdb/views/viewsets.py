@@ -304,7 +304,7 @@ class PublisherViewSet(viewsets.ModelViewSet):
     Update a publisher's information.
     """
 
-    queryset = Publisher.objects.prefetch_related("series_set")
+    queryset = Publisher.objects.prefetch_related("series")
     filterset_class = ComicVineFilter
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
@@ -339,7 +339,7 @@ class PublisherViewSet(viewsets.ModelViewSet):
         Returns a list of series for a publisher.
         """
         publisher = self.get_object()
-        queryset = publisher.series_set.select_related("series_type").prefetch_related(
+        queryset = publisher.series.select_related("series_type").prefetch_related(
             "issues"
         )
         page = self.paginate_queryset(queryset)
