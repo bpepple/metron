@@ -45,6 +45,7 @@ class IssueListSerializer(serializers.ModelSerializer):
             "number",
             "issue",
             "cover_date",
+            "store_date",
             "image",
             "cover_hash",
             "modified",
