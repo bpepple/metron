@@ -11,7 +11,7 @@ class SeriesListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Series
-        fields = ("id", "series", "year_began", "issue_count", "modified")
+        fields = ("id", "series", "year_began", "volume", "issue_count", "modified")
 
 
 class SeriesTypeSerializer(serializers.ModelSerializer):
