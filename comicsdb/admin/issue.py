@@ -7,7 +7,7 @@ from django.utils.translation import ngettext
 from sorl.thumbnail.admin.current import AdminImageMixin
 
 from comicsdb.admin.util import AttributionInline
-from comicsdb.models import Creator, Credits, Issue, Role, Variant
+from comicsdb.models import Creator, Credits, Issue, Rating, Role, Variant
 
 MAX_STORIES = 1
 
@@ -38,7 +38,7 @@ class CreatedOnDateListFilter(admin.SimpleListFilter):
 
     parameter_name = "created_on"
 
-    def lookups(self, request: Any, model_admin: Any) -> list[tuple[Any, str]]:
+    def lookups(self, request: Any, model_admin: Any):
         return (
             ("today", "Today"),
             ("yesterday", "Yesterday"),
@@ -97,7 +97,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
     autocomplete_fields = ["series", "characters", "teams", "arcs", "universes", "reprints"]
     list_select_related = ("series",)
     date_hierarchy = "cover_date"
-    actions = ["add_dc_credits", "add_marvel_credits", "add_reprint_info"]
+    actions = ["add_teen_rating", "add_dc_credits", "add_marvel_credits", "add_reprint_info"]
     actions_on_top = True
     # form view
     fieldsets = (
@@ -222,5 +222,22 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
                 count,
             )
             % count,
+            messages.SUCCESS,
+        )
+
+    @admin.action(description="Add teen rating")
+    def add_teen_rating(self, request, queryset) -> None:
+        unknown = Rating.objects.get(name="Unknown")
+        teen = Rating.objects.get(name="Teen")
+
+        for qs in queryset:
+            if qs.rating == unknown:
+                qs.rating = teen
+
+        count = Issue.objects.bulk_update(queryset, ["rating"], batch_size=50)
+
+        self.message_user(
+            request,
+            ngettext("%d issue was updated", "%d issues were updated", count) % count,
             messages.SUCCESS,
         )
