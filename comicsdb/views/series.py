@@ -124,7 +124,7 @@ class SearchSeriesList(SeriesList):
         if query := self.request.GET.get("q"):
             query_list = query.split()
             result = result.filter(
-                reduce(operator.and_, (Q(name__icontains=q) for q in query_list))
+                reduce(operator.and_, (Q(name__unaccent__icontains=q) for q in query_list))
             )
 
         return result
