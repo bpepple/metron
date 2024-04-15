@@ -12,7 +12,9 @@ class IssueSeriesName(df.rest_framework.CharFilter):
         if value:
             query_list = value.split()
             return qs.filter(
-                reduce(operator.and_, (Q(series__name__icontains=q) for q in query_list))
+                reduce(
+                    operator.and_, (Q(series__name__unaccent__icontains=q) for q in query_list)
+                )
             )
         return super().filter(qs, value)
 

@@ -11,7 +11,7 @@ class SeriesNameFilter(filters.CharFilter):
     def filter(self, qs, value):
         if value:
             query_list = value.split()
-            qs = qs.filter(reduce(operator.and_, (Q(name__icontains=q) for q in query_list)))
+            qs = qs.filter(reduce(operator.and_, (Q(name__unaccent__icontains=q) for q in query_list)))
         return qs
 
 
