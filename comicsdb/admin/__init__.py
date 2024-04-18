@@ -1,3 +1,4 @@
+from comicsdb.admin.announcement import AnnouncementAdmin
 from comicsdb.admin.arc import ArcAdmin
 from comicsdb.admin.character import CharacterAdmin
 from comicsdb.admin.creator import CreatorAdmin
@@ -11,6 +12,7 @@ from comicsdb.admin.team import TeamAdmin
 from comicsdb.admin.universe import UniverseAdmin
 
 __all__ = [
+    "AnnouncementAdmin",
     "ArcAdmin",
     "CharacterAdmin",
     "CreatorAdmin",
