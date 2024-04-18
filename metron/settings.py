@@ -89,6 +89,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "comicsdb.context_processors.announcement_context_processor",
             ],
             # Bulma templatetags for project.
             "libraries": {

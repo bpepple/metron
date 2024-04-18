@@ -1,3 +1,4 @@
+from comicsdb.models.announcement import Announcement
 from comicsdb.models.arc import Arc
 from comicsdb.models.attribution import Attribution
 from comicsdb.models.character import Character
@@ -14,6 +15,7 @@ from comicsdb.models.variant import Variant
 
 __all__ = [
     "Arc",
+    "Announcement",
     "Attribution",
     "Character",
     "Creator",

@@ -2,6 +2,7 @@
 {% load thumbnail %}
 {% load is_new %}
 {% load static %}
+{% load cache %}
 
 {% block sitedesc %}
   <meta name="description"
@@ -13,6 +14,18 @@
 {% block title %}Metron{% endblock %}
 
 {% block content %}
+  <!--- announcements -->
+  {% cache 1800 annoucements_cache %}
+  {% if active_announcements %}
+    {% for announcement in active_announcements %}
+      <div class="notification is-{{ announcement.display_type }}">
+        <button class="delete"></button>
+        {{ announcement.content|safe }}
+      </div>
+    {% endfor %}
+  {% endif %}
+  {% endcache %}
+  <!-- end announcements -->
   <!-- messages -->
   {% if messages %}
     {% for message in messages %}

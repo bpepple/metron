@@ -1,4 +1,5 @@
 from comicsdb.models import (
+    Announcement,
     Arc,
     Character,
     Creator,
@@ -15,6 +16,12 @@ from comicsdb.models.common import generate_slug_from_name
 from comicsdb.models.genre import Genre
 
 HTTP_200_OK = 200
+
+
+def test_announcement_model(announcement):
+    assert isinstance(announcement, Announcement)
+    assert announcement.active
+    assert announcement.active_announcements()
 
 
 def test_team_creation(avengers):
