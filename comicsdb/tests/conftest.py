@@ -5,7 +5,7 @@ import pytest
 from django.core.management import call_command
 from django.utils import timezone
 
-from comicsdb.models import Universe
+from comicsdb.models import Announcement, Universe
 from comicsdb.models.arc import Arc
 from comicsdb.models.character import Character
 from comicsdb.models.creator import Creator
@@ -253,3 +253,10 @@ def avengers(create_user):
 @pytest.fixture()
 def writer(db):
     return Role.objects.create(name="Writer", notes="Nothing here.", order=20)
+
+
+@pytest.fixture()
+def announcement(db):
+    return Announcement.objects.create(
+        title="Test Announcement", content="Nothing here.", active=True
+    )
