@@ -22,6 +22,9 @@ class CustomUserCreationForm(UserCreationForm):
     )
 
     def clean(self) -> dict[str, Any]:
+        blocklist = {"hey.com"}  # List of providers that provide temp email addresses.
+        whitelist = {"gmail.com", "yahoo.com", "proton.me"}
+
         email: str = self.cleaned_data.get("email")
         if email is None:
             LOGGER.error("User didn't add an email address")
@@ -31,12 +34,15 @@ class CustomUserCreationForm(UserCreationForm):
             LOGGER.warning("'%s' already exists", email)
             raise ValidationError("Email already exists")
 
-        whitelist = {"gmail.com", "yahoo.com", "proton.me"}
         try:
             _, domain = email.split("@")
         except ValueError as exc:
             LOGGER.warning("Email: %s | Error: %s", email, exc)
             raise ValidationError("Email address is not valid.") from exc
+
+        if domain in blocklist:
+            LOGGER.warning("'%s' is a temporary email address.", email)
+            raise ValidationError("Temporary email addresses are not allowed.")
 
         if domain not in whitelist:
             resp = check_email_domain(email)
