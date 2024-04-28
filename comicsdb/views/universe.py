@@ -37,6 +37,7 @@ class UniverseSeriesList(ListView):
 class UniverseList(ListView):
     model = Universe
     paginate_by = PAGINATE
+    queryset = Universe.objects.prefetch_related("issues")
 
 
 class UniverseIssueList(ListView):
