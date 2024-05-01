@@ -1,4 +1,4 @@
-from datetime import date
+import datetime
 from typing import Any
 
 from django.contrib import admin, messages
@@ -21,7 +21,7 @@ class FutureStoreDateListFilter(admin.SimpleListFilter):
         return (("thisWeek", "This week"), ("nextWeek", "Next week"))
 
     def queryset(self, request: Any, queryset: QuerySet) -> QuerySet | None:
-        today = date.today()
+        today = datetime.date.today()
         year, week, _ = today.isocalendar()
 
         match self.value():
@@ -48,18 +48,20 @@ class CreatedOnDateListFilter(admin.SimpleListFilter):
         )
 
     def queryset(self, request: Any, queryset: QuerySet[Any]) -> QuerySet[Any] | None:
-        today = date.today()
+        today = datetime.date.today()
+        yesterday = datetime.datetime.today() - datetime.timedelta(days=1)
+        last_week = datetime.datetime.today() - datetime.timedelta(days=7)
 
         match self.value():
             case "today":
                 return queryset.filter(created_on__date=today)
             case "yesterday":
                 return queryset.filter(
-                    created_on__date=date(today.year, today.month, today.day - 1)
+                    created_on__date=yesterday.date()
                 )
             case "7day":
                 return queryset.filter(
-                    created_on__date__gte=date(today.year, today.month, today.day - 7)
+                    created_on__date__gte=last_week.date()
                 )
             case "thisMonth":
                 return queryset.filter(
