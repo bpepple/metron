@@ -68,22 +68,74 @@ class IssueList(ListView):
 
 class IssueDetail(DetailView):
     model = Issue
-    queryset = Issue.objects.select_related(
-        "series", "series__publisher", "series__series_type", "rating"
-    ).prefetch_related(
-        Prefetch(
-            "credits_set",
-            queryset=Credits.objects.order_by("creator__name")
-            .distinct("creator__name")
-            .select_related("creator")
-            .prefetch_related("role"),
-        ),
-        Prefetch(
-            "reprints",
-            queryset=Issue.objects.select_related("series", "series__series_type").order_by(
-                "cover_date", "store_date"
+    queryset = (
+        Issue.objects.select_related(
+            "series", "series__publisher", "series__series_type", "rating"
+        )
+        .defer(
+            "created_on",
+            "cover_hash",
+            "series__desc",
+            "series__modified",
+            "series__created_on",
+            "series__publisher__desc",
+            "series__publisher__modified",
+            "series__publisher__image",
+            "series__publisher__founded",
+            "series__publisher__created_on",
+            "series__series_type__notes",
+            "series__series_type__modified",
+            "rating__description",
+        )
+        .prefetch_related(
+            Prefetch(
+                "credits_set",
+                queryset=Credits.objects.select_related("creator")
+                .defer(
+                    "modified",
+                    "creator__desc",
+                    "creator__cv_id",
+                    "creator__modified",
+                    "creator__created_on",
+                    "creator__birth",
+                    "creator__death",
+                    "creator__alias",
+                )
+                .order_by("creator__name")
+                .distinct("creator__name")
+                .prefetch_related("role"),
             ),
-        ),
+            Prefetch(
+                "reprints",
+                queryset=Issue.objects.select_related("series", "series__series_type")
+                .defer(
+                    "title",
+                    "desc",
+                    "modified",
+                    "name",
+                    "price",
+                    "rating",
+                    "store_date",
+                    "sku",
+                    "isbn",
+                    "upc",
+                    "page",
+                    "image",
+                    "cover_hash",
+                    "cv_id",
+                    "created_by_id",
+                    "edited_by_id",
+                    "series__desc",
+                    "series__cv_id",
+                    "series__modified",
+                    "series__created_on",
+                    "series__year_end",
+                    "series__series_type__notes",
+                    "series__series_type__modified",
+                )
+                .order_by("cover_date", "store_date"),
+            ),
+        )
     )
 
     def get_context_data(self, **kwargs):
