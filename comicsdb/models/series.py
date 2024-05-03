@@ -47,6 +47,8 @@ class Series(CommonInfo):
 
     def __str__(self) -> str:
         match self.series_type.id:
+            case 12:
+                return f"{self.name} ({self.year_began}) Digital"
             case 10:
                 return f"{self.name} TPB ({self.year_began})"
             case 8:
