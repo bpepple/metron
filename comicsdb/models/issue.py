@@ -94,7 +94,11 @@ class Issue(CommonInfo):
         return super().save(*args, **kwargs)
 
     def __str__(self) -> str:
-        return f"{self.series} #{self.number}"
+        match self.series.series_type.id:
+            case 12:
+                return f"{self.series} Chapter #{self.number}"
+            case _:
+                return f"{self.series} #{self.number}"
 
     class Meta:
         indexes = [
