@@ -10,6 +10,9 @@ class Command(BaseCommand):
         """add the arguments for this command"""
         parser.add_argument("--series", type=int, required=True)
         parser.add_argument("--universe", type=int, required=True)
+        parser.add_argument(
+            "--characters", action="store_true", help="Add characters to Universe."
+        )
 
     def handle(self, *args, **options):
         issues = Issue.objects.filter(series__id=options["series"])
@@ -20,3 +23,9 @@ class Command(BaseCommand):
                 continue
             issue.universes.add(universe)
             self.stdout.write(self.style.SUCCESS(f"Added '{universe}' to '{issue}'"))
+            if options["characters"]:
+                for character in issue.characters.all():
+                    if universe in character.universes.all():
+                        continue
+                    character.universes.add(universe)
+                    self.stdout.write(self.style.SUCCESS(f"Added '{universe}' to '{character}'"))
