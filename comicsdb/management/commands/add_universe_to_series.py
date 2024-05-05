@@ -18,11 +18,9 @@ class Command(BaseCommand):
         issues = Issue.objects.filter(series__id=options["series"])
         universe = Universe.objects.get(id=options["universe"])
         for issue in issues:
-            if universe in issue.universes.all():
-                self.stdout.write(self.style.WARNING(f"'{universe}' is already in '{issue}'"))
-                continue
-            issue.universes.add(universe)
-            self.stdout.write(self.style.SUCCESS(f"Added '{universe}' to '{issue}'"))
+            if universe not in issue.universes.all():
+                issue.universes.add(universe)
+                self.stdout.write(self.style.SUCCESS(f"Added '{universe}' to '{issue}'"))
             if options["characters"]:
                 for character in issue.characters.all():
                     if universe in character.universes.all():
