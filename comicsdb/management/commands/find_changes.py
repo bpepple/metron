@@ -1,7 +1,8 @@
-from django.core.management.base import BaseCommand
 from datetime import datetime
 
-from comicsdb.models import Arc, Issue, Character, Creator, Team, Publisher
+from django.core.management.base import BaseCommand
+
+from comicsdb.models import Arc, Character, Creator, Issue, Publisher, Team
 from users.models import CustomUser
 
 
@@ -10,7 +11,9 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         """Add the arguments to the command."""
-        parser.add_argument("--date", type=str, required=True, help="Date string to search (yyyy-mm-dd)")
+        parser.add_argument(
+            "--date", type=str, required=True, help="Date string to search (yyyy-mm-dd)"
+        )
 
     def handle(self, *args, **options):
         search_date = datetime.strptime(options["date"], "%Y-%m-%d").date()
@@ -20,13 +23,19 @@ class Command(BaseCommand):
         results: list[dict] = []
         for mod in models:
             qs = mod.objects.filter(modified__date=search_date).exclude(edited_by=admin)
-            results.append({"model": mod, "queryset": qs})
+            results.append({"model": mod, "qs": qs})
+
+        if all(not v["qs"] for v in results):
+            self.stdout.write(self.style.WARNING("No changes found."))
+            return
 
         title = f"Changes for {search_date}\n-----------------------"
         self.stdout.write(self.style.SUCCESS(title))
 
         for item in results:
-            if item["queryset"]:
+            if item["qs"]:
                 self.stdout.write(self.style.SUCCESS(f"\n{item['model'].__name__}:"))
-                for obj in item["queryset"]:
-                    self.stdout.write(self.style.WARNING(f"\t'{obj}' changed by '{obj.edited_by}'"))
+                for obj in item["qs"]:
+                    self.stdout.write(
+                        self.style.WARNING(f"\t'{obj}' changed by '{obj.edited_by}'")
+                    )
