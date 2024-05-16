@@ -18,23 +18,23 @@ class Command(BaseCommand):
         """Run the command"""
         month = options["month"]
         year = options["year"]
+        results: list[dict] = []
 
-        issues = Issue.objects.filter(created_on__month=month, created_on__year=year).count()
         users = CustomUser.objects.filter(
             date_joined__month=month, date_joined__year=year
         ).count()
-        characters = Character.objects.filter(
-            created_on__month=month, created_on__year=year
-        ).count()
-        creators = Creator.objects.filter(
-            created_on__month=month, created_on__year=year
-        ).count()
+        results.append({"model": CustomUser, "count": users})
+
+        models = [Character, Creator, Issue]
+        for mod in models:
+            count = mod.objects.filter(created_on__month=month, created_on__year=year).count()
+            results.append({"model": mod, "count": count})
 
         title = f"Stats for {date(year, month, 1).strftime('%B %Y')}"
 
         self.stdout.write(self.style.SUCCESS(title))
         self.stdout.write(self.style.SUCCESS(f"{'-' * len(title)}"))
-        self.stdout.write(self.style.SUCCESS(f"Users: {users}"))
-        self.stdout.write(self.style.SUCCESS(f"Issues: {issues}"))
-        self.stdout.write(self.style.SUCCESS(f"Creators: {creators}"))
-        self.stdout.write(self.style.SUCCESS(f"Characters: {characters}"))
+        for result in results:
+            self.stdout.write(
+                self.style.WARNING(f"{result['model'].__name__}: {result['count']:,}")
+            )

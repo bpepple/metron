@@ -8,7 +8,7 @@ from comicsdb.models.issue import Issue
 class Command(BaseCommand):
     help = "Print Comic Vine ID statistics."
 
-    def handle(self, *args: Any, **options: Any) -> str | None:
+    def handle(self, *args: Any, **options: Any) -> None:
         issues = Issue.objects.all()
         total = issues.count()
         missing = issues.filter(cv_id__isnull=True).count()

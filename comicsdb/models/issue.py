@@ -55,7 +55,9 @@ class Issue(CommonInfo):
     image = ImageField("Cover", upload_to="issue/%Y/%m/%d/", blank=True)
     cover_hash = models.CharField("Cover Hash", max_length=16, blank=True)
     arcs = models.ManyToManyField(Arc, blank=True, related_name="issues")
-    creators = models.ManyToManyField(Creator, through="Credits", blank=True, related_name="issues")
+    creators = models.ManyToManyField(
+        Creator, through="Credits", blank=True, related_name="issues"
+    )
     characters = models.ManyToManyField(Character, blank=True, related_name="issues")
     teams = models.ManyToManyField(Team, blank=True, related_name="issues")
     universes = models.ManyToManyField(Universe, blank=True, related_name="issues")

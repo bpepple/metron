@@ -4,20 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('comicsdb', '0021_alter_character_creators_alter_character_teams_and_more'),
+        ("comicsdb", "0021_alter_character_creators_alter_character_teams_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='team',
-            name='creators',
-            field=models.ManyToManyField(blank=True, related_name='teams', to='comicsdb.creator'),
+            model_name="team",
+            name="creators",
+            field=models.ManyToManyField(
+                blank=True, related_name="teams", to="comicsdb.creator"
+            ),
         ),
         migrations.AlterField(
-            model_name='team',
-            name='universes',
-            field=models.ManyToManyField(blank=True, related_name='teams', to='comicsdb.universe'),
+            model_name="team",
+            name="universes",
+            field=models.ManyToManyField(
+                blank=True, related_name="teams", to="comicsdb.universe"
+            ),
         ),
     ]

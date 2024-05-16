@@ -26,4 +26,6 @@ class Command(BaseCommand):
                     if universe in character.universes.all():
                         continue
                     character.universes.add(universe)
-                    self.stdout.write(self.style.SUCCESS(f"Added '{universe}' to '{character}'"))
+                    self.stdout.write(
+                        self.style.SUCCESS(f"Added '{universe}' to '{character}'")
+                    )
