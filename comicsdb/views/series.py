@@ -100,9 +100,7 @@ class SeriesDetail(DetailView):
 
         # Top 10 character appearances for series.
         characters = (
-            series.issues.values(
-                "characters__name", "characters__image", "characters__slug"
-            )
+            series.issues.values("characters__name", "characters__image", "characters__slug")
             .order_by("characters")
             .annotate(count=Count("characters"))
             .order_by("-count", "characters__name")

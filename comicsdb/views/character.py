@@ -113,7 +113,10 @@ class SearchCharacterList(CharacterList):
                 reduce(
                     operator.and_,
                     # Unaccent lookup won't work on alias array field.
-                    (Q(name__unaccent__icontains=q) | Q(alias__icontains=q) for q in query_list),
+                    (
+                        Q(name__unaccent__icontains=q) | Q(alias__icontains=q)
+                        for q in query_list
+                    ),
                 )
             )
 
