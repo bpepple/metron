@@ -20,7 +20,9 @@ class Command(BaseCommand):
         year = options["year"]
         results: list[dict] = []
 
-        users = CustomUser.objects.filter(date_joined__month=month, date_joined__year=year).count()
+        users = CustomUser.objects.filter(
+            date_joined__month=month, date_joined__year=year
+        ).count()
         results.append({"model": CustomUser, "count": users})
 
         models = [Character, Creator, Issue]
@@ -33,4 +35,6 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(title))
         self.stdout.write(self.style.SUCCESS(f"{'-' * len(title)}"))
         for result in results:
-            self.stdout.write(self.style.WARNING(f"{result['model'].__name__}: {result['count']:,}"))
+            self.stdout.write(
+                self.style.WARNING(f"{result['model'].__name__}: {result['count']:,}")
+            )

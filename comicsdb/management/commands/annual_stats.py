@@ -24,4 +24,6 @@ class Command(BaseCommand):
         title = f"{options['year']} New Additions Statistics"
         self.stdout.write(self.style.SUCCESS(f"{title}\n{len(title) * '-'}"))
         for result in results:
-            self.stdout.write(self.style.WARNING(f"{result['model'].__name__}: {result['count']:,}"))
+            self.stdout.write(
+                self.style.WARNING(f"{result['model'].__name__}: {result['count']:,}")
+            )
