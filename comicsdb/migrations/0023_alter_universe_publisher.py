@@ -5,15 +5,18 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('comicsdb', '0022_alter_team_related_names'),
+        ("comicsdb", "0022_alter_team_related_names"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='universe',
-            name='publisher',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='universes', to='comicsdb.publisher'),
+            model_name="universe",
+            name="publisher",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="universes",
+                to="comicsdb.publisher",
+            ),
         ),
     ]

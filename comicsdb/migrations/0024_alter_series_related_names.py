@@ -5,20 +5,25 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('comicsdb', '0023_alter_universe_publisher'),
+        ("comicsdb", "0023_alter_universe_publisher"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='series',
-            name='genres',
-            field=models.ManyToManyField(blank=True, related_name='series', to='comicsdb.genre'),
+            model_name="series",
+            name="genres",
+            field=models.ManyToManyField(
+                blank=True, related_name="series", to="comicsdb.genre"
+            ),
         ),
         migrations.AlterField(
-            model_name='series',
-            name='publisher',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='series', to='comicsdb.publisher'),
+            model_name="series",
+            name="publisher",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="series",
+                to="comicsdb.publisher",
+            ),
         ),
     ]

@@ -6,35 +6,44 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('comicsdb', '0001_squashed_0018_alter_series_collection'),
+        ("comicsdb", "0001_squashed_0018_alter_series_collection"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='issue',
-            name='arcs',
-            field=models.ManyToManyField(blank=True, related_name='issues', to='comicsdb.arc'),
+            model_name="issue",
+            name="arcs",
+            field=models.ManyToManyField(blank=True, related_name="issues", to="comicsdb.arc"),
         ),
         migrations.AlterField(
-            model_name='issue',
-            name='characters',
-            field=models.ManyToManyField(blank=True, related_name='issues', to='comicsdb.character'),
+            model_name="issue",
+            name="characters",
+            field=models.ManyToManyField(
+                blank=True, related_name="issues", to="comicsdb.character"
+            ),
         ),
         migrations.AlterField(
-            model_name='issue',
-            name='series',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='issues', to='comicsdb.series'),
+            model_name="issue",
+            name="series",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="issues",
+                to="comicsdb.series",
+            ),
         ),
         migrations.AlterField(
-            model_name='issue',
-            name='teams',
-            field=models.ManyToManyField(blank=True, related_name='issues', to='comicsdb.team'),
+            model_name="issue",
+            name="teams",
+            field=models.ManyToManyField(
+                blank=True, related_name="issues", to="comicsdb.team"
+            ),
         ),
         migrations.AlterField(
-            model_name='issue',
-            name='universes',
-            field=models.ManyToManyField(blank=True, related_name='issues', to='comicsdb.universe'),
+            model_name="issue",
+            name="universes",
+            field=models.ManyToManyField(
+                blank=True, related_name="issues", to="comicsdb.universe"
+            ),
         ),
     ]
