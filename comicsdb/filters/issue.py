@@ -48,6 +48,9 @@ class IssueFilter(df.rest_framework.FilterSet):
     modified_gt = df.rest_framework.DateTimeFilter(
         label="Greater than Modified DateTime", field_name="modified", lookup_expr="gt"
     )
+    rating = df.rest_framework.CharFilter(
+        label="Rating", field_name="rating__name", lookup_expr="iexact"
+    )
     sku = df.rest_framework.CharFilter(
         label="Distributor SKU", field_name="sku", lookup_expr="iexact"
     )
