@@ -22,7 +22,7 @@ class Command(BaseCommand):
         models = [Arc, Issue, Character, Creator, Team, Publisher]
         results: list[dict] = []
         for mod in models:
-            if isinstance(mod, Issue):
+            if mod == Issue:
                 qs = mod.objects.filter(modified__date=search_date).exclude(created_by=admin)
             else:
                 qs = mod.objects.filter(modified__date=search_date).exclude(edited_by=admin)
