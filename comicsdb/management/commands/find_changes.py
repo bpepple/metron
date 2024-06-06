@@ -23,7 +23,13 @@ class Command(BaseCommand):
         results: list[dict] = []
         for mod in models:
             if mod == Issue:
-                qs = mod.objects.filter(modified__date=search_date).exclude(created_by=admin)
+                qs_created = mod.objects.filter(modified__date=search_date).exclude(
+                    created_by=admin
+                )
+                qs_modified = mod.objects.filter(modified__date=search_date).exclude(
+                    edited_by=admin
+                )
+                qs = (qs_created | qs_modified).distinct()
             else:
                 qs = mod.objects.filter(modified__date=search_date).exclude(edited_by=admin)
             results.append({"model": mod, "qs": qs})
@@ -39,6 +45,7 @@ class Command(BaseCommand):
             if item["qs"]:
                 self.stdout.write(self.style.SUCCESS(f"\n{item['model'].__name__}:"))
                 for obj in item["qs"]:
-                    self.stdout.write(
-                        self.style.WARNING(f"\t'{obj}' changed by '{obj.edited_by}'")
+                    user_str = (
+                        f"{obj.edited_by}" if obj.edited_by != admin else f"{obj.created_by}"
                     )
+                    self.stdout.write(self.style.WARNING(f"\t'{obj}' changed by '{user_str}'"))
