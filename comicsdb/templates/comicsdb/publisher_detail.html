@@ -185,7 +185,7 @@
             <p><b>Found:</b> {{ publisher.founded }}</p>
           {% endif %}
           {% if publisher.series_count > 0 %}
-            <p><b>Number of Series:</b> {{ publisher.series_count }}</p>
+            <p><b>Number of Series:</b> {{ publisher.series_count|intcomma }}</p>
           {% endif %}
           <br/>
           <p><b>Metron ID:</b> {{ publisher.id }}</p>

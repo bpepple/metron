@@ -1,6 +1,7 @@
 {% extends parent_template|default:"base.html" %}
 {% load thumbnail %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}{{ creator.name }}{% endblock title %}
 
@@ -177,7 +178,7 @@
       {% if creator.death %}
       <p><b>Death:</b> {{ creator.death|date:"SHORT_DATE_FORMAT" }}</p>
       {% endif %}
-      <p><b>Number of Issue:</b> {{ creator.issue_count }}</p>
+      <p><b>Number of Issue:</b> {{ creator.issue_count|intcomma }}</p>
       {% if creator.alias %}
         {% with aliases=creator.alias %}
         <p>

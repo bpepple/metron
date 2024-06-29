@@ -1,7 +1,6 @@
 import pytest
 from django.core.management import call_command
 
-from comicsdb.management.commands.clean_issue_description import Command
 from comicsdb.models.arc import Arc
 from comicsdb.models.attribution import Attribution
 from comicsdb.models.character import Character
@@ -103,48 +102,3 @@ def test_merge_creators(
     assert john_byrne.desc == FAKE_DESC
     assert john_byrne.cv_id == FAKE_CVID
     assert credit_obj.creator == john_byrne
-
-
-test_desc = [
-    pytest.param(
-        "Welcome to Riverdale\n\nContentsLead 'em",
-        "regular bad content",
-        "Welcome to Riverdale",
-    ),
-    pytest.param("", "empty string", ""),
-    pytest.param("ContentsLead 'em", "string starting with 'content'", ""),
-    pytest.param(
-        (
-            "The hallmark anthology\n\nNote: Retailers had to order 20 copies total of the "
-            "regular and variant issue and they could order one signed Michael Kaluta "
-            "variant.\n\nStory & Chapter TitlesBeasts of Burden: Food RunRotten Apple"
-        ),
-        "string with 'Note'",
-        "The hallmark anthology",
-    ),
-    pytest.param(
-        "A suicidal robot.\n\nDo wap.\n\nStory & Chapter TitlesIsolationRotten Apple",
-        "string with 'Story'",
-        "A suicidal robot.\n\nDo wap.",
-    ),
-    pytest.param(
-        "Hellboy is the centerpiece\n\nIn addition\n\n\nStory & Chapter Titles Hellboy",
-        "string with three new lines",
-        "Hellboy is the centerpiece\n\nIn addition",
-    ),
-    pytest.param(
-        (
-            "The Rickfinity Crisis comes to its thrilling conclusion.\n\nSynopsisRick, "
-            "trapped under some rubble.\n\nBlah...Blah"
-        ),
-        "string with 'Synopsis'",
-        "The Rickfinity Crisis comes to its thrilling conclusion.",
-    ),
-]
-
-
-@pytest.mark.parametrize(("txt", "reason", "expected"), test_desc)
-def test_clean_issue_description(txt: str, reason: str, expected: str) -> None:
-    cmd = Command()
-    result = cmd._clean_desc(txt)
-    assert result == expected

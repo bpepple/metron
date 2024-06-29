@@ -1,6 +1,7 @@
 {% extends parent_template|default:"base.html" %}
 {% load thumbnail %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}Universes{% endblock title %}
 
@@ -26,7 +27,9 @@
             <form action="{% url 'universe:search' %}" method="get" accept-charset="utf-8">
               <div class="field has-addons">
                 <p class="control">
-                  <input class="input" name="q" type="search" placeholder="Find a universe">
+                    <label>
+                        <input class="input" name="q" type="search" placeholder="Find a universe">
+                    </label>
                 </p>
                 <p class="control">
                   <button class="button">Search</button>
@@ -78,7 +81,7 @@
                 {% with count=universe.issue_count %}
                   {% if count %}
                     <a href="{% url 'universe:issue' universe.slug %}" class="card-footer-item">
-                      {{ count }} Issue{{ count|pluralize }}
+                      {{ count|intcomma }} Issue{{ count|pluralize }}
                     </a>
                   {% else %}
                     <p class="card-footer-item">0 Issues</p>

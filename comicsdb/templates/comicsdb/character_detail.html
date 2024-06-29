@@ -1,6 +1,7 @@
 {% extends parent_template|default:"base.html" %}
 {% load thumbnail %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}{{ character.name }}{% endblock title %}
 
@@ -154,7 +155,7 @@
     <div class="column is-one-fifth">
       <div class="box">
         <h1 class="title is-6">Character Details</h1>
-        <p><b>Number of Issue:</b> {{ character.issue_count }}</p>
+        <p><b>Number of Issue:</b> {{ character.issue_count|intcomma }}</p>
         {% if character.issue_count > 0 %}
           {% with first=character.first_appearance %}
             <p>
