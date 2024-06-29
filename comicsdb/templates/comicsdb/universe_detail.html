@@ -1,6 +1,7 @@
 {% extends parent_template|default:"base.html" %}
 {% load thumbnail %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}{{ universe.name }}{% endblock title %}
 
@@ -234,7 +235,7 @@
           <b>Publisher:</b> <a href="{% url 'publisher:detail' universe.publisher.slug %}">{{ universe.publisher }}</a>
         </p>
         {% if universe.issue_count > 0 %}
-          <p><b>Number of Issue:</b> {{ universe.issue_count }}</p>
+          <p><b>Number of Issue:</b> {{ universe.issue_count|intcomma }}</p>
           {% with first=universe.first_appearance %}
             <p>
               <b>First Appearance:</b> <a href="{% url 'issue:detail' first.slug %}">{{ first }}</a>

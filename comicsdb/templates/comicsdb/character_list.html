@@ -27,7 +27,9 @@
         <form action="{% url 'character:search' %}" method="get" accept-charset="utf-8">
           <div class="field has-addons">
             <p class="control">
-              <input class="input" name="q" type="search" placeholder="Find a character">
+                <label>
+                    <input class="input" name="q" type="search" placeholder="Find a character">
+                </label>
             </p>
             <p class="control">
               <button class="button">Search</button>
@@ -79,7 +81,7 @@
           {% with count=character.issue_count %}
             {% if count %}
             <a href="{% url 'character:issue' character.slug %}" class="card-footer-item">
-              {{ count }} Issue{{ count|pluralize }}
+              {{ count|intcomma }} Issue{{ count|pluralize }}
             </a>
             {% else %}
             <p class="card-footer-item">0 Issues</p>

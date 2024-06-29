@@ -1,6 +1,7 @@
 {% extends parent_template|default:"base.html" %}
 {% load thumbnail %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}{{ series.name }}{% endblock title %}
 
@@ -237,7 +238,7 @@
       <p><b>Ended:</b> {{ series.year_end }}</p>
       {% endif %}
       {% if series.issue_count > 0 %}
-      <p><b>Number of Issues:</b> {{ series.issue_count }}</p>
+      <p><b>Number of Issues:</b> {{ series.issue_count|intcomma }}</p>
       {% endif %}
       {% with genres=series.genres.all %}
         {% if genres|length > 0 %}

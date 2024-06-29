@@ -90,7 +90,7 @@
           {% with count=series.issue_count %}
             {% if count %}
             <a href="{% url 'series:issue' series.slug %}" class="card-footer-item">
-              {{ count }} issue{{ count|pluralize }}
+              {{ count|intcomma }} issue{{ count|pluralize }}
             </a>
             {% else %}
             <p class="card-footer-item">0 issues</p>

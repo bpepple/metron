@@ -1,6 +1,7 @@
 {% extends parent_template|default:"base.html" %}
 {% load thumbnail %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}{{ team.name }}{% endblock title %}
 
@@ -164,7 +165,7 @@
       <!-- misc info -->
       <div class="box">
         <h1 class="title is-6">Team Details</h1>
-        <p><b>Number of Issues:</b> {{ team.issue_count }}</p>
+        <p><b>Number of Issues:</b> {{ team.issue_count|intcomma }}</p>
         <br />
         {% with creators=team.creators.all %}
           {% if creators %}
