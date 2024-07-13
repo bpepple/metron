@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     "django.contrib.postgres",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-    "django.contrib.sitemaps",
     "django.contrib.flatpages",
     "django.contrib.humanize",
     "django.forms",
