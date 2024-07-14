@@ -230,6 +230,7 @@
       <h1 class="title is-6">Series Details</h1>
       <p><b>Publisher:</b> <a href="{% url 'publisher:detail' series.publisher.slug %}">{{ series.publisher }}</a></p>
       <p><b>Type:</b> {{ series.series_type }}</p>
+      <p><b>Status:</b> {{ series.get_status_display }}</p>
       {% if series.volume %}
       <p><b>Volume:</b> {{ series.volume }}</p>
       {% endif %}
