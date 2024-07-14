@@ -26,11 +26,18 @@ class SeriesType(models.Model):
 
 
 class Series(CommonInfo):
+    class Status(models.IntegerChoices):
+        CANCELLED = 1
+        COMPLETED = 2
+        HIATUS = 3
+        ONGOING = 4
+
     sort_name = models.CharField(max_length=255)
     volume = models.PositiveSmallIntegerField("Volume Number")
     year_began = models.PositiveSmallIntegerField("Year Began")
     year_end = models.PositiveSmallIntegerField("Year Ended", null=True, blank=True)
     series_type = models.ForeignKey(SeriesType, on_delete=models.CASCADE)
+    status = models.IntegerField(choices=Status.choices, default=Status.ONGOING)
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE, related_name="series")
     collection = models.BooleanField(
         "Allow Collection Title",
