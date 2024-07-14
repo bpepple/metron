@@ -27,6 +27,7 @@ def list_of_series(create_user, dc_comics):
             publisher=dc_comics,
             volume=f"{pub_num}",
             series_type=series_type,
+            status=Series.Status.ONGOING,
             edited_by=user,
         )
 
@@ -117,6 +118,7 @@ def test_valid_form(dc_comics, cancelled_type):
             "year_began": 2017,
             "year_end": "",
             "series_type": cancelled_type,
+            "status": Series.Status.ONGOING,
             "publisher": dc_comics,
             "desc": "The Dark Knight.",
         }
@@ -133,6 +135,7 @@ def test_form_invalid(dc_comics, cancelled_type):
             "volume": "",
             "year_began": "",
             "series_type": cancelled_type,
+            "status": Series.Status.ONGOING,
             "publisher": dc_comics,
             "desc": "",
         }
@@ -158,6 +161,7 @@ def test_create_series_validform_view(auto_login_user, cancelled_type, dc_comics
         "year_began": 2017,
         "year_end": 2018,
         "series_type": cancelled_type.id,
+        "status": Series.Status.ONGOING,
         "publisher": dc_comics.id,
         "desc": "Bunch of Misfits",
         "comicsdb-attribution-content_type-object_id-TOTAL_FORMS": 1,

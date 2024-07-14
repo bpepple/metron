@@ -141,6 +141,7 @@ def fc_series(create_user, dc_comics, cancelled_type):
         volume="1",
         year_began=1939,
         series_type=cancelled_type,
+        status=Series.Status.CANCELLED,
         edited_by=user,
     )
 
@@ -155,6 +156,7 @@ def bat_sups_series(create_user, dc_comics, cancelled_type):
         volume="1",
         year_began=2016,
         series_type=cancelled_type,
+        status=Series.Status.CANCELLED,
         edited_by=user,
     )
 

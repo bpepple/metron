@@ -22,6 +22,7 @@ def create_series_data(cancelled_type: SeriesType, dc_comics: Publisher):
         "desc": "Cancelled series starring the Wasp",
         "year_began": 2023,
         "series_type": cancelled_type.id,
+        "status": Series.Status.COMPLETED,
         "publisher": dc_comics.id,
     }
 
