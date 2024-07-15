@@ -14,14 +14,14 @@ from comicsdb.serializers import SeriesListSerializer
 
 
 @pytest.fixture()
-def create_series_data(cancelled_type: SeriesType, dc_comics: Publisher):
+def create_series_data(single_issue_type: SeriesType, dc_comics: Publisher):
     return {
         "name": "The Wasp",
         "sort_name": "Wasp",
         "volume": 1,
         "desc": "Cancelled series starring the Wasp",
         "year_began": 2023,
-        "series_type": cancelled_type.id,
+        "series_type": single_issue_type.id,
         "status": Series.Status.COMPLETED,
         "publisher": dc_comics.id,
     }

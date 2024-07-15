@@ -149,9 +149,9 @@ def test_issue_count(issue_with_arc, superman):
     assert issue_count == 1
 
 
-def test_seriestype_creation(cancelled_type):
-    assert isinstance(cancelled_type, SeriesType)
-    assert str(cancelled_type) == cancelled_type.name
+def test_seriestype_creation(single_issue_type):
+    assert isinstance(single_issue_type, SeriesType)
+    assert str(single_issue_type) == single_issue_type.name
 
 
 def test_fantasy_genre(db):

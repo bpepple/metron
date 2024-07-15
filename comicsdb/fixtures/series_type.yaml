@@ -1,16 +1,4 @@
 - model: comicsdb.seriestype
-  pk: 1
-  fields:
-    name: Ongoing Series
-    notes: ''
-    modified: 2018-11-11 21:06:12.438000+00:00
-- model: comicsdb.seriestype
-  pk: 2
-  fields:
-    name: Cancelled Series
-    notes: ''
-    modified: 2020-11-24 19:28:05.787148+00:00
-- model: comicsdb.seriestype
   pk: 5
   fields:
     name: One-Shot
@@ -51,4 +39,16 @@
   fields:
     name: Digital Chapters
     notes: 'A digital-only release.'
+    modified: 2023-05-03 07:15:06.888335+00:00
+- model: comicsdb.seriestype
+  pk: 13
+  fields:
+    name: Single Issue
+    notes: 'Typically a monthly series.'
+    modified: 2023-05-03 07:15:06.888335+00:00
+- model: comicsdb.seriestype
+  pk: 14
+  fields:
+    name: Omnibus
+    notes: 'Nothing to say.'
     modified: 2023-05-03 07:15:06.888335+00:00
