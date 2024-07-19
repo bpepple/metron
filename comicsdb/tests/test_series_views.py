@@ -27,6 +27,7 @@ def list_of_series(create_user, dc_comics):
             publisher=dc_comics,
             volume=f"{pub_num}",
             series_type=series_type,
+            status=Series.Status.ONGOING,
             edited_by=user,
         )
 
@@ -107,7 +108,7 @@ def test_series_listlists_second_page(auto_login_user, list_of_series):
     assert len(resp.context["series_list"]) == PAGINATE_DIFF_VAL
 
 
-def test_valid_form(dc_comics, cancelled_type):
+def test_valid_form(dc_comics, single_issue_type):
     form = SeriesForm(
         data={
             "name": "Batman",
@@ -116,7 +117,8 @@ def test_valid_form(dc_comics, cancelled_type):
             "volume": 3,
             "year_began": 2017,
             "year_end": "",
-            "series_type": cancelled_type,
+            "series_type": single_issue_type,
+            "status": Series.Status.ONGOING,
             "publisher": dc_comics,
             "desc": "The Dark Knight.",
         }
@@ -124,7 +126,7 @@ def test_valid_form(dc_comics, cancelled_type):
     assert form.is_valid() is True
 
 
-def test_form_invalid(dc_comics, cancelled_type):
+def test_form_invalid(dc_comics, single_issue_type):
     form = SeriesForm(
         data={
             "name": "",
@@ -132,7 +134,8 @@ def test_form_invalid(dc_comics, cancelled_type):
             "slug": "bad-data",
             "volume": "",
             "year_began": "",
-            "series_type": cancelled_type,
+            "series_type": single_issue_type,
+            "status": Series.Status.ONGOING,
             "publisher": dc_comics,
             "desc": "",
         }
@@ -147,7 +150,7 @@ def test_create_series_view(auto_login_user):
     assertTemplateUsed(response, "comicsdb/model_with_attribution_form.html")
 
 
-def test_create_series_validform_view(auto_login_user, cancelled_type, dc_comics):
+def test_create_series_validform_view(auto_login_user, single_issue_type, dc_comics):
     s_name = "Doom Patrol"
     s_slug = "doom-patrol-2017"
     data = {
@@ -157,7 +160,8 @@ def test_create_series_validform_view(auto_login_user, cancelled_type, dc_comics
         "volume": 3,
         "year_began": 2017,
         "year_end": 2018,
-        "series_type": cancelled_type.id,
+        "series_type": single_issue_type.id,
+        "status": Series.Status.ONGOING,
         "publisher": dc_comics.id,
         "desc": "Bunch of Misfits",
         "comicsdb-attribution-content_type-object_id-TOTAL_FORMS": 1,

@@ -30,6 +30,7 @@ class AssociatedSeriesSerializer(serializers.ModelSerializer):
 
 class SeriesSerializer(serializers.ModelSerializer):
     resource_url = serializers.SerializerMethodField("get_resource_url")
+    status = serializers.ChoiceField(choices=Series.Status.choices)
 
     def get_resource_url(self, obj: Series) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
@@ -75,6 +76,7 @@ class SeriesSerializer(serializers.ModelSerializer):
             "sort_name",
             "volume",
             "series_type",
+            "status",
             "publisher",
             "year_began",
             "year_end",
@@ -91,6 +93,7 @@ class SeriesSerializer(serializers.ModelSerializer):
 class SeriesReadSerializer(SeriesSerializer):
     publisher = BasicPublisherSerializer(read_only=True)
     series_type = SeriesTypeSerializer(read_only=True)
+    status = serializers.CharField(source="get_status_display", read_only=True)
     issue_count = serializers.ReadOnlyField
     associated = AssociatedSeriesSerializer(many=True, read_only=True)
     genres = GenreSerializer(many=True, read_only=True)

@@ -127,12 +127,12 @@ def django_db_setup(django_db_setup, django_db_blocker):
 
 
 @pytest.fixture()
-def cancelled_type(db):
-    return SeriesType.objects.get(name="Cancelled Series")
+def single_issue_type(db):
+    return SeriesType.objects.get(name__icontains="single")
 
 
 @pytest.fixture()
-def fc_series(create_user, dc_comics, cancelled_type):
+def fc_series(create_user, dc_comics, single_issue_type):
     user = create_user()
     return Series.objects.create(
         name="Final Crisis",
@@ -140,13 +140,14 @@ def fc_series(create_user, dc_comics, cancelled_type):
         publisher=dc_comics,
         volume="1",
         year_began=1939,
-        series_type=cancelled_type,
+        series_type=single_issue_type,
+        status=Series.Status.CANCELLED,
         edited_by=user,
     )
 
 
 @pytest.fixture()
-def bat_sups_series(create_user, dc_comics, cancelled_type):
+def bat_sups_series(create_user, dc_comics, single_issue_type):
     user = create_user()
     return Series.objects.create(
         name="Batman / Superman",
@@ -154,7 +155,8 @@ def bat_sups_series(create_user, dc_comics, cancelled_type):
         publisher=dc_comics,
         volume="1",
         year_began=2016,
-        series_type=cancelled_type,
+        series_type=single_issue_type,
+        status=Series.Status.CANCELLED,
         edited_by=user,
     )
 
