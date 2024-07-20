@@ -165,19 +165,7 @@ def _update_wikipedia_field(apps, model, content_type_model, attribution_model):
 
 
 class Migration(migrations.Migration):
-    replaces = [
-        ("comicsdb", "0001_squashed_0018_alter_series_collection"),
-        ("comicsdb", "0019_add_issues_related_names"),
-        ("comicsdb", "0020_alter_issue_creators"),
-        ("comicsdb", "0021_alter_character_creators_alter_character_teams_and_more"),
-        ("comicsdb", "0022_alter_team_related_names"),
-        ("comicsdb", "0023_alter_universe_publisher"),
-        ("comicsdb", "0024_alter_series_related_names"),
-        ("comicsdb", "0025_alter_variant_issue"),
-        ("comicsdb", "0026_announcement"),
-        ("comicsdb", "0027_series_status"),
-        ("comicsdb", "0028_update_series_types"),
-    ]
+    replaces = []
 
     initial = True
 
