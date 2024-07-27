@@ -89,6 +89,9 @@ class IssueForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        instance = getattr(self, "instance", None)
+        if instance and not instance.series.collection:
+            self.fields["title"].disabled = True
         self.fields["name"].delimiter = ";"
         self.collections = [8, 10]
 
