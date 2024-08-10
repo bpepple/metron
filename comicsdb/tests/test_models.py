@@ -3,6 +3,7 @@ from comicsdb.models import (
     Arc,
     Character,
     Creator,
+    Imprint,
     Issue,
     Publisher,
     Rating,
@@ -112,6 +113,24 @@ def test_publisher_verbose_name_plural(dc_comics):
 
 def test_puiblisher_absolute_url(client, dc_comics):
     resp = client.get(dc_comics.get_absolute_url())
+    assert resp.status_code == HTTP_200_OK
+
+
+# def test_imprint_series_count(imprint, fc_series):
+#     assert imprint.series_count == 1
+
+
+def test_imprint_creation(imprint):
+    assert isinstance(imprint, Imprint)
+    assert str(imprint) == imprint.name
+
+
+def test_imprint_verbose_name_plural(imprint):
+    assert str(imprint._meta.verbose_name_plural) == "imprints"
+
+
+def test_imprint_absolute_url(client, imprint):
+    resp = client.get(imprint.get_absolute_url())
     assert resp.status_code == HTTP_200_OK
 
 

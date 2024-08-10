@@ -5,7 +5,7 @@ import pytest
 from django.core.management import call_command
 from django.utils import timezone
 
-from comicsdb.models import Announcement, Universe
+from comicsdb.models import Announcement, Imprint, Universe
 from comicsdb.models.arc import Arc
 from comicsdb.models.character import Character
 from comicsdb.models.creator import Creator
@@ -104,6 +104,14 @@ def dc_comics(create_user):
 def marvel(create_user):
     user = create_user()
     return Publisher.objects.create(name="Marvel", slug="marvel", edited_by=user)
+
+
+@pytest.fixture()
+def imprint(create_user, dc_comics):
+    user = create_user()
+    return Imprint.objects.create(
+        name="Vertigo", slug="vertigo", publisher=dc_comics, edited_by=user
+    )
 
 
 @pytest.fixture()
