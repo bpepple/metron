@@ -116,8 +116,8 @@ def test_publisher_absolute_url(client, dc_comics):
     assert resp.status_code == HTTP_200_OK
 
 
-# def test_imprint_series_count(imprint, fc_series):
-#     assert imprint.series_count == 1
+def test_imprint_series_count(imprint, sandman_series):
+    assert imprint.series_count == 1
 
 
 def test_imprint_creation(imprint):

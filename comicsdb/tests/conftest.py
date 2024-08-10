@@ -170,6 +170,22 @@ def bat_sups_series(create_user, dc_comics, single_issue_type):
 
 
 @pytest.fixture()
+def sandman_series(create_user, dc_comics, imprint, single_issue_type):
+    user = create_user()
+    return Series.objects.create(
+        name="Sandman",
+        slug="sandman",
+        publisher=dc_comics,
+        imprint=imprint,
+        volume=1,
+        year_began=1989,
+        series_type=single_issue_type,
+        status=Series.Status.CANCELLED,
+        edited_by=user,
+    )
+
+
+@pytest.fixture()
 def issue_with_arc(create_user, fc_series, fc_arc, superman):
     user = create_user()
     i = Issue.objects.create(
