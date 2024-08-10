@@ -82,15 +82,15 @@
           <!-- end card image -->
           <!-- card footer -->
           <footer class="card-footer">
-{#            {% with count=imprint.series_count %}#}
-{#              {% if count %}#}
-{#                <a href="{% url 'imprint:series' imprint.slug %}" class="card-footer-item">#}
-{#                  {{ count|intcomma }} Series#}
-{#                </a>#}
-{#              {% else %}#}
-{#                <p class="card-footer-item">0 Series</p>#}
-{#              {% endif %}#}
-{#            {% endwith %}#}
+            {% with count=imprint.series_count %}
+              {% if count %}
+                <a href="{% url 'imprint:series' imprint.slug %}" class="card-footer-item">
+                  {{ count|intcomma }} Series
+                </a>
+              {% else %}
+                <p class="card-footer-item">0 Series</p>
+              {% endif %}
+            {% endwith %}
               <a href="{% url 'imprint:detail' imprint.slug %}" class="card-footer-item">Info</a>
           </footer>
           <!-- end card footer -->

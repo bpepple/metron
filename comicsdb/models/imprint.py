@@ -8,8 +8,9 @@ from django.db.models.signals import pre_save
 from django.urls import reverse
 from sorl.thumbnail import ImageField
 
-from comicsdb.models import Attribution, Publisher
+from comicsdb.models.attribution import Attribution
 from comicsdb.models.common import CommonInfo, pre_save_slug
+from comicsdb.models.publisher import Publisher
 from users.models import CustomUser
 
 LOGGER = logging.getLogger(__name__)
@@ -36,6 +37,18 @@ class Imprint(CommonInfo):
 
     def get_absolute_url(self):
         return reverse("imprint:detail", args=[self.slug])
+
+    @property
+    def series_count(self):
+        return self.series.all().count()
+
+    @property
+    def wikipedia(self):
+        return self.attribution.filter(source=Attribution.Source.WIKIPEDIA)
+
+    @property
+    def marvel(self):
+        return self.attribution.filter(source=Attribution.Source.MARVEL)
 
     def __str__(self) -> str:
         return self.name

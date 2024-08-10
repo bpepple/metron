@@ -6,12 +6,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from comicsdb.forms.attribution import AttributionFormSet
 from comicsdb.forms.imprint import ImprintForm
-from comicsdb.models import Attribution, Imprint
+from comicsdb.models import Attribution, Imprint, Series
 
 PAGINATE = 28
 LOGGER = logging.getLogger(__name__)
@@ -20,23 +21,49 @@ LOGGER = logging.getLogger(__name__)
 class ImprintList(ListView):
     model = Imprint
     paginate_by = PAGINATE
-    queryset = Imprint.objects.all()
+    queryset = Imprint.objects.prefetch_related("series")
+
+
+class ImprintSeriesList(ListView):
+    template_name = "comicsdb/series_list.html"
+    paginate_by = PAGINATE
+
+    def __init__(self):
+        super().__init__()
+        self.imprint = None
+
+    def get_queryset(self):
+        self.imprint = get_object_or_404(Imprint, slug=self.kwargs["slug"])
+        return (
+            Series.objects.select_related("series_type")
+            .filter(imprint=self.imprint)
+            .prefetch_related("issues")
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = self.imprint
+        return context
 
 
 class ImprintDetail(DetailView):
     model = Imprint
-    queryset = Imprint.objects.select_related("edited_by")
+    queryset = Imprint.objects.select_related("edited_by").prefetch_related("series")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         imprint = self.get_object()
         try:
-            next_imprint = Imprint.objects.order_by("name").filter(name__gt=imprint.name)
+            next_imprint = (
+                Imprint.objects.order_by("name").filter(name__gt=imprint.name).first()
+            )
         except ObjectDoesNotExist:
             next_imprint = None
 
         try:
-            previous_imprint = Imprint.objects.order_by("name").filter(name__lt=imprint.name)
+            previous_imprint = (
+                Imprint.objects.order_by("name").filter(name__lt=imprint.name).last()
+            )
         except ObjectDoesNotExist:
             previous_imprint = None
 

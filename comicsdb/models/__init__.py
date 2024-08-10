@@ -7,12 +7,12 @@ from comicsdb.models.credits import Credits, Role
 from comicsdb.models.genre import Genre
 from comicsdb.models.issue import Issue
 from comicsdb.models.publisher import Publisher
-from comicsdb.models.imprint import Imprint  # This need to be *after* Publisher model.
 from comicsdb.models.rating import Rating
 from comicsdb.models.series import Series, SeriesType
 from comicsdb.models.team import Team
 from comicsdb.models.universe import Universe
 from comicsdb.models.variant import Variant
+from comicsdb.models.imprint import Imprint  # This need to be *after* Publisher model.
 
 __all__ = [
     "Arc",

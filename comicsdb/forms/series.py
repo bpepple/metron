@@ -1,7 +1,7 @@
-from django.forms import ModelForm, ValidationError
+from django.forms import ModelChoiceField, ModelForm, ValidationError
 from django_select2 import forms as s2forms
 
-from comicsdb.models import Series
+from comicsdb.models import Imprint, Publisher, Series
 
 # Series_Type objects id's
 TPB = 10
@@ -17,6 +17,22 @@ class MultiSeriesWidget(s2forms.ModelSelect2MultipleWidget):
 
 
 class SeriesForm(ModelForm):
+    publisher = ModelChoiceField(
+        queryset=Publisher.objects.all(),
+        label="Publisher",
+        widget=s2forms.ModelSelect2Widget(model=Publisher, search_fields=["name__icontains"]),
+    )
+    imprint = ModelChoiceField(
+        queryset=Imprint.objects.all(),
+        label="Imprint",
+        widget=s2forms.ModelSelect2Widget(
+            model=Imprint,
+            search_fields=["name__icontains"],
+            dependent_fields={"publisher": "publisher"},
+        ),
+        required=False,
+    )
+
     class Meta:
         model = Series
         fields = [
@@ -29,6 +45,7 @@ class SeriesForm(ModelForm):
             "status",
             "collection",
             "publisher",
+            "imprint",
             "cv_id",
             "desc",
             "genres",
@@ -66,6 +83,7 @@ class SeriesForm(ModelForm):
             "status",
             "collection",
             "publisher",
+            "imprint",
             "cv_id",
             "desc",
             "genres",

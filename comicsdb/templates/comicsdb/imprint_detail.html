@@ -49,13 +49,13 @@
       </div>
     </div>
     <div class="level-right">
-{#      <div class="level-item">#}
-{#        <a class="button is-link" href="{% url 'imprint:series' imprint.slug %}"#}
-{#           title="Open series list for imprint">#}
-{#          <span class="icon is-small"><i class="fas fa-list"></i></span>#}
-{#          <span>Series List</span>#}
-{#        </a>#}
-{#      </div>#}
+      <div class="level-item">
+        <a class="button is-link" href="{% url 'imprint:series' imprint.slug %}"
+           title="Open series list for imprint">
+          <span class="icon is-small"><i class="fas fa-list"></i></span>
+          <span>Series List</span>
+        </a>
+      </div>
       {% if user.is_authenticated %}
         <p class="level-item">
           <a class="button is-primary" href="{% url 'imprint:create' %}" title="Add a new imprint">
@@ -142,9 +142,9 @@
           {% if imprint.founded %}
             <p><b>Found:</b> {{ imprint.founded }}</p>
           {% endif %}
-{#          {% if imprint.series_count > 0 %}#}
-{#            <p><b>Number of Series:</b> {{ imprint.series_count|intcomma }}</p>#}
-{#          {% endif %}#}
+          {% if imprint.series_count > 0 %}
+            <p><b>Number of Series:</b> {{ imprint.series_count|intcomma }}</p>
+          {% endif %}
           <br/>
           <p><b>Metron ID:</b> {{ imprint.id }}</p>
           {% if imprint.cv_id %}
