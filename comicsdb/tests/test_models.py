@@ -111,7 +111,7 @@ def test_publisher_verbose_name_plural(dc_comics):
     assert str(dc_comics._meta.verbose_name_plural) == "publishers"
 
 
-def test_puiblisher_absolute_url(client, dc_comics):
+def test_publisher_absolute_url(client, dc_comics):
     resp = client.get(dc_comics.get_absolute_url())
     assert resp.status_code == HTTP_200_OK
 
