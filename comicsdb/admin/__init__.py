@@ -3,6 +3,7 @@ from comicsdb.admin.arc import ArcAdmin
 from comicsdb.admin.character import CharacterAdmin
 from comicsdb.admin.creator import CreatorAdmin
 from comicsdb.admin.genre import GenreAdmin
+from comicsdb.admin.imprint import ImprintAdmin
 from comicsdb.admin.issue import IssueAdmin
 from comicsdb.admin.publisher import PublisherAdmin
 from comicsdb.admin.rating import RatingAdmin
@@ -17,6 +18,7 @@ __all__ = [
     "CharacterAdmin",
     "CreatorAdmin",
     "GenreAdmin",
+    "ImprintAdmin",
     "IssueAdmin",
     "PublisherAdmin",
     "RatingAdmin",
