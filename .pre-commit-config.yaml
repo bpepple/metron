@@ -6,7 +6,7 @@ repos:
       - id: ruff
       - id: ruff-format
   - repo: https://github.com/Riverside-Healthcare/djLint
-    rev: v1.32.0
+    rev: v1.34.1
     hooks:
       - id: djlint-reformat-django
       - id: djlint-django
