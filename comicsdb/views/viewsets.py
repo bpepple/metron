@@ -13,6 +13,7 @@ from comicsdb.models import (
     Character,
     Creator,
     Credits,
+    Imprint,
     Issue,
     Publisher,
     Role,
@@ -31,6 +32,9 @@ from comicsdb.serializers import (
     CreatorListSerializer,
     CreatorSerializer,
     CreditSerializer,
+    ImprintListSerializer,
+    ImprintReadSerializer,
+    ImprintSerializer,
     IssueListSerializer,
     IssueReadSerializer,
     IssueSerializer,
@@ -231,6 +235,50 @@ class CreditViewset(
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class ImprintViewSet(viewsets.ModelViewSet):
+    """
+    list:
+    Returns a list of all imprints.
+
+    retrieve:
+    Returns the information of an individual imprint.
+
+    create:
+    Add a new imprint.
+
+    update:
+    Update an imprint's information.
+    """
+
+    queryset = Imprint.objects.prefetch_related("series", "series__series_type")
+    filterset_class = ComicVineFilter
+    throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
+
+    def get_serializer_class(self):
+        match self.action:
+            case "list":
+                return ImprintListSerializer
+            case "retrieve":
+                return ImprintReadSerializer
+            case _:
+                return ImprintSerializer
+
+    def get_permissions(self):
+        if self.action in ["retrieve", "list"]:
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+
+    def perform_create(self, serializer: ImprintSerializer) -> None:
+        serializer.save(edited_by=self.request.user)
+        return super().perform_create(serializer)
+
+    def perform_update(self, serializer: ImprintSerializer) -> None:
+        serializer.save(edited_by=self.request.user)
+        return super().perform_update(serializer)
 
 
 class IssueViewSet(viewsets.ModelViewSet):

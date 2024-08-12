@@ -150,7 +150,9 @@ def test_create_series_view(auto_login_user):
     assertTemplateUsed(response, "comicsdb/model_with_attribution_form.html")
 
 
-def test_create_series_validform_view(auto_login_user, single_issue_type, dc_comics, imprint):
+def test_create_series_validform_view(
+    auto_login_user, single_issue_type, dc_comics, vertigo_imprint
+):
     s_name = "Doom Patrol"
     s_slug = "doom-patrol-2017"
     data = {
@@ -163,7 +165,7 @@ def test_create_series_validform_view(auto_login_user, single_issue_type, dc_com
         "series_type": single_issue_type.id,
         "status": Series.Status.ONGOING,
         "publisher": dc_comics.id,
-        "imprint": imprint.id,
+        "imprint": vertigo_imprint.id,
         "desc": "Bunch of Misfits",
         "comicsdb-attribution-content_type-object_id-TOTAL_FORMS": 1,
         "comicsdb-attribution-content_type-object_id-INITIAL_FORMS": 0,
@@ -182,7 +184,7 @@ def test_create_series_validform_view(auto_login_user, single_issue_type, dc_com
     assert dp.name == s_name
     assert dp.sort_name == s_name
     assert dp.slug == s_slug
-    assert dp.imprint == imprint
+    assert dp.imprint == vertigo_imprint
 
 
 def test_series_update_view(auto_login_user, fc_series):

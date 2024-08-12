@@ -116,21 +116,21 @@ def test_publisher_absolute_url(client, dc_comics):
     assert resp.status_code == HTTP_200_OK
 
 
-def test_imprint_series_count(imprint, sandman_series):
-    assert imprint.series_count == 1
+def test_imprint_series_count(vertigo_imprint, sandman_series):
+    assert vertigo_imprint.series_count == 1
 
 
-def test_imprint_creation(imprint):
-    assert isinstance(imprint, Imprint)
-    assert str(imprint) == imprint.name
+def test_imprint_creation(vertigo_imprint):
+    assert isinstance(vertigo_imprint, Imprint)
+    assert str(vertigo_imprint) == vertigo_imprint.name
 
 
-def test_imprint_verbose_name_plural(imprint):
-    assert str(imprint._meta.verbose_name_plural) == "imprints"
+def test_imprint_verbose_name_plural(vertigo_imprint):
+    assert str(vertigo_imprint._meta.verbose_name_plural) == "imprints"
 
 
-def test_imprint_absolute_url(client, imprint):
-    resp = client.get(imprint.get_absolute_url())
+def test_imprint_absolute_url(client, vertigo_imprint):
+    resp = client.get(vertigo_imprint.get_absolute_url())
     assert resp.status_code == HTTP_200_OK
 
 

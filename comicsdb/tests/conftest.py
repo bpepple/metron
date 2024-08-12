@@ -107,10 +107,18 @@ def marvel(create_user):
 
 
 @pytest.fixture()
-def imprint(create_user, dc_comics):
+def vertigo_imprint(create_user, dc_comics):
     user = create_user()
     return Imprint.objects.create(
         name="Vertigo", slug="vertigo", publisher=dc_comics, edited_by=user
+    )
+
+
+@pytest.fixture()
+def black_label_imprint(create_user, dc_comics):
+    user = create_user()
+    return Imprint.objects.create(
+        name="Black Label", slug="black-label", publisher=dc_comics, edited_by=user
     )
 
 
@@ -170,13 +178,13 @@ def bat_sups_series(create_user, dc_comics, single_issue_type):
 
 
 @pytest.fixture()
-def sandman_series(create_user, dc_comics, imprint, single_issue_type):
+def sandman_series(create_user, dc_comics, vertigo_imprint, single_issue_type):
     user = create_user()
     return Series.objects.create(
         name="Sandman",
         slug="sandman",
         publisher=dc_comics,
-        imprint=imprint,
+        imprint=vertigo_imprint,
         volume=1,
         year_began=1989,
         series_type=single_issue_type,
