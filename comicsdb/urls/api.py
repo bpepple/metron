@@ -6,6 +6,7 @@ from comicsdb.views.viewsets import (
     CharacterViewSet,
     CreatorViewSet,
     CreditViewset,
+    ImprintViewSet,
     IssueViewSet,
     PublisherViewSet,
     RoleViewset,
@@ -21,6 +22,7 @@ ROUTER.register("arc", ArcViewSet)
 ROUTER.register("character", CharacterViewSet)
 ROUTER.register("creator", CreatorViewSet)
 ROUTER.register("credit", CreditViewset)
+ROUTER.register("imprint", ImprintViewSet)
 ROUTER.register("issue", IssueViewSet)
 ROUTER.register("publisher", PublisherViewSet)
 ROUTER.register("role", RoleViewset)

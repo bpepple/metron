@@ -8,74 +8,73 @@ from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, ListView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from comicsdb.forms.attribution import AttributionFormSet
-from comicsdb.forms.publisher import PublisherForm
-from comicsdb.models.attribution import Attribution
-from comicsdb.models.publisher import Publisher
-from comicsdb.models.series import Series
+from comicsdb.forms.imprint import ImprintForm
+from comicsdb.models import Attribution, Imprint, Series
 
 PAGINATE = 28
 LOGGER = logging.getLogger(__name__)
 
 
-class PublisherList(ListView):
-    model = Publisher
+class ImprintList(ListView):
+    model = Imprint
     paginate_by = PAGINATE
-    queryset = Publisher.objects.prefetch_related("series")
+    queryset = Imprint.objects.prefetch_related("series")
 
 
-class PublisherSeriesList(ListView):
+class ImprintSeriesList(ListView):
     template_name = "comicsdb/series_list.html"
     paginate_by = PAGINATE
 
+    def __init__(self):
+        super().__init__()
+        self.imprint = None
+
     def get_queryset(self):
-        self.publisher = get_object_or_404(Publisher, slug=self.kwargs["slug"])
+        self.imprint = get_object_or_404(Imprint, slug=self.kwargs["slug"])
         return (
             Series.objects.select_related("series_type")
-            .filter(publisher=self.publisher)
+            .filter(imprint=self.imprint)
             .prefetch_related("issues")
         )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = self.publisher
+        context["title"] = self.imprint
         return context
 
 
-class PublisherDetail(DetailView):
-    model = Publisher
-    queryset = Publisher.objects.select_related("edited_by").prefetch_related(
-        "series", "universes__issues", "imprints__series"
-    )
+class ImprintDetail(DetailView):
+    model = Imprint
+    queryset = Imprint.objects.select_related("edited_by").prefetch_related("series")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        publisher = self.get_object()
+        imprint = self.get_object()
         try:
-            next_publisher = (
-                Publisher.objects.order_by("name").filter(name__gt=publisher.name).first()
+            next_imprint = (
+                Imprint.objects.order_by("name").filter(name__gt=imprint.name).first()
             )
         except ObjectDoesNotExist:
-            next_publisher = None
+            next_imprint = None
 
         try:
-            previous_publisher = (
-                Publisher.objects.order_by("name").filter(name__lt=publisher.name).last()
+            previous_imprint = (
+                Imprint.objects.order_by("name").filter(name__lt=imprint.name).last()
             )
         except ObjectDoesNotExist:
-            previous_publisher = None
+            previous_imprint = None
 
         context["navigation"] = {
-            "next_publisher": next_publisher,
-            "previous_publisher": previous_publisher,
+            "next_imprint": next_imprint,
+            "previous_imprint": previous_imprint,
         }
         return context
 
 
-class SearchPublisherList(PublisherList):
+class SearchImprintList(ImprintList):
     def get_queryset(self):
         result = super().get_queryset()
         if query := self.request.GET.get("q"):
@@ -87,14 +86,14 @@ class SearchPublisherList(PublisherList):
         return result
 
 
-class PublisherCreate(LoginRequiredMixin, CreateView):
-    model = Publisher
-    form_class = PublisherForm
+class ImprintCreate(LoginRequiredMixin, CreateView):
+    model = Imprint
+    form_class = ImprintForm
     template_name = "comicsdb/model_with_attribution_form.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "Add Publisher"
+        context["title"] = "Add Imprint"
         if self.request.POST:
             context["attribution"] = AttributionFormSet(self.request.POST)
         else:
@@ -113,30 +112,30 @@ class PublisherCreate(LoginRequiredMixin, CreateView):
             else:
                 return super().form_invalid(form)
 
-        LOGGER.info("Publisher: %s was created by %s", form.instance.name, self.request.user)
+        LOGGER.info("Imprint: %s was created by %s", form.instance.name, self.request.user)
         return super().form_valid(form)
 
 
-class PublisherUpdate(LoginRequiredMixin, UpdateView):
-    model = Publisher
-    form_class = PublisherForm
+class ImprintUpdate(LoginRequiredMixin, UpdateView):
+    model = Imprint
+    form_class = ImprintForm
     template_name = "comicsdb/model_with_attribution_form.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = f"Edit information for {context['publisher']}"
+        context["title"] = f"Edit information for {context['imprint']}"
         if self.request.POST:
             context["attribution"] = AttributionFormSet(
                 self.request.POST,
                 instance=self.object,
-                queryset=(Attribution.objects.filter(publishers=self.object)),
+                queryset=(Attribution.objects.filter(imprints=self.object)),
                 prefix="attribution",
             )
             context["attribution"].full_clean()
         else:
             context["attribution"] = AttributionFormSet(
                 instance=self.object,
-                queryset=(Attribution.objects.filter(publishers=self.object)),
+                queryset=(Attribution.objects.filter(imprints=self.object)),
                 prefix="attribution",
             )
         return context
@@ -153,14 +152,12 @@ class PublisherUpdate(LoginRequiredMixin, UpdateView):
             else:
                 return super().form_invalid(form)
 
-            LOGGER.info(
-                "Publisher: %s was updated by %s", form.instance.name, self.request.user
-            )
+            LOGGER.info("Imprint: %s was updated by %s", form.instance.name, self.request.user)
         return super().form_valid(form)
 
 
-class PublisherDelete(PermissionRequiredMixin, DeleteView):
-    model = Publisher
+class ImprintDelete(PermissionRequiredMixin, DeleteView):
+    model = Imprint
     template_name = "comicsdb/confirm_delete.html"
-    permission_required = "comicsdb.delete_publisher"
-    success_url = reverse_lazy("publisher:list")
+    permission_required = "comicsdb.delete_imprint"
+    success_url = reverse_lazy("imprint:list")

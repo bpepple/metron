@@ -32,6 +32,12 @@ class IssueFilter(df.rest_framework.FilterSet):
     publisher_id = df.rest_framework.NumberFilter(
         label="Publisher Metron ID", field_name="series__publisher__id", lookup_expr="exact"
     )
+    imprint_name = df.rest_framework.CharFilter(
+        label="Imprint Name", field_name="series__imprint__name", lookup_expr="icontains"
+    )
+    imprint_id = df.rest_framework.NumberFilter(
+        label="Imprint Metron ID", field_name="series__imprint__id", lookup_expr="exact"
+    )
     series_name = IssueSeriesName(
         label="Series Name", field_name="series__name", lookup_expr="icontains"
     )

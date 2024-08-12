@@ -43,7 +43,7 @@ class SeriesIssueList(ListView):
 class SeriesDetail(DetailView):
     model = Series
     queryset = Series.objects.select_related(
-        "publisher", "edited_by", "series_type"
+        "publisher", "imprint", "edited_by", "series_type"
     ).prefetch_related("issues")
 
     def get_context_data(self, **kwargs):

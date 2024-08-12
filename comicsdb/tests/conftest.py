@@ -5,7 +5,7 @@ import pytest
 from django.core.management import call_command
 from django.utils import timezone
 
-from comicsdb.models import Announcement, Universe
+from comicsdb.models import Announcement, Imprint, Universe
 from comicsdb.models.arc import Arc
 from comicsdb.models.character import Character
 from comicsdb.models.creator import Creator
@@ -107,6 +107,22 @@ def marvel(create_user):
 
 
 @pytest.fixture()
+def vertigo_imprint(create_user, dc_comics):
+    user = create_user()
+    return Imprint.objects.create(
+        name="Vertigo", slug="vertigo", publisher=dc_comics, edited_by=user
+    )
+
+
+@pytest.fixture()
+def black_label_imprint(create_user, dc_comics):
+    user = create_user()
+    return Imprint.objects.create(
+        name="Black Label", slug="black-label", publisher=dc_comics, edited_by=user
+    )
+
+
+@pytest.fixture()
 def earth_2_universe(create_user, dc_comics):
     desc = "Home to modernized versions of the Justice Society of Earth."
     user = create_user()
@@ -155,6 +171,22 @@ def bat_sups_series(create_user, dc_comics, single_issue_type):
         publisher=dc_comics,
         volume="1",
         year_began=2016,
+        series_type=single_issue_type,
+        status=Series.Status.CANCELLED,
+        edited_by=user,
+    )
+
+
+@pytest.fixture()
+def sandman_series(create_user, dc_comics, vertigo_imprint, single_issue_type):
+    user = create_user()
+    return Series.objects.create(
+        name="Sandman",
+        slug="sandman",
+        publisher=dc_comics,
+        imprint=vertigo_imprint,
+        volume=1,
+        year_began=1989,
         series_type=single_issue_type,
         status=Series.Status.CANCELLED,
         edited_by=user,

@@ -9,6 +9,7 @@ from django.utils.text import slugify
 from comicsdb.models.attribution import Attribution
 from comicsdb.models.common import CommonInfo
 from comicsdb.models.genre import Genre
+from comicsdb.models.imprint import Imprint
 from comicsdb.models.publisher import Publisher
 from users.models import CustomUser
 
@@ -39,10 +40,14 @@ class Series(CommonInfo):
     series_type = models.ForeignKey(SeriesType, on_delete=models.CASCADE)
     status = models.IntegerField(choices=Status.choices, default=Status.ONGOING)
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE, related_name="series")
+    imprint = models.ForeignKey(
+        Imprint, on_delete=models.SET_NULL, null=True, blank=True, related_name="series"
+    )
     collection = models.BooleanField(
         "Allow Collection Title",
         db_default=False,
-        help_text="Whether a series has a collection title. Normally this only applies to Trade Paperbacks.",  # NOQA: E501
+        help_text="Whether a series has a collection title. "
+        "Normally this only applies to Trade Paperbacks.",
     )
     genres = models.ManyToManyField(Genre, blank=True, related_name="series")
     associated = models.ManyToManyField("self", blank=True)
@@ -81,7 +86,7 @@ class Series(CommonInfo):
             models.Index(fields=["name"], name="series_name_idx"),
         ]
         ordering = ["sort_name", "year_began"]
-        unique_together = ["publisher", "name", "volume", "series_type"]
+        unique_together = ["publisher", "imprint", "name", "volume", "series_type"]
         verbose_name_plural = "Series"
 
 

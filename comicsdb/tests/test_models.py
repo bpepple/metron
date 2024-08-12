@@ -3,6 +3,7 @@ from comicsdb.models import (
     Arc,
     Character,
     Creator,
+    Imprint,
     Issue,
     Publisher,
     Rating,
@@ -110,8 +111,26 @@ def test_publisher_verbose_name_plural(dc_comics):
     assert str(dc_comics._meta.verbose_name_plural) == "publishers"
 
 
-def test_puiblisher_absolute_url(client, dc_comics):
+def test_publisher_absolute_url(client, dc_comics):
     resp = client.get(dc_comics.get_absolute_url())
+    assert resp.status_code == HTTP_200_OK
+
+
+def test_imprint_series_count(vertigo_imprint, sandman_series):
+    assert vertigo_imprint.series_count == 1
+
+
+def test_imprint_creation(vertigo_imprint):
+    assert isinstance(vertigo_imprint, Imprint)
+    assert str(vertigo_imprint) == vertigo_imprint.name
+
+
+def test_imprint_verbose_name_plural(vertigo_imprint):
+    assert str(vertigo_imprint._meta.verbose_name_plural) == "imprints"
+
+
+def test_imprint_absolute_url(client, vertigo_imprint):
+    resp = client.get(vertigo_imprint.get_absolute_url())
     assert resp.status_code == HTTP_200_OK
 
 

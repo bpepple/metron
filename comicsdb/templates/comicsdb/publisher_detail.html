@@ -122,6 +122,48 @@
         </div>
       </div>
       <!-- end of summary -->
+    
+      <!-- imprints -->
+      {% with imprints=publisher.imprints.all %}
+          {% if imprints %}
+              <div class="box">
+                <div class="columns">
+                    <div class="column">
+                        <h1 class="title is-5">Imprint{{ imprints|pluralize }}</h1>
+                        <div class="columns is-multiline">
+                            {% for imprint in imprints %}
+                                <div class="column is-4">
+                                    <article class="media">
+                                        <div class="media-left">
+                                            <figure class="image is-64x64">
+                                            {% if imprint.image %}
+                                                {% thumbnail imprint.image "64x64" crop="top" format="WEBP" as im %}
+                                                    <img class="is-rounded" src="{{ im.url }}" width="{{ im.width }}"
+                                                        height="{{ im.height }}" alt="{{ universe.name }}">
+                                                {% endthumbnail %}
+                                            {% else %}
+                                                <img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}"
+                                                    alt="No image for {{ imprint.name }}">
+                                            {% endif %}
+                                            </figure>
+                                        </div>
+                                        <div class="media-content">
+                                            <div class="content">
+                                                <a href="{% url 'imprint:detail' imprint.slug %}">{{ imprint.name }}</a>
+                                                <br/>
+                                                <small><em>{{ imprint.series_count|intcomma }} series</em></small>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+              </div>
+          {% endif %}
+      {% endwith %}
+      <!-- end imprints -->
 
       <!-- universe counts-->
       {% with universes=publisher.universes.all %}

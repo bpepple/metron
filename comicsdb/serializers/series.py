@@ -1,8 +1,9 @@
 from rest_framework import serializers
 
 from comicsdb.models import Series, SeriesType
-from comicsdb.serializers import BasicPublisherSerializer
 from comicsdb.serializers.genre import GenreSerializer
+from comicsdb.serializers.imprint import BasicImprintSerializer
+from comicsdb.serializers.publisher import BasicPublisherSerializer
 
 
 class SeriesListSerializer(serializers.ModelSerializer):
@@ -60,6 +61,7 @@ class SeriesSerializer(serializers.ModelSerializer):
         instance.year_end = validated_data.get("year_end", instance.year_end)
         instance.series_type = validated_data.get("series_type", instance.series_type)
         instance.publisher = validated_data.get("publisher", instance.publisher)
+        instance.imprint = validated_data.get("imprint", instance.imprint)
         instance.cv_id = validated_data.get("cv_id", instance.cv_id)
         if genres_data := validated_data.pop("genres", None):
             instance.genres.add(*genres_data)
@@ -78,6 +80,7 @@ class SeriesSerializer(serializers.ModelSerializer):
             "series_type",
             "status",
             "publisher",
+            "imprint",
             "year_began",
             "year_end",
             "desc",
@@ -92,6 +95,7 @@ class SeriesSerializer(serializers.ModelSerializer):
 
 class SeriesReadSerializer(SeriesSerializer):
     publisher = BasicPublisherSerializer(read_only=True)
+    imprint = BasicImprintSerializer(read_only=True)
     series_type = SeriesTypeSerializer(read_only=True)
     status = serializers.CharField(source="get_status_display", read_only=True)
     issue_count = serializers.ReadOnlyField

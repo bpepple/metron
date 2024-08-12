@@ -23,6 +23,7 @@ class SeriesFilter(filters.FilterSet):
         field_name="publisher__id", lookup_expr="exact"
     )
     publisher_name = filters.CharFilter(field_name="publisher__name", lookup_expr="icontains")
+    imprint_name = filters.CharFilter(field_name="imprint__name", lookup_expr="icontains")
     series_type_id = filters.filters.NumberFilter(
         field_name="series_type__id", lookup_expr="exact"
     )
