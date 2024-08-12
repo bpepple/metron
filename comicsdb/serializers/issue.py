@@ -5,6 +5,7 @@ from comicsdb.serializers import CreditReadSerializer
 from comicsdb.serializers.arc import ArcListSerializer
 from comicsdb.serializers.character import CharacterListSerializer
 from comicsdb.serializers.genre import GenreSerializer
+from comicsdb.serializers.imprint import BasicImprintSerializer
 from comicsdb.serializers.publisher import BasicPublisherSerializer
 from comicsdb.serializers.rating import RatingSerializer
 from comicsdb.serializers.series import SeriesTypeSerializer
@@ -160,6 +161,7 @@ class IssueReadSerializer(serializers.ModelSerializer):
     teams = TeamListSerializer(many=True, read_only=True)
     universes = UniverseListSerializer(many=True, read_only=True)
     publisher = BasicPublisherSerializer(source="series.publisher", read_only=True)
+    imprint = BasicImprintSerializer(source="series.imprint", read_only=True)
     series = IssueSeriesSerializer(read_only=True)
     reprints = ReprintSerializer(many=True, read_only=True)
     rating = RatingSerializer(read_only=True)
@@ -173,6 +175,7 @@ class IssueReadSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "publisher",
+            "imprint",
             "series",
             "number",
             "title",
