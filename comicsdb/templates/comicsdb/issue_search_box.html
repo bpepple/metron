@@ -1,90 +1,96 @@
 {% load range_tags %}
 <div class="box">
-  <h1 class="title is-5">Filter By:</h1>
-  <form action="{% url 'issue:search' %}" method="get" accept-charset="utf-8">
-    <div class="field">
-      <label class="label">Series Name</label>
-      <div class="control">
-        <input class="input" type="text" name="series_name" placeholder="Enter Series Name">
-      </div>
-    </div>
-    <div class="field">
-      <label class="label">Series Volume Number</label>
-      <div class="control">
-        <input class="input" type="text" name="series_volume" placeholder="Enter Series Volume">
-      </div>
-    </div>
-    <div class="field">
-      <label class="label">Series Type</label>
-      <div class="control">
-        <div class="select">
-          <select name="series_type">
-            <option value="">Select Series Type</option>
-            {% for i in series_type  %}
-            <option value="{{ i.id }}">{{ i.name }}</option>
-            {% endfor %}
-          </select>
+    <h1 class="title is-5">Filter By:</h1>
+    <form action="{% url 'issue:search' %}" method="get" accept-charset="utf-8">
+        <div class="field">
+            <label class="label">Series Name</label>
+            <div class="control">
+                <input class="input"
+                       type="text"
+                       name="series_name"
+                       placeholder="Enter Series Name">
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="field">
-      <label class="label">Issue Number</label>
-      <div class="control">
-        <input class="input" type="text" name="number" placeholder="Enter Issue Number">
-      </div>
-    </div>
-    <div class="field">
-      <label class="label">Cover Year</label>
-      <div class="control">
-        <div class="select">
-          <select name="cover_year">
-            <option value="">Select Cover Year</option>
-            {% now "m" as current_month %}
-            {% now "Y" as current_year %}
-            {% if current_month >= '10' %}
-              {% with next_year=current_year|add:"1" %}
-                <option value="{{ next_year }}">{{ next_year }}</option>
-              {% endwith %}
-            {% endif %}
-            {% for i in 1939|cover_year_range:current_year  %}
-            <option value="{{ i }}">{{ i }}</option>
-            {% endfor %}
-          </select>
+        <div class="field">
+            <label class="label">Series Volume Number</label>
+            <div class="control">
+                <input class="input"
+                       type="text"
+                       name="series_volume"
+                       placeholder="Enter Series Volume">
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="field">
-      <label class="label">Cover Month</label>
-      <div class="control">
-        <div class="select">
-          <select name="cover_month">
-            <option value="">Select Cover Month</option>
-            <option value="1">January</option>
-            <option value="2">February</option>
-            <option value="3">March</option>
-            <option value="4">April</option>
-            <option value="5">May</option>
-            <option value="6">June</option>
-            <option value="7">July</option>
-            <option value="8">August</option>
-            <option value="9">September</option>
-            <option value="10">October</option>
-            <option value="11">November</option>
-            <option value="12">December</option>
-          </select>
+        <div class="field">
+            <label class="label">Series Type</label>
+            <div class="control">
+                <div class="select">
+                    <select name="series_type">
+                        <option value="">Select Series Type</option>
+                        {% for i in series_type %}<option value="{{ i.id }}">{{ i.name }}</option>{% endfor %}
+                    </select>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="field">
-      <label class="label">Comic Vine ID</label>
-      <div class="control">
-        <input class="input" type="text" name="cv_id" placeholder="Enter Comic Vine ID">
-      </div>
-    </div>
-    <div class="field">
-      <div class="control">
-        <button class="button is-link">Filter</button>
-      </div>
-    </div>
-  </form>
+        <div class="field">
+            <label class="label">Issue Number</label>
+            <div class="control">
+                <input class="input"
+                       type="text"
+                       name="number"
+                       placeholder="Enter Issue Number">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Cover Year</label>
+            <div class="control">
+                <div class="select">
+                    <select name="cover_year">
+                        <option value="">Select Cover Year</option>
+                        {% now "m" as current_month %}
+                        {% now "Y" as current_year %}
+                        {% if current_month >= '10' %}
+                            {% with next_year=current_year|add:"1" %}<option value="{{ next_year }}">{{ next_year }}</option>{% endwith %}
+                        {% endif %}
+                        {% for i in 1939|cover_year_range:current_year %}<option value="{{ i }}">{{ i }}</option>{% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Cover Month</label>
+            <div class="control">
+                <div class="select">
+                    <select name="cover_month">
+                        <option value="">Select Cover Month</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Comic Vine ID</label>
+            <div class="control">
+                <input class="input"
+                       type="text"
+                       name="cv_id"
+                       placeholder="Enter Comic Vine ID">
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <button class="button is-link">Filter</button>
+            </div>
+        </div>
+    </form>
 </div>

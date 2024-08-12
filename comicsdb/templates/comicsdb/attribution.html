@@ -1,20 +1,24 @@
 <div class="box">
-  <h1 class="title is-5">Attribution</h1>
-  <div class="content">
-    {% for obj in object %}
-      {% if obj.source == "W" %}
-        <p>This article uses material from <a href={{ obj.url }}>Wikipedia</a>, which is released under the 
-          <a href="https://creativecommons.org/licenses/by-sa/3.0/">
-            Creative Commons Attribution-Share-Alike License 3.0
-          </a>.</p>
-      {% elif obj.source == "M" %}
-        <p>Some data provided by <a href={{ obj.url }}>Marvel</a>. &copy; 2014 Marvel</p>
-      {% elif obj.source == "G" %}
-        <p>This article uses material from the <a href={{ obj.url }}>Grand Comics Database&#8482;</a>, which is released under the 
-          <a href="https://creativecommons.org/licenses/by-sa/4.0/">
-            Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)
-          </a>.</p>
-      {% endif %}
-    {% endfor %}
-  </div>
+    <h1 class="title is-5">Attribution</h1>
+    <div class="content">
+        {% for obj in object %}
+            {% if obj.source == "W" %}
+                <p>
+                    This article uses material from <a href={{ obj.url }}>Wikipedia</a>, which is released under the
+                    <a href="https://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share-Alike License 3.0</a>.
+                </p>
+            {% elif obj.source == "M" %}
+                <p>
+                    Some data provided by <a href={{ obj.url }}>Marvel</a>. &copy; 2014 Marvel
+                </p>
+            {% elif obj.source == "G" %}
+                <p>
+                    This article uses material from the <a href={{ obj.url }}>Grand Comics Database&#8482;</a>, which is released under the
+                    <a href="https://creativecommons.org/licenses/by-sa/4.0/">
+                        Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)
+                    </a>.
+                </p>
+            {% endif %}
+        {% endfor %}
+    </div>
 </div>

@@ -1,43 +1,39 @@
 {% load static %}
-{% load django_simple_bulma %}<!DOCTYPE html>
+{% load django_simple_bulma %}
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ flatpage.title}}</title>
-    {% bulma %}
-    {% font_awesome %}
-    <link rel="stylesheet" href="{% static 'site/css/base.css' %}">
-  </head>
-  <body class="has-navbar-fixed-top">
-    <!-- navbar -->
-    {% include "navbar.html" %}
-    <!-- end navbar -->
-
-    <!-- hero -->
-    <section class="hero">
-      <div class="hero-body">
-        <div class="container has-text-centered">
-          <h1 class="title is-3">{{ flatpage.title }}</h1>
-        </div>
-      </div>
-    </section>
-    <!-- end hero -->
-
-    <!-- content -->
-    <section>
-      <div class="container">
-        <div class="box">
-          <div class="content">
-            {{ flatpage.content }}
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- end content -->
-
-    <!-- footer -->
-    {% include "footer.html" %}
-    <!-- end footer -->
-  </body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ flatpage.title }}</title>
+        {% bulma %}
+        {% font_awesome %}
+        <link rel="stylesheet" href="{% static 'site/css/base.css' %}">
+    </head>
+    <body class="has-navbar-fixed-top">
+        <!-- navbar -->
+        {% include "navbar.html" %}
+        <!-- end navbar -->
+        <!-- hero -->
+        <section class="hero">
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <h1 class="title is-3">{{ flatpage.title }}</h1>
+                </div>
+            </div>
+        </section>
+        <!-- end hero -->
+        <!-- content -->
+        <section>
+            <div class="container">
+                <div class="box">
+                    <div class="content">{{ flatpage.content }}</div>
+                </div>
+            </div>
+        </section>
+        <!-- end content -->
+        <!-- footer -->
+        {% include "footer.html" %}
+        <!-- end footer -->
+    </body>
 </html>
