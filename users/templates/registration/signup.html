@@ -1,63 +1,50 @@
 {% extends parent_template|default:"base.html" %}
 {% load bulma_tags %}
-
 {% block title %}Sign Up{% endblock %}
-
-{% block headscripts %}
-  <script src="https://hcaptcha.com/1/api.js" async defer></script>
-{% endblock %}
-
+{% block headscripts %}<script src="https://hcaptcha.com/1/api.js" async defer></script>{% endblock %}
 {% block content %}
-  <h1 class="title">Sign up</h1>
-  <form method="post">
-    {% csrf_token %}
-    {% for field in form.hidden_fields %}
-      {{ field }}
-    {% endfor %}
-    <!-- Error notifications -->
-    {% if form.errors %}
-      {% for field in form %}
-        {% for error in field.errors %}
-        <div class="notification is-danger">
-          <button class="delete"></button>
-          <strong>{{ error|escape }}</strong>
-        </div>
+    <h1 class="title">Sign up</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form.hidden_fields %}{{ field }}{% endfor %}
+        <!-- Error notifications -->
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="notification is-danger">
+                        <button class="delete"></button>
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="notification is-danger">
+                    <button class="delete"></button>
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <!-- end notifications -->
+        <!-- form fields -->
+        {% for field in form.visible_fields %}
+            <div class="field" data-field-name="{{ field.name }}">
+                <label class="label{% if field.field.required %} {{ form.required_css_class }}{% endif %}"
+                       for="{{ field.id_for_label }}">{{ field.label }}</label>
+                <div class="control">
+                    {{ field|add_field_class:'input' }}
+                    {% for error in field.errors %}<span class="help is-danger {{ form.error_css_class }}">{{ error }}</span>{% endfor %}
+                    {% if field.help_text %}<p class="help">{{ field.help_text|safe }}</p>{% endif %}
+                </div>
+            </div>
         {% endfor %}
-      {% endfor %}
-      {% for error in form.non_field_errors %}
-      <div class="notification is-danger">
-        <button class="delete"></button>
-        <strong>{{ error|escape }}</strong>
-      </div>
-      {% endfor %}
-    {% endif %}
-    <!-- end notifications -->
-    <!-- form fields -->
-    {% for field in form.visible_fields %}
-      <div class="field" data-field-name="{{ field.name }}">
-        <label class="label{% if field.field.required %} {{ form.required_css_class }}{% endif %}"
-               for="{{ field.id_for_label }}">{{ field.label }}</label>
-        <div class="control">
-          {{ field|add_field_class:'input' }}
-          {% for error in field.errors %}
-            <span class="help is-danger {{ form.error_css_class }}">{{ error }}</span>
-          {% endfor %}
-          {% if field.help_text %}
-            <p class="help">
-              {{ field.help_text|safe }}
-            </p>
-          {% endif %}
+        <div class="field">
+            <div class="h-captcha" data-sitekey="32255603-3eb7-4897-b7f7-65b8874a261e"></div>
         </div>
-      </div>
-    {% endfor %}
-    <div class="field">
-      <div class="h-captcha" data-sitekey="32255603-3eb7-4897-b7f7-65b8874a261e"></div>
-    </div>
-    <div class="field">
-      <div class="control">
-        <button class="button is-link" type="submit">Sign up</button>
-      </div>
-    </div>
-    <!-- end form fields -->
-  </form>
+        <div class="field">
+            <div class="control">
+                <button class="button is-link" type="submit">Sign up</button>
+            </div>
+        </div>
+        <!-- end form fields -->
+    </form>
 {% endblock %}

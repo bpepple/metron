@@ -1,105 +1,80 @@
 {% extends parent_template|default:"base.html" %}
 {% load bulma_tags %}
 {% load static %}
-
 {% block content %}
-  {% if messages %}
-    {% for msg in messages %}
-      <div class="notification is-{{ msg.level_tag|bulma_message_tag }}">
-        <button class="delete"></button>
-        {{ msg.message|safe }}
-      </div>
-    {% endfor %}
-  {% endif %}
-  <h1 class="title">Change Profile Form</h1>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% for field in form.visible_fields %}
-      {% if field.name == "password" %}
-        <!-- continue --->
-      {% else %}
-        <div class="field" data-field-name="{{ field.name }}">
-          {% if field|is_field_type:"select" %}
-            <label class="label{% if field.field.required %} {{ form.required_css_class }}{% endif %}"
-                   for="{{ field.id_for_label }}">{{ field.label }}</label>
-            <div class="control">
-              <div class="columns is-form-field Select">
-                <div class="column">
-                <span
-                  class="select{% if field|is_multiple %} is-multiple{% endif %}{% if field.errors|length > 0 %} is-danger{% endif %} is-fullwidth">
-                  {{ field }}
-                </span>
-                  {% for error in field.errors %}
-                    <span class="help is-danger {{ form.error_css_class }}">{{ error }}</span>
-                  {% endfor %}
-                  {% if field.help_text %}
-                    <p class="help">
-                      {{ field.help_text|safe }}
-                    </p>
-                  {% endif %}
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="notification is-{{ msg.level_tag|bulma_message_tag }}">
+                <button class="delete"></button>
+                {{ msg.message|safe }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <h1 class="title">Change Profile Form</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+            {% if field.name == "password" %}
+                <!-- continue --->
+            {% else %}
+                <div class="field" data-field-name="{{ field.name }}">
+                    {% if field|is_field_type:"select" %}
+                        <label class="label{% if field.field.required %} {{ form.required_css_class }}{% endif %}"
+                               for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        <div class="control">
+                            <div class="columns is-form-field Select">
+                                <div class="column">
+                                    <span class="select{% if field|is_multiple %} is-multiple{% endif %}{% if field.errors|length > 0 %} is-danger{% endif %} is-fullwidth">
+                                        {{ field }}
+                                    </span>
+                                    {% for error in field.errors %}<span class="help is-danger {{ form.error_css_class }}">{{ error }}</span>{% endfor %}
+                                    {% if field.help_text %}<p class="help">{{ field.help_text|safe }}</p>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% elif field|is_field_type:"textarea" %}
+                        <label class="label{% if field.field.required %} {{ form.required_css_class }}{% endif %}"
+                               for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        <div class="control">
+                            {{ field|add_field_class:'textarea' }}
+                            {% for error in field.errors %}<span class="help is-danger {{ form.error_css_class }}">{{ error }}</span>{% endfor %}
+                            {% if field.help_text %}<p class="help">{{ field.help_text|safe }}</p>{% endif %}
+                        </div>
+                    {% elif field|is_field_type:'input' %}
+                        <label class="label{% if field.field.required %} {{ form.required_css_class }}{% endif %}"
+                               for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        <div class="control">
+                            {{ field|add_field_class:'input' }}
+                            {% for error in field.errors %}<span class="help is-danger {{ form.error_css_class }}">{{ error }}</span>{% endfor %}
+                            {% if field.help_text %}<p class="help">{{ field.help_text|safe }}</p>{% endif %}
+                        </div>
+                    {% else %}
+                        {% if field.auto_id %}
+                            <label class="label{% if field.field.required %} {{ form.required_css_class }}{% endif %}"
+                                   for="{{ field.auto_id }}">{{ field.label }}</label>
+                        {% endif %}
+                        <div class="control{% if field|is_multiple %} multiple-checkbox{% endif %}">
+                            {{ field }}
+                            {% for error in field.errors %}<span class="help is-danger {{ form.error_css_class }}">{{ error }}</span>{% endfor %}
+                            {% if field.help_text %}<p class="help">{{ field.help_text|safe }}</p>{% endif %}
+                        </div>
+                    {% endif %}
                 </div>
-              </div>
-            </div>
-          {% elif field|is_field_type:"textarea" %}
-            <label class="label{% if field.field.required %} {{ form.required_css_class }}{% endif %}"
-                   for="{{ field.id_for_label }}">{{ field.label }}</label>
-            <div class="control">
-              {{ field|add_field_class:'textarea' }}
-              {% for error in field.errors %}
-                <span class="help is-danger {{ form.error_css_class }}">{{ error }}</span>
-              {% endfor %}
-              {% if field.help_text %}
-                <p class="help">
-                  {{ field.help_text|safe }}
-                </p>
-              {% endif %}
-            </div>
-          {% elif field|is_field_type:'input' %}
-            <label class="label{% if field.field.required %} {{ form.required_css_class }}{% endif %}"
-                   for="{{ field.id_for_label }}">{{ field.label }}</label>
-            <div class="control">
-              {{ field|add_field_class:'input' }}
-              {% for error in field.errors %}
-                <span class="help is-danger {{ form.error_css_class }}">{{ error }}</span>
-              {% endfor %}
-              {% if field.help_text %}
-                <p class="help">
-                  {{ field.help_text|safe }}
-                </p>
-              {% endif %}
-            </div>
-          {% else %}
-            {% if field.auto_id %}
-              <label class="label{% if field.field.required %} {{ form.required_css_class }}{% endif %}"
-                     for="{{ field.auto_id }}">{{ field.label }}</label>
             {% endif %}
-            <div class="control{% if field|is_multiple %} multiple-checkbox{% endif %}">
-              {{ field }}
-              {% for error in field.errors %}
-                <span class="help is-danger {{ form.error_css_class }}">{{ error }}</span>
-              {% endfor %}
-              {% if field.help_text %}
-                <p class="help">
-                  {{ field.help_text|safe }}
-                </p>
-              {% endif %}
-            </div>
-          {% endif %}
+        {% endfor %}
+        <div class="field" data-field-name="password">
+            <label class="label" for="password">Password</label>
+            <p>
+                <a href="{% url 'change_password' %}">Change Password?</a>
+            </p>
         </div>
-      {% endif %}
-    {% endfor %}
-    <div class="field" data-field-name="password">
-      <label class="label" for="password">Password</label>
-      <p><a href="{% url 'change_password' %}">Change Password?</a></p>
-    </div>
-    <div class="field">
-      <div class="control">
-        <button class="button is-info" type="submit">Submit</button>
-      </div>
-    </div>
-  </form>
+        <div class="field">
+            <div class="control">
+                <button class="button is-info" type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
 {% endblock %}
-
 {% block js %}
-  <script src="{% static 'site/js/delete-notification.js' %}"></script>
+    <script src="{% static 'site/js/delete-notification.js' %}"></script>
 {% endblock %}

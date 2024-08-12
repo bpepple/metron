@@ -2,106 +2,111 @@
 {% load thumbnail %}
 {% load is_new %}
 {% load static %}
-
-{% block title %}Issues{% endblock title %}
-
+{% block title %}
+    Issues
+{% endblock title %}
 {% block content %}
-<header class="block has-text-centered">
-  <h1 class="title">{% if title %}{{ title }} {% endif %}Issue{{ issue_list.count|pluralize }}</h1>
-</header>
-{% if issue_list %}
-
-<section>
-  <div class="columns">
-    <!-- Main Column -->
-    <div class="column">
-      <!-- navigation -->
-      <nav class="level">
-        <div class="level-left">
-          <div class="level-item">
-            <p class="subtitle is-5">
-              {% if page_obj.paginator %}
-              <strong>{{ page_obj.paginator.count }}</strong> Issue{{ page_obj.paginator.count|pluralize }}
-              {% else %}
-              <strong>{{ issue_list.count }}</strong> Issue{{ issue_list.count|pluralize }}
-              {% endif %}
-            </p>
-          </div>
-        </div>
-        <div class="level-right">
-          <p class="level-item">
-            {% if user.is_authenticated %}
-            <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">
-              <span class="icon is-small">
-                <i class="fas fa-plus"></i>
-              </span>
-              <span>New</span>
-            </a>
-            {% endif %}
-          </p>
-        </div>
-      </nav>
-      <!-- end navigation -->
-      <!-- issue list -->
-      <div class="columns is-multiline">
-        {% for issue in issue_list %}
-        <div class="column is-one-quarter has-text-centered">
-          <!-- issue card -->
-          <div class="card">
-            <!-- card header -->
-            <header class="card-header">
-              {% with issue.created_on|is_new as is_new %}
-              <p class="card-header-title is is-centered">
-                {{ issue }}{% if is_new %}&nbsp;<span class="tag is-primary is-rounded">New!</span>{% endif %}
-              </p>
-              {% endwith %}
-            </header>
-            <!-- end card header -->
-            <!-- card image -->
-            <div class="card-image">
-              <figure class="image is-2by3">
-                {% if issue.image %}
-                  {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
-                  <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ issue }}">
-                  {% endthumbnail %}
-                {% else %}
-                  <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ issue }}">
-                {% endif %}
-              </figure>
+    <header class="block has-text-centered">
+        <h1 class="title">
+            {% if title %}{{ title }}{% endif %}
+            Issue{{ issue_list.count|pluralize }}
+        </h1>
+    </header>
+    {% if issue_list %}
+        <section>
+            <div class="columns">
+                <!-- Main Column -->
+                <div class="column">
+                    <!-- navigation -->
+                    <nav class="level">
+                        <div class="level-left">
+                            <div class="level-item">
+                                <p class="subtitle is-5">
+                                    {% if page_obj.paginator %}
+                                        <strong>{{ page_obj.paginator.count }}</strong> Issue{{ page_obj.paginator.count|pluralize }}
+                                    {% else %}
+                                        <strong>{{ issue_list.count }}</strong> Issue{{ issue_list.count|pluralize }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="level-right">
+                            <p class="level-item">
+                                {% if user.is_authenticated %}
+                                    <a class="button is-primary"
+                                       href="{% url 'issue:create' %}"
+                                       title="Add a new issue">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-plus"></i>
+                                        </span>
+                                        <span>New</span>
+                                    </a>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </nav>
+                    <!-- end navigation -->
+                    <!-- issue list -->
+                    <div class="columns is-multiline">
+                        {% for issue in issue_list %}
+                            <div class="column is-one-quarter has-text-centered">
+                                <!-- issue card -->
+                                <div class="card">
+                                    <!-- card header -->
+                                    <header class="card-header">
+                                        {% with issue.created_on|is_new as is_new %}
+                                            <p class="card-header-title is is-centered">
+                                                {{ issue }}
+                                                {% if is_new %}&nbsp;<span class="tag is-primary is-rounded">New!</span>{% endif %}
+                                            </p>
+                                        {% endwith %}
+                                    </header>
+                                    <!-- end card header -->
+                                    <!-- card image -->
+                                    <div class="card-image">
+                                        <figure class="image is-2by3">
+                                            {% if issue.image %}
+                                                {% thumbnail issue.image "320x480" crop="center" format="WEBP" as im %}
+                                                    <img src="{{ im.url }}"
+                                                         width="{{ im.width }}"
+                                                         height="{{ im.height }}"
+                                                         alt="{{ issue }}">
+                                                {% endthumbnail %}
+                                            {% else %}
+                                                <img src="{% static 'site/img/image-not-found.webp' %}"
+                                                     alt="No image for {{ issue }}">
+                                            {% endif %}
+                                        </figure>
+                                    </div>
+                                    <!-- end card image -->
+                                    <!-- card footer -->
+                                    <footer class="card-footer">
+                                        <p class="card-footer-item">{{ issue.cover_date|date:"M Y" }}</p>
+                                        <a href="{% url 'issue:detail' issue.slug %}" class="card-footer-item">Info</a>
+                                    </footer>
+                                    <!-- end card footer -->
+                                </div>
+                                <!-- end issue card -->
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <!-- end issue list-->
+                </div>
+                <!-- End Main Column-->
+                <!-- Search Column -->
+                <div class="column is-one-fifth">{% include "comicsdb/issue_search_box.html" with objects=series_type %}</div>
+                <!-- End of Search Column -->
             </div>
-            <!-- end card image -->
-            <!-- card footer -->
-            <footer class="card-footer">
-              <p class="card-footer-item">{{ issue.cover_date|date:"M Y" }}</p>
-              <a href="{% url 'issue:detail' issue.slug %}" class="card-footer-item">
-                Info
-              </a>
-            </footer>
-            <!-- end card footer -->
-          </div>
-          <!-- end issue card -->
-        </div>
-        {% endfor %}
-      </div>
-      <!-- end issue list-->
-    </div>
-    <!-- End Main Column-->
-
-    <!-- Search Column -->
-    <div class="column is-one-fifth">
-      {% include "comicsdb/issue_search_box.html" with objects=series_type %}
-    </div>
-    <!-- End of Search Column -->
-  </div>
-</section>
-{% else %}
-<section>
-  <p>No Issues currently available. Do you want to add one?</p>
-  <a class="button is-primary" href="{% url 'issue:create' %}" title="Add a new issue">New</a>
-</section>
-{% endif %}
+        </section>
+    {% else %}
+        <section>
+            <p>No Issues currently available. Do you want to add one?</p>
+            <a class="button is-primary"
+               href="{% url 'issue:create' %}"
+               title="Add a new issue">New</a>
+        </section>
+    {% endif %}
 {% endblock %}
-
 {% block pagination %}
-{% include "comicsdb/pagination_issue.html" %}
+    {% include "comicsdb/pagination_issue.html" %}
 {% endblock %}

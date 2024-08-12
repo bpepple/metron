@@ -64,3 +64,8 @@ concurrency = ["multiprocessing"]
 
 [tool.coverage.report]
 show_missing = true
+
+[tool.djlint]
+profile = "django"
+ignore = "H031"
+

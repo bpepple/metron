@@ -2,220 +2,257 @@
 {% load thumbnail %}
 {% load static %}
 {% load humanize %}
-
-{% block title %}{{ character.name }}{% endblock title %}
-
+{% block title %}
+    {{ character.name }}
+{% endblock title %}
 {% block content %}
-  <!-- character title -->
-  <nav class="level">
-    <div class="level-left">
-      <div class="level-item">
-        <p class="title">{{ character }}</p>
-      </div>
-    </div>
-  </nav>
-  <!--  end character title -->
-  <!-- character nav -->
-  <nav class="level">
-    <div class="level-left">
-      <div class="level-item">
-        {% if navigation.previous_character %}
-          <a class="button is-link" href="{% url 'character:detail' navigation.previous_character.slug %}">
-            <span class="icon is-small"><i class="fas fa-arrow-left"></i></span>
-            <span>Previous Character</span>
-          </a>
-        {% else %}
-          <a class="button" disabled>
-            <span class="icon is-small"><i class="fas fa-arrow-left"></i></span>
-            <span>Previous Character</span>
-          </a>
-        {% endif %}
-      </div>
-      <div class="level-item">
-        {% if navigation.next_character %}
-          <a class="button is-link" href="{% url 'character:detail' navigation.next_character.slug %}">
-            <span class="icon is-small"><i class="fas fa-arrow-right"></i></span>
-            <span>Next Character</span>
-          </a>
-        {% else %}
-          <a class="button" disabled>
-            <span class="icon is-small"><i class="fas fa-arrow-right"></i></span>
-            <span>Next Character</span>
-          </a>
-        {% endif %}
-      </div>
-    </div>
-    <div class="level-right">
-      {% if user.is_authenticated %}
-        <p class="level-item">
-          <a class="button is-primary" href="{% url 'character:create' %}" title="Add a new character">
-            <span class="icon is-small"><i class="fas fa-plus"></i></span>
-            <span>New</span>
-          </a>
-        </p>
-        <p class="level-item">
-          <a class="button is-info" href="{% url 'character:update' character.slug %}" title="Edit character">
-            <span class="icon is-small"><i class="fas fa-edit"></i></span>
-            <span>Edit</span>
-          </a>
-        </p>
-        {% if perms.comicsdb.delete_character %}
-          <p class="level-item">
-            <a class="button is-danger" href="{% url 'character:delete' character.slug %}" title="Delete character">
-              <span class="icon is-small"><i class="fas fa-trash"></i></span>
-              <span>Delete</span>
-            </a>
-          </p>
-        {% else %}
-          <p class="level-item">
-            <a class="button is-danger" title="Delete character" disabled>
-              <span class="icon is-small"><i class="fas fa-trash"></i></span>
-              <span>Delete</span>
-            </a>
-          </p>
-        {% endif %}
-      {% endif %}
-    </div>
-  </nav>
-  <!-- end of character nav -->
-  <!-- main page content -->
-  <div class="columns">
-    <!-- character image -->
-    <div class="column is-one-fifth">
-      <div class="box">
-        <figure class="image is-2by3">
-          {% if character.image %}
-            {% thumbnail character.image "320x480" crop="top" format="WEBP" as im %}
-              <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ character.name }}">
-            {% endthumbnail %}
-          {% else %}
-            <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ character.name }}">
-          {% endif %}
-        </figure>
-      </div>
-    </div>
-    <!-- end of character image -->
-    <!-- center column -->
-    <div class="column">
-      <!-- desc -->
-      <div class="box">
-        <h1 class="title is-5">Summary</h1>
-        {% if character.desc %}
-          <p>{{ character.desc|linebreaksbr }}</p><br/>
-        {% else %}
-          <p>No information available.</p><br/>
-        {% endif %}
-        <div class="content is-small is-italic">
-          Last edited on {{ character.modified }} by
-          <a href="{% url 'user-detail' character.edited_by.id %}">
-            {{ character.edited_by.username }}
-          </a>
+    <!-- character title -->
+    <nav class="level">
+        <div class="level-left">
+            <div class="level-item">
+                <p class="title">{{ character }}</p>
+            </div>
         </div>
-      </div>
-      <!-- end desc -->
-      <!-- series -->
-      {% with series=appearances %}
-        {% if series %}
-          <div class="box">
-            <h1 class="title is-5">Series Appearances</h1>
-            <div class="content">
-              <ul>
-                {% for i in series %}
-                  <li>
-                    <a href="{% url 'series:detail' slug=i.issues__series__slug %}">
-                      {{ i.issues__series__name }}
-                      {% if i.issues__series__series_type == 10 %}TPB
-                      {% elif i.issues__series__series_type == 9 %}GN
-                      {% elif i.issues__series__series_type == 8 %}HC
-                      {% elif i.issues__series__series_type == 12 %}Digital    
-                      {% endif %}
-                      ({{ i.issues__series__year_began }})
-                    </a>:
-                    <a href="{% url 'character:series' character=character.slug series=i.issues__series__slug %}">
-                      {{ i.issues__count }} issue{{ i.issues__count|pluralize }}
+    </nav>
+    <!--  end character title -->
+    <!-- character nav -->
+    <nav class="level">
+        <div class="level-left">
+            <div class="level-item">
+                {% if navigation.previous_character %}
+                    <a class="button is-link"
+                       href="{% url 'character:detail' navigation.previous_character.slug %}">
+                        <span class="icon is-small"><i class="fas fa-arrow-left"></i></span>
+                        <span>Previous Character</span>
                     </a>
-                  </li>
-                {% endfor %}
-              </ul>
+                {% else %}
+                    <a class="button" disabled>
+                        <span class="icon is-small"><i class="fas fa-arrow-left"></i></span>
+                        <span>Previous Character</span>
+                    </a>
+                {% endif %}
             </div>
-          </div>
-        {% endif %}
-      {% endwith %}
-      <!-- end series -->
-      <!-- attribution -->
-      {% with attribution=character.attribution.all %}
-        {% if attribution|length > 0 %}
-          {% include "comicsdb/attribution.html" with object=attribution %}
-        {% endif %}
-      {% endwith %}
-      <!-- end attribution-->
+            <div class="level-item">
+                {% if navigation.next_character %}
+                    <a class="button is-link"
+                       href="{% url 'character:detail' navigation.next_character.slug %}">
+                        <span class="icon is-small"><i class="fas fa-arrow-right"></i></span>
+                        <span>Next Character</span>
+                    </a>
+                {% else %}
+                    <a class="button" disabled>
+                        <span class="icon is-small"><i class="fas fa-arrow-right"></i></span>
+                        <span>Next Character</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="level-right">
+            {% if user.is_authenticated %}
+                <p class="level-item">
+                    <a class="button is-primary"
+                       href="{% url 'character:create' %}"
+                       title="Add a new character">
+                        <span class="icon is-small"><i class="fas fa-plus"></i></span>
+                        <span>New</span>
+                    </a>
+                </p>
+                <p class="level-item">
+                    <a class="button is-info"
+                       href="{% url 'character:update' character.slug %}"
+                       title="Edit character">
+                        <span class="icon is-small"><i class="fas fa-edit"></i></span>
+                        <span>Edit</span>
+                    </a>
+                </p>
+                {% if perms.comicsdb.delete_character %}
+                    <p class="level-item">
+                        <a class="button is-danger"
+                           href="{% url 'character:delete' character.slug %}"
+                           title="Delete character">
+                            <span class="icon is-small"><i class="fas fa-trash"></i></span>
+                            <span>Delete</span>
+                        </a>
+                    </p>
+                {% else %}
+                    <p class="level-item">
+                        <a class="button is-danger" title="Delete character" disabled>
+                            <span class="icon is-small"><i class="fas fa-trash"></i></span>
+                            <span>Delete</span>
+                        </a>
+                    </p>
+                {% endif %}
+            {% endif %}
+        </div>
+    </nav>
+    <!-- end of character nav -->
+    <!-- main page content -->
+    <div class="columns">
+        <!-- character image -->
+        <div class="column is-one-fifth">
+            <div class="box">
+                <figure class="image is-2by3">
+                    {% if character.image %}
+                        {% thumbnail character.image "320x480" crop="top" format="WEBP" as im %}
+                            <img src="{{ im.url }}"
+                                 width="{{ im.width }}"
+                                 height="{{ im.height }}"
+                                 alt="{{ character.name }}">
+                        {% endthumbnail %}
+                    {% else %}
+                        <img src="{% static 'site/img/image-not-found.webp' %}"
+                             alt="No image for {{ character.name }}">
+                    {% endif %}
+                </figure>
+            </div>
+        </div>
+        <!-- end of character image -->
+        <!-- center column -->
+        <div class="column">
+            <!-- desc -->
+            <div class="box">
+                <h1 class="title is-5">Summary</h1>
+                {% if character.desc %}
+                    <p>{{ character.desc|linebreaksbr }}</p>
+                    <br />
+                {% else %}
+                    <p>No information available.</p>
+                    <br />
+                {% endif %}
+                <div class="content is-small is-italic">
+                    Last edited on {{ character.modified }} by
+                    <a href="{% url 'user-detail' character.edited_by.id %}">{{ character.edited_by.username }}</a>
+                </div>
+            </div>
+            <!-- end desc -->
+            <!-- series -->
+            {% with series=appearances %}
+                {% if series %}
+                    <div class="box">
+                        <h1 class="title is-5">Series Appearances</h1>
+                        <div class="content">
+                            <ul>
+                                {% for i in series %}
+                                    <li>
+                                        <a href="{% url 'series:detail' slug=i.issues__series__slug %}">
+                                            {{ i.issues__series__name }}
+                                            {% if i.issues__series__series_type == 10 %}
+                                                TPB
+                                            {% elif i.issues__series__series_type == 9 %}
+                                                GN
+                                            {% elif i.issues__series__series_type == 8 %}
+                                                HC
+                                            {% elif i.issues__series__series_type == 12 %}
+                                                Digital
+                                            {% endif %}
+                                            ({{ i.issues__series__year_began }})
+                                        </a>:
+                                        <a href="{% url 'character:series' character=character.slug series=i.issues__series__slug %}">
+                                            {{ i.issues__count }} issue{{ i.issues__count|pluralize }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <!-- end series -->
+            <!-- attribution -->
+            {% with attribution=character.attribution.all %}
+                {% if attribution|length > 0 %}
+                    {% include "comicsdb/attribution.html" with object=attribution %}
+                {% endif %}
+            {% endwith %}
+            <!-- end attribution-->
+        </div>
+        <!-- end of center column -->
+        <!-- misc info -->
+        <div class="column is-one-fifth">
+            <div class="box">
+                <h1 class="title is-6">Character Details</h1>
+                <p>
+                    <b>Number of Issue:</b> {{ character.issue_count|intcomma }}
+                </p>
+                {% if character.issue_count > 0 %}
+                    {% with first=character.first_appearance %}
+                        <p>
+                            <b>First Appearance:</b> <a href="{% url 'issue:detail' first.slug %}">{{ first }}</a>
+                        </p>
+                    {% endwith %}
+                {% endif %}
+                {% if character.alias %}
+                    {% with aliases=character.alias %}
+                        <p>
+                            <b>Alias{{ aliases|pluralize:"es" }}:</b>
+                            {% for alias in aliases %}
+                                {% if not forloop.first %},{% endif %}
+                                {{ alias }}
+                            {% endfor %}
+                        </p>
+                    {% endwith %}
+                {% endif %}
+                {% with creators=character.creators.all %}
+                    {% if creators %}
+                        <br>
+                        <p>
+                            <b>Creator{{ creators|pluralize }}</b>
+                        </p>
+                        <div class="content">
+                            <ul>
+                                {% for creator in creators %}
+                                    <li>
+                                        <a href="{% url 'creator:detail' creator.slug %}">{{ creator }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                {% with teams=character.teams.all %}
+                    {% if teams %}
+                        <p>
+                            <b>Team{{ teams|pluralize }}</b>
+                        </p>
+                        <div class="content">
+                            <ul>
+                                {% for team in teams %}
+                                    <li>
+                                        <a href="{% url 'team:detail' team.slug %}">{{ team }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                {% with universes=character.universes.all %}
+                    {% if universes %}
+                        <p>
+                            <b>Universe{{ universes|pluralize }}</b>
+                        </p>
+                        <div class="content">
+                            <ul>
+                                {% for universe in universes %}
+                                    <li>
+                                        <a href="{% url 'universe:detail' universe.slug %}">{{ universe }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                <br />
+                <p>
+                    <b>Metron ID:</b> {{ character.id }}
+                </p>
+                {% if character.cv_id %}
+                    <p>
+                        <b>Comic Vine ID:</b> {{ character.cv_id }}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+        <!-- end misc info -->
     </div>
-    <!-- end of center column -->
-    <!-- misc info -->
-    <div class="column is-one-fifth">
-      <div class="box">
-        <h1 class="title is-6">Character Details</h1>
-        <p><b>Number of Issue:</b> {{ character.issue_count|intcomma }}</p>
-        {% if character.issue_count > 0 %}
-          {% with first=character.first_appearance %}
-            <p>
-              <b>First Appearance:</b> <a href="{% url 'issue:detail' first.slug %}">{{ first }}</a>
-            </p>
-          {% endwith %}
-        {% endif %}
-        {% if character.alias %}
-          {% with aliases=character.alias %}
-            <p>
-              <b>Alias{{ aliases|pluralize:"es" }}:</b>
-              {% for alias in aliases %}{% if not forloop.first %}, {% endif %}{{ alias }}{% endfor %}
-            </p>
-          {% endwith %}
-        {% endif %}
-        {% with creators=character.creators.all %}
-          {% if creators %}
-            <br>
-            <p><b>Creator{{ creators|pluralize }}</b></p>
-            <div class="content">
-              <ul>
-                {% for creator in creators %}
-                  <li><a href="{% url 'creator:detail' creator.slug %}">{{ creator }}</a></li>
-                {% endfor %}
-              </ul>
-            </div>
-          {% endif %}
-        {% endwith %}
-        {% with teams=character.teams.all %}
-          {% if teams %}
-            <p><b>Team{{ teams|pluralize }}</b></p>
-            <div class="content">
-              <ul>
-                {% for team in teams %}
-                  <li><a href="{% url 'team:detail' team.slug %}">{{ team }}</a></li>
-                {% endfor %}
-              </ul>
-            </div>
-          {% endif %}
-        {% endwith %}
-        {% with universes=character.universes.all %}
-          {% if universes %}
-            <p><b>Universe{{ universes|pluralize }}</b></p>
-            <div class="content">
-              <ul>
-                {% for universe in universes %}
-                  <li><a href="{% url 'universe:detail' universe.slug %}">{{ universe }}</a></li>
-                {% endfor %}
-              </ul>
-            </div>
-          {% endif %}
-        {% endwith %}
-        <br/>
-        <p><b>Metron ID:</b> {{ character.id }}</p>
-        {% if character.cv_id %}
-          <p><b>Comic Vine ID:</b> {{ character.cv_id }}</p>
-        {% endif %}
-      </div>
-    </div>
-    <!-- end misc info -->
-  </div>
-  <!-- end of main page content -->
+    <!-- end of main page content -->
 {% endblock %}

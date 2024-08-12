@@ -2,199 +2,229 @@
 {% load thumbnail %}
 {% load static %}
 {% load humanize %}
-
-{% block title %}{{ creator.name }}{% endblock title %}
-
+{% block title %}
+    {{ creator.name }}
+{% endblock title %}
 {% block content %}
-<!-- creator title -->
-<nav class="level">
-  <div class="level-left">
-    <div class="level-item">
-      <p class="title">{{ creator.name }}</p>
-    </div>
-  </div>
-</nav>
-<!--  end creator title -->
-<!-- creator nav -->
-<nav class="level">
-  <div class="level-left">
-    <div class="level-item">
-      {% if navigation.previous_creator %}
-      <a class="button is-link" href="{% url 'creator:detail' navigation.previous_creator.slug %}">
-        <span class="icon is-small">
-          <i class="fas fa-arrow-left"></i>
-        </span>
-        <span>Previous Creator</span>
-      </a>
-      {% else %}
-      <a class="button" disabled>
-        <span class="icon is-small">
-          <i class="fas fa-arrow-left"></i>
-        </span>
-        <span>Previous Creator</span>
-      </a>
-      {% endif %}
-    </div>
-    <div class="level-item">
-      {% if navigation.next_creator %}
-      <a class="button is-link" href="{% url 'creator:detail' navigation.next_creator.slug %}">
-        <span>Next Creator</span>
-        <span class="icon is-small">
-          <i class="fas fa-arrow-right"></i>
-        </span>
-      </a>
-      {% else %}
-      <a class="button" disabled>
-        <span>Next Creator</span>
-        <span class="icon is-small">
-          <i class="fas fa-arrow-right"></i>
-        </span>
-      </a>
-      {% endif %}
-    </div>
-  </div>
-  <div class="level-right">
-    {% if user.is_authenticated %}
-    <p class="level-item">
-      <a class="button is-primary" href="{% url 'creator:create' %}" title="Add a new creator">
-        <span class="icon is-small">
-          <i class="fas fa-plus"></i>
-        </span>
-        <span>New</span>
-      </a>
-    </p>
-    <p class="level-item">
-      <a class="button is-info" href="{% url 'creator:update' creator.slug %}" title="Edit creator">
-        <span class="icon is-small">
-          <i class="fas fa-edit"></i>
-        </span>
-        <span>Edit</span>
-      </a>
-    </p>
-      {% if perms.comicsdb.delete_creator %}
-      <p class="level-item">
-        <a class="button is-danger" href="{% url 'creator:delete' creator.slug %}" title="Delete creator">
-          <span class="icon is-small">
-            <i class="fas fa-trash"></i>
-          </span>
-          <span>Delete</span>
-        </a>
-      </p>
-      {% else %}
-      <p class="level-item">
-        <a class="button is-danger" title="Delete creator" disabled>
-          <span class="icon is-small">
-            <i class="fas fa-trash"></i>
-          </span>
-          <span>Delete</span>
-        </a>
-      </p>
-      {% endif %}
-    {% endif %}
-  </div>
-</nav>
-<!-- end of creator nav -->
-<!-- main page content -->
-<div class="columns">
-  <!-- creator image -->
-  <div class="column is-one-quarter">
-    <div class="box">
-      <figure class="image is-square">
-        {% if creator.image %}
-          {% thumbnail creator.image "256x256" crop="top" format="WEBP" as im %}
-          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ creator.name }}">
-          {% endthumbnail %}
-        {% else %}
-          <img src="{% static 'site/img/creator-not-found.webp' %}" alt="No image for {{ creator.name }}">
-        {% endif %}
-      </figure>
-    </div>
-  </div>
-  <!-- end of creator image -->
-  <!-- center column -->
-  <div class="column">
-    <!-- summary -->
-    <div class="box">
-      <h1 class="title is-5">Summary</h1>
-      {% if creator.desc %}
-        <p>{{ creator.desc|linebreaksbr }}</p><br />
-      {% else %}
-        <p>No information available.
-        <p><br />
-      {% endif %}
-      <div class="content is-small is-italic">
-        Last edited on {{ creator.modified }} by 
-        <a href="{% url 'user-detail' creator.edited_by.id %}">
-          {{ creator.edited_by.username }}
-        </a>
-      </div>
-    </div>
-    <!-- end of summary -->
-    <!-- series -->
-    {% with series=credits %}
-      {% if series %}
-      <div class="box">
-        <h1 class="title is-5">Series</h1>
-        <div class="content">
-          <ul>
-            {% for i in series %}
-            <li>
-              <a href="{% url 'series:detail' slug=i.issue__series__slug %}">
-                {{ i.issue__series__name }}
-                {% if i.issue__series__series_type == 10 %}TPB
-                {% elif i.issue__series__series_type == 9 %}GN
-                {% elif i.issue__series__series_type == 8 %}HC
-                {% elif i.issues__series__series_type == 12 %}Digital    
-                {% endif %}
-                ({{ i.issue__series__year_began }})
-              </a>:
-              <a href="{% url 'creator:series' creator=creator.slug series=i.issue__series__slug %}">
-                {{ i.issue__count }} issue{{ i.issue__count|pluralize }}
-              </a>
-            </li>
-            {% endfor %}
-          </ul>
+    <!-- creator title -->
+    <nav class="level">
+        <div class="level-left">
+            <div class="level-item">
+                <p class="title">{{ creator.name }}</p>
+            </div>
         </div>
-      </div>
-      {% endif %}
-    {% endwith %}
-    <!-- end series -->
-    <!-- attribution -->
-    {% with attribution=creator.attribution.all %}
-      {% if attribution|length > 0 %}
-      {% include "comicsdb/attribution.html" with object=attribution %}
-      {% endif %}
-    {% endwith %}
-    <!-- end attribution-->
-  </div>
-  <!-- end of center column -->
-  <!-- misc info -->
-  <div class="column is-one-fifth">
-    <div class="box">
-      <h1 class="title is-6">Creator Details</h1>
-      {% if creator.birth %}
-      <p><b>Birth:</b> {{ creator.birth|date:"SHORT_DATE_FORMAT" }}</p>
-      {% endif %}
-      {% if creator.death %}
-      <p><b>Death:</b> {{ creator.death|date:"SHORT_DATE_FORMAT" }}</p>
-      {% endif %}
-      <p><b>Number of Issue:</b> {{ creator.issue_count|intcomma }}</p>
-      {% if creator.alias %}
-        {% with aliases=creator.alias %}
-        <p>
-          <b>Alias{{ aliases|pluralize:"es" }}:</b>
-          {% for alias in aliases %}{% if not forloop.first %}, {% endif %}{{ alias }}{% endfor %}
-        </p>
-        {% endwith %}
-      {% endif %}
-      <br />
-      <p><b>Metron ID:</b> {{ creator.id }}</p>
-      {% if creator.cv_id %}
-      <p><b>Comic Vine ID:</b> {{ creator.cv_id }}</p>
-      {% endif %}
-    </div>
-  </div>
-  <!-- end misc info -->
-</div>
-<!-- end of main page content -->
-{% endblock %}
+    </nav>
+    <!--  end creator title -->
+    <!-- creator nav -->
+    <nav class="level">
+        <div class="level-left">
+            <div class="level-item">
+                {% if navigation.previous_creator %}
+                    <a class="button is-link"
+                       href="{% url 'creator:detail' navigation.previous_creator.slug %}">
+                        <span class="icon is-small">
+                            <i class="fas fa-arrow-left"></i>
+                        </span>
+                        <span>Previous Creator</span>
+                    </a>
+                {% else %}
+                    <a class="button" disabled>
+                        <span class="icon is-small">
+                            <i class="fas fa-arrow-left"></i>
+                        </span>
+                        <span>Previous Creator</span>
+                    </a>
+                {% endif %}
+            </div>
+            <div class="level-item">
+                {% if navigation.next_creator %}
+                    <a class="button is-link"
+                       href="{% url 'creator:detail' navigation.next_creator.slug %}">
+                        <span>Next Creator</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </a>
+                {% else %}
+                    <a class="button" disabled>
+                        <span>Next Creator</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="level-right">
+            {% if user.is_authenticated %}
+                <p class="level-item">
+                    <a class="button is-primary"
+                       href="{% url 'creator:create' %}"
+                       title="Add a new creator">
+                        <span class="icon is-small">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span>New</span>
+                    </a>
+                </p>
+                <p class="level-item">
+                    <a class="button is-info"
+                       href="{% url 'creator:update' creator.slug %}"
+                       title="Edit creator">
+                        <span class="icon is-small">
+                            <i class="fas fa-edit"></i>
+                        </span>
+                        <span>Edit</span>
+                    </a>
+                </p>
+                {% if perms.comicsdb.delete_creator %}
+                    <p class="level-item">
+                        <a class="button is-danger"
+                           href="{% url 'creator:delete' creator.slug %}"
+                           title="Delete creator">
+                            <span class="icon is-small">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                            <span>Delete</span>
+                        </a>
+                    </p>
+                {% else %}
+                    <p class="level-item">
+                        <a class="button is-danger" title="Delete creator" disabled>
+                            <span class="icon is-small">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                            <span>Delete</span>
+                        </a>
+                    </p>
+                {% endif %}
+            {% endif %}
+        </div>
+    </nav>
+    <!-- end of creator nav -->
+    <!-- main page content -->
+    <div class="columns">
+        <!-- creator image -->
+        <div class="column is-one-quarter">
+            <div class="box">
+                <figure class="image is-square">
+                    {% if creator.image %}
+                        {% thumbnail creator.image "256x256" crop="top" format="WEBP" as im %}
+                            <img src="{{ im.url }}"
+                                 width="{{ im.width }}"
+                                 height="{{ im.height }}"
+                                 alt="{{ creator.name }}">
+                        {% endthumbnail %}
+                    {% else %}
+                        <img src="{% static 'site/img/creator-not-found.webp' %}"
+                             alt="No image for {{ creator.name }}">
+                    {% endif %}
+                </figure>
+            </div>
+        </div>
+        <!-- end of creator image -->
+        <!-- center column -->
+        <div class="column">
+            <!-- summary -->
+            <div class="box">
+                <h1 class="title is-5">Summary</h1>
+                {% if creator.desc %}
+                    <p>{{ creator.desc|linebreaksbr }}</p>
+                    <br />
+                {% else %}
+                    <p>
+                        No information available.
+                        <p>
+                            <br />
+                        {% endif %}
+                        <div class="content is-small is-italic">
+                            Last edited on {{ creator.modified }} by
+                            <a href="{% url 'user-detail' creator.edited_by.id %}">{{ creator.edited_by.username }}</a>
+                        </div>
+                    </div>
+                    <!-- end of summary -->
+                    <!-- series -->
+                    {% with series=credits %}
+                        {% if series %}
+                            <div class="box">
+                                <h1 class="title is-5">Series</h1>
+                                <div class="content">
+                                    <ul>
+                                        {% for i in series %}
+                                            <li>
+                                                <a href="{% url 'series:detail' slug=i.issue__series__slug %}">
+                                                    {{ i.issue__series__name }}
+                                                    {% if i.issue__series__series_type == 10 %}
+                                                        TPB
+                                                    {% elif i.issue__series__series_type == 9 %}
+                                                        GN
+                                                    {% elif i.issue__series__series_type == 8 %}
+                                                        HC
+                                                    {% elif i.issues__series__series_type == 12 %}
+                                                        Digital
+                                                    {% endif %}
+                                                    ({{ i.issue__series__year_began }})
+                                                </a>:
+                                                <a href="{% url 'creator:series' creator=creator.slug series=i.issue__series__slug %}">
+                                                    {{ i.issue__count }} issue{{ i.issue__count|pluralize }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                    <!-- end series -->
+                    <!-- attribution -->
+                    {% with attribution=creator.attribution.all %}
+                        {% if attribution|length > 0 %}
+                            {% include "comicsdb/attribution.html" with object=attribution %}
+                        {% endif %}
+                    {% endwith %}
+                    <!-- end attribution-->
+                </div>
+                <!-- end of center column -->
+                <!-- misc info -->
+                <div class="column is-one-fifth">
+                    <div class="box">
+                        <h1 class="title is-6">Creator Details</h1>
+                        {% if creator.birth %}
+                            <p>
+                                <b>Birth:</b> {{ creator.birth|date:"SHORT_DATE_FORMAT" }}
+                            </p>
+                        {% endif %}
+                        {% if creator.death %}
+                            <p>
+                                <b>Death:</b> {{ creator.death|date:"SHORT_DATE_FORMAT" }}
+                            </p>
+                        {% endif %}
+                        <p>
+                            <b>Number of Issue:</b> {{ creator.issue_count|intcomma }}
+                        </p>
+                        {% if creator.alias %}
+                            {% with aliases=creator.alias %}
+                                <p>
+                                    <b>Alias{{ aliases|pluralize:"es" }}:</b>
+                                    {% for alias in aliases %}
+                                        {% if not forloop.first %},{% endif %}
+                                        {{ alias }}
+                                    {% endfor %}
+                                </p>
+                            {% endwith %}
+                        {% endif %}
+                        <br />
+                        <p>
+                            <b>Metron ID:</b> {{ creator.id }}
+                        </p>
+                        {% if creator.cv_id %}
+                            <p>
+                                <b>Comic Vine ID:</b> {{ creator.cv_id }}
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- end misc info -->
+            </div>
+            <!-- end of main page content -->
+        {% endblock %}

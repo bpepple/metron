@@ -2,203 +2,232 @@
 {% load thumbnail %}
 {% load static %}
 {% load humanize %}
-
-{% block title %}{{ team.name }}{% endblock title %}
-
+{% block title %}
+    {{ team.name }}
+{% endblock title %}
 {% block content %}
-  <!-- team title -->
-  <nav class="level">
-    <div class="level-left">
-      <div class="level-item">
-        <p class="title">{{ team }}</p>
-      </div>
-    </div>
-  </nav>
-  <!--  end team title -->
-  <!-- team nav -->
-  <nav class="level">
-    <div class="level-left">
-      <div class="level-item">
-        {% if navigation.previous_team %}
-          <a class="button is-link" href="{% url 'team:detail' navigation.previous_team.slug %}">
-            <span class="icon is-small"><i class="fas fa-arrow-left"></i></span>
-            <span>Previous Team</span>
-          </a>
-        {% else %}
-          <a class="button" disabled>
-            <span class="icon is-small"><i class="fas fa-arrow-left"></i></span>
-            <span>Previous Team</span>
-          </a>
-        {% endif %}
-      </div>
-      <div class="level-item">
-        {% if navigation.next_team %}
-          <a class="button is-link" href="{% url 'team:detail' navigation.next_team.slug %}">
-            <span class="icon is-small"><i class="fas fa-arrow-right"></i></span>
-            <span>Next Team</span>
-          </a>
-        {% else %}
-          <a class="button" disabled>
-            <span class="icon is-small"><i class="fas fa-arrow-right"></i></span>
-            <span>Next Team</span>
-          </a>
-        {% endif %}
-      </div>
-    </div>
-    <div class="level-right">
-      {% if user.is_authenticated %}
-        <p class="level-item">
-          <a class="button is-primary" href="{% url 'team:create' %}" title="Add a new team">
-            <span class="icon is-small"><i class="fas fa-plus"></i></span>
-            <span>New</span>
-          </a>
-        </p>
-        <p class="level-item">
-          <a class="button is-info" href="{% url 'team:update' team.slug %}" title="Edit team">
-            <span class="icon is-small"><i class="fas fa-edit"></i></span>
-            <span>Edit</span>
-          </a>
-        </p>
-        {% if perms.comicsdb.delete_team %}
-          <p class="level-item">
-            <a class="button is-danger" href="{% url 'team:delete' team.slug %}" title="Delete team">
-              <span class="icon is-small"><i class="fas fa-trash"></i></span>
-              <span>Delete</span>
-            </a>
-          </p>
-        {% else %}
-          <p class="level-item">
-            <a class="button is-danger" title="Delete team" disabled>
-              <span class="icon is-small"><i class="fas fa-trash"></i></span>
-              <span>Delete</span>
-            </a>
-          </p>
-        {% endif %}
-      {% endif %}
-    </div>
-  </nav>
-  <!-- end of team nav -->
-  <!-- main page content -->
-  <div class="columns">
-    <!-- left column -->
-    <div class="column is-one-fifth">
-      <div class="box">
-        <figure class="image is-2by3">
-          {% if team.image %}
-            {% thumbnail team.image "320x480" crop="center" format="WEBP" as im %}
-              <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ team.name }}">
-            {% endthumbnail %}
-          {% else %}
-            <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ team.name }}">
-          {% endif %}
-        </figure>
-      </div>
-    </div>
-    <!-- end of left column -->
-    <!-- middle column -->
-    <div class="column">
-      <!-- summary -->
-      <div class="box">
-        <h1 class="title is-5">Summary</h1>
-        {% if team.desc %}
-          <p>{{ team.desc|linebreaksbr }}</p><br/>
-        {% else %}
-          <p>No information available.</p><br/>
-        {% endif %}
-        <div class="content is-small is-italic">
-          Last edited on {{ team.modified }} by
-          <a href="{% url 'user-detail' team.edited_by.id %}">
-            {{ team.edited_by.username }}
-          </a>
+    <!-- team title -->
+    <nav class="level">
+        <div class="level-left">
+            <div class="level-item">
+                <p class="title">{{ team }}</p>
+            </div>
         </div>
-      </div>
-      <!-- end summary -->
-      <!-- members -->
-      {% with characters=team.characters.all %}
-        {% if characters %}
-          <div class="box">
-            <div class="columns">
-              <div class="column">
-                <h1 class="title is-5">Member{{ characters|pluralize }}</h1>
-                <div class="columns is-multiline">
-                  {% for character in characters %}
-                    <div class="column is-4">
-                      <article class="media">
-                        <div class="media-left">
-                          <figure class="image is-64x64">
-                            {% if character.image %}
-                              {% thumbnail character.image "64x64" crop="center" format="WEBP" as im %}
-                                <img class="is-rounded" src="{{ im.url }}" alt="{{ character }}">
-                              {% endthumbnail %}
-                            {% else %}
-                              <img class="is-rounded" src="{% static 'site/img/creator-not-found.webp' %}"
-                                   alt="No image for {{ character }}">
-                            {% endif %}
-                          </figure>
-                        </div>
-                        <div class="media-content">
-                          <div class="content">
-                            <p><a href="{% url 'character:detail' character.slug %}">{{ character }}</a></p>
-                          </div>
-                        </div>
-                      </article>
-                    </div>
-                  {% endfor %}
+    </nav>
+    <!--  end team title -->
+    <!-- team nav -->
+    <nav class="level">
+        <div class="level-left">
+            <div class="level-item">
+                {% if navigation.previous_team %}
+                    <a class="button is-link"
+                       href="{% url 'team:detail' navigation.previous_team.slug %}">
+                        <span class="icon is-small"><i class="fas fa-arrow-left"></i></span>
+                        <span>Previous Team</span>
+                    </a>
+                {% else %}
+                    <a class="button" disabled>
+                        <span class="icon is-small"><i class="fas fa-arrow-left"></i></span>
+                        <span>Previous Team</span>
+                    </a>
+                {% endif %}
+            </div>
+            <div class="level-item">
+                {% if navigation.next_team %}
+                    <a class="button is-link"
+                       href="{% url 'team:detail' navigation.next_team.slug %}">
+                        <span class="icon is-small"><i class="fas fa-arrow-right"></i></span>
+                        <span>Next Team</span>
+                    </a>
+                {% else %}
+                    <a class="button" disabled>
+                        <span class="icon is-small"><i class="fas fa-arrow-right"></i></span>
+                        <span>Next Team</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="level-right">
+            {% if user.is_authenticated %}
+                <p class="level-item">
+                    <a class="button is-primary"
+                       href="{% url 'team:create' %}"
+                       title="Add a new team">
+                        <span class="icon is-small"><i class="fas fa-plus"></i></span>
+                        <span>New</span>
+                    </a>
+                </p>
+                <p class="level-item">
+                    <a class="button is-info"
+                       href="{% url 'team:update' team.slug %}"
+                       title="Edit team">
+                        <span class="icon is-small"><i class="fas fa-edit"></i></span>
+                        <span>Edit</span>
+                    </a>
+                </p>
+                {% if perms.comicsdb.delete_team %}
+                    <p class="level-item">
+                        <a class="button is-danger"
+                           href="{% url 'team:delete' team.slug %}"
+                           title="Delete team">
+                            <span class="icon is-small"><i class="fas fa-trash"></i></span>
+                            <span>Delete</span>
+                        </a>
+                    </p>
+                {% else %}
+                    <p class="level-item">
+                        <a class="button is-danger" title="Delete team" disabled>
+                            <span class="icon is-small"><i class="fas fa-trash"></i></span>
+                            <span>Delete</span>
+                        </a>
+                    </p>
+                {% endif %}
+            {% endif %}
+        </div>
+    </nav>
+    <!-- end of team nav -->
+    <!-- main page content -->
+    <div class="columns">
+        <!-- left column -->
+        <div class="column is-one-fifth">
+            <div class="box">
+                <figure class="image is-2by3">
+                    {% if team.image %}
+                        {% thumbnail team.image "320x480" crop="center" format="WEBP" as im %}
+                            <img src="{{ im.url }}"
+                                 width="{{ im.width }}"
+                                 height="{{ im.height }}"
+                                 alt="{{ team.name }}">
+                        {% endthumbnail %}
+                    {% else %}
+                        <img src="{% static 'site/img/image-not-found.webp' %}"
+                             alt="No image for {{ team.name }}">
+                    {% endif %}
+                </figure>
+            </div>
+        </div>
+        <!-- end of left column -->
+        <!-- middle column -->
+        <div class="column">
+            <!-- summary -->
+            <div class="box">
+                <h1 class="title is-5">Summary</h1>
+                {% if team.desc %}
+                    <p>{{ team.desc|linebreaksbr }}</p>
+                    <br />
+                {% else %}
+                    <p>No information available.</p>
+                    <br />
+                {% endif %}
+                <div class="content is-small is-italic">
+                    Last edited on {{ team.modified }} by
+                    <a href="{% url 'user-detail' team.edited_by.id %}">{{ team.edited_by.username }}</a>
                 </div>
-              </div>
             </div>
-          </div>
-        {% endif %}
-      {% endwith %}
-      <!-- end members -->
-      <!-- attribution -->
-      {% with attribution=team.attribution.all %}
-        {% if attribution|length > 0 %}
-          {% include "comicsdb/attribution.html" with object=attribution %}
-        {% endif %}
-      {% endwith %}
-      <!-- end attribution-->
+            <!-- end summary -->
+            <!-- members -->
+            {% with characters=team.characters.all %}
+                {% if characters %}
+                    <div class="box">
+                        <div class="columns">
+                            <div class="column">
+                                <h1 class="title is-5">Member{{ characters|pluralize }}</h1>
+                                <div class="columns is-multiline">
+                                    {% for character in characters %}
+                                        <div class="column is-4">
+                                            <article class="media">
+                                                <div class="media-left">
+                                                    <figure class="image is-64x64">
+                                                        {% if character.image %}
+                                                            {% thumbnail character.image "64x64" crop="center" format="WEBP" as im %}
+                                                                <img class="is-rounded" src="{{ im.url }}" alt="{{ character }}">
+                                                            {% endthumbnail %}
+                                                        {% else %}
+                                                            <img class="is-rounded"
+                                                                 src="{% static 'site/img/creator-not-found.webp' %}"
+                                                                 alt="No image for {{ character }}">
+                                                        {% endif %}
+                                                    </figure>
+                                                </div>
+                                                <div class="media-content">
+                                                    <div class="content">
+                                                        <p>
+                                                            <a href="{% url 'character:detail' character.slug %}">{{ character }}</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <!-- end members -->
+            <!-- attribution -->
+            {% with attribution=team.attribution.all %}
+                {% if attribution|length > 0 %}
+                    {% include "comicsdb/attribution.html" with object=attribution %}
+                {% endif %}
+            {% endwith %}
+            <!-- end attribution-->
+        </div>
+        <!-- end middle column -->
+        <!-- right column -->
+        <div class="column is-one-fifth">
+            <!-- misc info -->
+            <div class="box">
+                <h1 class="title is-6">Team Details</h1>
+                <p>
+                    <b>Number of Issues:</b> {{ team.issue_count|intcomma }}
+                </p>
+                <br />
+                {% with creators=team.creators.all %}
+                    {% if creators %}
+                        <p>
+                            <b>Creator{{ creators|pluralize }}</b>
+                        </p>
+                        <div class="content">
+                            <ul>
+                                {% for creator in creators %}
+                                    <li>
+                                        <a href="{% url 'creator:detail' creator.slug %}">{{ creator }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                {% with universes=team.universes.all %}
+                    {% if universes %}
+                        <p>
+                            <b>Universe{{ universes|pluralize }}</b>
+                        </p>
+                        <div class="content">
+                            <ul>
+                                {% for universe in universes %}
+                                    <li>
+                                        <a href="{% url 'universe:detail' universe.slug %}">{{ universe }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                <p>
+                    <b>Metron ID:</b> {{ team.id }}
+                </p>
+                {% if team.cv_id %}
+                    <p>
+                        <b>Comic Vine ID:</b> {{ team.cv_id }}
+                    </p>
+                {% endif %}
+            </div>
+            <!-- end misc info -->
+        </div>
+        <!-- end right column -->
     </div>
-    <!-- end middle column -->
-    <!-- right column -->
-    <div class="column is-one-fifth">
-      <!-- misc info -->
-      <div class="box">
-        <h1 class="title is-6">Team Details</h1>
-        <p><b>Number of Issues:</b> {{ team.issue_count|intcomma }}</p>
-        <br />
-        {% with creators=team.creators.all %}
-          {% if creators %}
-            <p><b>Creator{{ creators|pluralize }}</b></p>
-            <div class="content">
-              <ul>
-                {% for creator in creators %}
-                  <li><a href="{% url 'creator:detail' creator.slug %}">{{ creator }}</a></li>
-                {% endfor %}
-              </ul>
-            </div>
-          {% endif %}
-        {% endwith %}
-        {% with universes=team.universes.all %}
-          {% if universes %}
-            <p><b>Universe{{ universes|pluralize }}</b></p>
-            <div class="content">
-              <ul>
-                {% for universe in universes %}
-                  <li><a href="{% url 'universe:detail' universe.slug %}">{{ universe }}</a></li>
-                {% endfor %}
-              </ul>
-            </div>
-          {% endif %}
-        {% endwith %}
-        <p><b>Metron ID:</b> {{ team.id }}</p>
-        {% if team.cv_id %}
-          <p><b>Comic Vine ID:</b> {{ team.cv_id }}</p>
-        {% endif %}
-      </div>
-      <!-- end misc info -->
-    </div>
-    <!-- end right column -->
-  </div>
-  <!-- end of main page content -->
+    <!-- end of main page content -->
 {% endblock %}

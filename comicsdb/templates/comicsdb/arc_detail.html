@@ -1,171 +1,186 @@
 {% extends parent_template|default:"base.html" %}
 {% load thumbnail %}
 {% load static %}
-
-{% block title %}{{ arc.name }}{% endblock title %}
-
+{% block title %}
+    {{ arc.name }}
+{% endblock title %}
 {% block content %}
-<!-- arc title -->
-<nav class="level">
-  <div class="level-left">
-    <div class="level-item">
-      <p class="title">{{ arc }}</p>
-    </div>
-  </div>
-</nav>
-<!--  end arc title -->
-
-<!-- arc nav -->
-<nav class="level">
-  <div class="level-left">
-    <div class="level-item">
-      {% if navigation.previous_arc %}
-      <a class="button is-link" href="{% url 'arc:detail' navigation.previous_arc.slug %}">
-        <span class="icon is-small">
-          <i class="fas fa-arrow-left"></i>
-        </span>
-        <span>Previous Arc</span>
-      </a>
-      {% else %}
-      <a class="button" disabled>
-        <span class="icon is-small">
-          <i class="fas fa-arrow-left"></i>
-        </span>
-        <span>Previous Arc</span>
-      </a>
-      {% endif %}
-    </div>
-    <div class="level-item">
-      {% if navigation.next_arc %}
-      <a class="button is-link" href="{% url 'arc:detail' navigation.next_arc.slug %}">
-        <span>Next Arc</span>
-        <span class="icon is-small">
-          <i class="fas fa-arrow-right"></i>
-        </span>
-      </a>
-      {% else %}
-      <a class="button" disabled>
-        <span>Next Issue</span>
-        <span class="icon is-small">
-          <i class="fas fa-arrow-right"></i>
-        </span>
-      </a>
-      {% endif %}
-    </div>
-  </div>
-  <div class="level-right">
-    {% if user.is_authenticated %}
-    <p class="level-item">
-      <a class="button is-primary" href="{% url 'arc:create' %}" title="Add a new story arc">
-        <span class="icon is-small">
-          <i class="fas fa-plus"></i>
-        </span>
-        <span>New</span>
-      </a>
-    </p>
-    <p class="level-item">
-      <a class="button is-info" href="{% url 'arc:update' arc.slug %}" title="Edit arc">
-        <span class="icon is-small">
-          <i class="fas fa-edit"></i>
-        </span>
-        <span>Edit</span>
-      </a>
-    </p>
-    {% if perms.comicsdb.delete_arc %}
-    <p class="level-item">
-      <a class="button is-danger" href="{% url 'arc:delete' arc.slug %}" title="Delete arc">
-        <span class="icon is-small">
-          <i class="fas fa-trash"></i>
-        </span>
-        <span>Delete</span>
-      </a>
-    </p>
-    {% else %}
-    <p class="level-item">
-      <a class="button is-danger" title="Delete arc" disabled>
-        <span class="icon is-small">
-          <i class="fas fa-trash"></i>
-        </span>
-        <span>Delete</span>
-      </a>
-    </p>
-    {% endif %}
-    {% endif %}
-  </div>
-</nav>
-<!-- end of arc nav -->
-
-<!-- main page content -->
-<div class="columns">
-  <!-- arc logo -->
-  <div class="column is-one-fifth">
-    <div class="box">
-      <figure class="image is-2by3">
-        {% if arc.image %}
-          {% thumbnail arc.image "320x480" crop="center" format="WEBP" as im %}
-          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ arc.name }}">
-          {% endthumbnail %}
-        {% else %}
-          <img src="{% static 'site/img/image-not-found.webp' %}" alt="No image for {{ arc.name }}">
-        {% endif %}
-      </figure>
-    </div>
-  </div>
-  <!-- end of arc logo -->
-
-  <!-- arc summary -->
-  <div class="column">
-    <div class="box">
-      <h1 class="title is-5">Summary</h1>
-      {% if arc.desc %}
-      <p>{{ arc.desc|linebreaksbr }}</p>
-      {% else %}
-      <p>No information available.</p>
-      {% endif %}
-      <br />
-      <div class="content is-small is-italic">
-        Last edited on {{ arc.modified }} by
-        <a href="{% url 'user-detail' arc.edited_by.id %}">
-          {{ arc.edited_by.username }}
-        </a>
-      </div>
-    </div>
-    {% with issues=arc.issues.all %}
-      {% if issues %}
-      <div class="box">
-        <h1 class="title is-5">List of Issues</h1>
-        <div class="content">
-          <ul>
-            {% for issue in issues %}
-            <li><a href="{% url 'issue:detail' issue.slug %}">{{ issue }}</a></li>
-            {% endfor %}
-          </ul>
+    <!-- arc title -->
+    <nav class="level">
+        <div class="level-left">
+            <div class="level-item">
+                <p class="title">{{ arc }}</p>
+            </div>
         </div>
-      </div>
-      {% endif %}
-    {% endwith %}
-    <!-- attribution -->
-    {% with attribution=arc.attribution.all %}
-      {% if attribution|length > 0 %}
-        {% include "comicsdb/attribution.html" with object=attribution %}
-      {% endif %}
-    {% endwith %}
-    <!-- end attribution-->
-  </div>
-  <!-- end of arc summary -->
-  <!-- misc info -->
-  <div class="column is-one-fifth">
-    <div class="box">
-      <h1 class="title is-6">Story Arc Details</h1>
-      <p><b>Number of Issue:</b> {{ arc.issue_count }}</p>
-      <br />
-      <p><b>Metron ID:</b> {{ arc.id }}</p>
-      {% if arc.cv_id %}
-      <p><b>Comic Vine ID:</b> {{ arc.cv_id }}</p>
-      {% endif %}
+    </nav>
+    <!--  end arc title -->
+    <!-- arc nav -->
+    <nav class="level">
+        <div class="level-left">
+            <div class="level-item">
+                {% if navigation.previous_arc %}
+                    <a class="button is-link"
+                       href="{% url 'arc:detail' navigation.previous_arc.slug %}">
+                        <span class="icon is-small">
+                            <i class="fas fa-arrow-left"></i>
+                        </span>
+                        <span>Previous Arc</span>
+                    </a>
+                {% else %}
+                    <a class="button" disabled>
+                        <span class="icon is-small">
+                            <i class="fas fa-arrow-left"></i>
+                        </span>
+                        <span>Previous Arc</span>
+                    </a>
+                {% endif %}
+            </div>
+            <div class="level-item">
+                {% if navigation.next_arc %}
+                    <a class="button is-link"
+                       href="{% url 'arc:detail' navigation.next_arc.slug %}">
+                        <span>Next Arc</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </a>
+                {% else %}
+                    <a class="button" disabled>
+                        <span>Next Issue</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="level-right">
+            {% if user.is_authenticated %}
+                <p class="level-item">
+                    <a class="button is-primary"
+                       href="{% url 'arc:create' %}"
+                       title="Add a new story arc">
+                        <span class="icon is-small">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span>New</span>
+                    </a>
+                </p>
+                <p class="level-item">
+                    <a class="button is-info"
+                       href="{% url 'arc:update' arc.slug %}"
+                       title="Edit arc">
+                        <span class="icon is-small">
+                            <i class="fas fa-edit"></i>
+                        </span>
+                        <span>Edit</span>
+                    </a>
+                </p>
+                {% if perms.comicsdb.delete_arc %}
+                    <p class="level-item">
+                        <a class="button is-danger"
+                           href="{% url 'arc:delete' arc.slug %}"
+                           title="Delete arc">
+                            <span class="icon is-small">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                            <span>Delete</span>
+                        </a>
+                    </p>
+                {% else %}
+                    <p class="level-item">
+                        <a class="button is-danger" title="Delete arc" disabled>
+                            <span class="icon is-small">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                            <span>Delete</span>
+                        </a>
+                    </p>
+                {% endif %}
+            {% endif %}
+        </div>
+    </nav>
+    <!-- end of arc nav -->
+    <!-- main page content -->
+    <div class="columns">
+        <!-- arc logo -->
+        <div class="column is-one-fifth">
+            <div class="box">
+                <figure class="image is-2by3">
+                    {% if arc.image %}
+                        {% thumbnail arc.image "320x480" crop="center" format="WEBP" as im %}
+                            <img src="{{ im.url }}"
+                                 width="{{ im.width }}"
+                                 height="{{ im.height }}"
+                                 alt="{{ arc.name }}">
+                        {% endthumbnail %}
+                    {% else %}
+                        <img src="{% static 'site/img/image-not-found.webp' %}"
+                             alt="No image for {{ arc.name }}">
+                    {% endif %}
+                </figure>
+            </div>
+        </div>
+        <!-- end of arc logo -->
+        <!-- arc summary -->
+        <div class="column">
+            <div class="box">
+                <h1 class="title is-5">Summary</h1>
+                {% if arc.desc %}
+                    <p>{{ arc.desc|linebreaksbr }}</p>
+                {% else %}
+                    <p>No information available.</p>
+                {% endif %}
+                <br />
+                <div class="content is-small is-italic">
+                    Last edited on {{ arc.modified }} by
+                    <a href="{% url 'user-detail' arc.edited_by.id %}">{{ arc.edited_by.username }}</a>
+                </div>
+            </div>
+            {% with issues=arc.issues.all %}
+                {% if issues %}
+                    <div class="box">
+                        <h1 class="title is-5">List of Issues</h1>
+                        <div class="content">
+                            <ul>
+                                {% for issue in issues %}
+                                    <li>
+                                        <a href="{% url 'issue:detail' issue.slug %}">{{ issue }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <!-- attribution -->
+            {% with attribution=arc.attribution.all %}
+                {% if attribution|length > 0 %}
+                    {% include "comicsdb/attribution.html" with object=attribution %}
+                {% endif %}
+            {% endwith %}
+            <!-- end attribution-->
+        </div>
+        <!-- end of arc summary -->
+        <!-- misc info -->
+        <div class="column is-one-fifth">
+            <div class="box">
+                <h1 class="title is-6">Story Arc Details</h1>
+                <p>
+                    <b>Number of Issue:</b> {{ arc.issue_count }}
+                </p>
+                <br />
+                <p>
+                    <b>Metron ID:</b> {{ arc.id }}
+                </p>
+                {% if arc.cv_id %}
+                    <p>
+                        <b>Comic Vine ID:</b> {{ arc.cv_id }}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+        <!-- end misc info -->
     </div>
-  </div>
-  <!-- end misc info -->
-</div>
-<!-- end of main page content -->
+    <!-- end of main page content -->
 {% endblock %}
