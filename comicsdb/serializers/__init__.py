@@ -43,12 +43,14 @@ from comicsdb.serializers.universe import (
 from comicsdb.serializers.variant import VariantSerializer
 
 from comicsdb.serializers.imprint import (
+    BasicImprintSerializer,
     ImprintSerializer,
     ImprintListSerializer,
     ImprintReadSerializer,
 )
 
 __all__ = [
+    "BasicImprintSerializer",
     "BasicPublisherSerializer",
     "UniverseReadSerializer",
     "ArcListSerializer",

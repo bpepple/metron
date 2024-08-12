@@ -50,7 +50,7 @@ class ImprintReadSerializer(ImprintSerializer):
     publisher = BasicPublisherSerializer(read_only=True)
 
 
-class BaseImprintSerializer(serializers.ModelSerializer):
+class BasicImprintSerializer(serializers.ModelSerializer):
     class Meta:
         model = Imprint
         fields = ("id", "name")
