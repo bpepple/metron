@@ -24,6 +24,7 @@ def create_series_data(single_issue_type: SeriesType, dc_comics: Publisher):
         "series_type": single_issue_type.id,
         "status": Series.Status.COMPLETED,
         "publisher": dc_comics.id,
+        "imprint": "",  # Empty string or Imprint ID
     }
 
 
