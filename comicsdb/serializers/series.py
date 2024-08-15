@@ -32,6 +32,7 @@ class AssociatedSeriesSerializer(serializers.ModelSerializer):
 class SeriesSerializer(serializers.ModelSerializer):
     resource_url = serializers.SerializerMethodField("get_resource_url")
     status = serializers.ChoiceField(choices=Series.Status.choices)
+    imprint = serializers.IntegerField(allow_null=True)
 
     def get_resource_url(self, obj: Series) -> str:
         return self.context["request"].build_absolute_uri(obj.get_absolute_url())
