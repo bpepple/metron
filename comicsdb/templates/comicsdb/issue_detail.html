@@ -236,14 +236,7 @@
                                                                     <br>
                                                                     <!-- creator roles -->
                                                                     {% with roles=credit.role.all %}
-                                                                        {% if roles %}
-                                                                            <small><em>
-                                                                                {% for role in roles %}
-                                                                                    {% if not forloop.first %},{% endif %}
-                                                                                    {{ role.name }}
-                                                                                {% endfor %}
-                                                                            </em></small>
-                                                                        {% endif %}
+                                                                        {% if roles %}<small><em>{{ roles|join:", " }}</em></small>{% endif %}
                                                                     {% endwith %}
                                                                     <!-- end creator roles -->
                                                                 </p>

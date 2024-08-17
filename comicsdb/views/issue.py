@@ -15,7 +15,7 @@ from comicsdb.filters.issue import IssueViewFilter
 from comicsdb.forms.credits import CreditsFormSet
 from comicsdb.forms.issue import IssueForm
 from comicsdb.forms.variant import VariantFormset
-from comicsdb.models import Creator, Credits, Issue, Series
+from comicsdb.models import Creator, Credits, Issue, Role, Series
 from comicsdb.models.series import SeriesType
 from comicsdb.models.variant import Variant
 
@@ -103,7 +103,9 @@ class IssueDetail(DetailView):
                 )
                 .order_by("creator__name")
                 .distinct("creator__name")
-                .prefetch_related("role"),
+                .prefetch_related(
+                    Prefetch("role", queryset=Role.objects.defer("order", "notes", "modified"))
+                ),
             ),
             Prefetch(
                 "reprints",
