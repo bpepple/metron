@@ -1,11 +1,13 @@
 {% extends parent_template|default:"base.html" %}
 {% load thumbnail %}
 {% load static %}
-{% block sitedesc %}<meta name="description" content="{{ issue }} Information">{% endblock %}
+{% block sitedesc %}
+    <meta name="description" content="{{ issue }} Information">
+{% endblock sitedesc %}
 {% block sitekeywords %}
     <meta name="keywords"
           content="{{ issue.series.publisher }}, {{ issue.series.name }}, {{ issue.cover_date|date:'F Y' }}{% with characters=issue.characters.all %}{% if characters %}{% for character in characters %}, {{ character.name }}{% endfor %}{% endif %}{% endwith %}">
-{% endblock %}
+{% endblock sitekeywords %}
 {% block title %}
     {{ issue }}
 {% endblock title %}
@@ -498,4 +500,4 @@
                 <!-- end misc info -->
             </div>
             <!-- end of main page content -->
-        {% endblock %}
+        {% endblock content %}
