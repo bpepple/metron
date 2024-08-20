@@ -206,10 +206,7 @@
                             {% with aliases=creator.alias %}
                                 <p>
                                     <b>Alias{{ aliases|pluralize:"es" }}:</b>
-                                    {% for alias in aliases %}
-                                        {% if not forloop.first %},{% endif %}
-                                        {{ alias }}
-                                    {% endfor %}
+                                    {{ aliases|join:", " }}
                                 </p>
                             {% endwith %}
                         {% endif %}
