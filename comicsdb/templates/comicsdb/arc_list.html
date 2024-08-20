@@ -1,4 +1,5 @@
 {% extends parent_template|default:"base.html" %}
+{% load humanize %}
 {% load thumbnail %}
 {% load static %}
 {% block title %}
@@ -18,7 +19,7 @@
                 <div class="level-left">
                     <div class="level-item">
                         <p class="subtitle is-5">
-                            <strong>{{ page_obj.paginator.count }}</strong> Story Arc{{ page_obj.paginator.count|pluralize }}
+                            <strong>{{ page_obj.paginator.count|intcomma }}</strong> Story Arc{{ page_obj.paginator.count|pluralize }}
                         </p>
                     </div>
                     <div class="level-item">
