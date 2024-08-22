@@ -4,15 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('comicsdb', '0030_add_imprint_field_to_series'),
+        ("comicsdb", "0030_add_imprint_field_to_series"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='attribution',
-            name='source',
-            field=models.CharField(choices=[('M', 'Marvel'), ('W', 'Wikipedia'), ('G', 'Grand Comics Database'), ('D', 'DC')], default='W', max_length=1),
+            model_name="attribution",
+            name="source",
+            field=models.CharField(
+                choices=[
+                    ("M", "Marvel"),
+                    ("W", "Wikipedia"),
+                    ("G", "Grand Comics Database"),
+                    ("D", "DC"),
+                ],
+                default="W",
+                max_length=1,
+            ),
         ),
     ]
