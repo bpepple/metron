@@ -18,6 +18,10 @@
                         Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)
                     </a>.
                 </p>
+            {% elif obj.source == "D" %}
+                <p>
+                    Some data provided by <a href={{ obj.url }}>DC</a>. &copy; & &trade; DC
+                </p>
             {% endif %}
         {% endfor %}
     </div>

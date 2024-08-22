@@ -8,6 +8,7 @@ class Attribution(models.Model):
         MARVEL = "M", "Marvel"
         WIKIPEDIA = "W", "Wikipedia"
         GCD = "G", "Grand Comics Database"
+        DC = "D", "DC"
 
     source = models.CharField(max_length=1, choices=Source.choices, default=Source.WIKIPEDIA)
     url = models.URLField()
