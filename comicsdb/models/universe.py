@@ -23,7 +23,12 @@ class Universe(CommonInfo):
     image = ImageField(upload_to="universe/%Y/%m/%d/", blank=True)
     designation = models.CharField(max_length=255, blank=True)
     attribution = GenericRelation(Attribution, related_query_name="universes")
-    edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    created_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="universes_created"
+    )
+    edited_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="universes_edited"
+    )
 
     def save(self, *args, **kwargs) -> None:
         # Let's delete the original image if we're replacing it by uploading a new one.

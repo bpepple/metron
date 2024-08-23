@@ -85,32 +85,40 @@ def api_client_with_staff_credentials(db, create_staff_user, api_client):
 @pytest.fixture()
 def wwh_arc(create_user):
     user = create_user()
-    return Arc.objects.create(name="World War Hulk", slug="world-war-hulk", edited_by=user)
+    return Arc.objects.create(
+        name="World War Hulk", slug="world-war-hulk", edited_by=user, created_by=user
+    )
 
 
 @pytest.fixture()
 def fc_arc(create_user):
     user = create_user()
-    return Arc.objects.create(name="Final Crisis", slug="final-crisis", edited_by=user)
+    return Arc.objects.create(
+        name="Final Crisis", slug="final-crisis", edited_by=user, created_by=user
+    )
 
 
 @pytest.fixture()
 def dc_comics(create_user):
     user = create_user()
-    return Publisher.objects.create(name="DC Comics", slug="dc-comics", edited_by=user)
+    return Publisher.objects.create(
+        name="DC Comics", slug="dc-comics", edited_by=user, created_by=user
+    )
 
 
 @pytest.fixture()
 def marvel(create_user):
     user = create_user()
-    return Publisher.objects.create(name="Marvel", slug="marvel", edited_by=user)
+    return Publisher.objects.create(
+        name="Marvel", slug="marvel", edited_by=user, created_by=user
+    )
 
 
 @pytest.fixture()
 def vertigo_imprint(create_user, dc_comics):
     user = create_user()
     return Imprint.objects.create(
-        name="Vertigo", slug="vertigo", publisher=dc_comics, edited_by=user
+        name="Vertigo", slug="vertigo", publisher=dc_comics, edited_by=user, created_by=user
     )
 
 
@@ -118,7 +126,11 @@ def vertigo_imprint(create_user, dc_comics):
 def black_label_imprint(create_user, dc_comics):
     user = create_user()
     return Imprint.objects.create(
-        name="Black Label", slug="black-label", publisher=dc_comics, edited_by=user
+        name="Black Label",
+        slug="black-label",
+        publisher=dc_comics,
+        edited_by=user,
+        created_by=user,
     )
 
 
@@ -133,6 +145,7 @@ def earth_2_universe(create_user, dc_comics):
         designation="Earth 2",
         desc=desc,
         edited_by=user,
+        created_by=user,
     )
 
 
@@ -159,6 +172,7 @@ def fc_series(create_user, dc_comics, single_issue_type):
         series_type=single_issue_type,
         status=Series.Status.CANCELLED,
         edited_by=user,
+        created_by=user,
     )
 
 
@@ -174,6 +188,7 @@ def bat_sups_series(create_user, dc_comics, single_issue_type):
         series_type=single_issue_type,
         status=Series.Status.CANCELLED,
         edited_by=user,
+        created_by=user,
     )
 
 
@@ -190,6 +205,7 @@ def sandman_series(create_user, dc_comics, vertigo_imprint, single_issue_type):
         series_type=single_issue_type,
         status=Series.Status.CANCELLED,
         edited_by=user,
+        created_by=user,
     )
 
 
@@ -249,39 +265,49 @@ def list_of_issues(create_user, fc_series):
 @pytest.fixture()
 def superman(create_user):
     user = create_user()
-    return Character.objects.create(name="Superman", slug="superman", edited_by=user)
+    return Character.objects.create(
+        name="Superman", slug="superman", edited_by=user, created_by=user
+    )
 
 
 @pytest.fixture()
 def batman(create_user):
     user = create_user()
-    return Character.objects.create(name="Batman", slug="batman", edited_by=user)
+    return Character.objects.create(
+        name="Batman", slug="batman", edited_by=user, created_by=user
+    )
 
 
 @pytest.fixture()
 def john_byrne(create_user):
     user = create_user()
-    return Creator.objects.create(name="John Byrne", slug="john-byrne", edited_by=user)
+    return Creator.objects.create(
+        name="John Byrne", slug="john-byrne", edited_by=user, created_by=user
+    )
 
 
 @pytest.fixture()
 def walter_simonson(create_user):
     user = create_user()
     return Creator.objects.create(
-        name="Walter Simonson", slug="walter-simonson", edited_by=user
+        name="Walter Simonson", slug="walter-simonson", edited_by=user, created_by=user
     )
 
 
 @pytest.fixture()
 def teen_titans(create_user):
     user = create_user()
-    return Team.objects.create(name="Teen Titans", slug="teen-titans", edited_by=user)
+    return Team.objects.create(
+        name="Teen Titans", slug="teen-titans", edited_by=user, created_by=user
+    )
 
 
 @pytest.fixture()
 def avengers(create_user):
     user = create_user()
-    return Team.objects.create(name="The Avengers", slug="the-avengers", edited_by=user)
+    return Team.objects.create(
+        name="The Avengers", slug="the-avengers", edited_by=user, created_by=user
+    )
 
 
 @pytest.fixture()

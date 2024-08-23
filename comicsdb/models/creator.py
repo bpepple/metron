@@ -22,7 +22,12 @@ class Creator(CommonInfo):
     image = ImageField(upload_to="creator/%Y/%m/%d/", blank=True)
     alias = ArrayField(models.CharField(max_length=100), null=True, blank=True)
     attribution = GenericRelation(Attribution, related_query_name="creators")
-    edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    created_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="creator_created"
+    )
+    edited_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="creator_edited"
+    )
 
     def save(self, *args, **kwargs) -> None:
         # Let's delete the original image if we're replacing it by uploading a new one.

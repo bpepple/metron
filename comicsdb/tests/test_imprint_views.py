@@ -21,6 +21,7 @@ def list_of_imprints(create_user, dc_comics):
             slug=f"imprint-{imprint_num}",
             publisher=dc_comics,
             edited_by=user,
+            created_by=user,
         )
 
 

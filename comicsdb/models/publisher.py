@@ -19,7 +19,12 @@ class Publisher(CommonInfo):
     founded = models.PositiveSmallIntegerField("Year Founded", null=True, blank=True)
     image = ImageField("Logo", upload_to="publisher/%Y/%m/%d/", blank=True)
     attribution = GenericRelation(Attribution, related_query_name="publishers")
-    edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    created_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="publishers_created"
+    )
+    edited_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="publishers_edited"
+    )
 
     def save(self, *args, **kwargs) -> None:
         # Let's delete the original image if we're replacing it by uploading a new one.

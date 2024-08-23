@@ -88,7 +88,7 @@ class ArcViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: ArcSerializer) -> None:
-        serializer.save(edited_by=self.request.user)
+        serializer.save(edited_by=self.request.user, created_by=self.request.user)
         return super().perform_create(serializer)
 
     def perform_update(self, serializer: ArcSerializer) -> None:
@@ -144,7 +144,7 @@ class CharacterViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: CharacterSerializer) -> None:
-        serializer.save(edited_by=self.request.user)
+        serializer.save(edited_by=self.request.user, created_by=self.request.user)
         return super().perform_create(serializer)
 
     def perform_update(self, serializer: CharacterSerializer) -> None:
@@ -197,7 +197,7 @@ class CreatorViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: CreatorSerializer) -> None:
-        serializer.save(edited_by=self.request.user)
+        serializer.save(edited_by=self.request.user, created_by=self.request.user)
         return super().perform_create(serializer)
 
     def perform_update(self, serializer: CreatorSerializer) -> None:
@@ -273,7 +273,7 @@ class ImprintViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: ImprintSerializer) -> None:
-        serializer.save(edited_by=self.request.user)
+        serializer.save(edited_by=self.request.user, created_by=self.request.user)
         return super().perform_create(serializer)
 
     def perform_update(self, serializer: ImprintSerializer) -> None:
@@ -329,7 +329,7 @@ class IssueViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: IssueSerializer) -> None:
-        serializer.save(edited_by=self.request.user)
+        serializer.save(edited_by=self.request.user, created_by=self.request.user)
         return super().perform_create(serializer)
 
     def perform_update(self, serializer: IssueSerializer) -> None:
@@ -374,7 +374,7 @@ class PublisherViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: PublisherSerializer) -> None:
-        serializer.save(edited_by=self.request.user)
+        serializer.save(edited_by=self.request.user, created_by=self.request.user)
         return super().perform_create(serializer)
 
     def perform_update(self, serializer: PublisherSerializer) -> None:
@@ -459,7 +459,7 @@ class SeriesViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: SeriesSerializer) -> None:
-        serializer.save(edited_by=self.request.user)
+        serializer.save(edited_by=self.request.user, created_by=self.request.user)
         return super().perform_create(serializer)
 
     def perform_update(self, serializer: SeriesSerializer) -> None:
@@ -525,7 +525,7 @@ class TeamViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: TeamSerializer) -> None:
-        serializer.save(edited_by=self.request.user)
+        serializer.save(edited_by=self.request.user, created_by=self.request.user)
         return super().perform_create(serializer)
 
     def perform_update(self, serializer: TeamSerializer) -> None:
@@ -579,7 +579,7 @@ class UniverseViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: UniverseSerializer) -> None:
-        serializer.save(edited_by=self.request.user)
+        serializer.save(edited_by=self.request.user, created_by=self.request.user)
         return super().perform_create(serializer)
 
     def perform_update(self, serializer: UniverseSerializer) -> None:

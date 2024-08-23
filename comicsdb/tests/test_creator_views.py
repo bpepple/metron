@@ -22,6 +22,7 @@ def list_of_creators(create_user):
             name=f"John-Smith-{pub_num}",
             slug=f"john-smith-{pub_num}",
             edited_by=user,
+            created_by=user,
         )
 
 

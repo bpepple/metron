@@ -146,6 +146,7 @@ class SeriesCreate(LoginRequiredMixin, CreateView):
         context = self.get_context_data()
         attribution_form = context["attribution"]
         with transaction.atomic():
+            form.instance.created_by = self.request.user
             form.instance.edited_by = self.request.user
             if attribution_form.is_valid():
                 self.object = form.save()
