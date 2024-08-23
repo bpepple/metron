@@ -63,9 +63,11 @@ class Issue(CommonInfo):
     universes = models.ManyToManyField(Universe, blank=True, related_name="issues")
     reprints = models.ManyToManyField("self", blank=True)
     attribution = GenericRelation(Attribution, related_query_name="issues")
-    created_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    created_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="issues_created"
+    )
     edited_by = models.ForeignKey(
-        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="editor"
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="issues_edited"
     )
 
     objects = models.Manager()

@@ -52,7 +52,12 @@ class Series(CommonInfo):
     genres = models.ManyToManyField(Genre, blank=True, related_name="series")
     associated = models.ManyToManyField("self", blank=True)
     attribution = GenericRelation(Attribution, related_query_name="series")
-    edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    created_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="series_created"
+    )
+    edited_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="series_edited"
+    )
 
     def get_absolute_url(self):
         return reverse("series:detail", args=[self.slug])

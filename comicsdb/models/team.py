@@ -22,7 +22,12 @@ class Team(CommonInfo):
     creators = models.ManyToManyField(Creator, blank=True, related_name="teams")
     universes = models.ManyToManyField(Universe, blank=True, related_name="teams")
     attribution = GenericRelation(Attribution, related_query_name="teams")
-    edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    created_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="teams_created"
+    )
+    edited_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="teams_edited"
+    )
 
     def save(self, *args, **kwargs) -> None:
         # Let's delete the original image if we're replacing it by uploading a new one.

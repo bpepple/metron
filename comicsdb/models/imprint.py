@@ -21,7 +21,12 @@ class Imprint(CommonInfo):
     founded = models.PositiveSmallIntegerField("Year Founded", null=True, blank=True)
     image = ImageField("Logo", upload_to="imprint/%Y/%m/%d", null=True, blank=True)
     attribution = GenericRelation(Attribution, related_query_name="imprints")
-    edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    created_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="imprints_created"
+    )
+    edited_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="imprints_edited"
+    )
 
     def save(self, *args, **kwargs) -> None:
         # Let's delete the original image if we're replacing it by uploading a new one.

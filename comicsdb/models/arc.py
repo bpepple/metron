@@ -18,7 +18,12 @@ LOGGER = logging.getLogger(__name__)
 class Arc(CommonInfo):
     image = ImageField(upload_to="arc/%Y/%m/%d/", blank=True)
     attribution = GenericRelation(Attribution, related_query_name="arcs")
-    edited_by = models.ForeignKey(CustomUser, default=1, on_delete=models.SET_DEFAULT)
+    created_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="arcs_created"
+    )
+    edited_by = models.ForeignKey(
+        CustomUser, default=1, on_delete=models.SET_DEFAULT, related_name="arcs_edited"
+    )
 
     def save(self, *args, **kwargs) -> None:
         # Let's delete the original image if we're replacing it by uploading a new one.
