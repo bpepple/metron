@@ -29,6 +29,7 @@ def list_of_series(create_user, dc_comics):
             series_type=series_type,
             status=Series.Status.ONGOING,
             edited_by=user,
+            created_by=user,
         )
 
 

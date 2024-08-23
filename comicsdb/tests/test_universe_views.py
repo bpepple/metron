@@ -21,6 +21,7 @@ def list_of_universes(create_user, dc_comics):
             name=f"Test Universe {uni_num}",
             slug=f"test-universe-{uni_num}",
             edited_by=user,
+            created_by=user,
         )
 
 

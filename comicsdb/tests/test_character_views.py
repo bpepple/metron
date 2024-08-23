@@ -21,6 +21,7 @@ def list_of_characters(create_user):
             name=f"Character {pub_num}",
             slug=f"character-{pub_num}",
             edited_by=user,
+            created_by=user,
         )
 
 

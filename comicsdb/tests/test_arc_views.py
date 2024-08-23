@@ -17,7 +17,9 @@ PAGINATE_DIFF_VAL = PAGINATE_TEST_VAL - PAGINATE_DEFAULT_VAL
 def list_of_arc(create_user):
     user = create_user()
     for pub_num in range(PAGINATE_TEST_VAL):
-        Arc.objects.create(name=f"Arc {pub_num}", slug=f"arc-{pub_num}", edited_by=user)
+        Arc.objects.create(
+            name=f"Arc {pub_num}", slug=f"arc-{pub_num}", edited_by=user, created_by=user
+        )
 
 
 # Arc Search View
