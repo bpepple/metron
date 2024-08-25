@@ -2,6 +2,7 @@ from django.db.models import Prefetch
 from django.http import Http404
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
@@ -67,6 +68,7 @@ class ArcViewSet(viewsets.ModelViewSet):
 
     queryset = Arc.objects.all()
     filterset_class = ComicVineFilter
+    parser_classes = (MultiPartParser, FormParser)
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
@@ -122,6 +124,7 @@ class CharacterViewSet(viewsets.ModelViewSet):
 
     queryset = Character.objects.all()
     filterset_class = ComicVineFilter
+    parser_classes = (MultiPartParser, FormParser)
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
@@ -178,6 +181,7 @@ class CreatorViewSet(viewsets.ModelViewSet):
 
     queryset = Creator.objects.all()
     filterset_class = ComicVineFilter
+    parser_classes = (MultiPartParser, FormParser)
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
@@ -254,6 +258,7 @@ class ImprintViewSet(viewsets.ModelViewSet):
 
     queryset = Imprint.objects.prefetch_related("series", "series__series_type")
     filterset_class = ComicVineFilter
+    parser_classes = (MultiPartParser, FormParser)
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
@@ -309,6 +314,7 @@ class IssueViewSet(viewsets.ModelViewSet):
         ),
     )
     filterset_class = IssueFilter
+    parser_classes = (MultiPartParser, FormParser)
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
@@ -354,6 +360,7 @@ class PublisherViewSet(viewsets.ModelViewSet):
 
     queryset = Publisher.objects.prefetch_related("series")
     filterset_class = ComicVineFilter
+    parser_classes = (MultiPartParser, FormParser)
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
@@ -503,6 +510,7 @@ class TeamViewSet(viewsets.ModelViewSet):
 
     queryset = Team.objects.all()
     filterset_class = ComicVineFilter
+    parser_classes = (MultiPartParser, FormParser)
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
@@ -559,6 +567,7 @@ class UniverseViewSet(viewsets.ModelViewSet):
 
     queryset = Universe.objects.all()
     filterset_class = UniverseFilter
+    parser_classes = (MultiPartParser, FormParser)
     throttle_classes = (GetUserRateThrottle, PostUserRateThrottle)
 
     def get_serializer_class(self):
