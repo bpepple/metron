@@ -79,7 +79,7 @@ class IssueSerializer(serializers.ModelSerializer):
         universes_data = validated_data.pop("universes", None)
         reprints_data = validated_data.pop("reprints", None)
         if "image" in validated_data and validated_data["image"] is not None:
-            validated_data["image"] = validated_data["image"].seek(0)
+            validated_data["image"] = validated_data["image"]
         issue: Issue = Issue.objects.create(**validated_data)
         if arcs_data:
             issue.arcs.add(*arcs_data)

@@ -26,7 +26,7 @@ class CharacterSerializer(serializers.ModelSerializer):
         teams_data = validated_data.pop("teams", None)
         universes_data = validated_data.pop("universes", None)
         if "image" in validated_data and validated_data["image"] is not None:
-            validated_data["image"] = validated_data["image"].seek(0)
+            validated_data["image"] = validated_data["image"]
         character = Character.objects.create(**validated_data)
         if creators_data:
             character.creators.add(*creators_data)
