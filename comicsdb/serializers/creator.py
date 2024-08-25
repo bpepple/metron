@@ -20,7 +20,7 @@ class CreatorSerializer(serializers.ModelSerializer):
         Create and return a new `Creator` instance, given the validated data.
         """
         if "image" in validated_data and validated_data["image"] is not None:
-            validated_data["image"] = validated_data["image"].seek(0)
+            validated_data["image"] = validated_data["image"]
         return Creator.objects.create(**validated_data)
 
     def update(self, instance: Creator, validated_data):

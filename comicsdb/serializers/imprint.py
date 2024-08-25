@@ -18,7 +18,7 @@ class ImprintSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data) -> Imprint:
         if "image" in validated_data and validated_data["image"] is not None:
-            validated_data["image"] = validated_data["image"].seek(0)
+            validated_data["image"] = validated_data["image"]
         return Imprint.objects.create(**validated_data)
 
     def update(self, instance: Imprint, validated_data) -> Imprint:

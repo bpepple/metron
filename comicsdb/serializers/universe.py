@@ -22,7 +22,7 @@ class UniverseSerializer(serializers.ModelSerializer):
         """
 
         if "image" in validated_data and validated_data["image"] is not None:
-            validated_data["image"] = validated_data["image"].seek(0)
+            validated_data["image"] = validated_data["image"]
         return Universe.objects.create(**validated_data)
 
     def update(self, instance: Universe, validated_data):
