@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.core.management.base import BaseCommand
 
-from comicsdb.models import Arc, Character, Creator, Issue, Publisher, Team
+from comicsdb.models import Arc, Character, Creator, Issue, Publisher, Series, Team
 from users.models import CustomUser
 
 
@@ -19,7 +19,7 @@ class Command(BaseCommand):
         search_date = datetime.strptime(options["date"], "%Y-%m-%d").date()
         admin = CustomUser.objects.get(id=1)
 
-        models = [Arc, Issue, Character, Creator, Team, Publisher]
+        models = [Arc, Issue, Character, Creator, Series, Team, Publisher]
         results: list[dict] = []
         for mod in models:
             qs_created = mod.objects.filter(modified__date=search_date).exclude(
