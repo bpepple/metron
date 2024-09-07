@@ -6,7 +6,7 @@ from users.models import CustomUser
 
 class Command(BaseCommand):
     def handle(self, *args, **options) -> None:
-        if qs := CustomUser.objects.annotate(num_issues=Count("issue__created_by")).order_by(
+        if qs := CustomUser.objects.annotate(num_issues=Count("issues_created")).order_by(
             "-num_issues"
         ):
             title_str = "Issues added count by user:"
