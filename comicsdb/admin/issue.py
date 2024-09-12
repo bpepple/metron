@@ -48,6 +48,7 @@ class CreatedOnDateListFilter(admin.SimpleListFilter):
         )
 
     def queryset(self, request: Any, queryset: QuerySet[Any]) -> QuerySet[Any] | None:
+        # sourcery skip: use-datetime-now-not-today
         today = datetime.date.today()
         yesterday = datetime.datetime.today() - datetime.timedelta(days=1)
         last_week = datetime.datetime.today() - datetime.timedelta(days=7)
@@ -122,6 +123,7 @@ class IssueAdmin(AdminImageMixin, admin.ModelAdmin):
                     "arcs",
                     "universes",
                     "reprints",
+                    "cv_id",
                     "image",
                     "created_by",
                     "edited_by",

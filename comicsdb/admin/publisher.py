@@ -18,6 +18,7 @@ class PublisherAdmin(AdminImageMixin, admin.ModelAdmin):
         "modified",
         "founded",
         "desc",
+        "cv_id",
         "image",
         "edited_by",
     )
