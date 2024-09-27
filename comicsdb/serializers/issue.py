@@ -25,7 +25,7 @@ class IssueSeriesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Series
-        fields = ("id", "name", "sort_name", "volume", "series_type", "genres")
+        fields = ("id", "name", "sort_name", "volume", "year_began", "series_type", "genres")
 
 
 class IssueListSeriesSerializer(serializers.ModelSerializer):
