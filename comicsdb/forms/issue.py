@@ -6,6 +6,7 @@ from django.forms import (
     ValidationError,
 )
 from django_select2 import forms as s2forms
+from isbnlib import canonical, is_isbn10, is_isbn13
 
 from comicsdb.forms.team import TeamsWidget
 from comicsdb.forms.universe import UniversesWidget
@@ -102,9 +103,12 @@ class IssueForm(ModelForm):
         return sku
 
     def clean_isbn(self):
-        isbn = self.cleaned_data["isbn"]
-        if isbn and not isbn.isdigit():
-            raise ValidationError("ISBN must be numeric. No spaces or hyphens allowed.")
+        isbn = ""
+        if data := self.cleaned_data["isbn"]:
+            isbn = canonical(data)
+            if is_isbn10(isbn) or is_isbn13(isbn):
+                return isbn
+            raise ValidationError("ISBN is not a valid ISBN-10 or ISBN-13.")
         return isbn
 
     def clean_upc(self):
