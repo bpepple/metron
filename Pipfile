@@ -21,6 +21,7 @@ django-select2 = "*"
 chartkick = "*"
 imagehash = "*"
 psycopg = "*"
+isbnlib = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
