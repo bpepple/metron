@@ -55,6 +55,8 @@ class SeriesForm(ModelForm):
             "associated": MultiSeriesWidget(attrs={"class": "input"}),
         }
         help_texts = {
+            "volume": "This is <strong>not</strong> the year the series began. "
+            "If you have a question, contact the site administrator.",
             "sort_name": """Most of the time it will be the same as the series name,
             but if the title starts with an article like 'The' it might be remove so
             that it is listed with like named series.""",
