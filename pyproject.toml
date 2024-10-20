@@ -50,13 +50,13 @@ combine-as-imports = true
 "users/migrations/*.py" = ["E501", "N806"]
 "comicsdb/models/__init__.py" = ["I001"]
 "comicsdb/migrations/*.py" = ["E501", "N806"]
-"tests/*.py" = ["PLR2004", "PT004", "S101"]
+"tests/*/*.py" = ["PLR2004", "PT004", "S101"]
 
 [tool.coverage.html]
 directory = "test-results/coverage"
 
 [tool.coverage.run]
-source = ["comicsdb", "users", "metron"]
+source = ["tests/comicsdb", "tests/metron", "tests/users"]
 branch = true
 concurrency = ["multiprocessing"]
 
